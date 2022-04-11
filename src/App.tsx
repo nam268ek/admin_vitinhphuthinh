@@ -8,6 +8,7 @@ import Customers from "./components/Customers/Customers";
 import Login from "./components/Login/Login";
 import Categories from "./components/Categories/Categories";
 import Settings from "./components/Settings/Settings";
+import NewProduct from "./components/NewProduct/NewProduct";
 
 const App: React.FC = () => {
   return (
@@ -21,6 +22,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/products/create-product" element={<NewProduct />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/login" element={<Login />} />

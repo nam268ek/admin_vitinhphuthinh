@@ -11,7 +11,13 @@
             justify-content: flex-end;
             align-items: center;
             padding-bottom: 50px;
-
+            a {
+                display: flex !important;
+                align-items: center;
+                span {
+                    margin-left: 10px;
+                }
+            }
             .ps-btn,
             button.ps-btn {
                 display: inline-block;
@@ -34,6 +40,7 @@
                 margin-right: 0;
             }
         }
+
         .ps-section__header {
             display: flex;
             flex-flow: row nowrap;
@@ -43,6 +50,7 @@
 
             .ps-section__filter {
                 .ps-form--filter {
+                    display: flex;
                     flex-flow: row nowrap;
                     justify-content: space-between;
                     align-items: flex-start;
@@ -51,6 +59,7 @@
                         justify-content: space-between;
                         align-items: flex-start;
                         margin: 0 -5px 10px;
+
                         .form-group {
                             margin-bottom: 10px;
                             padding: 0 5px;
@@ -58,13 +67,25 @@
                             .ps-ant-dropdown {
                                 width: 100%;
                             }
+                            .ant-select {
+                                .ant-select-selector {
+                                    height: 40px !important;
+                                    align-items: center;
+                                }
+                            }
                         }
                     }
 
                     .ps-form__right {
                         padding-left: 10px;
-                        max-width: 100px;
-
+                        width: 100%;
+                        button {
+                            display: flex !important;
+                            align-items: center;
+                            span {
+                                margin-left: 5px;
+                            }
+                        }
                         .ps-btn,
                         button.ps-btn {
                             display: inline-block;
@@ -93,6 +114,80 @@
                     }
                 }
             }
+            .ps-section__search {
+                padding-left: 30px;
+                margin-bottom: 0;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                max-width: 400px;
+                // margin-bottom: 10px;
+                .ps-form--search-simple {
+                    position: relative;
+                    max-width: 360px;
+                    width: 100%;
+                    .form-control {
+                        outline: none;
+                        font-size: 14px;
+                        padding: 0 20px;
+                        height: 40px;
+                        border-radius: 0;
+                        border: 1px solid #ddd;
+                        transition: all 0.4s ease;
+                        box-shadow: 0 0 0 transparent;
+                        background-color: transparent;
+                    }
+
+                    button {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        right: 10px;
+                        background: none;
+                        border: none;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        transition: all 0.4s ease;
+                        font-size: 16px;
+                    }
+                }
+            }
         }
+        .ps-section__header > * {
+            flex-basis: 100%;
+        }
+    }
+}
+.ant-space-item {
+    .edit-item {
+        display: block;
+        padding: 5px;
+        // background-color: #188acd;
+        color: #188acd;
+        border: 1px solid;
+        &:hover {
+            background-color: #188acd;
+            color: rgb(255, 255, 255);
+        }
+    }
+    .remove-item {
+        display: block;
+        padding: 5px;
+        // background-color: #f5222d;
+        color: #f5222d;
+        border: 1px solid;
+        &:hover {
+            background-color: #f5222d;
+            color: rgb(255, 255, 255);
+        }
+    }
+}
+.ant-table-cell {
+    .name-product, .price-product {
+        font-weight: 600;
+    }
+    .name-product {
+        color: #5c5c5c;
     }
 }

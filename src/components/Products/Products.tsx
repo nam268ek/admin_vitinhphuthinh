@@ -1,6 +1,233 @@
 import React from "react";
+import { IoSearchOutline } from "react-icons/io5";
+import { FiFilter } from "react-icons/fi";
+import { FaPlusCircle } from "react-icons/fa";
+import { Table, Tag, Space } from "antd";
+import moment from "moment";
+import { MdDeleteForever, MdModeEdit } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 const Products: React.FC = () => {
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "key",
+      key: "key",
+      render: (text: string) => <span>{text}</span>,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (text: string) => <span className="name-product">{text}</span>,
+    },
+    {
+      title: "SKU",
+      dataIndex: "sku",
+      key: "sku",
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      render: (text: string) => <span className="price-product">{text}</span>,
+    },
+    {
+      title: "Category",
+      dataIndex: "category",
+      key: "category",
+    },
+    {
+      title: "Tags",
+      key: "tags",
+      dataIndex: "tags",
+      render: (tags: any[]) => (
+        <>
+          {tags.map((tag) => {
+            let color =
+              tag === "active" ? "green" : tag === "Tồn kho" ? "blue" : "red";
+            if (tag === "loser") {
+              color = "volcano";
+            }
+            return (
+              <Tag color={color} key={tag}>
+                {tag.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </>
+      ),
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+      render: (date: any) => (
+        <span>{moment(date).format("DD/MM/YYYY").toString()}</span>
+      ),
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (text: string, record: any) => (
+        <Space size="middle">
+          <Link to='' className="edit-item"><MdModeEdit size={20}/></Link>
+          <Link to='' className="remove-item"><MdDeleteForever size={20}/></Link>
+        </Space>
+      ),
+    },
+  ];
+
+  const data = [
+    {
+      key: "1",
+      name: "Laptop Dell Inspiron 15 7000 Gaming Laptop",
+      sku: 'AB123456789-1',
+      price: "10.000.000 ₫",
+      category: "Laptop DELL",
+      date: new Date(),
+      tags: ["active", "Tồn kho"],
+    },
+    {
+      key: "2",
+      name: "Jim Green",
+      sku: 42,
+      price: "$1,121.00",
+      category: "Electronics",
+      address: "London No. 1 Lake Park",
+      date: new Date(),
+
+      tags: ["loser"],
+    },
+    {
+      key: "3",
+      name: "Joe Black",
+      sku: 32,
+      price: "$1,121.00",
+      category: "Electronics",
+      address: "Sidney No. 1 Lake Park",
+      date: new Date(),
+
+      tags: ["cool", "teacher"],
+    },
+    {
+      key: "4",
+      name: "John Brown",
+      sku: 32,
+      price: "$1,121.00",
+      category: "Electronics",
+      address: "New York No. 1 Lake Park",
+      date: new Date(),
+      tags: ["active", "Tồn kho"],
+    },
+    {
+      key: "5",
+      name: "Jim Green",
+      sku: 42,
+      price: "$1,121.00",
+      category: "Electronics",
+      address: "London No. 1 Lake Park",
+      date: new Date(),
+
+      tags: ["loser"],
+    },
+    {
+      key: "6",
+      name: "Joe Black",
+      sku: 32,
+      price: "$1,121.00",
+      category: "Electronics",
+      address: "Sidney No. 1 Lake Park",
+      date: new Date(),
+
+      tags: ["cool", "teacher"],
+    },
+    {
+      key: "7",
+      name: "John Brown",
+      sku: 32,
+      price: "$1,121.00",
+      category: "Electronics",
+      address: "New York No. 1 Lake Park",
+      date: new Date(),
+      tags: ["active", "Tồn kho"],
+    },
+    {
+      key: "8",
+      name: "Jim Green",
+      sku: 42,
+      price: "$1,121.00",
+      category: "Electronics",
+      address: "London No. 1 Lake Park",
+      date: new Date(),
+
+      tags: ["loser"],
+    },
+    {
+      key: "9",
+      name: "Joe Black",
+      sku: 32,
+      price: "$1,121.00",
+      category: "Electronics",
+      address: "Sidney No. 1 Lake Park",
+      date: new Date(),
+
+      tags: ["cool", "teacher"],
+    },
+    {
+      key: "10",
+      name: "John Brown",
+      sku: 32,
+      price: "$1,121.00",
+      category: "Electronics",
+      address: "New York No. 1 Lake Park",
+      date: new Date(),
+      tags: ["active", "Tồn kho"],
+    },
+    {
+      key: "11",
+      name: "Jim Green",
+      sku: 42,
+      price: "$1,121.00",
+      category: "Electronics",
+      address: "London No. 1 Lake Park",
+      date: new Date(),
+
+      tags: ["loser"],
+    },
+    {
+      key: "12",
+      name: "Joe Black",
+      sku: 32,
+      price: "$1,121.00",
+      category: "Electronics",
+      address: "Sidney No. 1 Lake Park",
+      date: new Date(),
+
+      tags: ["cool", "teacher"],
+    },
+    {
+      key: "13",
+      name: "John Brown",
+      sku: 32,
+      price: "$1,121.00",
+      category: "Electronics",
+      address: "New York No. 1 Lake Park",
+      date: new Date(),
+      tags: ["active", "Tồn kho"],
+    },
+    {
+      key: "14",
+      name: "Jim Green",
+      sku: 42,
+      price: "$1,121.00",
+      category: "Electronics",
+      address: "London No. 1 Lake Park",
+      date: new Date(),
+
+      tags: ["loser"],
+    },
+  ];
   return (
     <div className="ps-main__wrapper">
       <div className="header--dashboard">
@@ -11,9 +238,10 @@ const Products: React.FC = () => {
       </div>
       <section className="ps-items-listing">
         <div className="ps-section__actions">
-          <a className="ps-btn success" href="/products/create-product">
-            <i className="icon icon-plus mr-2"></i>New Product
-          </a>
+          <Link className="ps-btn success" to="/products/create-product">
+            <FaPlusCircle />
+            <span>New Product</span>
+          </Link>
         </div>
         <div className="ps-section__header">
           <div className="ps-section__filter">
@@ -175,7 +403,8 @@ const Products: React.FC = () => {
               </div>
               <div className="ps-form__right">
                 <button className="ps-btn ps-btn--gray">
-                  <i className="icon icon-funnel mr-2"></i>Filter
+                  <FiFilter />
+                  <span>Filter</span>
                 </button>
               </div>
             </form>
@@ -192,14 +421,15 @@ const Products: React.FC = () => {
                 placeholder="Search product"
               />
               <button>
-                <i className="icon icon-magnifier"></i>
+                <IoSearchOutline />
               </button>
             </form>
           </div>
         </div>
         <div className="ps-section__content">
           <div className="table-responsive">
-            <table className="table ps-table">
+            <Table columns={columns} dataSource={data} />
+            {/* <table className="table ps-table">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -380,32 +610,8 @@ const Products: React.FC = () => {
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </table> */}
           </div>
-        </div>
-        <div className="ps-section__footer">
-          <p>Show 10 in 30 items.</p>
-          <ul className="pagination">
-            <li>
-              <a href="#">
-                <i className="icon icon-chevron-left"></i>
-              </a>
-            </li>
-            <li className="active">
-              <a href="#">1</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">3</a>
-            </li>
-            <li>
-              <a href="#">
-                <i className="icon-chevron-right"></i>
-              </a>
-            </li>
-          </ul>
         </div>
       </section>
     </div>
