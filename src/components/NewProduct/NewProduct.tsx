@@ -1,13 +1,16 @@
 import React from "react";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { Select } from "antd";
+import StatusProduct from "../StatusProduct/StatusProduct";
+import SelectOption from "../common/SelectOption";
+import EditorText from "../common/EditorText";
 
 const NewProduct: React.FC = () => {
   const { Option } = Select;
 
   const handleChange = (value: any) => {
     console.log(`selected ${value}`);
-  }
+  };
 
   return (
     <div className="ps-main__wrapper">
@@ -141,12 +144,7 @@ const NewProduct: React.FC = () => {
                     <div className="form-group form-group--select">
                       <label>Status</label>
                       <div className="form-group__content">
-                        <select className="ps-select" title="Status">
-                          <option value="1">Status 1</option>
-                          <option value="2">Status 2</option>
-                          <option value="3">Status 3</option>
-                          <option value="4">Status 4</option>
-                        </select>
+                        <StatusProduct />
                       </div>
                     </div>
                   </div>
@@ -157,12 +155,7 @@ const NewProduct: React.FC = () => {
                     <div className="form-group form-group--select">
                       <label>Brand</label>
                       <div className="form-group__content">
-                        <select className="ps-select" title="Brand">
-                          <option value="1">Brand 1</option>
-                          <option value="2">Brand 2</option>
-                          <option value="3">Brand 3</option>
-                          <option value="4">Brand 4</option>
-                        </select>
+                        <SelectOption />
                       </div>
                     </div>
                     <div className="form-group">
@@ -174,6 +167,7 @@ const NewProduct: React.FC = () => {
               </div>
             </div>
           </div>
+          <EditorText/>
           <div className="ps-form__bottom">
             <a className="ps-btn ps-btn--black" href="products.html">
               Back
