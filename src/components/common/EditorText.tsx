@@ -1,11 +1,9 @@
 import React from "react";
-// import { EditorState } from "draft-js";
-// import { Editor } from "react-draft-wysiwyg";
-// import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Editor } from "@tinymce/tinymce-react";
 
 const EditorText: React.FC = () => {
   const editorRef = React.useRef<any>(null);
+  
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
@@ -20,13 +18,10 @@ const EditorText: React.FC = () => {
         init={{
           height: 500,
           menubar: true,
-          plugins: [
-            "advlist autolink lists link image charmap print preview anchor",
-            "searchreplace visualblocks code fullscreen",
-            "insertdatetime media table paste code help wordcount",
-          ],
+          plugins: 'link image code',
+          images_upload_url: 'postAcceptor.php',
           toolbar:
-            "undo redo | styles | formatselect | " +
+            "undo redo | styles | image | formatselect | " +
             "bold italic backcolor | alignleft aligncenter " +
             "alignright alignjustify | bullist numlist outdent indent | " +
             "removeformat | help",
@@ -35,7 +30,6 @@ const EditorText: React.FC = () => {
           toolbar_mode: 'scrolling',
         }}
       />
-      <button onClick={log}>Log editor content</button>
     </>
   );
 };

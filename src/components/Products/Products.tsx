@@ -45,13 +45,13 @@ const Products: React.FC = () => {
         <>
           {tags.map((tag) => {
             let color =
-              tag === "active" ? "green" : tag === "Tồn kho" ? "blue" : "red";
+              tag === "Kích hoạt" ? "green" : tag === "Tồn kho" ? "cyan" : "red";
             if (tag === "loser") {
               color = "volcano";
             }
             return (
               <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
+                {tag}
               </Tag>
             );
           })}
@@ -86,7 +86,7 @@ const Products: React.FC = () => {
       price: "10.000.000 ₫",
       category: "Laptop DELL",
       date: new Date(),
-      tags: ["active", "Tồn kho"],
+      tags: ["Kích hoạt", "Tồn kho"],
     },
     {
       key: "2",

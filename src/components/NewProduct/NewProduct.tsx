@@ -1,27 +1,50 @@
 import React from "react";
 import ImageUpload from "../ImageUpload/ImageUpload";
-import { Select } from "antd";
+import { Input, Select } from "antd";
 import StatusProduct from "../StatusProduct/StatusProduct";
 import SelectOption from "../common/SelectOption";
 import EditorText from "../common/EditorText";
+import { useForm } from "react-hook-form";
+import ConfigInfo from "../ConfigInfo/ConfigInfo";
+import { Button, Space } from "antd";
 
 const NewProduct: React.FC = () => {
+  const maxLength: number = 100;
+  const maxLengthTextArea: number = 500;
+  const { TextArea } = Input;
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
   const { Option } = Select;
 
   const handleChange = (value: any) => {
     console.log(`selected ${value}`);
   };
 
+  const onSubmit = handleSubmit((data) => console.log(data));
+
+  const enterLoading = (index: any) => {};
+  const onChange = (index: any) => {};
   return (
     <div className="ps-main__wrapper">
       <div className="header--dashboard">
         <div className="header__left">
-          <h3>Create Product</h3>
-          <p>Martfury Create New Product</p>
+          <h3>Thêm Sản phẩm</h3>
+          <p>
+            (<span style={{ color: "red" }}>*</span>) Các trường buộc phải nhập
+          </p>
         </div>
       </div>
       <section className="ps-new-item">
-        <form className="ps-form ps-form--new-product" action="" method="get">
+        <form
+          className="ps-form ps-form--new-product"
+          action=""
+          method="get"
+          onSubmit={onSubmit}
+        >
           <div className="ps-form__content">
             <div className="row">
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
@@ -30,17 +53,19 @@ const NewProduct: React.FC = () => {
                   <div className="ps-block__content">
                     <div className="form-group">
                       <label>
-                        Product Name<sup>*</sup>
+                        Tên sản phẩm<sup>*</sup>
                       </label>
-                      <input
-                        type="text"
-                        className="form-control"
+
+                      <Input
                         placeholder="Enter product name..."
+                        showCount
+                        maxLength={maxLength}
+                        onChange={onChange}
                       />
                     </div>
                     <div className="form-group">
                       <label>
-                        Category<sup>*</sup>
+                        Danh mục<sup>*</sup>
                       </label>
                       <Select
                         defaultValue="Select Category..."
@@ -57,53 +82,47 @@ const NewProduct: React.FC = () => {
                     </div>
                     <div className="form-group">
                       <label>
-                        Product Summary<sup>*</sup>
+                        Tóm tắt sản phẩm<sup>*</sup>
                       </label>
-                      <textarea
-                        className="form-control"
-                        //   rows="6"
-                        //   placeholder="Enter product description..."
-                      ></textarea>
-                    </div>
-                    <div className="form-group">
-                      <label>
-                        Regular Price<sup>*</sup>
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder=""
+                      <TextArea
+                        showCount
+                        maxLength={maxLengthTextArea}
+                        onChange={onChange}
+                        style={{ height: "195px" }}
                       />
                     </div>
                     <div className="form-group">
                       <label>
-                        Sale Price<sup>*</sup>
+                        Giá gốc<sup>*</sup>
                       </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder=""
+                      <Input
+                        type={"number"}
+                        showCount
+                        maxLength={maxLength}
+                        onChange={onChange}
                       />
                     </div>
                     <div className="form-group">
                       <label>
-                        Sale Quantity<sup>*</sup>
+                        Giá khuyến mãi<sup>*</sup>
                       </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder=""
+                      <Input
+                        type={"number"}
+                        showCount
+                        maxLength={maxLength}
+                        onChange={onChange}
                       />
                     </div>
                     <div className="form-group">
                       <label>
-                        Product Description<sup>*</sup>
+                        Số lượng<sup>*</sup>
                       </label>
-                      <textarea
-                        className="form-control"
-                        //   rows="6"
-                        name="editordata"
-                      ></textarea>
+                      <Input
+                        type={"number"}
+                        showCount
+                        maxLength={maxLength}
+                        onChange={onChange}
+                      />
                     </div>
                   </div>
                 </figure>
@@ -112,19 +131,11 @@ const NewProduct: React.FC = () => {
                 <figure className="ps-block--form-box">
                   <figcaption>Product Images</figcaption>
                   <div className="ps-block__content">
-                    <div className="form-group">
-                      <label>Product Thumbnail</label>
+                    <div className="form-group m-0">
+                      <label>Thumbnail Sản phẩm</label>
                       <div className="form-group--nest">
                         <ImageUpload />
                       </div>
-                    </div>
-                    <div className="form-group">
-                      <label>Video (optional)</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Enter video URL"
-                      />
                     </div>
                   </div>
                 </figure>
@@ -135,14 +146,14 @@ const NewProduct: React.FC = () => {
                       <label>
                         SKU<sup>*</sup>
                       </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder=""
+                      <Input
+                        showCount
+                        maxLength={maxLength}
+                        onChange={onChange}
                       />
                     </div>
                     <div className="form-group form-group--select">
-                      <label>Status</label>
+                      <label>Trạng thái</label>
                       <div className="form-group__content">
                         <StatusProduct />
                       </div>
@@ -153,27 +164,55 @@ const NewProduct: React.FC = () => {
                   <figcaption>Meta</figcaption>
                   <div className="ps-block__content">
                     <div className="form-group form-group--select">
-                      <label>Brand</label>
+                      <label>
+                        Thương hiệu<sup>*</sup>
+                      </label>
                       <div className="form-group__content">
                         <SelectOption />
                       </div>
                     </div>
                     <div className="form-group">
                       <label>Tags</label>
-                      <input type="text" className="form-control" />
+                      <Input
+                        showCount
+                        maxLength={maxLength}
+                        onChange={onChange}
+                      />
                     </div>
                   </div>
                 </figure>
               </div>
             </div>
           </div>
-          <EditorText/>
+          <figure className="ps-block--form-box">
+            <figcaption>Mô tả sản phẩm</figcaption>
+            <EditorText />
+          </figure>
+          <figure className="ps-block--form-box">
+            <figcaption>Thông tin cấu hình</figcaption>
+            <div className="ps-block__content">
+              <ConfigInfo />
+            </div>
+          </figure>
           <div className="ps-form__bottom">
-            <a className="ps-btn ps-btn--black" href="products.html">
-              Back
-            </a>
-            <button className="ps-btn ps-btn--gray">Cancel</button>
-            <button className="ps-btn">Submit</button>
+            <Space style={{ width: "100%", justifyContent: "flex-end" }}>
+              <Button
+                type="primary"
+                loading={false}
+                onClick={() => enterLoading(0)}
+                className="ant-btn-primary"
+              >
+                Back
+              </Button>
+              <Button
+                type="primary"
+                loading={false}
+                onClick={() => enterLoading(0)}
+                className="ant-btn-primary"
+              >
+                Submit
+              </Button>
+            </Space>
           </div>
         </form>
       </section>
