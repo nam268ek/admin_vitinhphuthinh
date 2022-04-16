@@ -9,6 +9,7 @@ import Login from "./components/Login/Login";
 import Categories from "./components/Categories/Categories";
 import Settings from "./components/Settings/Settings";
 import NewProduct from "./components/NewProduct/NewProduct";
+import Layout from "./components/Layout/Layout";
 
 const App: React.FC = () => {
   return (
@@ -28,6 +29,7 @@ const App: React.FC = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/layout" element={<Layout />} />
           </Routes>
         </main>
       </div>

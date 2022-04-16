@@ -298,3 +298,8 @@ export interface IPrimaryReducerState {
     showOrHideDropdownCart: boolean;
     showSidebarFilter: boolean;
 };
+export interface IImageUpload {
+    styleClassName?: string;
+    maxNumberOfFiles?: number;
+    multiple?: boolean;
+}

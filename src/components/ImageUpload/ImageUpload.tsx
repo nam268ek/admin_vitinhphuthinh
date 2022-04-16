@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
+import { IImageUpload } from "../../types/types";
 
 const getSrcFromFile = (file: any) => {
   return new Promise((resolve) => {
@@ -10,7 +11,11 @@ const getSrcFromFile = (file: any) => {
   });
 };
 
-const ImageUpload: React.FC = () => {
+const ImageUpload: React.FC<IImageUpload> = ({
+  styleClassName,
+  maxNumberOfFiles,
+  multiple,
+}) => {
   const [fileList, setFileList] = useState<any>([]);
 
   const onChange = ({ fileList }: { fileList: any }) => {
@@ -35,14 +40,20 @@ const ImageUpload: React.FC = () => {
       <Upload
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         listType="picture-card"
+        className={styleClassName}
         fileList={fileList}
         onChange={onChange}
         onPreview={onPreview}
+        multiple={multiple}
       >
-        {fileList.length < 3 && "+ Upload"}
+        {fileList.length < (maxNumberOfFiles || 1) && "+ Upload"}
       </Upload>
     </ImgCrop>
   );
+};
+
+ImageUpload.defaultProps = {
+  maxNumberOfFiles: 1,
 };
 
 export default ImageUpload;

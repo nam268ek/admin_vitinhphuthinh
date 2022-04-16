@@ -1,0 +1,34 @@
+.ps-block__layout {
+    display: flex;
+
+    .form-group--left {
+        .background-content {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            label {
+                margin-bottom: 0.7rem;
+            }
+        }
+        .upload-image-home {
+        }
+    }
+    .form-group--right {
+        display: flex;
+        flex-direction: column;
+        .background-content {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            label {
+                margin-bottom: 0.7rem;
+            }
+        }
+    }
+}
+.c-b-1 {
+    border: 1px solid #dddddd;
+}
+.c-h-1 {
+    height:25.3em;
+}

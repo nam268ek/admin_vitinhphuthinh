@@ -1,6 +1,6 @@
 import React from "react";
 import { FiDatabase, FiUsers } from "react-icons/fi";
-import { AiOutlineHome } from "react-icons/ai";
+import { AiOutlineHome, AiOutlineLayout } from "react-icons/ai";
 import { BsBagCheck } from "react-icons/bs";
 import { BiCategoryAlt } from "react-icons/bi";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -83,6 +83,15 @@ const NavBarMenu: React.FC = () => {
                 >
                   <BiCategoryAlt />
                   <span>Categories</span>
+                </NavLink>
+              </li>
+              <li className="">
+                <NavLink
+                  to="/layout"
+                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+                >
+                  <AiOutlineLayout />
+                  <span>Layout</span>
                 </NavLink>
               </li>
               <li className="">
