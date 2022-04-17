@@ -200,7 +200,6 @@ const NewProduct: React.FC = () => {
                 type="primary"
                 loading={false}
                 onClick={() => enterLoading(0)}
-                className="ant-btn-primary"
               >
                 Back
               </Button>
@@ -208,7 +207,6 @@ const NewProduct: React.FC = () => {
                 type="primary"
                 loading={false}
                 onClick={() => enterLoading(0)}
-                className="ant-btn-primary"
               >
                 Submit
               </Button>

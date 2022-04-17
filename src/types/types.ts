@@ -303,3 +303,12 @@ export interface IImageUpload {
     maxNumberOfFiles?: number;
     multiple?: boolean;
 }
+export interface ISearchService {
+    placeholder?: string;
+    className?: string;
+}
+export interface ISelectService {
+    placeholder?: string;
+    className?: string;
+    defaultValue?: string;
+}

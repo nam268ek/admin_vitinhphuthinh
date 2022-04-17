@@ -1,5 +1,6 @@
 .ps-main__wrapper {
     padding: 30px;
+    background-color: #f8fcff;
     .header--dashboard {
         margin-bottom: 10px;
     }
@@ -35,6 +36,10 @@
             .ps-btn.success,
             button.ps-btn.success {
                 background-color: #80bc00;
+                border-radius: 4px;
+                &:hover {
+                    background-color: #98d90d;
+                }
             }
             .ps-btn:last-child {
                 margin-right: 0;
@@ -58,18 +63,24 @@
                         display: flex;
                         justify-content: space-between;
                         align-items: flex-start;
-                        margin: 0 -5px 10px;
-
+                        width: 100%;
                         .form-group {
-                            margin-bottom: 10px;
                             padding: 0 5px;
+                            width: 100%;
+                            .select-category {
+                                width: 100%;
+                                border-radius: 4px;
+                                box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+                                .ant-select-selector {
+                                    border: 0;
 
+                                }
+                              }
                             .ps-ant-dropdown {
                                 width: 100%;
                             }
                             .ant-select {
                                 .ant-select-selector {
-                                    height: 40px !important;
                                     align-items: center;
                                 }
                             }
@@ -78,7 +89,6 @@
 
                     .ps-form__right {
                         padding-left: 10px;
-                        width: 100%;
                         button {
                             display: flex !important;
                             align-items: center;
@@ -107,9 +117,11 @@
                             font-size: 1.6rem;
                         }
                         .ps-btn {
-                            height: 40px;
                             padding: 0 30px;
                             font-size: 13px !important;
+                        }
+                        .ps-btn-secondary {
+                            border-radius: 4px;
                         }
                     }
                 }
@@ -151,6 +163,13 @@
                         transition: all 0.4s ease;
                         font-size: 16px;
                     }
+                    .search-category {
+                        width: 100%;
+                        .ant-select-selector {
+                            border: 0;
+                            box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+                        }
+                      }
                 }
             }
         }
@@ -163,31 +182,31 @@
     .edit-item {
         display: block;
         padding: 5px;
-        // background-color: #188acd;
         color: #188acd;
-        border: 1px solid;
+        border-radius: 4px;
+        background: aliceblue;
         &:hover {
-            background-color: #188acd;
-            color: rgb(255, 255, 255);
+            background-color: rgb(177, 220, 255);
         }
     }
     .remove-item {
         display: block;
         padding: 5px;
-        // background-color: #f5222d;
         color: #f5222d;
-        border: 1px solid;
+        background: #ffeeeb;
+        border-radius: 4px;
         &:hover {
-            background-color: #f5222d;
-            color: rgb(255, 255, 255);
+            background-color: #ffc4b9;
         }
     }
 }
 .ant-table-cell {
-    .name-product, .price-product {
+    .name-product,
+    .price-product {
         font-weight: 600;
     }
     .name-product {
         color: #5c5c5c;
     }
 }
+

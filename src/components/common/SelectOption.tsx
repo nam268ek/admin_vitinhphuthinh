@@ -1,14 +1,24 @@
 import React from "react";
 import { Select } from "antd";
+import { ISelectService } from "../../types/types";
 
-const SelectOption: React.FC = () => {
+const SelectOption: React.FC<ISelectService> = ({
+  className,
+  placeholder,
+  defaultValue,
+}) => {
   const { Option } = Select;
 
   const handleChange = (value: any) => {
     console.log(`selected ${value}`);
   };
   return (
-    <Select defaultValue="lucy" style={{ width: "100%" }} onChange={handleChange}>
+    <Select
+      placeholder={placeholder}
+      defaultValue={defaultValue}
+      className={className}
+      onChange={handleChange}
+    >
       <Option value="jack">Jack</Option>
       <Option value="lucy">Lucy</Option>
       <Option value="disabled" disabled>

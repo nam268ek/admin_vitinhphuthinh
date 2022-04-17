@@ -2,10 +2,12 @@ import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { FiFilter } from "react-icons/fi";
 import { FaPlusCircle } from "react-icons/fa";
-import { Table, Tag, Space } from "antd";
+import { Table, Tag, Space, Button } from "antd";
 import moment from "moment";
-import { MdDeleteForever, MdModeEdit } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { MdDeleteForever, MdModeEdit } from "react-icons/md";
+import { Link } from "react-router-dom";
+import SelectOption from "../common/SelectOption";
+import Search from "./../Search/Search";
 
 const Products: React.FC = () => {
   const columns = [
@@ -16,7 +18,7 @@ const Products: React.FC = () => {
       render: (text: string) => <span>{text}</span>,
     },
     {
-      title: "Name",
+      title: "Tên sản phẩm",
       dataIndex: "name",
       key: "name",
       render: (text: string) => <span className="name-product">{text}</span>,
@@ -27,25 +29,29 @@ const Products: React.FC = () => {
       key: "sku",
     },
     {
-      title: "Price",
+      title: "Giá",
       dataIndex: "price",
       key: "price",
       render: (text: string) => <span className="price-product">{text}</span>,
     },
     {
-      title: "Category",
+      title: "Danh mục",
       dataIndex: "category",
       key: "category",
     },
     {
-      title: "Tags",
+      title: "Trạng thái",
       key: "tags",
       dataIndex: "tags",
       render: (tags: any[]) => (
         <>
           {tags.map((tag) => {
             let color =
-              tag === "Kích hoạt" ? "green" : tag === "Tồn kho" ? "cyan" : "red";
+              tag === "Kích hoạt"
+                ? "green"
+                : tag === "Tồn kho"
+                ? "cyan"
+                : "red";
             if (tag === "loser") {
               color = "volcano";
             }
@@ -59,7 +65,7 @@ const Products: React.FC = () => {
       ),
     },
     {
-      title: "Date",
+      title: "Ngày cập nhật",
       dataIndex: "date",
       key: "date",
       render: (date: any) => (
@@ -67,12 +73,16 @@ const Products: React.FC = () => {
       ),
     },
     {
-      title: "Action",
+      title: "Lựa chọn",
       key: "action",
       render: (text: string, record: any) => (
         <Space size="middle">
-          <Link to='' className="edit-item"><MdModeEdit size={20}/></Link>
-          <Link to='' className="remove-item"><MdDeleteForever size={20}/></Link>
+          <Link to="" className="edit-item">
+            <MdModeEdit size={20} />
+          </Link>
+          <Link to="" className="remove-item">
+            <MdDeleteForever size={20} />
+          </Link>
         </Space>
       ),
     },
@@ -82,7 +92,7 @@ const Products: React.FC = () => {
     {
       key: "1",
       name: "Laptop Dell Inspiron 15 7000 Gaming Laptop",
-      sku: 'AB123456789-1',
+      sku: "AB123456789-1",
       price: "10.000.000 ₫",
       category: "Laptop DELL",
       date: new Date(),
@@ -232,15 +242,15 @@ const Products: React.FC = () => {
     <div className="ps-main__wrapper">
       <div className="header--dashboard">
         <div className="header__left">
-          <h3>Products</h3>
-          <p>Martfury Product Listing</p>
+          <h3>Sản phẩm</h3>
+          <p>Danh sách sản phẩm</p>
         </div>
       </div>
       <section className="ps-items-listing">
         <div className="ps-section__actions">
           <Link className="ps-btn success" to="/products/create-product">
             <FaPlusCircle />
-            <span>New Product</span>
+            <span>Thêm sản phẩm</span>
           </Link>
         </div>
         <div className="ps-section__header">
@@ -248,164 +258,20 @@ const Products: React.FC = () => {
             <form className="ps-form--filter" action="index.html" method="get">
               <div className="ps-form__left">
                 <div className="form-group">
-                  <div className="ant-select ps-ant-dropdown ant-select-single ant-select-show-arrow">
-                    <div className="ant-select-selector">
-                      <span className="ant-select-selection-search">
-                        <input
-                          type="search"
-                          //   autocomplete="off"
-                          className="ant-select-selection-search-input"
-                          //   style="opacity: 0"
-                          role="combobox"
-                          aria-haspopup="listbox"
-                          aria-owns="rc_select_0_list"
-                          aria-autocomplete="list"
-                          aria-controls="rc_select_0_list"
-                          aria-activedescendant="rc_select_0_list_0"
-                          value=""
-                          //   readonly=""
-                          unselectable="on"
-                          id="rc_select_0"
-                        />
-                      </span>
-                      <span className="ant-select-selection-placeholder">
-                        Select Category
-                      </span>
-                    </div>
-                    <span
-                      className="ant-select-arrow"
-                      //   style="user-select: none; -webkit-user-select: none"
-                      unselectable="on"
-                      aria-hidden="true"
-                    >
-                      <span
-                        role="img"
-                        aria-label="down"
-                        className="anticon anticon-down ant-select-suffix"
-                      >
-                        <svg
-                          viewBox="64 64 896 896"
-                          focusable="false"
-                          data-icon="down"
-                          width="1em"
-                          height="1em"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"></path>
-                        </svg>
-                      </span>
-                    </span>
-                  </div>
+                  <SelectOption className="select-category" placeholder="Lựa chọn danh mục"/>
                 </div>
                 <div className="form-group">
-                  <div className="ant-select ps-ant-dropdown ant-select-single ant-select-show-arrow">
-                    <div className="ant-select-selector">
-                      <span className="ant-select-selection-search">
-                        <input
-                          type="search"
-                          //   autocomplete="off"
-                          className="ant-select-selection-search-input"
-                          //   style="opacity: 0"
-                          role="combobox"
-                          aria-haspopup="listbox"
-                          aria-owns="rc_select_1_list"
-                          aria-autocomplete="list"
-                          aria-controls="rc_select_1_list"
-                          aria-activedescendant="rc_select_1_list_0"
-                          value=""
-                          //   readonly=""
-                          unselectable="on"
-                          id="rc_select_1"
-                        />
-                      </span>
-                      <span className="ant-select-selection-placeholder">
-                        Select Category
-                      </span>
-                    </div>
-                    <span
-                      className="ant-select-arrow"
-                      //   style="user-select: none; -webkit-user-select: none"
-                      unselectable="on"
-                      aria-hidden="true"
-                    >
-                      <span
-                        role="img"
-                        aria-label="down"
-                        className="anticon anticon-down ant-select-suffix"
-                      >
-                        <svg
-                          viewBox="64 64 896 896"
-                          focusable="false"
-                          data-icon="down"
-                          width="1em"
-                          height="1em"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"></path>
-                        </svg>
-                      </span>
-                    </span>
-                  </div>
+                  <SelectOption className="select-category" placeholder='Lựa chọn thương hiệu'/>
                 </div>
                 <div className="form-group">
-                  <div className="ant-select ps-ant-dropdown ant-select-single ant-select-show-arrow">
-                    <div className="ant-select-selector">
-                      <span className="ant-select-selection-search">
-                        <input
-                          type="search"
-                          //   autocomplete="off"
-                          className="ant-select-selection-search-input"
-                          //   style="opacity: 0"
-                          role="combobox"
-                          aria-haspopup="listbox"
-                          aria-owns="rc_select_2_list"
-                          aria-autocomplete="list"
-                          aria-controls="rc_select_2_list"
-                          aria-activedescendant="rc_select_2_list_0"
-                          value=""
-                          //   readonly=""
-                          unselectable="on"
-                          id="rc_select_2"
-                        />
-                      </span>
-                      <span className="ant-select-selection-placeholder">
-                        Status
-                      </span>
-                    </div>
-                    <span
-                      className="ant-select-arrow"
-                      //   style="user-select: none; -webkit-user-select: none"
-                      unselectable="on"
-                      aria-hidden="true"
-                    >
-                      <span
-                        role="img"
-                        aria-label="down"
-                        className="anticon anticon-down ant-select-suffix"
-                      >
-                        <svg
-                          viewBox="64 64 896 896"
-                          focusable="false"
-                          data-icon="down"
-                          width="1em"
-                          height="1em"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"></path>
-                        </svg>
-                      </span>
-                    </span>
-                  </div>
+                  <SelectOption className="select-category" placeholder='Trạng thái'/>
                 </div>
               </div>
               <div className="ps-form__right">
-                <button className="ps-btn ps-btn--gray">
+                <Button type="primary" className="ps-btn-secondary">
                   <FiFilter />
                   <span>Filter</span>
-                </button>
+                </Button>
               </div>
             </form>
           </div>
@@ -415,11 +281,7 @@ const Products: React.FC = () => {
               action="index.html"
               method="get"
             >
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search product"
-              />
+              <Search className="search-category" placeholder="Tìm kiếm sản phẩm..." />
               <button>
                 <IoSearchOutline />
               </button>
@@ -429,188 +291,6 @@ const Products: React.FC = () => {
         <div className="ps-section__content">
           <div className="table-responsive">
             <Table columns={columns} dataSource={data} />
-            {/* <table className="table ps-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>SKU</th>
-                  <th>Stock</th>
-                  <th>Price</th>
-                  <th>Categories</th>
-                  <th>Date</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>
-                    <a href="#">
-                      <strong>
-                        Herschel Leather Duffle Bag In Brown Color
-                      </strong>
-                    </a>
-                  </td>
-                  <td>AB123456789-1</td>
-                  <td>
-                    <span className="ps-badge success">Stock</span>
-                  </td>
-                  <td>
-                    <strong>£125.30</strong>
-                  </td>
-                  <td>
-                    <p className="ps-item-categories">
-                      <a href="#">Bags</a>
-                      <a href="#">Clothing &amp; Apparel</a>
-                    </p>
-                  </td>
-                  <td>2019/11/06</td>
-                  <td>
-                    <a className="ant-dropdown-trigger ps-dropdown__toggle ps-dropdown">
-                      <i className="icon-ellipsis"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>
-                    <a href="#">
-                      <strong>Apple iPhone Retina 6s Plus 64GB</strong>
-                    </a>
-                  </td>
-                  <td>CD987654316-1</td>
-                  <td>
-                    <span className="ps-badge success">Stock</span>
-                  </td>
-                  <td>
-                    <strong>£1,249.99</strong>
-                  </td>
-                  <td>
-                    <p className="ps-item-categories">
-                      <a href="#">Computers &amp; Technologies</a>
-                      <a href="#">Technologies</a>
-                    </p>
-                  </td>
-                  <td>2018/12/11</td>
-                  <td>
-                    <a className="ant-dropdown-trigger ps-dropdown__toggle ps-dropdown">
-                      <i className="icon-ellipsis"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>
-                    <a href="#">
-                      <strong>
-                        Marshall Kilburn Portable Wireless Speaker
-                      </strong>
-                    </a>
-                  </td>
-                  <td>SF1133569600-1</td>
-                  <td>
-                    <span className="ps-badge success">Stock</span>
-                  </td>
-                  <td>
-                    <strong>£36.78</strong>
-                  </td>
-                  <td>
-                    <p className="ps-item-categories">
-                      <a href="#">Babies &amp; Moms</a>
-                      <a href="#">Refrigerators</a>
-                    </p>
-                  </td>
-                  <td>2018/12/11</td>
-                  <td>
-                    <a className="ant-dropdown-trigger ps-dropdown__toggle ps-dropdown">
-                      <i className="icon-ellipsis"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>
-                    <a href="#">
-                      <strong>Xbox One Wireless Controller Black Color</strong>
-                    </a>
-                  </td>
-                  <td>AB123456788</td>
-                  <td>
-                    <span className="ps-badge success">Stock</span>
-                  </td>
-                  <td>
-                    <strong>£55.30</strong>
-                  </td>
-                  <td>
-                    <p className="ps-item-categories">
-                      <a href="#">Accessories</a>
-                      <a href="#">Air Conditioners</a>
-                    </p>
-                  </td>
-                  <td>2018/12/11</td>
-                  <td>
-                    <a className="ant-dropdown-trigger ps-dropdown__toggle ps-dropdown">
-                      <i className="icon-ellipsis"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>
-                    <a href="#">
-                      <strong>Grand Slam Indoor Of Show Jumping Novel</strong>
-                    </a>
-                  </td>
-                  <td>AB1234567899</td>
-                  <td>
-                    <span className="ps-badge success">Stock</span>
-                  </td>
-                  <td>
-                    <strong>£32.39</strong>
-                  </td>
-                  <td>
-                    <p className="ps-item-categories">
-                      <a href="#">Books &amp; Office</a>
-                      <a href="#">Cars &amp; Motocycles</a>
-                    </p>
-                  </td>
-                  <td>2018/12/11</td>
-                  <td>
-                    <a className="ant-dropdown-trigger ps-dropdown__toggle ps-dropdown">
-                      <i className="icon-ellipsis"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td>
-                    <a href="#">
-                      <strong>Rayban Rounded Sunglass Brown Color</strong>
-                    </a>
-                  </td>
-                  <td>AB123456783</td>
-                  <td>
-                    <span className="ps-badge success">Stock</span>
-                  </td>
-                  <td>
-                    <strong>£321.39</strong>
-                  </td>
-                  <td>
-                    <p className="ps-item-categories">
-                      <a href="#">Clothing &amp; Apparel</a>
-                      <a href="#">Cars &amp; Motocycles</a>
-                    </p>
-                  </td>
-                  <td>2018/12/11</td>
-                  <td>
-                    <a className="ant-dropdown-trigger ps-dropdown__toggle ps-dropdown">
-                      <i className="icon-ellipsis"></i>
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table> */}
           </div>
         </div>
       </section>
