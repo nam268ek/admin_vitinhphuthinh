@@ -8,11 +8,6 @@ import { ImExit } from "react-icons/im";
 import { NavLink } from "react-router-dom";
 
 const NavBarMenu: React.FC = () => {
-  // const [classAction, setClassAction] = React.useState<boolean>(false);
-  // const activeLink = {
-  //   color: "#1b8ef2",
-  // }
-
   return (
     <div className="ps-main__sidebar">
       <div className="ps-sidebar">
@@ -43,7 +38,7 @@ const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/"
-                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+                  className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   <AiOutlineHome />
                   <span>Dashboard</span>
@@ -52,7 +47,7 @@ const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/products"
-                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+                  className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   <FiDatabase />
                   <span>Products</span>
@@ -61,7 +56,7 @@ const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/orders"
-                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+                  className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   <BsBagCheck />
                   <span>Orders</span>
@@ -70,7 +65,7 @@ const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/customers"
-                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+                  className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   <FiUsers />
                   <span>Customers</span>
@@ -79,7 +74,7 @@ const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/categories"
-                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+                  className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   <BiCategoryAlt />
                   <span>Categories</span>
@@ -88,7 +83,7 @@ const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/layout"
-                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+                  className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   <AiOutlineLayout />
                   <span>Layout</span>
@@ -97,7 +92,7 @@ const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/settings"
-                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+                  className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   <IoSettingsOutline />
                   <span>Settings</span>

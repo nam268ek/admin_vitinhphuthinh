@@ -312,3 +312,11 @@ export interface ISelectService {
     className?: string;
     defaultValue?: string;
 }
+export interface IProtectedRoute {
+    redirectPath: string;
+    component: JSX.Element;
+    isProtected: boolean;
+}
+export interface INavBarMenu {
+    isProtected: boolean;
+}

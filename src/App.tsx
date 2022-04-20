@@ -10,47 +10,49 @@ import Categories from "./components/Categories/Categories";
 import Settings from "./components/Settings/Settings";
 import NewProduct from "./components/NewProduct/NewProduct";
 import Layout from "./components/Layout/Layout";
-import { Provider } from "react-redux";
-import store from "./components/redux/store/store";
+import { useSelector } from "react-redux";
+import ProtectedRoute from "./components/common/ProtectedRoute";
+import Notify from "./components/Notify/Notify";
 
 const App: React.FC = () => {
-  const [login, setLogin] = React.useState<any>(false);
+  const { isLogin } = useSelector((state: any) => state.login);
 
-  if (login) {
-    return (
-      <Provider store={store}>
-        <BrowserRouter>
-          <div className="App">
-            <header>
-              <NavBarMenu />
-            </header>
+  return (
+    <BrowserRouter>
+      <div className="App">
+        {isLogin && (
+          <header>
+            <NavBarMenu />
+          </header>
+        )}
 
-            <main>
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/products" element={<Products />} />
-                <Route
-                  path="/products/create-product"
-                  element={<NewProduct />}
+        <main style={isLogin ? { marginLeft: "320px" } : {}}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/notify" element={<Notify />} />
+            <Route
+              element={
+                <ProtectedRoute
+                  isProtected={isLogin}
+                  component={<Notify />}
+                  redirectPath="/notify"
                 />
-                <Route path="/orders" element={<Orders />} />
-                <Route path="/customers" element={<Customers />} />
-                <Route path="/categories" element={<Categories />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="/layout" element={<Layout />} />
-              </Routes>
-            </main>
-          </div>
-        </BrowserRouter>
-      </Provider>
-    );
-  } else {
-    return (
-      <Provider store={store}>
-        <Login />
-      </Provider>
-    );
-  }
+              }
+            >
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/products/create-product" element={<NewProduct />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/customers" element={<Customers />} />
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/layout" element={<Layout />} />
+            </Route>
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
+  );
 };
 
 export default App;
