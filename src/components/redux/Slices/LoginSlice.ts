@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import APIClientService from '../../../api';
 
-export const RequestLogin = createAsyncThunk('REQUEST_LOGIN', async (params) => {
+export const RequestLogin: any = createAsyncThunk('REQUEST_LOGIN', async (params: any) => {
   const data = await APIClientService.getLogin(params).catch((err: any) => {
     return err.response.data;
   });

@@ -13,7 +13,7 @@ const themeApi = {
     return AxiosClient.put(url, { params });
   },
   getLogin: (params: any) => {
-    const url = '/login';
+    const url = '/register';
     return AxiosClient.post(url, { params });
   },
   // getRefreshToken: (params) => {},

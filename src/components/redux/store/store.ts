@@ -1,10 +1,15 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import LoginSlice from '../Slices/LoginSlice';
+import primarySlice from '../Slices/PrimarySlice';
 
 const reducers = combineReducers({
   login: LoginSlice,
+  primary: primarySlice,
 });
 
-export default configureStore({
+const store = configureStore({
   reducer: reducers,
 });
+
+export default store;
+export type RootState = ReturnType<typeof store.getState>

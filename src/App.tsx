@@ -13,10 +13,12 @@ import Layout from "./components/Layout/Layout";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import Notify from "./components/Notify/Notify";
+import ReactLoading from 'react-loading';
+import Loading from "./components/common/Loading";
 
 const App: React.FC = () => {
   const { isLogin } = useSelector((state: any) => state.login);
-
+  const { isLoading } = useSelector((state: any) => state.primary);
   return (
     <BrowserRouter>
       <div className="App">
@@ -27,6 +29,8 @@ const App: React.FC = () => {
         )}
 
         <main style={isLogin ? { marginLeft: "320px" } : {}}>
+          {true && <Loading/>}
+
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/notify" element={<Notify />} />

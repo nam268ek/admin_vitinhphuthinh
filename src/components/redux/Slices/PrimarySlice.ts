@@ -10,8 +10,8 @@ const initialState = {
     showSidebarFilter: false
 };
 
-const primaryReducer = createSlice({
-    name: 'login',
+const primarySlice = createSlice({
+    name: 'primary',
     initialState,
     reducers: {
         setTitle: (state, action) => {
@@ -23,5 +23,6 @@ const primaryReducer = createSlice({
     },
   });
 
-
-export default primaryReducer;
+const { reducer } = primarySlice;
+export const { setIsLoading } = primarySlice.actions;
+export default reducer;
