@@ -314,7 +314,7 @@ export interface ISelectService {
 }
 export interface IProtectedRoute {
     redirectPath: string;
-    component: JSX.Element;
+    component?: JSX.Element;
     isProtected: boolean;
 }
 export interface INavBarMenu {

@@ -1,8 +1,9 @@
 import AxiosClient from '../api/AxiosClient';
 //get theme api
-const themeApi = {
-  getUser: () => {
-    return AxiosClient.get(`/user`);
+const APIClientService = {
+  createNewProduct: (params: any) => {
+    const url = '/products';
+    return AxiosClient.post(url, { params });
   },
   updateUser: (params: any) => {
     const url = '/user/update';
@@ -13,7 +14,7 @@ const themeApi = {
     return AxiosClient.put(url, { params });
   },
   getLogin: (params: any) => {
-    const url = '/register';
+    const url = '/login';
     return AxiosClient.post(url, { params });
   },
   // getRefreshToken: (params) => {},
@@ -83,4 +84,4 @@ const themeApi = {
   },
 };
 
-export default themeApi;
+export default APIClientService;

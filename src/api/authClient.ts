@@ -1,37 +1,40 @@
 const getToken = async () => {
-  const token = JSON.parse(localStorage.getItem('token') || '');
-  //No loged in user
-  if (token === '') return null;
+  if (localStorage.hasOwnProperty("tokenvtpt")) {
+    const token = JSON.parse(localStorage.getItem("tokenvtpt") || "");
+    //No loged in user
+    if (token === "") return false;
 
-  //Loged in user
-  return new Promise((resolve, reject) => {
-    const waitTimer = setTimeout(() => {
-      reject(null);
-      console.log('token timeout');
-    }, 5000);
+    //Loged in user
+    return new Promise((resolve, reject) => {
+      const waitTimer = setTimeout(() => {
+        reject(false);
+        console.log("token timeout");
+      }, 5000);
 
-    resolve(token);
-    clearTimeout(waitTimer);
-  });
+      resolve(token);
+      clearTimeout(waitTimer);
+    });
+  } else return false;
 };
 
 const updateTokenLocalStorage = async (res: any) => {
   const data: any = await new Promise((resolve, reject) => {
-    if(res.code !== 200) reject(res.messageError);
+    if (res.code !== 200) reject(res.messageError);
     resolve(res.data);
   });
   const { token, refreshToken } = data;
-  if (data.token) {
-    localStorage.setItem('token', JSON.stringify(token));
-    localStorage.setItem('refresh_token', JSON.stringify(refreshToken));
+  if (data.hasOwnProperty("tokenvtpt")) {
+    localStorage.setItem("tokenvtpt", JSON.stringify(token));
+    localStorage.setItem("refreshtokenvtpt", JSON.stringify(refreshToken));
   }
 };
 
 const handleRefreshToken = () => {
-  const refreshToken = JSON.parse(localStorage.getItem('refresh_token') || '');
+  const refreshToken = JSON.parse(
+    localStorage.getItem("refreshtokenvtpt") || ""
+  );
   return refreshToken;
 };
-
 
 const ValidateToken = {
   getToken,

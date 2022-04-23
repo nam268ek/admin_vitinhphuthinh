@@ -7,7 +7,7 @@ const ProtectedRoute: React.FC<IProtectedRoute> = ({
   redirectPath,
   component,
 }) => {
-  if (!isProtected) {
+  if (isProtected === false) {
     return <Navigate to={redirectPath} replace />;
   }
   return component ? component : <Outlet />;

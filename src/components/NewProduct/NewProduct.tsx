@@ -1,14 +1,19 @@
 import React from "react";
 import ImageUpload from "../ImageUpload/ImageUpload";
-import { Input, Select } from "antd";
+import { Form, Input, Select, Button, Space } from "antd";
 import StatusProduct from "../StatusProduct/StatusProduct";
 import SelectOption from "../common/SelectOption";
 import EditorText from "../common/EditorText";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import ConfigInfo from "../ConfigInfo/ConfigInfo";
-import { Button, Space } from "antd";
+import { cloneDeep } from "lodash";
+import { originalProduct } from "../Services/general.service";
+import { useDispatch } from "react-redux";
+import { createProduct } from "../redux/Slices/productSlice";
+import { setIsLoading } from "../redux/Slices/PrimarySlice";
 
 const NewProduct: React.FC = () => {
+  const dispatch = useDispatch();
   const maxLength: number = 100;
   const maxLengthTextArea: number = 500;
   const { TextArea } = Input;
@@ -16,18 +21,33 @@ const NewProduct: React.FC = () => {
     register,
     setValue,
     handleSubmit,
+    control,
     formState: { errors },
-  } = useForm<FormData>();
-  const { Option } = Select;
+  } = useForm<any>();
 
+  const { Option } = Select;
   const handleChange = (value: any) => {
     console.log(`selected ${value}`);
   };
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+    const bodyNewProduct = cloneDeep(originalProduct);
+    bodyNewProduct.action = "create";
+    // bodyNewProduct.data.img = data.img;
+    bodyNewProduct.data.title = data.nameprod;
+    bodyNewProduct.data.price = data.pricesale;
+    bodyNewProduct.data.label = (data.oriprice - data.pricesale)/ data.oriprice * 100;
+    bodyNewProduct.data.brand = data.brand ? data.brand : "";
+    bodyNewProduct.data.category = data.category;
+    bodyNewProduct.data.count = data.count;
+    bodyNewProduct.data.previousPrice = data.oriprice;
 
-  const enterLoading = (index: any) => {};
-  const onChange = (index: any) => {};
+    // dispatch(setIsLoading(true));
+    // dispatch(createProduct(bodyNewProduct));
+    // dispatch(setIsLoading(false));
+  });
+
   return (
     <div className="ps-main__wrapper">
       <div className="header--dashboard">
@@ -39,12 +59,7 @@ const NewProduct: React.FC = () => {
         </div>
       </div>
       <section className="ps-new-item">
-        <form
-          className="ps-form ps-form--new-product"
-          action=""
-          method="get"
-          onSubmit={onSubmit}
-        >
+        <form className="ps-form ps-form--new-product" onSubmit={onSubmit}>
           <div className="ps-form__content">
             <div className="row">
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
@@ -55,73 +70,133 @@ const NewProduct: React.FC = () => {
                       <label>
                         Tên sản phẩm<sup>*</sup>
                       </label>
-
-                      <Input
-                        placeholder="Enter product name..."
-                        showCount
-                        maxLength={maxLength}
-                        onChange={onChange}
+                      <Controller
+                        name="nameprod"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            maxLength={maxLength}
+                            showCount
+                            placeholder="Nhập tên sản phẩm..."
+                            onChange={(e) => {
+                              setValue(field.name, e.target.value);
+                            }}
+                          />
+                        )}
                       />
                     </div>
                     <div className="form-group">
                       <label>
                         Danh mục<sup>*</sup>
                       </label>
-                      <Select
-                        defaultValue="Select Category..."
-                        style={{ width: "100%" }}
-                        onChange={handleChange}
-                      >
-                        <Option value="jack">Jack</Option>
-                        <Option value="lucy">Lucy</Option>
-                        <Option value="disabled" disabled>
-                          Disabled
-                        </Option>
-                        <Option value="Yiminghe">yiminghe</Option>
-                      </Select>
+                      <Controller
+                        control={control}
+                        name="category"
+                        render={({ field }) => (
+                          <>
+                            <Select
+                              {...field}
+                              defaultValue="Select Category..."
+                              style={{ width: "100%" }}
+                            >
+                              <Option value="jack">Jack</Option>
+                              <Option value="lucy">Lucy</Option>
+                              <Option value="disabled" disabled>
+                                Disabled
+                              </Option>
+                              <Option value="Yiminghe">yiminghe</Option>
+                            </Select>
+                          </>
+                        )}
+                      />
                     </div>
                     <div className="form-group">
                       <label>
                         Tóm tắt sản phẩm<sup>*</sup>
                       </label>
-                      <TextArea
-                        showCount
-                        maxLength={maxLengthTextArea}
-                        onChange={onChange}
-                        style={{ height: "195px" }}
+                      <Controller
+                        name="prodsummary"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <TextArea
+                            {...field}
+                            style={{ height: "195px" }}
+                            maxLength={maxLengthTextArea}
+                            showCount
+                            onChange={(e) => {
+                              setValue(field.name, e.target.value);
+                            }}
+                          />
+                        )}
                       />
                     </div>
                     <div className="form-group">
                       <label>
                         Giá gốc<sup>*</sup>
                       </label>
-                      <Input
-                        type={"number"}
-                        showCount
-                        maxLength={maxLength}
-                        onChange={onChange}
+                      <Controller
+                        name="priceoriginal"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            type="number"
+                            maxLength={maxLength}
+                            showCount
+                            placeholder="Nhập tên sản phẩm..."
+                            onChange={(e) => {
+                              setValue(field.name, e.target.value);
+                            }}
+                          />
+                        )}
                       />
                     </div>
                     <div className="form-group">
                       <label>
                         Giá khuyến mãi<sup>*</sup>
                       </label>
-                      <Input
-                        type={"number"}
-                        showCount
-                        maxLength={maxLength}
-                        onChange={onChange}
+                      <Controller
+                        name="pricesale"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            type="number"
+                            maxLength={maxLength}
+                            showCount
+                            placeholder="Nhập tên sản phẩm..."
+                            onChange={(e) => {
+                              setValue(field.name, e.target.value);
+                            }}
+                          />
+                        )}
                       />
                     </div>
                     <div className="form-group">
                       <label>
                         Số lượng<sup>*</sup>
                       </label>
-                      <Input
-                        type={"number"}
-                        showCount
-                        maxLength={maxLength}
-                        onChange={onChange}
+                      <Controller
+                        name="count"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            type="number"
+                            maxLength={maxLength}
+                            showCount
+                            placeholder="Nhập tên sản phẩm..."
+                            onChange={(e) => {
+                              setValue(field.name, e.target.value);
+                            }}
+                          />
+                        )}
                       />
                     </div>
                   </div>
@@ -134,7 +209,7 @@ const NewProduct: React.FC = () => {
                     <div className="form-group m-0">
                       <label>Thumbnail Sản phẩm</label>
                       <div className="form-group--nest">
-                        <ImageUpload />
+                        <ImageUpload maxNumberOfFiles={3}/>
                       </div>
                     </div>
                   </div>
@@ -146,10 +221,20 @@ const NewProduct: React.FC = () => {
                       <label>
                         SKU<sup>*</sup>
                       </label>
-                      <Input
-                        showCount
-                        maxLength={maxLength}
-                        onChange={onChange}
+                      <Controller
+                        name="sku"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            maxLength={maxLength}
+                            showCount
+                            onChange={(e) => {
+                              setValue(field.name, e.target.value);
+                            }}
+                          />
+                        )}
                       />
                     </div>
                     <div className="form-group form-group--select">
@@ -168,15 +253,44 @@ const NewProduct: React.FC = () => {
                         Thương hiệu<sup>*</sup>
                       </label>
                       <div className="form-group__content">
-                        <SelectOption />
+                        <Controller
+                          control={control}
+                          name="brand"
+                          render={({ field }) => (
+                            <>
+                              <Select
+                                {...field}
+                                defaultValue="Select Category..."
+                                style={{ width: "100%" }}
+                              >
+                                <Option value="jack">Jack</Option>
+                                <Option value="lucy">Lucy</Option>
+                                <Option value="disabled" disabled>
+                                  Disabled
+                                </Option>
+                                <Option value="Yiminghe">yiminghe</Option>
+                              </Select>
+                            </>
+                          )}
+                        />
                       </div>
                     </div>
                     <div className="form-group">
                       <label>Tags</label>
-                      <Input
-                        showCount
-                        maxLength={maxLength}
-                        onChange={onChange}
+                      <Controller
+                        name="tags"
+                        defaultValue=""
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            maxLength={maxLength}
+                            showCount
+                            onChange={(e) => {
+                              setValue(field.name, e.target.value);
+                            }}
+                          />
+                        )}
                       />
                     </div>
                   </div>
@@ -196,20 +310,31 @@ const NewProduct: React.FC = () => {
           </figure>
           <div className="ps-form__bottom">
             <Space style={{ width: "100%", justifyContent: "flex-end" }}>
-              <Button
-                type="primary"
-                loading={false}
-                onClick={() => enterLoading(0)}
-              >
-                Back
-              </Button>
-              <Button
-                type="primary"
-                loading={false}
-                onClick={() => enterLoading(0)}
-              >
-                Submit
-              </Button>
+              <Controller
+                name="back"
+                defaultValue=""
+                control={control}
+                render={({ field }) => (
+                  <Button {...field} type="primary" loading={false} htmlType='reset'>
+                    Reset
+                  </Button>
+                )}
+              />
+              <Controller
+                name="submit"
+                defaultValue=""
+                control={control}
+                render={({ field }) => (
+                  <Button
+                    {...field}
+                    type="primary"
+                    htmlType="submit"
+                    loading={false}
+                  >
+                    Submit
+                  </Button>
+                )}
+              />
             </Space>
           </div>
         </form>
