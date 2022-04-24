@@ -1,13 +1,15 @@
 import React from "react";
 import { Input } from "antd";
+import { Controller } from "react-hook-form";
 
-const ConfigInfo: React.FC = () => {
+const ConfigInfo: React.FC<any> = ({
+  onSubmit,
+  setValue,
+  control,
+  maxLength,
+  maxLengthTextArea,
+}) => {
   const { TextArea } = Input;
-  const maxLength: number = 100;
-  const maxLengthTextArea: number = 500;
-  const onChange = (e: any) => {
-    console.log("Change:", e.target.value);
-  };
 
   return (
     <div className="panel-body row">
@@ -17,90 +19,275 @@ const ConfigInfo: React.FC = () => {
             <tr>
               <th className="attribute-label">Mã sản phẩm / Model </th>
               <td className="attribute-value ">
-                <Input
-                  showCount
-                  maxLength={maxLength}
-                  width={"100%"}
-                  onChange={onChange}
+                <Controller
+                  name="model"
+                  defaultValue=""
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      maxLength={maxLength}
+                      showCount
+                      width={"100%"}
+                      onChange={(e) => {
+                        setValue(field.name, e.target.value);
+                      }}
+                    />
+                  )}
                 />
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Bộ Vi Xử Lý / CPU </th>
               <td className="attribute-value highlight">
-                <Input showCount maxLength={maxLength} onChange={onChange} />
+                <Controller
+                  name="cpu"
+                  defaultValue=""
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      maxLength={maxLength}
+                      showCount
+                      width={"100%"}
+                      onChange={(e) => {
+                        setValue(field.name, e.target.value);
+                      }}
+                    />
+                  )}
+                />
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Bộ Nhớ Trong / RAM </th>
               <td className="attribute-value highlight">
-                <Input showCount maxLength={maxLength} onChange={onChange} />
+                <Controller
+                  name="ram"
+                  defaultValue=""
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      maxLength={maxLength}
+                      showCount
+                      width={"100%"}
+                      onChange={(e) => {
+                        setValue(field.name, e.target.value);
+                      }}
+                    />
+                  )}
+                />
               </td>
             </tr>
             <tr>
-              <th className="attribute-label">Ổ Cứng / HDD </th>
+              <th className="attribute-label">Ổ Cứng (HDD/SDD)</th>
               <td className="attribute-value highlight">
-                <Input showCount maxLength={maxLength} onChange={onChange} />
+                <Controller
+                  name="harddrive"
+                  defaultValue=""
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      maxLength={maxLength}
+                      showCount
+                      width={"100%"}
+                      onChange={(e) => {
+                        setValue(field.name, e.target.value);
+                      }}
+                    />
+                  )}
+                />
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Màn hình / LCD </th>
               <td className="attribute-value ">
-                <Input showCount maxLength={maxLength} onChange={onChange} />
+                <Controller
+                  name="monitor"
+                  defaultValue=""
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      maxLength={maxLength}
+                      showCount
+                      width={"100%"}
+                      onChange={(e) => {
+                        setValue(field.name, e.target.value);
+                      }}
+                    />
+                  )}
+                />
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Chip Đồ Họa / VGA </th>
               <td className="attribute-value highlight">
-                <Input showCount maxLength={maxLength} onChange={onChange} />
+                <Controller
+                  name="vgacard"
+                  defaultValue=""
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      maxLength={maxLength}
+                      showCount
+                      width={"100%"}
+                      onChange={(e) => {
+                        setValue(field.name, e.target.value);
+                      }}
+                    />
+                  )}
+                />
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Kết Nối / Network </th>
               <td className="attribute-value ">
-                <Input showCount maxLength={maxLength} onChange={onChange} />
+                <Controller
+                  name="network"
+                  defaultValue=""
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      maxLength={maxLength}
+                      showCount
+                      width={"100%"}
+                      onChange={(e) => {
+                        setValue(field.name, e.target.value);
+                      }}
+                    />
+                  )}
+                />
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Giao Tiếp Mở Rộng </th>
               <td className="attribute-value ">
-                <TextArea
-                  showCount
-                  maxLength={maxLengthTextArea}
-                  onChange={onChange}
+                <Controller
+                  name="extend"
+                  defaultValue=""
+                  control={control}
+                  render={({ field }) => (
+                    <TextArea
+                      {...field}
+                      maxLength={maxLengthTextArea}
+                      showCount
+                      onChange={(e) => {
+                        setValue(field.name, e.target.value);
+                      }}
+                    />
+                  )}
                 />
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Dung Lượng Pin </th>
               <td className="attribute-value ">
-                <Input showCount maxLength={maxLength} onChange={onChange} />
+                <Controller
+                  name="battery"
+                  defaultValue=""
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      maxLength={maxLength}
+                      showCount
+                      width={"100%"}
+                      onChange={(e) => {
+                        setValue(field.name, e.target.value);
+                      }}
+                    />
+                  )}
+                />
               </td>
             </tr>
             <tr>
               <th className="attribute-label">
-                Hệ Điều Hành / Operating System{" "}
+                Hệ Điều Hành / Operating System
               </th>
               <td className="attribute-value highlight">
-                <Input showCount maxLength={maxLength} onChange={onChange} />
+                <Controller
+                  name="os"
+                  defaultValue=""
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      maxLength={maxLength}
+                      showCount
+                      width={"100%"}
+                      onChange={(e) => {
+                        setValue(field.name, e.target.value);
+                      }}
+                    />
+                  )}
+                />
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Trọng Lượng / Weight </th>
               <td className="attribute-value ">
-                <Input showCount maxLength={maxLength} onChange={onChange} />
+                <Controller
+                  name="weight"
+                  defaultValue=""
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      maxLength={maxLength}
+                      showCount
+                      width={"100%"}
+                      onChange={(e) => {
+                        setValue(field.name, e.target.value);
+                      }}
+                    />
+                  )}
+                />
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Màu Sắc </th>
               <td className="attribute-value ">
-                <Input showCount maxLength={maxLength} onChange={onChange} />
+                <Controller
+                  name="color"
+                  defaultValue=""
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      maxLength={maxLength}
+                      showCount
+                      width={"100%"}
+                      onChange={(e) => {
+                        setValue(field.name, e.target.value);
+                      }}
+                    />
+                  )}
+                />
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Xuất Xứ / Bảo Hành </th>
               <td className="attribute-value highlight">
-                <Input showCount maxLength={maxLength} onChange={onChange} />
+                <Controller
+                  name="warranty"
+                  defaultValue=""
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      maxLength={maxLength}
+                      showCount
+                      width={"100%"}
+                      onChange={(e) => {
+                        setValue(field.name, e.target.value);
+                      }}
+                    />
+                  )}
+                />
               </td>
             </tr>
           </tbody>

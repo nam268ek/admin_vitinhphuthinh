@@ -8,8 +8,11 @@ import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
 import SelectOption from "../common/SelectOption";
 import Search from "./../Search/Search";
+import { useSelector } from "react-redux";
 
 const Products: React.FC = () => {
+  const { listAllProducts } = useSelector((state: any) => state.product);
+
   const columns = [
     {
       title: "ID",
@@ -88,6 +91,18 @@ const Products: React.FC = () => {
     },
   ];
 
+  const convertListProduct = (list: any[]) => {
+    return list.map((item: any, index: number) => {
+      return {
+        key: index + 1,
+        name: item.name,
+        sku: item.sku,
+        price: item.price,
+        category: item.category,
+        tags: item.tags,
+      };
+    });
+  };
   const data = [
     {
       key: "1",

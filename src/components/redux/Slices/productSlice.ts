@@ -13,14 +13,31 @@ export const createProduct: any = createAsyncThunk(
   }
 );
 
+export const getAllProducts = createAsyncThunk(
+  "GET_ALL_PRODUCT",
+  async (params: any) => {
+    const data: any = await APIClientService.getAllProducts(params).catch(
+      (err: any) => {
+        return err.response.data;
+      }
+    );
+    return data;
+  }
+);
+
 const initialState = {
-  isLogin: false,
   data: {},
+  listImages: [],
+  listAllProducts: [],
 };
 const productSlice = createSlice({
   name: "product",
   initialState,
-  reducers: {},
+  reducers: {
+    updateListImages: (state: any, action: any) => {
+      state.listImages = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createProduct.pending, (state: any, action: any) => {
@@ -28,8 +45,12 @@ const productSlice = createSlice({
       })
       .addCase(createProduct.fulfilled, (state: any, action: any) => {
         state.data = action.payload;
+      })
+      .addCase(getAllProducts.fulfilled, (state: any, action: any) => {
+        state.listProducts = action.payload;
       });
   },
 });
 const { reducer } = productSlice;
+export const { updateListImages } = productSlice.actions;
 export default reducer;

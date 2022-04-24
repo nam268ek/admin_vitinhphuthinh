@@ -8,12 +8,15 @@ import { useForm, Controller } from "react-hook-form";
 import ConfigInfo from "../ConfigInfo/ConfigInfo";
 import { cloneDeep } from "lodash";
 import { originalProduct } from "../Services/general.service";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createProduct } from "../redux/Slices/productSlice";
 import { setIsLoading } from "../redux/Slices/PrimarySlice";
 
 const NewProduct: React.FC = () => {
   const dispatch = useDispatch();
+  const childRef = React.useRef<any>(null);
+
+  const { listImages } = useSelector((state: any) => state.product);
   const maxLength: number = 100;
   const maxLengthTextArea: number = 500;
   const { TextArea } = Input;
@@ -31,21 +34,38 @@ const NewProduct: React.FC = () => {
   };
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
     const bodyNewProduct = cloneDeep(originalProduct);
     bodyNewProduct.action = "create";
-    // bodyNewProduct.data.img = data.img;
-    bodyNewProduct.data.title = data.nameprod;
-    bodyNewProduct.data.price = data.pricesale;
-    bodyNewProduct.data.label = (data.oriprice - data.pricesale)/ data.oriprice * 100;
+    bodyNewProduct.data.img = listImages || [];
+    bodyNewProduct.data.title = data.nameprod || "";
+    bodyNewProduct.data.price = data.pricesale ? parseInt(data.pricesale) : "";
+    bodyNewProduct.data.label =
+      (((data.oriprice - data.pricesale) / data.oriprice) * 100) | 0;
     bodyNewProduct.data.brand = data.brand ? data.brand : "";
-    bodyNewProduct.data.category = data.category;
-    bodyNewProduct.data.count = data.count;
-    bodyNewProduct.data.previousPrice = data.oriprice;
+    bodyNewProduct.data.category = data.category ? data.category : "";
+    bodyNewProduct.data.count = data.count ? parseInt(data.count) : 1;
+    bodyNewProduct.data.previousPrice = data.oriprice ? parseInt(data.oriprice) : 0;
+    bodyNewProduct.data.contentEditor = childRef.current.contentEditor();
+    bodyNewProduct.data.sku = data.sku ? data.sku : "";
+    bodyNewProduct.data.contentInfo.model = data.model ? data.model : "";
+    bodyNewProduct.data.contentInfo.color = data.color ? data.color : "";
+    bodyNewProduct.data.contentInfo.cpu = data.cpu ? data.cpu : "";
+    bodyNewProduct.data.contentInfo.ram = data.ram ? data.ram : "";
+    bodyNewProduct.data.contentInfo.harddrive = data.harddrive ? data.harddrive : "";
+    bodyNewProduct.data.contentInfo.vgacard = data.vgacard ? data.vgacard : "";
+    bodyNewProduct.data.contentInfo.os = data.os ? data.os : "";
+    bodyNewProduct.data.contentInfo.warranty = data.warranty ? data.warranty : "";
+    bodyNewProduct.data.contentInfo.monitor = data.monitor ? data.monitor : "";
+    bodyNewProduct.data.contentInfo.network = data.network ? data.network : "";
+    bodyNewProduct.data.contentInfo.extend = data.extend ? data.extend : "";
+    bodyNewProduct.data.contentInfo.battery = data.battery ? data.battery : "";
+    bodyNewProduct.data.contentInfo.weight = data.weight ? data.weight : "";
+    
+    console.log(bodyNewProduct);
 
-    // dispatch(setIsLoading(true));
-    // dispatch(createProduct(bodyNewProduct));
-    // dispatch(setIsLoading(false));
+    dispatch(setIsLoading(true));
+    dispatch(createProduct(bodyNewProduct));
+    dispatch(setIsLoading(false));
   });
 
   return (
@@ -138,7 +158,7 @@ const NewProduct: React.FC = () => {
                         Giá gốc<sup>*</sup>
                       </label>
                       <Controller
-                        name="priceoriginal"
+                        name="oriprice"
                         defaultValue=""
                         control={control}
                         render={({ field }) => (
@@ -209,7 +229,7 @@ const NewProduct: React.FC = () => {
                     <div className="form-group m-0">
                       <label>Thumbnail Sản phẩm</label>
                       <div className="form-group--nest">
-                        <ImageUpload maxNumberOfFiles={3}/>
+                        <ImageUpload maxNumberOfFiles={3} />
                       </div>
                     </div>
                   </div>
@@ -300,12 +320,18 @@ const NewProduct: React.FC = () => {
           </div>
           <figure className="ps-block--form-box">
             <figcaption>Mô tả sản phẩm</figcaption>
-            <EditorText />
+            <EditorText ref={childRef} />
           </figure>
           <figure className="ps-block--form-box">
             <figcaption>Thông tin cấu hình</figcaption>
             <div className="ps-block__content">
-              <ConfigInfo />
+              <ConfigInfo
+                onSubmit={onSubmit}
+                setValue={setValue}
+                control={control}
+                maxLength={maxLength}
+                maxLengthTextArea={maxLengthTextArea}
+              />
             </div>
           </figure>
           <div className="ps-form__bottom">
@@ -315,7 +341,12 @@ const NewProduct: React.FC = () => {
                 defaultValue=""
                 control={control}
                 render={({ field }) => (
-                  <Button {...field} type="primary" loading={false} htmlType='reset'>
+                  <Button
+                    {...field}
+                    type="primary"
+                    loading={false}
+                    htmlType="reset"
+                  >
                     Reset
                   </Button>
                 )}

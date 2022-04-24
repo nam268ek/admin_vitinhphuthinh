@@ -5,9 +5,9 @@ const APIClientService = {
     const url = '/products';
     return AxiosClient.post(url, { params });
   },
-  updateUser: (params: any) => {
-    const url = '/user/update';
-    return AxiosClient.put(url, { params });
+  getAllProducts: (params: any) => {
+    const url = '/products';
+    return AxiosClient.post(url, { params });
   },
   updatePassword: (params: any) => {
     const url = '/user/update-pass';
