@@ -10,10 +10,11 @@ import Categories from "./components/Categories/Categories";
 import Settings from "./components/Settings/Settings";
 import NewProduct from "./components/NewProduct/NewProduct";
 import Layout from "./components/Layout/Layout";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import Notify from "./components/Notify/Notify";
 import Loading from "./components/common/Loading";
+import { setIsLoading } from "./components/redux/Slices/PrimarySlice";
 
 const App: React.FC = () => {
   const { isLogin } = useSelector((state: any) => state.login);
@@ -29,17 +30,14 @@ const App: React.FC = () => {
         )}
 
         <main style={isLogin ? { marginLeft: "320px" } : {}}>
-          {isLoading && <Loading/>}
+          {isLoading && <Loading />}
 
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/notify" element={<Notify />} />
             <Route
               element={
-                <ProtectedRoute
-                  isProtected={isLogin}
-                  redirectPath="/notify"
-                />
+                <ProtectedRoute isProtected={isLogin} redirectPath="/notify" />
               }
             >
               <Route path="/" element={<Dashboard />} />

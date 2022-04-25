@@ -14,7 +14,7 @@ export const RequestLogin: any = createAsyncThunk(
 );
 
 const initialState = {
-  isLogin: false,
+  isLogin: true,
   data: {},
 };
 const LoginSlice = createSlice({

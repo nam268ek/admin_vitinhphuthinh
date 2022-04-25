@@ -13,7 +13,7 @@ export const createProduct: any = createAsyncThunk(
   }
 );
 
-export const getAllProducts = createAsyncThunk(
+export const getAllProducts: any = createAsyncThunk(
   "GET_ALL_PRODUCT",
   async (params: any) => {
     const data: any = await APIClientService.getAllProducts(params).catch(
@@ -26,17 +26,20 @@ export const getAllProducts = createAsyncThunk(
 );
 
 const initialState = {
+  statusUpdated: false,
   data: {},
   listImages: [],
   listAllProducts: [],
+  statusResponse: {},
 };
+
 const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
     updateListImages: (state: any, action: any) => {
       state.listImages = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -44,10 +47,21 @@ const productSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(createProduct.fulfilled, (state: any, action: any) => {
-        state.data = action.payload;
+        if(action.payload.message === 'success') {
+          state.data = action.payload;
+        }
+      })
+      .addCase(getAllProducts.pending, (state: any, action: any) => {
+        state.listAllProducts = [];
+        state.statusResponse = {};
       })
       .addCase(getAllProducts.fulfilled, (state: any, action: any) => {
-        state.listProducts = action.payload;
+        state.statusResponse = {
+          status: action.payload.status,
+          message: action.payload.message,
+          code: action.payload.code,
+        };
+        state.listAllProducts = action.payload.data;
       });
   },
 });

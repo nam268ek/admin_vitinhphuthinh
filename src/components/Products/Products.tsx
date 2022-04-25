@@ -2,16 +2,23 @@ import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { FiFilter } from "react-icons/fi";
 import { FaPlusCircle } from "react-icons/fa";
-import { Table, Tag, Space, Button } from "antd";
+import { Table, Tag, Space, Button, message } from "antd";
 import moment from "moment";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
 import SelectOption from "../common/SelectOption";
 import Search from "./../Search/Search";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllProducts } from "../redux/Slices/productSlice";
+import { originalProduct } from "../Services/general.service";
+import { cloneDeep } from "lodash";
+import { setIsLoading } from "../redux/Slices/PrimarySlice";
 
 const Products: React.FC = () => {
-  const { listAllProducts } = useSelector((state: any) => state.product);
+  const dispatch = useDispatch();
+  const { listAllProducts, statusUpdated, statusResponse } = useSelector(
+    (state: any) => state.product
+  );
 
   const columns = [
     {
@@ -48,7 +55,7 @@ const Products: React.FC = () => {
       dataIndex: "tags",
       render: (tags: any[]) => (
         <>
-          {tags.map((tag) => {
+          {tags.map((tag, index) => {
             let color =
               tag === "Kích hoạt"
                 ? "green"
@@ -59,7 +66,7 @@ const Products: React.FC = () => {
               color = "volcano";
             }
             return (
-              <Tag color={color} key={tag}>
+              <Tag color={color} key={index}>
                 {tag}
               </Tag>
             );
@@ -71,9 +78,10 @@ const Products: React.FC = () => {
       title: "Ngày cập nhật",
       dataIndex: "date",
       key: "date",
-      render: (date: any) => (
-        <span>{moment(date).format("DD/MM/YYYY").toString()}</span>
-      ),
+      // render: (date: any) => (
+      //   <span>{moment(date).format("DD/MM/YYYY").toString()}</span>
+      // ),
+      render: (text: string) => <span>{text}</span>,
     },
     {
       title: "Lựa chọn",
@@ -91,168 +99,55 @@ const Products: React.FC = () => {
     },
   ];
 
-  const convertListProduct = (list: any[]) => {
+  const convertListProducts = (list: any[]) => {
     return list.map((item: any, index: number) => {
       return {
         key: index + 1,
-        name: item.name,
-        sku: item.sku,
-        price: item.price,
-        category: item.category,
-        tags: item.tags,
+        id: item._id,
+        name: item.title || "",
+        sku: item.sku || "",
+        price: item.price || 0,
+        category: item.category || "",
+        tags: [item.tags ? item.tags : "Kích hoạt"],
+        date: item.created_at || "",
       };
     });
   };
-  const data = [
-    {
-      key: "1",
-      name: "Laptop Dell Inspiron 15 7000 Gaming Laptop",
-      sku: "AB123456789-1",
-      price: "10.000.000 ₫",
-      category: "Laptop DELL",
-      date: new Date(),
-      tags: ["Kích hoạt", "Tồn kho"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
 
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
-      date: new Date(),
+  React.useEffect(() => {
+    if (listAllProducts.length === 0 || statusUpdated) {
+      let product = cloneDeep(originalProduct);
+      product.role = "";
+      dispatch(setIsLoading(true));
+      dispatch(getAllProducts(product));
+      dispatch(setIsLoading(false));
+    }
+  }, []);
 
-      tags: ["cool", "teacher"],
-    },
-    {
-      key: "4",
-      name: "John Brown",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
-      date: new Date(),
-      tags: ["active", "Tồn kho"],
-    },
-    {
-      key: "5",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
+  React.useEffect(() => {
+    if (
+      statusResponse &&
+      statusResponse.status === "success" &&
+      statusResponse.code === 200
+    ) {
+      message.success(statusResponse.message);
+    } else {
+      message.error(statusResponse.message);
+    }
+  }, []);
 
-      tags: ["loser"],
-    },
-    {
-      key: "6",
-      name: "Joe Black",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
-      date: new Date(),
+  const data = convertListProducts(listAllProducts ? listAllProducts : []);
 
-      tags: ["cool", "teacher"],
-    },
-    {
-      key: "7",
-      name: "John Brown",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
-      date: new Date(),
-      tags: ["active", "Tồn kho"],
-    },
-    {
-      key: "8",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
+  // if (listAllProducts.length === 0) {
+  //   let product = cloneDeep(originalProduct);
+  //   product.role = "";
+  //   dispatch(getAllProducts(product));
+  // } else {
+  //   let data = convertListProducts(listAllProducts);
+  //   setListProducts(data);
+  // }
+  console.log("a");
 
-      tags: ["loser"],
-    },
-    {
-      key: "9",
-      name: "Joe Black",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["cool", "teacher"],
-    },
-    {
-      key: "10",
-      name: "John Brown",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
-      date: new Date(),
-      tags: ["active", "Tồn kho"],
-    },
-    {
-      key: "11",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["loser"],
-    },
-    {
-      key: "12",
-      name: "Joe Black",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["cool", "teacher"],
-    },
-    {
-      key: "13",
-      name: "John Brown",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
-      date: new Date(),
-      tags: ["active", "Tồn kho"],
-    },
-    {
-      key: "14",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["loser"],
-    },
-  ];
   return (
     <div className="ps-main__wrapper">
       <div className="header--dashboard">
@@ -273,13 +168,22 @@ const Products: React.FC = () => {
             <form className="ps-form--filter" action="index.html" method="get">
               <div className="ps-form__left">
                 <div className="form-group">
-                  <SelectOption className="select-category" placeholder="Lựa chọn danh mục"/>
+                  <SelectOption
+                    className="select-category"
+                    placeholder="Lựa chọn danh mục"
+                  />
                 </div>
                 <div className="form-group">
-                  <SelectOption className="select-category" placeholder='Lựa chọn thương hiệu'/>
+                  <SelectOption
+                    className="select-category"
+                    placeholder="Lựa chọn thương hiệu"
+                  />
                 </div>
                 <div className="form-group">
-                  <SelectOption className="select-category" placeholder='Trạng thái'/>
+                  <SelectOption
+                    className="select-category"
+                    placeholder="Trạng thái"
+                  />
                 </div>
               </div>
               <div className="ps-form__right">
@@ -296,7 +200,10 @@ const Products: React.FC = () => {
               action="index.html"
               method="get"
             >
-              <Search className="search-category" placeholder="Tìm kiếm sản phẩm..." />
+              <Search
+                className="search-category"
+                placeholder="Tìm kiếm sản phẩm..."
+              />
               <button>
                 <IoSearchOutline />
               </button>
