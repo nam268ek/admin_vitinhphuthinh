@@ -16,9 +16,7 @@ import { setIsLoading } from "../redux/Slices/PrimarySlice";
 
 const Products: React.FC = () => {
   const dispatch = useDispatch();
-  const { listAllProducts, statusUpdated, statusResponse } = useSelector(
-    (state: any) => state.product
-  );
+  const { listAllProducts } = useSelector((state: any) => state.product);
 
   const columns = [
     {
@@ -115,26 +113,29 @@ const Products: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (listAllProducts.length === 0 || statusUpdated) {
-      let product = cloneDeep(originalProduct);
-      product.role = "";
-      dispatch(setIsLoading(true));
-      dispatch(getAllProducts(product));
-      dispatch(setIsLoading(false));
-    }
-  }, []);
+    const handleGetProducts = async () => {
+      if (listAllProducts.length === 0) {
+        let product = cloneDeep(originalProduct);
+        product.role = "";
+        dispatch(setIsLoading(true));
+        await dispatch(getAllProducts(product));
+        dispatch(setIsLoading(false));
+      }
+    };
+    handleGetProducts();
+  }, [dispatch]);
 
-  React.useEffect(() => {
-    if (
-      statusResponse &&
-      statusResponse.status === "success" &&
-      statusResponse.code === 200
-    ) {
-      message.success(statusResponse.message);
-    } else {
-      message.error(statusResponse.message);
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   if (
+  //     statusResponse &&
+  //     statusResponse.status === "success" &&
+  //     statusResponse.code === 200
+  //   ) {
+  //     message.success(statusResponse.message);
+  //   } else {
+  //     message.error(statusResponse.message);
+  //   }
+  // }, []);
 
   const data = convertListProducts(listAllProducts ? listAllProducts : []);
 

@@ -13,16 +13,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { originalProduct } from "../Services/general.service";
 
 const NavBarMenu: React.FC = () => {
-  // const dispatch = useDispatch();
-  // const { listAllProducts } = useSelector((state: any) => state.product);
+  const dispatch = useDispatch();
+  const { listAllProducts } = useSelector((state: any) => state.product);
 
-  // const handleGetProducts = () => {
-  //   let product = cloneDeep(originalProduct);
-  //   product.role = "";
-  //   dispatch(setIsLoading(true));
-  //   dispatch(getAllProducts(product));
-  //   dispatch(setIsLoading(false));
-  // };
+  const handleGetProducts = async () => {
+    if (listAllProducts.length === 0) {
+      let product = cloneDeep(originalProduct);
+      product.role = "";
+      dispatch(setIsLoading(true));
+      await dispatch(getAllProducts(product));
+      dispatch(setIsLoading(false));
+    }
+  };
 
   return (
     <div className="ps-main__sidebar">
@@ -63,7 +65,7 @@ const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/products"
-                
+                  onClick={handleGetProducts}
                   className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   <FiDatabase />
