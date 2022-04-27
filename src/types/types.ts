@@ -310,7 +310,10 @@ export interface ISearchService {
 export interface ISelectService {
     placeholder?: string;
     className?: string;
-    defaultValue?: string;
+    defaultValue?: any;
+    isCategory?: boolean;
+    isBrand?: boolean;
+    isStatus?: boolean;
 }
 export interface IProtectedRoute {
     redirectPath: string;

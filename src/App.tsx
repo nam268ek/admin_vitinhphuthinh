@@ -28,7 +28,7 @@ const App: React.FC = () => {
             <NavBarMenu />
           </header>
         )}
-
+        
         <main style={isLogin ? { marginLeft: "320px" } : {}}>
           {isLoading && <Loading />}
 

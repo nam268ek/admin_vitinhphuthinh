@@ -31,6 +31,7 @@ const initialState = {
   listImages: [],
   listAllProducts: [],
   statusResponse: {},
+  dataFilter: [],
 };
 
 const productSlice = createSlice({
@@ -40,6 +41,12 @@ const productSlice = createSlice({
     updateListImages: (state: any, action: any) => {
       state.listImages = action.payload;
     },
+    filterListProducts: (state: any, action: any) => {
+      state.dataFilter = action.payload;
+    },
+    setDefaultDataFilter: (state: any, action: any) => {
+      state.dataFilter = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -62,9 +69,10 @@ const productSlice = createSlice({
           code: action.payload.code,
         };
         state.listAllProducts = action.payload.data;
+        state.dataFilter = action.payload.data;
       });
   },
 });
 const { reducer } = productSlice;
-export const { updateListImages } = productSlice.actions;
+export const { updateListImages, filterListProducts, setDefaultDataFilter } = productSlice.actions;
 export default reducer;

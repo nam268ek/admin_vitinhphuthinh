@@ -1,6 +1,6 @@
 import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
-import { FiFilter } from "react-icons/fi";
+import { BiRefresh } from "react-icons/bi";
 import { FaPlusCircle } from "react-icons/fa";
 import { Table, Tag, Space, Button, message } from "antd";
 import moment from "moment";
@@ -9,14 +9,19 @@ import { Link } from "react-router-dom";
 import SelectOption from "../common/SelectOption";
 import Search from "./../Search/Search";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllProducts } from "../redux/Slices/productSlice";
+import {
+  getAllProducts,
+  setDefaultDataFilter,
+} from "../redux/Slices/productSlice";
 import { originalProduct } from "../Services/general.service";
 import { cloneDeep } from "lodash";
 import { setIsLoading } from "../redux/Slices/PrimarySlice";
 
 const Products: React.FC = () => {
   const dispatch = useDispatch();
-  const { listAllProducts } = useSelector((state: any) => state.product);
+  const { dataFilter, listAllProducts } = useSelector(
+    (state: any) => state.product
+  );
 
   const columns = [
     {
@@ -114,13 +119,11 @@ const Products: React.FC = () => {
 
   React.useEffect(() => {
     const handleGetProducts = async () => {
-      if (listAllProducts.length === 0) {
-        let product = cloneDeep(originalProduct);
-        product.role = "";
-        dispatch(setIsLoading(true));
-        await dispatch(getAllProducts(product));
-        dispatch(setIsLoading(false));
-      }
+      let product = cloneDeep(originalProduct);
+      product.role = "";
+      dispatch(setIsLoading(true));
+      await dispatch(getAllProducts(product));
+      dispatch(setIsLoading(false));
     };
     handleGetProducts();
   }, [dispatch]);
@@ -137,7 +140,7 @@ const Products: React.FC = () => {
   //   }
   // }, []);
 
-  const data = convertListProducts(listAllProducts ? listAllProducts : []);
+  const data = convertListProducts(dataFilter ? dataFilter : []);
 
   // if (listAllProducts.length === 0) {
   //   let product = cloneDeep(originalProduct);
@@ -148,6 +151,10 @@ const Products: React.FC = () => {
   //   setListProducts(data);
   // }
   console.log("a");
+
+  const handleDefaultData = () => {
+    dispatch(setDefaultDataFilter(listAllProducts));
+  };
 
   return (
     <div className="ps-main__wrapper">
@@ -172,25 +179,32 @@ const Products: React.FC = () => {
                   <SelectOption
                     className="select-category"
                     placeholder="Lựa chọn danh mục"
+                    isCategory={true}
                   />
                 </div>
                 <div className="form-group">
                   <SelectOption
                     className="select-category"
                     placeholder="Lựa chọn thương hiệu"
+                    isBrand={true}
                   />
                 </div>
                 <div className="form-group">
                   <SelectOption
                     className="select-category"
                     placeholder="Trạng thái"
+                    isStatus={true}
                   />
                 </div>
               </div>
               <div className="ps-form__right">
-                <Button type="primary" className="ps-btn-secondary">
-                  <FiFilter />
-                  <span>Filter</span>
+                <Button
+                  type="primary"
+                  className="ps-btn-secondary"
+                  onClick={handleDefaultData}
+                >
+                  <BiRefresh size={20}/>
+                  <span>Refresh</span>
                 </Button>
               </div>
             </form>

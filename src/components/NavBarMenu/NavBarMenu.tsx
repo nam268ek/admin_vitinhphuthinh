@@ -6,26 +6,8 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
 import { NavLink } from "react-router-dom";
-import { setIsLoading } from "../redux/Slices/PrimarySlice";
-import { cloneDeep } from "lodash";
-import { getAllProducts } from "../redux/Slices/productSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { originalProduct } from "../Services/general.service";
 
 const NavBarMenu: React.FC = () => {
-  const dispatch = useDispatch();
-  const { listAllProducts } = useSelector((state: any) => state.product);
-
-  const handleGetProducts = async () => {
-    if (listAllProducts.length === 0) {
-      let product = cloneDeep(originalProduct);
-      product.role = "";
-      dispatch(setIsLoading(true));
-      await dispatch(getAllProducts(product));
-      dispatch(setIsLoading(false));
-    }
-  };
-
   return (
     <div className="ps-main__sidebar">
       <div className="ps-sidebar">
@@ -65,7 +47,6 @@ const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/products"
-                  onClick={handleGetProducts}
                   className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   <FiDatabase />

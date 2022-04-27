@@ -28,12 +28,12 @@ const Login: React.FC = () => {
     formState: { errors },
   } = useForm(formOptions);
 
-  const onSubmit = handleSubmit((data: any) => {
+  const onSubmit = handleSubmit(async (data: any) => {
     const bodyLogin: any = cloneDeep(originalRegister);
     bodyLogin.email = data.email;
     bodyLogin.password = data.password;
     dispatch(setIsLoading(true));
-    dispatch(RequestLogin(bodyLogin));
+    await dispatch(RequestLogin(bodyLogin));
     dispatch(setIsLoading(false));
   });
 
