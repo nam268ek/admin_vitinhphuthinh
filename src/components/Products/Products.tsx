@@ -173,7 +173,7 @@ const Products: React.FC = () => {
         </div>
         <div className="ps-section__header">
           <div className="ps-section__filter">
-            <form className="ps-form--filter" action="index.html" method="get">
+            <form className="ps-form--filter">
               <div className="ps-form__left">
                 <div className="form-group">
                   <SelectOption
