@@ -50,8 +50,8 @@ export const originalCategory: any = {
   data: {
     title: "",
     icon: "",
+    index: "",
     submenuTitle: "",
-    submenuTitle2: "",
     submenu: [
       {
         id: "",
