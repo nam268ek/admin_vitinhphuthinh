@@ -323,3 +323,6 @@ export interface IProtectedRoute {
 export interface INavBarMenu {
     isProtected: boolean;
 }
+export interface IModalBox {
+    statusResponse: any,
+}

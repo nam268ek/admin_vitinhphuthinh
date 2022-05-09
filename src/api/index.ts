@@ -26,17 +26,17 @@ const APIClientService = {
     const url = '/register';
     return AxiosClient.post(url, { params });
   },
-  getAll: () => {
-    const url = '/themes';
-    return AxiosClient.get(url);
+  getCategory: ( params: any) => {
+    const url = '/categories';
+    return AxiosClient.post(url, { params });
   },
-  getLimit: (params: any) => {
-    const url = '/themes';
-    return AxiosClient.get(url, { params });
+  removeCategory: (params: any) => {
+    const url = '/categories';
+    return AxiosClient.post(url, { params });
   },
-  showCase: () => {
-    const url = '/showcase';
-    return AxiosClient.get(url);
+  createCategory: (params: any) => {
+    const url = '/categories';
+    return AxiosClient.post(url, { params });
   },
   getLimitShowCase: (params: any) => {
     const url = '/showcase';

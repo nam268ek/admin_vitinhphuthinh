@@ -1,47 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Space } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { IModalBox } from "./../../types/types";
 
-const ModalBox: React.FC = () => {
-  const [visible, setVisible] = useState(false);
+const ModalBox: React.FC<IModalBox> = ({ statusResponse }) => {
+  const [visible, setVisible] = useState(true);
+  console.log(statusResponse);
+  const confirm = () => {
+    Modal.confirm({
+      title: 'Confirm',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Bla bla ...',
+      okText: '确认',
+      cancelText: '取消',
+    });
+  }
   return (
     <>
-      <Button type="primary" onClick={(e) => setVisible(true)}>
-        Modal
-      </Button>
-      <Modal
-        title="Modal"
+    <div onLoadCapture={confirm}></div>
+      {/* <Modal
         visible={visible}
         onOk={(e) => setVisible(false)}
-        onCancel={(e) => setVisible(false)}
         okText="OK"
-        cancelText="Cancel"
       >
-        <p>Bla bla ...</p>
-        <p>Bla bla ...</p>
-        <p>Bla bla ...</p>
-      </Modal>
+        <p>{statusResponse[0].message}</p>
+      </Modal> */}
     </>
   );
 };
 
 export default ModalBox;
-
-// }
-
-// function confirm() {
-//   Modal.confirm({
-//     title: 'Confirm',
-//     icon: <ExclamationCircleOutlined />,
-//     content: 'Bla bla ...',
-//     okText: '确认',
-//     cancelText: '取消',
-//   });
-// }
-
-// export default () => (
-//   <Space>
-//     <LocalizedModal />
-//     <Button onClick={confirm}>Confirm</Button>
-//   </Space>
-// );

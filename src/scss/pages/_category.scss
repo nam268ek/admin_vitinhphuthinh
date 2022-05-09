@@ -22,6 +22,7 @@
         background-color: rgb(156, 211, 255);
         color: #188acd;
     }
+    transition: transform 250ms;
 }
 .ps-btn-red {
     display: block;
@@ -34,4 +35,14 @@
         background-color: #ffc4b9;
         color: #f5222d;
     }
+    transition: transform 250ms;
+}
+.ps-box-edit {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    transition: transform 250ms;
+}
+.focus-edit {
+    // transition: all 0.3s ease-in-out;
+    opacity: 0.6;
+    transition: transform 250ms;
 }

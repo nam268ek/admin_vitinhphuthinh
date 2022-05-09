@@ -150,7 +150,6 @@ const Products: React.FC = () => {
   //   let data = convertListProducts(listAllProducts);
   //   setListProducts(data);
   // }
-  console.log("a");
 
   const handleDefaultData = () => {
     dispatch(setDefaultDataFilter(listAllProducts));

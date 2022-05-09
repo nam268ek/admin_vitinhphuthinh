@@ -1,3 +1,6 @@
+import { Modal } from "antd";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
 export const originalRegister: any = {
   email: "",
   password: "",
@@ -51,6 +54,7 @@ export const originalCategory: any = {
     title: "",
     icon: "",
     index: "",
+    link: '',
     submenuTitle: "",
     submenu: [
       {
@@ -74,3 +78,16 @@ export const originalCategory: any = {
 //     { id: 5, title: "Dell Vostro", category: "dellProducts" },
 //   ],
 // },
+
+export const convertListCategory = (list: any[]) => {
+  return list.map((item: any, index: number) => {
+    return {
+      id: item._id,
+      key: index,
+      index: item.index,
+      category: item.title,
+      link: item.link,
+      created_at: item.created_at ? item.created_at : "",
+    };
+  });
+};
