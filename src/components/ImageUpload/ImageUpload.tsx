@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Upload } from "antd";
+import { Form, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import { IImageUpload } from "../../types/types";
 import { Controller, useForm } from "react-hook-form";
@@ -15,16 +15,26 @@ const getSrcFromFile = (file: any) => {
   });
 };
 
-const ImageUpload: React.FC<IImageUpload> = ({
-  styleClassName,
-  maxNumberOfFiles,
-  multiple,
-}) => {
+const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles, multiple, listFileUpdate }) => {
   const { control } = useForm<any>();
   const [fileList, setFileList] = useState<any>([]);
   const [listPath, setListPath] = useState<any>([]);
   const { Dragger }: { Dragger: any } = Upload;
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (listFileUpdate.length > 0) {
+      const data = listFileUpdate.map((item: any) => {
+        return {
+          uid: item.public_id,
+          name: item.name,
+          status: "done",
+          url: item.secure_url,
+        };
+      });
+      setFileList(data);
+    } else setFileList([]);
+  }, [listFileUpdate]);
 
   const onChange = ({ fileList }: { fileList: any }) => {
     setFileList(fileList);
@@ -43,20 +53,20 @@ const ImageUpload: React.FC<IImageUpload> = ({
     }
   };
 
-  const onRemove = ( file: any ) => {
-    for(let item of listPath) {
-      if(item.name === file.name) {
+  const onRemove = (file: any) => {
+    for (let item of listPath) {
+      if (item.name === file.name) {
         const newListPath = listPath.filter((item: any) => item.name !== file.name);
         setListPath(newListPath);
       }
     }
-    for(let item of fileList) {
-      if(item.name === file.name) {
+    for (let item of fileList) {
+      if (item.name === file.name) {
         const newFileList = fileList.filter((item: any) => item.name !== file.name);
         setFileList(newFileList);
       }
     }
-  }
+  };
 
   const uploadImage = async (options: any) => {
     const { onSuccess, onError, file } = options;
@@ -91,8 +101,6 @@ const ImageUpload: React.FC<IImageUpload> = ({
           {...field}
           accept="image/*"
           customRequest={uploadImage}
-          // action={action.url}
-          // action={process.env.REACT_APP_DEV_API_URL + "image-upload"}
           listType="picture-card"
           className={styleClassName}
           fileList={fileList}
@@ -104,20 +112,6 @@ const ImageUpload: React.FC<IImageUpload> = ({
         </Upload>
       )}
     />
-
-    // </ImgCrop>
-    // <Dragger
-    //   accept="image/*"
-    //   customRequest={uploadImage}
-    //   multiple={true}
-    //   // action={action.url}
-    //   // action={process.env.REACT_APP_DEV_API_URL + "image-upload"}
-    //   listType="picture-card"
-    //   className={styleClassName}
-    //   fileList={fileList}
-    //   onChange={onChange}
-    //   onPreview={onPreview}
-    // ></Dragger>
   );
 };
 

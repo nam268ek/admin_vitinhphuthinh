@@ -38,9 +38,9 @@ const APIClientService = {
     const url = '/categories';
     return AxiosClient.post(url, { params });
   },
-  getLimitShowCase: (params: any) => {
-    const url = '/showcase';
-    return AxiosClient.get(url, { params });
+  removeProduct: (params: any) => {
+    const url = '/products';
+    return AxiosClient.post(url, { params });
   },
   getDetailShowCase: () => {
     const url = '/detail';

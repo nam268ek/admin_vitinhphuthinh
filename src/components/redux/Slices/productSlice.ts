@@ -1,37 +1,35 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import APIClientService from "../../../api";
 
-export const createProduct: any = createAsyncThunk(
-  "CREATE_PRODUCT",
-  async (params: any) => {
-    const data: any = await APIClientService.createNewProduct(params).catch(
-      (err: any) => {
-        return err.response.data;
-      }
-    );
-    return data;
-  }
-);
+export const createProduct: any = createAsyncThunk("CREATE_PRODUCT", async (params: any) => {
+  const data: any = await APIClientService.createNewProduct(params).catch((err: any) => {
+    return err.response.data;
+  });
+  return data;
+});
 
-export const getAllProducts: any = createAsyncThunk(
-  "GET_ALL_PRODUCT",
-  async (params: any) => {
-    const data: any = await APIClientService.getAllProducts(params).catch(
-      (err: any) => {
-        return err.response.data;
-      }
-    );
-    return data;
-  }
-);
+export const getAllProducts: any = createAsyncThunk("GET_ALL_PRODUCT", async (params: any) => {
+  const data: any = await APIClientService.getAllProducts(params).catch((err: any) => {
+    return err.response.data;
+  });
+  return data;
+});
+
+export const removeItemProduct: any = createAsyncThunk("REMOVE_ITEM_PRODUCT", async (params: any) => {
+  const data: any = await APIClientService.removeProduct(params).catch((err: any) => {
+    return err.response.data;
+  });
+  return data;
+});
 
 const initialState = {
   statusUpdated: false,
   data: {},
   listImages: [],
   listAllProducts: [],
-  statusResponse: {},
+  statusResponse: [],
   dataFilter: [],
+  dataUpdate: [],
 };
 
 const productSlice = createSlice({
@@ -46,33 +44,36 @@ const productSlice = createSlice({
     },
     setDefaultDataFilter: (state: any, action: any) => {
       state.dataFilter = action.payload;
+    },
+    updateProduct: (state: any, action: any) => {
+      state.dataUpdate = action.payload;
     }
   },
   extraReducers: (builder) => {
     builder
       .addCase(createProduct.pending, (state: any, action: any) => {
-        state.data = action.payload;
+        state.statusResponse = [];
       })
       .addCase(createProduct.fulfilled, (state: any, action: any) => {
-        if(action.payload.message === 'success') {
-          state.data = action.payload;
-        }
+        state.data = action.payload;
+        state.statusResponse = [...state.statusResponse, action.payload];
       })
       .addCase(getAllProducts.pending, (state: any, action: any) => {
-        state.listAllProducts = [];
-        state.statusResponse = {};
+        state.statusResponse = [];
       })
       .addCase(getAllProducts.fulfilled, (state: any, action: any) => {
-        state.statusResponse = {
-          status: action.payload.status,
-          message: action.payload.message,
-          code: action.payload.code,
-        };
         state.listAllProducts = action.payload.data;
         state.dataFilter = action.payload.data;
+      })
+      .addCase(removeItemProduct.pending, (state: any, action: any) => {
+        state.statusResponse = [];
+      })
+      .addCase(removeItemProduct.fulfilled, (state: any, action: any) => {
+        state.data = action.payload;
+        state.statusResponse = [...state.statusResponse, action.payload];
       });
   },
 });
 const { reducer } = productSlice;
-export const { updateListImages, filterListProducts, setDefaultDataFilter } = productSlice.actions;
+export const { updateListImages, filterListProducts, setDefaultDataFilter, updateProduct } = productSlice.actions;
 export default reducer;

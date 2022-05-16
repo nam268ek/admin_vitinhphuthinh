@@ -43,6 +43,14 @@
                 display: flex;
                 column-gap: 15px;
             }
+            .form-money {
+                position: absolute;
+                right: 1px;
+                top: 1px;
+                padding: 4px 15px;
+                color: #565656;
+                background-color: #f1f1f1;
+            }
         }
     }
 }
@@ -157,7 +165,6 @@
     border-color: #fff0 !important;
     border: 0 !important;
     margin-bottom: 5px;
-
 }
 .ant-tag-red {
     color: rgb(190, 75, 75) !important;
@@ -170,5 +177,4 @@
     border-color: #fff0 !important;
     border: 0 !important;
     margin-bottom: 5px;
-
 }

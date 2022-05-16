@@ -302,6 +302,7 @@ export interface IImageUpload {
     styleClassName?: string;
     maxNumberOfFiles?: number;
     multiple?: boolean;
+    listFileUpdate?: any;
 }
 export interface ISearchService {
     placeholder?: string;
@@ -314,6 +315,7 @@ export interface ISelectService {
     isCategory?: boolean;
     isBrand?: boolean;
     isStatus?: boolean;
+    isDefault?: boolean;
 }
 export interface IProtectedRoute {
     redirectPath: string;
@@ -325,4 +327,7 @@ export interface INavBarMenu {
 }
 export interface IModalBox {
     statusResponse: any,
+}
+export interface ISelectProps {
+    defaultValue?: any;
 }

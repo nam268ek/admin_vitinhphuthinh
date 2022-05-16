@@ -1,6 +1,6 @@
 import React from "react";
 import ImageUpload from "../ImageUpload/ImageUpload";
-import { Form, Input, Select, Button, Space } from "antd";
+import { Form, Input, Select, Button, Space, Modal, InputNumber } from "antd";
 import StatusProduct from "../StatusProduct/StatusProduct";
 import SelectOption from "../common/SelectOption";
 import EditorText from "../common/EditorText";
@@ -9,14 +9,18 @@ import ConfigInfo from "../ConfigInfo/ConfigInfo";
 import { cloneDeep } from "lodash";
 import { originalProduct } from "../Services/general.service";
 import { useDispatch, useSelector } from "react-redux";
-import { createProduct } from "../redux/Slices/productSlice";
+import { createProduct, updateProduct } from "../redux/Slices/productSlice";
 import { setIsLoading } from "../redux/Slices/PrimarySlice";
+import SelectAddItem from "../common/SelectAddItem";
+import { getListCategory } from "../redux/Slices/CategorySlice";
 
 const NewProduct: React.FC = () => {
   const dispatch = useDispatch();
   const childRef = React.useRef<any>(null);
+  const [form] = Form.useForm();
 
-  const { listImages } = useSelector((state: any) => state.product);
+  const { listImages, dataUpdate, statusResponse } = useSelector((state: any) => state.product);
+  const { listAllCategory } = useSelector((state: any) => state.category);
   const maxLength: number = 100;
   const maxLengthTextArea: number = 500;
   const { TextArea } = Input;
@@ -29,18 +33,30 @@ const NewProduct: React.FC = () => {
   } = useForm<any>();
 
   const { Option } = Select;
-  const handleChange = (value: any) => {
-    console.log(`selected ${value}`);
-  };
 
-  const onSubmit = handleSubmit((data) => {
+  React.useEffect(() => {
+    if (statusResponse.length > 0 && statusResponse[0].status === "success") {
+      Modal.success({
+        title: "Thông báo",
+        content: `${statusResponse[0].message}`,
+        okText: "Ok",
+      });
+    }
+  }, [statusResponse]);
+
+  React.useEffect(() => {
+    dispatch(getListCategory({ role: "" }));
+  }, []);
+
+  const onFinish = async (data: any) => {
     const bodyNewProduct = cloneDeep(originalProduct);
     bodyNewProduct.action = "create";
     bodyNewProduct.data.img = listImages || [];
     bodyNewProduct.data.title = data.nameprod || "";
+    bodyNewProduct.data.contsum = data.prodsummary || "";
     bodyNewProduct.data.price = data.pricesale ? parseInt(data.pricesale) : "";
-    bodyNewProduct.data.label =
-      (((data.oriprice - data.pricesale) / data.oriprice) * 100) | 0;
+    bodyNewProduct.data.pricesale = data.pricesale ? parseInt(data.pricesale) : "";
+    bodyNewProduct.data.label = (((data.oriprice - data.pricesale) / data.oriprice) * 100) | 0;
     bodyNewProduct.data.brand = data.brand ? data.brand : "";
     bodyNewProduct.data.category = data.category ? data.category : "";
     bodyNewProduct.data.count = data.count ? parseInt(data.count) : 1;
@@ -60,13 +76,17 @@ const NewProduct: React.FC = () => {
     bodyNewProduct.data.contentInfo.extend = data.extend ? data.extend : "";
     bodyNewProduct.data.contentInfo.battery = data.battery ? data.battery : "";
     bodyNewProduct.data.contentInfo.weight = data.weight ? data.weight : "";
-    
+
     console.log(bodyNewProduct);
 
     dispatch(setIsLoading(true));
-    dispatch(createProduct(bodyNewProduct));
+    await dispatch(createProduct(bodyNewProduct));
     dispatch(setIsLoading(false));
-  });
+  };
+
+  const resetForm = () => {
+    dispatch(updateProduct([]));
+  };
 
   return (
     <div className="ps-main__wrapper">
@@ -79,7 +99,7 @@ const NewProduct: React.FC = () => {
         </div>
       </div>
       <section className="ps-new-item">
-        <form className="ps-form ps-form--new-product" onSubmit={onSubmit}>
+        <Form className="ps-form ps-form--new-product" form={form} onFinish={onFinish}>
           <div className="ps-form__content">
             <div className="row">
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
@@ -90,134 +110,110 @@ const NewProduct: React.FC = () => {
                       <label>
                         Tên sản phẩm<sup>*</sup>
                       </label>
-                      <Controller
+                      <Form.Item
                         name="nameprod"
-                        defaultValue=""
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            maxLength={maxLength}
-                            showCount
-                            placeholder="Nhập tên sản phẩm..."
-                            onChange={(e) => {
-                              setValue(field.name, e.target.value);
-                            }}
-                          />
-                        )}
-                      />
+                        initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}
+                        rules={[
+                          {
+                            required: true,
+                            message: "Vui lòng nhập tên sản phẩm",
+                          },
+                        ]}
+                      >
+                        <Input maxLength={maxLength} showCount placeholder="Nhập tên sản phẩm..." />
+                      </Form.Item>
                     </div>
                     <div className="form-group">
                       <label>
                         Danh mục<sup>*</sup>
                       </label>
-                      <Controller
-                        control={control}
-                        name="category"
-                        render={({ field }) => (
-                          <>
-                            <Select
-                              {...field}
-                              defaultValue="Select Category..."
-                              style={{ width: "100%" }}
-                            >
-                              <Option value="jack">Jack</Option>
-                              <Option value="lucy">Lucy</Option>
-                              <Option value="disabled" disabled>
-                                Disabled
-                              </Option>
-                              <Option value="Yiminghe">yiminghe</Option>
-                            </Select>
-                          </>
-                        )}
-                      />
+                      <StatusProduct list={listAllCategory} defaultValue={dataUpdate[0] ? dataUpdate[0].category : ""} />
                     </div>
                     <div className="form-group">
                       <label>
                         Tóm tắt sản phẩm<sup>*</sup>
                       </label>
-                      <Controller
+                      <Form.Item
                         name="prodsummary"
-                        defaultValue=""
-                        control={control}
-                        render={({ field }) => (
-                          <TextArea
-                            {...field}
-                            style={{ height: "195px" }}
-                            maxLength={maxLengthTextArea}
-                            showCount
-                            onChange={(e) => {
-                              setValue(field.name, e.target.value);
-                            }}
-                          />
-                        )}
-                      />
+                        initialValue={dataUpdate[0] ? dataUpdate[0].contsum : ""}
+                        rules={[
+                          {
+                            required: true,
+                            message: "Vui lòng nhập tóm tắt sản phẩm",
+                          },
+                        ]}
+                      >
+                        <TextArea style={{ height: "195px" }} maxLength={maxLengthTextArea} showCount />
+                      </Form.Item>
                     </div>
                     <div className="form-group">
                       <label>
                         Giá gốc<sup>*</sup>
                       </label>
-                      <Controller
-                        name="oriprice"
-                        defaultValue=""
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            type="number"
-                            maxLength={maxLength}
-                            showCount
-                            placeholder="Nhập tên sản phẩm..."
-                            onChange={(e) => {
-                              setValue(field.name, e.target.value);
-                            }}
+                      <Form.Item
+                        initialValue={dataUpdate[0] ? dataUpdate[0].previousPrice : ""}
+                        rules={[
+                          {
+                            required: true,
+                            message: "Vui lòng nhập giá gốc",
+                          },
+                        ]}
+                      >
+                        <Form.Item
+                          name="oriprice"
+                          noStyle
+                          initialValue={dataUpdate[0] ? dataUpdate[0].previousPrice : ""}
+                          rules={[
+                            {
+                              required: true,
+                              message: "Vui lòng nhập giá gốc",
+                            },
+                          ]}
+                        >
+                          <InputNumber
+                            min={0}
+                            max={1000000000}
+                            formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            parser={(value: any) => value.replace(/\$\s?|(,*)/g, "")}
+                            style={{ width: "100%" }}
+                            placeholder="Nhập giá gốc..."
                           />
-                        )}
-                      />
+                        </Form.Item>
+                        <span className="form-money">VND</span>
+                      </Form.Item>
                     </div>
                     <div className="form-group">
-                      <label>
-                        Giá khuyến mãi<sup>*</sup>
-                      </label>
-                      <Controller
-                        name="pricesale"
-                        defaultValue=""
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            type="number"
-                            maxLength={maxLength}
-                            showCount
-                            placeholder="Nhập tên sản phẩm..."
-                            onChange={(e) => {
-                              setValue(field.name, e.target.value);
-                            }}
+                      <label>Giá khuyến mãi</label>
+                      <Form.Item initialValue={dataUpdate[0] ? dataUpdate[0].pricesale : ""} style={{ position: "relative" }}>
+                        <Form.Item name="pricesale" initialValue={dataUpdate[0] ? dataUpdate[0].pricesale : ""} noStyle>
+                          <InputNumber
+                            min={0}
+                            max={1000000000}
+                            formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            parser={(value: any) => value.replace(/\$\s?|(,*)/g, "")}
+                            style={{ width: "100%" }}
+                            placeholder="Nhập giá sale..."
                           />
-                        )}
-                      />
+                        </Form.Item>
+                        <span className="form-money">VND</span>
+                      </Form.Item>
                     </div>
                     <div className="form-group">
                       <label>
                         Số lượng<sup>*</sup>
                       </label>
-                      <Controller
-                        name="count"
-                        defaultValue=""
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            type="number"
-                            maxLength={maxLength}
-                            showCount
-                            placeholder="Nhập tên sản phẩm..."
-                            onChange={(e) => {
-                              setValue(field.name, e.target.value);
-                            }}
+                      <Form.Item noStyle initialValue={dataUpdate[0] ? dataUpdate[0].count : 0}>
+                        <Form.Item name="count" initialValue={dataUpdate[0] ? dataUpdate[0].count : 0}>
+                          <InputNumber
+                            min={0}
+                            max={500}
+                            formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            parser={(value: any) => value.replace(/\$\s?|(,*)/g, "")}
+                            style={{ width: "100%" }}
+                            placeholder="Nhập số lượng..."
                           />
-                        )}
-                      />
+                        </Form.Item>
+                      </Form.Item>
                     </div>
                   </div>
                 </figure>
@@ -229,7 +225,7 @@ const NewProduct: React.FC = () => {
                     <div className="form-group m-0">
                       <label>Thumbnail Sản phẩm</label>
                       <div className="form-group--nest">
-                        <ImageUpload maxNumberOfFiles={3} />
+                        <ImageUpload maxNumberOfFiles={3} listFileUpdate={dataUpdate[0] ? dataUpdate[0].img : []} />
                       </div>
                     </div>
                   </div>
@@ -241,27 +237,18 @@ const NewProduct: React.FC = () => {
                       <label>
                         SKU<sup>*</sup>
                       </label>
-                      <Controller
+                      <Form.Item
                         name="sku"
-                        defaultValue=""
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            maxLength={maxLength}
-                            showCount
-                            onChange={(e) => {
-                              setValue(field.name, e.target.value);
-                            }}
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className="form-group form-group--select">
-                      <label>Trạng thái</label>
-                      <div className="form-group__content">
-                        <StatusProduct />
-                      </div>
+                        initialValue={dataUpdate[0] ? dataUpdate[0].sku : ""}
+                        rules={[
+                          {
+                            required: true,
+                            message: "Vui lòng nhập SKU",
+                          },
+                        ]}
+                      >
+                        <Input maxLength={maxLength} showCount placeholder="Nhập SKU sản phẩm..." />
+                      </Form.Item>
                     </div>
                   </div>
                 </figure>
@@ -273,45 +260,14 @@ const NewProduct: React.FC = () => {
                         Thương hiệu<sup>*</sup>
                       </label>
                       <div className="form-group__content">
-                        <Controller
-                          control={control}
-                          name="brand"
-                          render={({ field }) => (
-                            <>
-                              <Select
-                                {...field}
-                                defaultValue="Select Category..."
-                                style={{ width: "100%" }}
-                              >
-                                <Option value="jack">Jack</Option>
-                                <Option value="lucy">Lucy</Option>
-                                <Option value="disabled" disabled>
-                                  Disabled
-                                </Option>
-                                <Option value="Yiminghe">yiminghe</Option>
-                              </Select>
-                            </>
-                          )}
-                        />
+                        <SelectAddItem defaultValue={dataUpdate[0] ? dataUpdate[0].brand : ""} />
                       </div>
                     </div>
                     <div className="form-group">
                       <label>Tags</label>
-                      <Controller
-                        name="tags"
-                        defaultValue=""
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            maxLength={maxLength}
-                            showCount
-                            onChange={(e) => {
-                              setValue(field.name, e.target.value);
-                            }}
-                          />
-                        )}
-                      />
+                      <Form.Item name="tags">
+                        <Input maxLength={maxLength} showCount />
+                      </Form.Item>
                     </div>
                   </div>
                 </figure>
@@ -320,55 +276,34 @@ const NewProduct: React.FC = () => {
           </div>
           <figure className="ps-block--form-box">
             <figcaption>Mô tả sản phẩm</figcaption>
-            <EditorText ref={childRef} />
+            <EditorText ref={childRef} defaultValue={dataUpdate[0] ? dataUpdate[0].contentEditor : "<p></p>"} />
           </figure>
           <figure className="ps-block--form-box">
             <figcaption>Thông tin cấu hình</figcaption>
             <div className="ps-block__content">
               <ConfigInfo
-                onSubmit={onSubmit}
+                onSubmit={onFinish}
                 setValue={setValue}
                 control={control}
                 maxLength={maxLength}
                 maxLengthTextArea={maxLengthTextArea}
+                defaultValue={dataUpdate[0] ? dataUpdate[0].contentInfo : ""}
               />
             </div>
           </figure>
           <div className="ps-form__bottom">
-            <Space style={{ width: "100%", justifyContent: "flex-end" }}>
-              <Controller
-                name="back"
-                defaultValue=""
-                control={control}
-                render={({ field }) => (
-                  <Button
-                    {...field}
-                    type="primary"
-                    loading={false}
-                    htmlType="reset"
-                  >
-                    Reset
-                  </Button>
-                )}
-              />
-              <Controller
-                name="submit"
-                defaultValue=""
-                control={control}
-                render={({ field }) => (
-                  <Button
-                    {...field}
-                    type="primary"
-                    htmlType="submit"
-                    loading={false}
-                  >
-                    Submit
-                  </Button>
-                )}
-              />
-            </Space>
+            <Form.Item>
+              <Space style={{ width: "100%", justifyContent: "flex-end" }}>
+                <Button type="primary" loading={false} htmlType="reset" onClick={resetForm}>
+                  Reset
+                </Button>
+                <Button type="primary" htmlType="submit" loading={false}>
+                  Submit
+                </Button>
+              </Space>
+            </Form.Item>
           </div>
-        </form>
+        </Form>
       </section>
     </div>
   );

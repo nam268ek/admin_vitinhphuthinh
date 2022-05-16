@@ -1,38 +1,24 @@
 import React from "react";
-import { Select } from "antd";
+import { Form, Select } from "antd";
 import { ISelectService } from "../../types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { filterListProducts } from "../redux/Slices/productSlice";
 
-const SelectOption: React.FC<ISelectService> = ({
-  className,
-  placeholder,
-  defaultValue,
-  isCategory,
-  isBrand,
-  isStatus,
-}) => {
+const SelectOption: React.FC<ISelectService> = ({ className, placeholder, defaultValue, isCategory, isBrand, isStatus, isDefault }) => {
+  const [form] = Form.useForm<any>();
+  const [selectedValues, setSelectedValues] = React.useState<any>([]);
   const dispatch = useDispatch();
   const { listAllProducts } = useSelector((state: any) => state.product);
   const { Option } = Select;
-  const dataCategory = [
-    "Laptop Dell",
-    "Laptop Asus",
-    "Laptop Lenovo",
-    "Máy in",
-    "jack",
-    "Yiminghe",
-    "lucy",
-  ];
+  const dataCategory = ["Laptop Dell", "Laptop Asus", "Laptop Lenovo", "Máy in", "jack", "Yiminghe", "lucy"];
   const dataBrand = ["Dell", "Asus", "Lenovo", "HP", "Canon"];
   const dataStatus = ["Còn hàng", "Hết hàng"];
 
   const handleChange = (e: any, select: any) => {
+    setSelectedValues(e);
     //filter data for select
     if (select === "category") {
-      const data: any = listAllProducts.filter(
-        (item: any) => item.category === e
-      );
+      const data: any = listAllProducts.filter((item: any) => item.category === e);
       dispatch(filterListProducts(data));
     }
     if (select === "brand") {
@@ -40,12 +26,14 @@ const SelectOption: React.FC<ISelectService> = ({
       dispatch(filterListProducts(data));
     }
     if (select === "status") {
-      const data: any = listAllProducts.filter(
-        (item: any) => item.status === e
-      );
+      const data: any = listAllProducts.filter((item: any) => item.status === e);
       dispatch(filterListProducts(data));
     }
   };
+
+  React.useEffect(() => {
+    setSelectedValues([]);
+  }, [isDefault]);
 
   if (isCategory) {
     return (
@@ -53,6 +41,7 @@ const SelectOption: React.FC<ISelectService> = ({
         className={className}
         placeholder={placeholder}
         onChange={(e) => handleChange(e, "category")}
+        value={selectedValues}
       >
         {dataCategory.map((item, index) => (
           <Option key={index} value={item}>
@@ -63,11 +52,7 @@ const SelectOption: React.FC<ISelectService> = ({
     );
   } else if (isBrand) {
     return (
-      <Select
-        className={className}
-        placeholder={placeholder}
-        onChange={(e) => handleChange(e, "brand")}
-      >
+      <Select className={className} placeholder={placeholder} onChange={(e) => handleChange(e, "brand")} value={selectedValues}>
         {dataBrand.map((item, index) => (
           <Option key={index} value={item}>
             {item}
@@ -77,11 +62,7 @@ const SelectOption: React.FC<ISelectService> = ({
     );
   } else if (isStatus) {
     return (
-      <Select
-        className={className}
-        placeholder={placeholder}
-        onChange={(e) => handleChange(e, "status")}
-      >
+      <Select className={className} placeholder={placeholder} onChange={(e) => handleChange(e, "status")} value={selectedValues}>
         {dataStatus.map((item, index) => (
           <Option key={index} value={item}>
             {item}
@@ -90,13 +71,7 @@ const SelectOption: React.FC<ISelectService> = ({
       </Select>
     );
   } else
-    return (
-      <Select
-        placeholder={placeholder}
-        className={className}
-        onChange={(e) => handleChange(e, "category")}
-      ></Select>
-    );
+    return <Select placeholder={placeholder} className={className} onChange={(e) => handleChange(e, "category")} value={selectedValues}></Select>;
 };
 
 export default SelectOption;

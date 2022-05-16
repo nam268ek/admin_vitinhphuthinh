@@ -329,7 +329,6 @@ const Categories: React.FC = () => {
                                       }}
                                     >
                                       <Button
-                                        // type={enableSubmenu ? "primary" : "default"}
                                         danger={enableSubmenu ? true : false}
                                         className="ps-btn-secondary"
                                         onClick={() => handleEnableSubmenu(add)}

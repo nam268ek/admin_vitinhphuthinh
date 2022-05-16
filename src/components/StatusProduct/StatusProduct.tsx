@@ -1,48 +1,41 @@
 import React from "react";
-import { Select } from "antd";
+import { Cascader, Form, Select } from "antd";
 
-const StatusProduct: React.FC = () => {
-  const { Option } = Select;
-  const provinceData: any = ["Activate", "Deactivate"];
-  const cityData: any = {
-    Activate: ["Tồn kho", "Hết hàng"],
-    Deactivate: ["Tồn kho", "Hết hàng"],
-  };
-  const [cities, setCities] = React.useState(cityData[provinceData[0]]);
-  const [secondCity, setSecondCity] = React.useState(
-    cityData[provinceData[0]][0]
-  );
+interface IProps {
+  list: any;
+  defaultValue?: any;
+}
 
-  const handleProvinceChange = (value: any) => {
-    setCities(cityData[value]);
-    setSecondCity(cityData[value][0]);
-  };
-
-  const onSecondCityChange = (value: any) => {
-    setSecondCity(value);
+const StatusProduct: React.FC<IProps> = ({ list: listAllCategory, defaultValue }) => {
+  const handleListCascader = () => {
+    return listAllCategory.map((item: any) => {
+      if (item.submenu.length > 0) {
+        return {
+          value: item.title,
+          label: item.title,
+          children: item.submenu?.map((item: any) => {
+            return { value: item.title, label: item.title };
+          }),
+        };
+      }
+      return {
+        value: item.title,
+        label: item.title,
+      };
+    });
   };
 
   return (
-    <>
-      <Select
-        defaultValue={provinceData[0]}
+    <div className="form-group__content">
+      <Form.Item
+        name="category"
+        initialValue={defaultValue}
         style={{ width: "100%" }}
-        onChange={handleProvinceChange}
+        rules={[{ required: true, message: "Vui lòng chọn danh mục" }]}
       >
-        {provinceData.map((province: any) => (
-          <Option key={province}>{province}</Option>
-        ))}
-      </Select>
-      <Select
-       style={{ width: "100%" }}
-        value={secondCity}
-        onChange={onSecondCityChange}
-      >
-        {cities.map((city: any) => (
-          <Option key={city}>{city}</Option>
-        ))}
-      </Select>
-    </>
+        <Cascader placeholder="Chọn danh mục" options={handleListCascader()} />
+      </Form.Item>
+    </div>
   );
 };
 

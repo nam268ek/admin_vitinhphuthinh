@@ -18,7 +18,9 @@ export const originalProduct: any = {
   data: {
     img: "",
     title: "",
+    contsum: "",
     price: 0,
+    pricesale: 0,
     label: "",
     brand: "",
     category: "",
