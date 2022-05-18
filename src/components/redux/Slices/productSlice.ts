@@ -26,6 +26,7 @@ const initialState = {
   statusUpdated: false,
   data: {},
   listImages: [],
+  listImageRemove: [],
   listAllProducts: [],
   statusResponse: [],
   dataFilter: [],
@@ -38,6 +39,9 @@ const productSlice = createSlice({
   reducers: {
     updateListImages: (state: any, action: any) => {
       state.listImages = action.payload;
+    },
+    updateListImageRemove: (state: any, action: any) => {
+      state.listImageRemove = [...state.listImageRemove, action.payload];
     },
     filterListProducts: (state: any, action: any) => {
       state.dataFilter = action.payload;
@@ -75,5 +79,5 @@ const productSlice = createSlice({
   },
 });
 const { reducer } = productSlice;
-export const { updateListImages, filterListProducts, setDefaultDataFilter, updateProduct } = productSlice.actions;
+export const { updateListImages, filterListProducts, setDefaultDataFilter, updateProduct, updateListImageRemove } = productSlice.actions;
 export default reducer;

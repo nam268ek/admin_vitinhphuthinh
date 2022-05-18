@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAllProducts, removeItemProduct, setDefaultDataFilter, updateProduct } from "../redux/Slices/productSlice";
 import { originalProduct } from "../Services/general.service";
 import { cloneDeep } from "lodash";
-import { setIsLoading } from "../redux/Slices/PrimarySlice";
+import { setIsLoading, setAction } from "../redux/Slices/PrimarySlice";
 
 const Products: React.FC = () => {
   const [isDefault, setIsDefault] = React.useState(false);
@@ -106,6 +106,7 @@ const Products: React.FC = () => {
     e.preventDefault();
     const itemEdit = listAllProducts.filter((item: any) => item._id === record.id);
     if (itemEdit.length > 0) {
+      dispatch(setAction("update"));
       dispatch(updateProduct(itemEdit));
       navigate("/products/create-product", { replace: true });
     }
@@ -149,6 +150,7 @@ const Products: React.FC = () => {
   };
 
   const handleAddProduct = () => {
+    dispatch(setAction("create"));
     dispatch(updateProduct([]));
   };
 

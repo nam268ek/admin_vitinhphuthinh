@@ -151,10 +151,10 @@ const Categories: React.FC = () => {
     });
   };
 
-  const checkActionSubmit = () => {
-    if (actionSubmit.action === "create") return actionSubmit.action;
-    if(actionSubmit.action === "update") return actionSubmit.action;
-  }
+  // const checkActionSubmit = () => {
+  //   if (actionSubmit.action === "create") return actionSubmit.action;
+  //   if(actionSubmit.action === "update") return actionSubmit.action;
+  // }
 
   const onFinish = async (data: any) => {
     if (isSubmit) {

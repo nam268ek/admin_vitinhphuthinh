@@ -4,7 +4,7 @@ import ImgCrop from "antd-img-crop";
 import { IImageUpload } from "../../types/types";
 import { Controller, useForm } from "react-hook-form";
 import APIClientService from "../../api";
-import { updateListImages } from "../redux/Slices/productSlice";
+import { updateListImageRemove, updateListImages } from "../redux/Slices/productSlice";
 import { useDispatch } from "react-redux";
 
 const getSrcFromFile = (file: any) => {
@@ -66,6 +66,9 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
         setFileList(newFileList);
       }
     }
+    if(listFileUpdate?.length > 0) {
+      dispatch(updateListImageRemove(file));
+    }
   };
 
   const uploadImage = async (options: any) => {
@@ -89,7 +92,7 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
   useEffect(() => {
     dispatch(updateListImages(listPath));
   }, [listPath, dispatch]);
-
+  console.log("listPath: ", listPath);
   return (
     // <ImgCrop rotate>
     <Controller

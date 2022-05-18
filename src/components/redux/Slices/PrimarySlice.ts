@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    title: "",
+    action: "",
     showSidebarCategories: false,
     showSidebarMenu: false,
     isLoading: false,
@@ -14,15 +14,15 @@ const primarySlice = createSlice({
     name: 'primary',
     initialState,
     reducers: {
-        setTitle: (state, action) => {
-            state.title = action.payload;
+        setAction: (state: any, action: any) => {
+            state.action = action.payload;
         },
-        setIsLoading: (state, action) => {
+        setIsLoading: (state: any, action: any) => {
             state.isLoading = action.payload;
         }
     },
   });
 
 const { reducer } = primarySlice;
-export const { setIsLoading } = primarySlice.actions;
+export const { setIsLoading, setAction } = primarySlice.actions;
 export default reducer;

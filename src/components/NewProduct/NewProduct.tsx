@@ -7,7 +7,7 @@ import EditorText from "../common/EditorText";
 import { useForm, Controller } from "react-hook-form";
 import ConfigInfo from "../ConfigInfo/ConfigInfo";
 import { cloneDeep } from "lodash";
-import { originalProduct } from "../Services/general.service";
+import { openDialogError, originalProduct } from "../Services/general.service";
 import { useDispatch, useSelector } from "react-redux";
 import { createProduct, updateProduct } from "../redux/Slices/productSlice";
 import { setIsLoading } from "../redux/Slices/PrimarySlice";
@@ -19,8 +19,9 @@ const NewProduct: React.FC = () => {
   const childRef = React.useRef<any>(null);
   const [form] = Form.useForm();
 
-  const { listImages, dataUpdate, statusResponse } = useSelector((state: any) => state.product);
+  const { listImages, dataUpdate, statusResponse, listImageRemove } = useSelector((state: any) => state.product);
   const { listAllCategory } = useSelector((state: any) => state.category);
+  const { action } = useSelector((state: any) => state.primary);
   const maxLength: number = 100;
   const maxLengthTextArea: number = 500;
   const { TextArea } = Input;
@@ -35,13 +36,7 @@ const NewProduct: React.FC = () => {
   const { Option } = Select;
 
   React.useEffect(() => {
-    if (statusResponse.length > 0 && statusResponse[0].status === "success") {
-      Modal.success({
-        title: "Thông báo",
-        content: `${statusResponse[0].message}`,
-        okText: "Ok",
-      });
-    }
+    openDialogError(statusResponse);
   }, [statusResponse]);
 
   React.useEffect(() => {
@@ -50,8 +45,11 @@ const NewProduct: React.FC = () => {
 
   const onFinish = async (data: any) => {
     const bodyNewProduct = cloneDeep(originalProduct);
-    bodyNewProduct.action = "create";
-    bodyNewProduct.data.img = listImages || [];
+    bodyNewProduct.action = action;
+    if(action === "update"){
+      bodyNewProduct.data._id = dataUpdate[0]._id;
+    }
+    bodyNewProduct.data.img = [...listImages, { imgRm: listImageRemove }] || [];
     bodyNewProduct.data.title = data.nameprod || "";
     bodyNewProduct.data.contsum = data.prodsummary || "";
     bodyNewProduct.data.price = data.pricesale ? parseInt(data.pricesale) : "";

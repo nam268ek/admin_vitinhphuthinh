@@ -93,3 +93,20 @@ export const convertListCategory = (list: any[]) => {
     };
   });
 };
+
+export const openDialogError = (statusResponse: any) => {
+  if (statusResponse.length > 0 && statusResponse[0].status === "success") {
+    Modal.success({
+      title: "Thông báo",
+      content: `${statusResponse[0].message}`,
+      okText: "Ok",
+    });
+  }
+  if (statusResponse.length > 0 && statusResponse[0].status === "error") {
+    Modal.error({
+      title: "Thông báo",
+      content: `[${statusResponse[0].code}] ${statusResponse[0].message}`,
+      okText: "Ok",
+    });
+  }
+}
