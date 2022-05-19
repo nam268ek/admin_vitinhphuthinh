@@ -303,6 +303,7 @@ export interface IImageUpload {
     maxNumberOfFiles?: number;
     multiple?: boolean;
     listFileUpdate?: any;
+    status?: any;
 }
 export interface ISearchService {
     placeholder?: string;

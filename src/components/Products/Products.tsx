@@ -2,17 +2,18 @@ import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { BiRefresh } from "react-icons/bi";
 import { FaPlusCircle } from "react-icons/fa";
-import { Table, Tag, Space, Button, message, Modal } from "antd";
+import { Table, Tag, Space, Button, message, Modal, Switch } from "antd";
 import moment from "moment";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import SelectOption from "../common/SelectOption";
 import Search from "./../Search/Search";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllProducts, removeItemProduct, setDefaultDataFilter, updateProduct } from "../redux/Slices/productSlice";
+import { createProduct, getAllProducts, removeItemProduct, setDefaultDataFilter, updateProduct } from "../redux/Slices/productSlice";
 import { originalProduct } from "../Services/general.service";
 import { cloneDeep } from "lodash";
 import { setIsLoading, setAction } from "../redux/Slices/PrimarySlice";
+import { getListCategory } from "../redux/Slices/CategorySlice";
 
 const Products: React.FC = () => {
   const [isDefault, setIsDefault] = React.useState(false);
@@ -52,23 +53,9 @@ const Products: React.FC = () => {
     },
     {
       title: "Trạng thái",
-      key: "tags",
-      dataIndex: "tags",
-      render: (tags: any[]) => (
-        <>
-          {tags.map((tag, index) => {
-            let color = tag === "Kích hoạt" ? "green" : tag === "Tồn kho" ? "cyan" : "red";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={index}>
-                {tag}
-              </Tag>
-            );
-          })}
-        </>
-      ),
+      key: "status",
+      dataIndex: "status",
+      render: (item: any) => <Switch defaultChecked={item.status} onChange={(e) => handleActiveProduct(e, item)} />,
     },
     {
       title: "Ngày cập nhật",
@@ -91,6 +78,22 @@ const Products: React.FC = () => {
       ),
     },
   ];
+
+  const handleActiveProduct = async (checked: boolean, item: any) => {
+    const bodyProduct = cloneDeep(originalProduct);
+    const itemUpdate = cloneDeep(item);
+    bodyProduct.action = "update";
+    bodyProduct.data._id = item._id;
+    itemUpdate["status"] = checked;
+    bodyProduct.data = itemUpdate;
+
+    console.log(bodyProduct);
+
+    dispatch(setIsLoading(true));
+    await dispatch(createProduct(bodyProduct));
+    await dispatch(getAllProducts({ role: "" }));
+    dispatch(setIsLoading(false));
+  };
 
   React.useEffect(() => {
     if (statusResponse.length > 0 && statusResponse[0].status === "success") {
@@ -132,7 +135,7 @@ const Products: React.FC = () => {
         sku: item.sku || "",
         price: item.price || 0,
         category: item.category || "",
-        tags: [item.tags ? item.tags : "Kích hoạt"],
+        status: item || false,
         date: item.created_at || "",
       };
     });
@@ -140,6 +143,7 @@ const Products: React.FC = () => {
 
   React.useEffect(() => {
     dispatch(getAllProducts({ role: "" }));
+    dispatch(getListCategory({ role: "" }));
   }, [dispatch]);
 
   const data = convertListProducts(dataFilter ? dataFilter : []);

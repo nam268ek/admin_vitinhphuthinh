@@ -13,12 +13,13 @@ import { createProduct, updateProduct } from "../redux/Slices/productSlice";
 import { setIsLoading } from "../redux/Slices/PrimarySlice";
 import SelectAddItem from "../common/SelectAddItem";
 import { getListCategory } from "../redux/Slices/CategorySlice";
+import { useNavigate } from "react-router-dom";
 
 const NewProduct: React.FC = () => {
   const dispatch = useDispatch();
   const childRef = React.useRef<any>(null);
   const [form] = Form.useForm();
-
+  const navigate = useNavigate();
   const { listImages, dataUpdate, statusResponse, listImageRemove } = useSelector((state: any) => state.product);
   const { listAllCategory } = useSelector((state: any) => state.category);
   const { action } = useSelector((state: any) => state.primary);
@@ -35,9 +36,9 @@ const NewProduct: React.FC = () => {
 
   const { Option } = Select;
 
-  React.useEffect(() => {
-    openDialogError(statusResponse);
-  }, [statusResponse]);
+  // React.useEffect(() => {
+  //   openDialogError(statusResponse);
+  // }, [statusResponse]);
 
   React.useEffect(() => {
     dispatch(getListCategory({ role: "" }));
@@ -46,7 +47,7 @@ const NewProduct: React.FC = () => {
   const onFinish = async (data: any) => {
     const bodyNewProduct = cloneDeep(originalProduct);
     bodyNewProduct.action = action;
-    if(action === "update"){
+    if (action === "update") {
       bodyNewProduct.data._id = dataUpdate[0]._id;
     }
     bodyNewProduct.data.img = [...listImages, { imgRm: listImageRemove }] || [];
@@ -78,8 +79,12 @@ const NewProduct: React.FC = () => {
     console.log(bodyNewProduct);
 
     dispatch(setIsLoading(true));
-    await dispatch(createProduct(bodyNewProduct));
+    const result = await dispatch(createProduct(bodyNewProduct));
     dispatch(setIsLoading(false));
+    if (result.payload.code === 200) {
+      navigate("/products", { replace: true });
+    }
+
   };
 
   const resetForm = () => {
@@ -223,7 +228,7 @@ const NewProduct: React.FC = () => {
                     <div className="form-group m-0">
                       <label>Thumbnail Sản phẩm</label>
                       <div className="form-group--nest">
-                        <ImageUpload maxNumberOfFiles={3} listFileUpdate={dataUpdate[0] ? dataUpdate[0].img : []} />
+                        <ImageUpload maxNumberOfFiles={3} listFileUpdate={dataUpdate[0] ? dataUpdate[0].img : []} status={action} />
                       </div>
                     </div>
                   </div>

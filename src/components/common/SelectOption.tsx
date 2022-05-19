@@ -8,9 +8,11 @@ const SelectOption: React.FC<ISelectService> = ({ className, placeholder, defaul
   const [form] = Form.useForm<any>();
   const [selectedValues, setSelectedValues] = React.useState<any>([]);
   const dispatch = useDispatch();
+  const { listAllCategory } = useSelector((state: any) => state.category);
   const { listAllProducts } = useSelector((state: any) => state.product);
   const { Option } = Select;
-  const dataCategory = ["Laptop Dell", "Laptop Asus", "Laptop Lenovo", "Máy in", "jack", "Yiminghe", "lucy"];
+  
+  const dataCategory = listAllCategory.map((item: any) => item.title);
   const dataBrand = ["Dell", "Asus", "Lenovo", "HP", "Canon"];
   const dataStatus = ["Còn hàng", "Hết hàng"];
 
@@ -18,7 +20,7 @@ const SelectOption: React.FC<ISelectService> = ({ className, placeholder, defaul
     setSelectedValues(e);
     //filter data for select
     if (select === "category") {
-      const data: any = listAllProducts.filter((item: any) => item.category === e);
+      const data: any = listAllProducts.filter((item: any) => item.category[0] === e);
       dispatch(filterListProducts(data));
     }
     if (select === "brand") {
@@ -43,7 +45,7 @@ const SelectOption: React.FC<ISelectService> = ({ className, placeholder, defaul
         onChange={(e) => handleChange(e, "category")}
         value={selectedValues}
       >
-        {dataCategory.map((item, index) => (
+        {dataCategory.map((item: any, index: any) => (
           <Option key={index} value={item}>
             {item}
           </Option>

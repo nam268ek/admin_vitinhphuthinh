@@ -5,7 +5,7 @@ import { IImageUpload } from "../../types/types";
 import { Controller, useForm } from "react-hook-form";
 import APIClientService from "../../api";
 import { updateListImageRemove, updateListImages } from "../redux/Slices/productSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const getSrcFromFile = (file: any) => {
   return new Promise((resolve) => {
@@ -15,26 +15,29 @@ const getSrcFromFile = (file: any) => {
   });
 };
 
-const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles, multiple, listFileUpdate }) => {
+const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles, multiple, listFileUpdate, status }) => {
   const { control } = useForm<any>();
   const [fileList, setFileList] = useState<any>([]);
   const [listPath, setListPath] = useState<any>([]);
+  const { listImages } = useSelector((state: any) => state.product);
   const { Dragger }: { Dragger: any } = Upload;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (listFileUpdate.length > 0) {
-      const data = listFileUpdate.map((item: any) => {
-        return {
-          uid: item.public_id,
-          name: item.name,
-          status: "done",
-          url: item.secure_url,
-        };
-      });
-      setFileList(data);
-    } else setFileList([]);
-  }, [listFileUpdate]);
+    if (status === "update") {
+      if (listFileUpdate.length > 0) {
+        const data = listFileUpdate.map((item: any) => {
+          return {
+            uid: item.public_id,
+            name: item.name,
+            status: "done",
+            url: item.secure_url,
+          };
+        });
+        setFileList(data);
+      } else setFileList([]);
+    }
+  }, [listFileUpdate, status]);
 
   const onChange = ({ fileList }: { fileList: any }) => {
     setFileList(fileList);
@@ -66,7 +69,7 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
         setFileList(newFileList);
       }
     }
-    if(listFileUpdate?.length > 0) {
+    if (listFileUpdate?.length > 0) {
       dispatch(updateListImageRemove(file));
     }
   };
@@ -111,7 +114,7 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
           onPreview={onPreview}
           onRemove={onRemove}
         >
-          {fileList.length < (maxNumberOfFiles || 1) && "+ Upload"}
+          {(fileList.length < (maxNumberOfFiles || 1) || listImages.length < (maxNumberOfFiles || 1)) && "+ Upload"}
         </Upload>
       )}
     />
