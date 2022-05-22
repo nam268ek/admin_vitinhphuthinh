@@ -2,11 +2,26 @@ import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { FiFilter } from "react-icons/fi";
 import { FaPlusCircle } from "react-icons/fa";
-import { Table, Tag, Space } from "antd";
+import { Table, Tag, Space, Modal, Button } from "antd";
 import moment from "moment";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { formatMoney, originalProduct } from "../Services/general.service";
+import SelectOption from "../common/SelectOption";
+import { useDispatch, useSelector } from "react-redux";
+import { cloneDeep } from "lodash";
+import { getListDropdown, setAction, setIsLoading } from "../redux/Slices/PrimarySlice";
+import { createProduct, getAllProducts, removeItemProduct, setDefaultDataFilter, updateProduct } from "../redux/Slices/productSlice";
+import { getListCategory } from "../redux/Slices/CategorySlice";
+import { BiRefresh } from "react-icons/bi";
+import Search from './../Search/Search';
+
 const Orders: React.FC = () => {
+  const [isDefault, setIsDefault] = React.useState<boolean>(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { dataFilter, listAllProducts, statusResponse } = useSelector((state: any) => state.product);
+
   const columns = [
     {
       title: "ID",
@@ -29,7 +44,7 @@ const Orders: React.FC = () => {
       title: "Giá",
       dataIndex: "price",
       key: "price",
-      render: (text: string) => <span className="price-product">{text}</span>,
+      render: (price: any) => <span className="price-product">{formatMoney.format(Number(price))}</span>,
     },
     {
       title: "Trạng thái thanh toán",
@@ -223,6 +238,87 @@ const Orders: React.FC = () => {
       tags: ["loser"],
     },
   ];
+
+  const handleActiveProduct = async (checked: boolean, item: any) => {
+    const bodyProduct = cloneDeep(originalProduct);
+    const itemUpdate = cloneDeep(item);
+    bodyProduct.action = "update";
+    bodyProduct.data._id = item._id;
+    itemUpdate["status"] = checked;
+    bodyProduct.data = itemUpdate;
+
+    console.log(bodyProduct);
+
+    dispatch(setIsLoading(true));
+    await dispatch(createProduct(bodyProduct));
+    await dispatch(getAllProducts({ role: "" }));
+    dispatch(setIsLoading(false));
+  };
+
+  React.useEffect(() => {
+    if (statusResponse.length > 0 && statusResponse[0].status === "success") {
+      Modal.success({
+        title: "Thông báo",
+        content: `${statusResponse[0].message}`,
+        okText: "Ok",
+      });
+    }
+  }, [statusResponse]);
+
+  const handleUpdateProduct = (e: any, record: any) => {
+    e.preventDefault();
+    const itemEdit = listAllProducts.filter((item: any) => item._id === record.id);
+    if (itemEdit.length > 0) {
+      dispatch(setAction("update"));
+      dispatch(updateProduct(itemEdit));
+      navigate("/products/create-product", { replace: true });
+    }
+  };
+
+  const handleRemoveProduct = async (e: any, record: any) => {
+    const bodyRemoveProduct = cloneDeep(originalProduct);
+    bodyRemoveProduct.action = "delete";
+    bodyRemoveProduct.data._id = record.id;
+
+    dispatch(setIsLoading(true));
+    await dispatch(removeItemProduct(bodyRemoveProduct));
+    await dispatch(getAllProducts({ role: "" }));
+    dispatch(setIsLoading(false));
+  };
+
+  const convertListProducts = (list: any[]) => {
+    return list.map((item: any, index: number) => {
+      return {
+        key: index + 1,
+        id: item._id,
+        name: item.title || "",
+        sku: item.sku || "",
+        price: item.price || 0,
+        category: item.category || "",
+        status: item || false,
+        date: item.created_at || "",
+      };
+    });
+  };
+
+  React.useEffect(() => {
+    dispatch(getAllProducts({ role: "" }));
+    dispatch(getListCategory({ role: "" }));
+    dispatch(getListDropdown({ role: "" }));
+  }, [dispatch]);
+
+  // const data = convertListProducts(dataFilter ? dataFilter : []);
+
+  const handleDefaultData = () => {
+    dispatch(setDefaultDataFilter(listAllProducts));
+    setIsDefault(!isDefault);
+  };
+
+  const handleAddProduct = () => {
+    dispatch(setAction("create"));
+    dispatch(updateProduct([]));
+  };
+
   return (
     <div className="ps-main__wrapper">
       <div className="header--dashboard">
@@ -240,182 +336,30 @@ const Orders: React.FC = () => {
         </div>
         <div className="ps-section__header">
           <div className="ps-section__filter">
-            <form className="ps-form--filter" action="index.html" method="get">
+            <form className="ps-form--filter">
               <div className="ps-form__left">
                 <div className="form-group">
-                  <div className="ant-select ps-ant-dropdown ant-select-single ant-select-show-arrow">
-                    <div className="ant-select-selector">
-                      <span className="ant-select-selection-search">
-                        <input
-                          type="search"
-                          //   autocomplete="off"
-                          className="ant-select-selection-search-input"
-                          //   style="opacity: 0"
-                          role="combobox"
-                          aria-haspopup="listbox"
-                          aria-owns="rc_select_0_list"
-                          aria-autocomplete="list"
-                          aria-controls="rc_select_0_list"
-                          aria-activedescendant="rc_select_0_list_0"
-                          value=""
-                          //   readonly=""
-                          unselectable="on"
-                          id="rc_select_0"
-                        />
-                      </span>
-                      <span className="ant-select-selection-placeholder">
-                        Select Category
-                      </span>
-                    </div>
-                    <span
-                      className="ant-select-arrow"
-                      //   style="user-select: none; -webkit-user-select: none"
-                      unselectable="on"
-                      aria-hidden="true"
-                    >
-                      <span
-                        role="img"
-                        aria-label="down"
-                        className="anticon anticon-down ant-select-suffix"
-                      >
-                        <svg
-                          viewBox="64 64 896 896"
-                          focusable="false"
-                          data-icon="down"
-                          width="1em"
-                          height="1em"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"></path>
-                        </svg>
-                      </span>
-                    </span>
-                  </div>
+                  <SelectOption className="select-category" placeholder="Danh mục" isCategory={true} isDefault={isDefault} />
                 </div>
                 <div className="form-group">
-                  <div className="ant-select ps-ant-dropdown ant-select-single ant-select-show-arrow">
-                    <div className="ant-select-selector">
-                      <span className="ant-select-selection-search">
-                        <input
-                          type="search"
-                          //   autocomplete="off"
-                          className="ant-select-selection-search-input"
-                          //   style="opacity: 0"
-                          role="combobox"
-                          aria-haspopup="listbox"
-                          aria-owns="rc_select_1_list"
-                          aria-autocomplete="list"
-                          aria-controls="rc_select_1_list"
-                          aria-activedescendant="rc_select_1_list_0"
-                          value=""
-                          //   readonly=""
-                          unselectable="on"
-                          id="rc_select_1"
-                        />
-                      </span>
-                      <span className="ant-select-selection-placeholder">
-                        Select Category
-                      </span>
-                    </div>
-                    <span
-                      className="ant-select-arrow"
-                      //   style="user-select: none; -webkit-user-select: none"
-                      unselectable="on"
-                      aria-hidden="true"
-                    >
-                      <span
-                        role="img"
-                        aria-label="down"
-                        className="anticon anticon-down ant-select-suffix"
-                      >
-                        <svg
-                          viewBox="64 64 896 896"
-                          focusable="false"
-                          data-icon="down"
-                          width="1em"
-                          height="1em"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"></path>
-                        </svg>
-                      </span>
-                    </span>
-                  </div>
+                  <SelectOption className="select-category" placeholder="Thương hiệu" isBrand={true} isDefault={isDefault} />
                 </div>
                 <div className="form-group">
-                  <div className="ant-select ps-ant-dropdown ant-select-single ant-select-show-arrow">
-                    <div className="ant-select-selector">
-                      <span className="ant-select-selection-search">
-                        <input
-                          type="search"
-                          //   autocomplete="off"
-                          className="ant-select-selection-search-input"
-                          //   style="opacity: 0"
-                          role="combobox"
-                          aria-haspopup="listbox"
-                          aria-owns="rc_select_2_list"
-                          aria-autocomplete="list"
-                          aria-controls="rc_select_2_list"
-                          aria-activedescendant="rc_select_2_list_0"
-                          value=""
-                          //   readonly=""
-                          unselectable="on"
-                          id="rc_select_2"
-                        />
-                      </span>
-                      <span className="ant-select-selection-placeholder">
-                        Status
-                      </span>
-                    </div>
-                    <span
-                      className="ant-select-arrow"
-                      //   style="user-select: none; -webkit-user-select: none"
-                      unselectable="on"
-                      aria-hidden="true"
-                    >
-                      <span
-                        role="img"
-                        aria-label="down"
-                        className="anticon anticon-down ant-select-suffix"
-                      >
-                        <svg
-                          viewBox="64 64 896 896"
-                          focusable="false"
-                          data-icon="down"
-                          width="1em"
-                          height="1em"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"></path>
-                        </svg>
-                      </span>
-                    </span>
-                  </div>
+                  <SelectOption className="select-category" placeholder="Trạng thái" isStatus={true} isDefault={isDefault} />
                 </div>
               </div>
               <div className="ps-form__right">
-                <button className="ps-btn ps-btn--gray">
-                  <FiFilter />
-                  <span>Filter</span>
-                </button>
+                <Button type="primary" className="ps-btn-secondary" onClick={handleDefaultData}>
+                  <BiRefresh size={20} />
+                  <span>Refresh</span>
+                </Button>
               </div>
             </form>
           </div>
           <div className="ps-section__search">
-            <form
-              className="ps-form--search-simple"
-              action="index.html"
-              method="get"
-            >
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search product"
-              />
-              <button>
+            <form className="ps-form--search-simple">
+              <Search className="search-category" placeholder="Tìm kiếm sản phẩm..." listItem={listAllProducts} isDefault={isDefault} />
+              <button style={{ backgroundColor: "#fff" }} onClick={(e) => e.preventDefault()}>
                 <IoSearchOutline />
               </button>
             </form>

@@ -1,5 +1,5 @@
 import { Modal } from "antd";
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 export const originalRegister: any = {
   email: "",
@@ -57,7 +57,7 @@ export const originalCategory: any = {
     title: "",
     icon: "",
     index: "",
-    link: '',
+    link: "",
     submenuTitle: "",
     submenu: [
       {
@@ -66,6 +66,14 @@ export const originalCategory: any = {
         category: "",
       },
     ],
+  },
+};
+
+export const originalListDropDown: any = {
+  role: "admin",
+  action: "",
+  data: {
+    "list-brand": [],
   },
 };
 // {
@@ -110,4 +118,9 @@ export const openDialogError = (statusResponse: any) => {
       okText: "Ok",
     });
   }
-}
+};
+
+export  const formatMoney = new Intl.NumberFormat("vi-VN", {
+  style: "currency",
+  currency: "VND",
+});

@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { Select, Divider, Input, Typography, Space, Form } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { ISelectProps } from "../../types/types";
+import { useSelector } from "react-redux";
 
 const { Option } = Select;
 
 let index = 0;
 
-const SelectAddItem: React.FC<ISelectProps> = ({ defaultValue }) => {
-  const [items, setItems] = useState(["jack", "lucy"]);
-  const [name, setName] = useState("");
+const SelectAddItem: React.FC<ISelectProps> = ({ defaultValue, listItem: listDropDown }) => {
+  const [items, setItems] = useState<any>([]);
+  const [name, setName] = useState<string>("");
 
   const onNameChange = (event: any) => {
     setName(event.target.value);
@@ -20,6 +21,12 @@ const SelectAddItem: React.FC<ISelectProps> = ({ defaultValue }) => {
     setItems([...items, name || `New item ${index++}`]);
     setName("");
   };
+
+  React.useEffect(() => {
+    if(listDropDown.length > 0) {
+      setItems(listDropDown[0]["dropdown"]["list-brand"].map((brand: any) => brand.label));
+    }
+  }, [listDropDown]);
 
   return (
     <Form.Item
@@ -43,7 +50,7 @@ const SelectAddItem: React.FC<ISelectProps> = ({ defaultValue }) => {
           </div>
         )}
       >
-        {items.map((item) => (
+        {items?.map((item: any) => (
           <Option key={item}>{item}</Option>
         ))}
       </Select>

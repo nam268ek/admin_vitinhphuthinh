@@ -10,7 +10,7 @@ import { cloneDeep } from "lodash";
 import { openDialogError, originalProduct } from "../Services/general.service";
 import { useDispatch, useSelector } from "react-redux";
 import { createProduct, updateProduct } from "../redux/Slices/productSlice";
-import { setIsLoading } from "../redux/Slices/PrimarySlice";
+import { getListDropdown, setIsLoading } from "../redux/Slices/PrimarySlice";
 import SelectAddItem from "../common/SelectAddItem";
 import { getListCategory } from "../redux/Slices/CategorySlice";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +21,7 @@ const NewProduct: React.FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const { listImages, dataUpdate, statusResponse, listImageRemove } = useSelector((state: any) => state.product);
+  const { listDropDown } = useSelector((state: any) => state.primary);
   const { listAllCategory } = useSelector((state: any) => state.category);
   const { action } = useSelector((state: any) => state.primary);
   const maxLength: number = 100;
@@ -42,6 +43,8 @@ const NewProduct: React.FC = () => {
 
   React.useEffect(() => {
     dispatch(getListCategory({ role: "" }));
+    dispatch(getListDropdown({ role: "" }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onFinish = async (data: any) => {
@@ -84,11 +87,15 @@ const NewProduct: React.FC = () => {
     if (result.payload.code === 200) {
       navigate("/products", { replace: true });
     }
-
   };
 
   const resetForm = () => {
     dispatch(updateProduct([]));
+  };
+
+  const handleCancel = (e: any) => {
+    e.preventDefault();
+    navigate("/products", { replace: true });
   };
 
   return (
@@ -263,7 +270,7 @@ const NewProduct: React.FC = () => {
                         Thương hiệu<sup>*</sup>
                       </label>
                       <div className="form-group__content">
-                        <SelectAddItem defaultValue={dataUpdate[0] ? dataUpdate[0].brand : ""} />
+                        <SelectAddItem defaultValue={dataUpdate[0] ? dataUpdate[0].brand : ""} listItem={listDropDown} />
                       </div>
                     </div>
                     <div className="form-group">
@@ -297,6 +304,9 @@ const NewProduct: React.FC = () => {
           <div className="ps-form__bottom">
             <Form.Item>
               <Space style={{ width: "100%", justifyContent: "flex-end" }}>
+                <Button type="primary" danger loading={false} onClick={handleCancel}>
+                  Cancel
+                </Button>
                 <Button type="primary" loading={false} htmlType="reset" onClick={resetForm}>
                   Reset
                 </Button>

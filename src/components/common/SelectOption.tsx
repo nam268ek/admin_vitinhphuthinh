@@ -10,11 +10,13 @@ const SelectOption: React.FC<ISelectService> = ({ className, placeholder, defaul
   const dispatch = useDispatch();
   const { listAllCategory } = useSelector((state: any) => state.category);
   const { listAllProducts } = useSelector((state: any) => state.product);
+  const { listDropDown } = useSelector((state: any) => state.primary);
+
   const { Option } = Select;
-  
+  console.log(listDropDown);
   const dataCategory = listAllCategory.map((item: any) => item.title);
-  const dataBrand = ["Dell", "Asus", "Lenovo", "HP", "Canon"];
-  const dataStatus = ["Còn hàng", "Hết hàng"];
+  const dataBrand = listDropDown.length > 0 ? listDropDown[0]["dropdown"]["list-brand"].map((brand: any) => brand.label) : [];
+  const dataStatus = listDropDown.length > 0 ? listDropDown[0]["dropdown"]["list-status"].map((brand: any) => brand.label) : [];
 
   const handleChange = (e: any, select: any) => {
     setSelectedValues(e);
@@ -28,7 +30,8 @@ const SelectOption: React.FC<ISelectService> = ({ className, placeholder, defaul
       dispatch(filterListProducts(data));
     }
     if (select === "status") {
-      const data: any = listAllProducts.filter((item: any) => item.status === e);
+      const status = e === "Active" ? true : false;
+      const data: any = listAllProducts.filter((item: any) => item.status === status);
       dispatch(filterListProducts(data));
     }
   };
@@ -39,13 +42,8 @@ const SelectOption: React.FC<ISelectService> = ({ className, placeholder, defaul
 
   if (isCategory) {
     return (
-      <Select
-        className={className}
-        placeholder={placeholder}
-        onChange={(e) => handleChange(e, "category")}
-        value={selectedValues}
-      >
-        {dataCategory.map((item: any, index: any) => (
+      <Select className={className} placeholder={placeholder} onChange={(e) => handleChange(e, "category")} value={selectedValues}>
+        {dataCategory?.map((item: any, index: any) => (
           <Option key={index} value={item}>
             {item}
           </Option>
@@ -55,7 +53,7 @@ const SelectOption: React.FC<ISelectService> = ({ className, placeholder, defaul
   } else if (isBrand) {
     return (
       <Select className={className} placeholder={placeholder} onChange={(e) => handleChange(e, "brand")} value={selectedValues}>
-        {dataBrand.map((item, index) => (
+        {dataBrand?.map((item: any, index: any) => (
           <Option key={index} value={item}>
             {item}
           </Option>
@@ -65,7 +63,7 @@ const SelectOption: React.FC<ISelectService> = ({ className, placeholder, defaul
   } else if (isStatus) {
     return (
       <Select className={className} placeholder={placeholder} onChange={(e) => handleChange(e, "status")} value={selectedValues}>
-        {dataStatus.map((item, index) => (
+        {dataStatus?.map((item: any, index: any) => (
           <Option key={index} value={item}>
             {item}
           </Option>

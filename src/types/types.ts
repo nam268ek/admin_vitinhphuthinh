@@ -308,6 +308,8 @@ export interface IImageUpload {
 export interface ISearchService {
     placeholder?: string;
     className?: string;
+    listItem?: any;
+    isDefault?: boolean;
 }
 export interface ISelectService {
     placeholder?: string;
@@ -331,4 +333,5 @@ export interface IModalBox {
 }
 export interface ISelectProps {
     defaultValue?: any;
+    listItem?: any;
 }

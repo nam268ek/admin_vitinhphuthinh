@@ -10,13 +10,13 @@ import SelectOption from "../common/SelectOption";
 import Search from "./../Search/Search";
 import { useSelector, useDispatch } from "react-redux";
 import { createProduct, getAllProducts, removeItemProduct, setDefaultDataFilter, updateProduct } from "../redux/Slices/productSlice";
-import { originalProduct } from "../Services/general.service";
+import { formatMoney, originalProduct } from "../Services/general.service";
 import { cloneDeep } from "lodash";
-import { setIsLoading, setAction } from "../redux/Slices/PrimarySlice";
+import { setIsLoading, setAction, getListDropdown } from "../redux/Slices/PrimarySlice";
 import { getListCategory } from "../redux/Slices/CategorySlice";
 
 const Products: React.FC = () => {
-  const [isDefault, setIsDefault] = React.useState(false);
+  const [isDefault, setIsDefault] = React.useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { dataFilter, listAllProducts, statusResponse } = useSelector((state: any) => state.product);
@@ -43,7 +43,7 @@ const Products: React.FC = () => {
       title: "Giá",
       dataIndex: "price",
       key: "price",
-      render: (text: string) => <span className="price-product">{text}</span>,
+      render: (price: any) => <span className="price-product">{formatMoney.format(Number(price))}</span>,
     },
     {
       title: "Danh mục",
@@ -144,6 +144,7 @@ const Products: React.FC = () => {
   React.useEffect(() => {
     dispatch(getAllProducts({ role: "" }));
     dispatch(getListCategory({ role: "" }));
+    dispatch(getListDropdown({ role: "" }));
   }, [dispatch]);
 
   const data = convertListProducts(dataFilter ? dataFilter : []);
@@ -197,8 +198,8 @@ const Products: React.FC = () => {
           </div>
           <div className="ps-section__search">
             <form className="ps-form--search-simple">
-              <Search className="search-category" placeholder="Tìm kiếm sản phẩm..." />
-              <button style={{ backgroundColor: "#fff" }}>
+              <Search className="search-category" placeholder="Tìm kiếm sản phẩm..." listItem={listAllProducts} isDefault={isDefault} />
+              <button style={{ backgroundColor: "#fff" }} onClick={(e) => e.preventDefault()}>
                 <IoSearchOutline />
               </button>
             </form>
