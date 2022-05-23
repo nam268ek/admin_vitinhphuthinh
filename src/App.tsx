@@ -15,6 +15,7 @@ import ProtectedRoute from "./components/common/ProtectedRoute";
 import Notify from "./components/Notify/Notify";
 import Loading from "./components/common/Loading";
 import { setIsLoading } from "./components/redux/Slices/PrimarySlice";
+import NewOrder from "./components/NewOrder/NewOrder";
 
 const App: React.FC = () => {
   const { isLogin } = useSelector((state: any) => state.login);
@@ -44,6 +45,7 @@ const App: React.FC = () => {
               <Route path="/products" element={<Products />} />
               <Route path="/products/create-product" element={<NewProduct />} />
               <Route path="/orders" element={<Orders />} />
+              <Route path="/orders/create-order" element={<NewOrder />} />
               <Route path="/customers" element={<Customers />} />
               <Route path="/categories" element={<Categories />} />
               <Route path="/settings" element={<Settings />} />

@@ -329,7 +329,7 @@ const Orders: React.FC = () => {
       </div>
       <section className="ps-items-listing">
         <div className="ps-section__actions">
-          <Link className="ps-btn success" to="/products/create-product">
+          <Link className="ps-btn success" to="/orders/create-order">
             <FaPlusCircle />
             <span>Tạo đơn hàng</span>
           </Link>

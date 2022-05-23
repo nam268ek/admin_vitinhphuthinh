@@ -3,12 +3,14 @@ import LoginSlice from '../Slices/LoginSlice';
 import primarySlice from '../Slices/PrimarySlice';
 import productSlice from '../Slices/productSlice';
 import categorySlice from '../Slices/CategorySlice';
+import orderSlice from '../Slices/orderSlice';
 
 const reducers = combineReducers({
   login: LoginSlice,
   primary: primarySlice,
   product: productSlice,
   category: categorySlice,
+  order: orderSlice,
 });
 
 const store = configureStore({

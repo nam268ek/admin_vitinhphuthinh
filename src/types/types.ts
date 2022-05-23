@@ -310,6 +310,7 @@ export interface ISearchService {
     className?: string;
     listItem?: any;
     isDefault?: boolean;
+    searchValue?: any;
 }
 export interface ISelectService {
     placeholder?: string;
