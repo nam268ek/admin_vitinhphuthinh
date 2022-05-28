@@ -14,7 +14,7 @@ const orderSlice = createSlice({
         state.listOrder = [...state.listOrder, action.payload];
     },
     removeItemListOrder: (state: any, action: any) => {
-        state.listOrder = state.listOrder.filter((item: any) => item.id !== action.payload.id);
+        state.listOrder = state.listOrder.filter((item: any) => item._id !== action.payload.id);
     }
   },
 

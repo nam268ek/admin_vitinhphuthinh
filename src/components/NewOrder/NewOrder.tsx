@@ -7,7 +7,7 @@ import EditorText from "../common/EditorText";
 import { useForm, Controller } from "react-hook-form";
 import ConfigInfo from "../ConfigInfo/ConfigInfo";
 import { cloneDeep } from "lodash";
-import { openDialogError, originalProduct } from "../Services/general.service";
+import { openDialogError, originalProduct, formatMoney } from "../Services/general.service";
 import { useDispatch, useSelector } from "react-redux";
 import { createProduct, updateProduct } from "../redux/Slices/productSlice";
 import { getListDropdown, setIsLoading } from "../redux/Slices/PrimarySlice";
@@ -15,6 +15,9 @@ import SelectAddItem from "../common/SelectAddItem";
 import { getListCategory } from "../redux/Slices/CategorySlice";
 import { useNavigate } from "react-router-dom";
 import ModuleProducts from "./ModuleProducts/ModuleProducts";
+import NoContent from "../common/NoContent";
+import ImageDefault from "../common/ImageDefault";
+import OrderSummary from "./OrderSummary/OrderSummary";
 
 const NewOrder: React.FC = () => {
   const dispatch = useDispatch();
@@ -24,6 +27,7 @@ const NewOrder: React.FC = () => {
   const { listImages, dataUpdate, statusResponse, listImageRemove } = useSelector((state: any) => state.product);
   const { listDropDown } = useSelector((state: any) => state.primary);
   const { listAllCategory } = useSelector((state: any) => state.category);
+  const { listOrder } = useSelector((state: any) => state.order);
   const { action } = useSelector((state: any) => state.primary);
   const maxLength: number = 100;
   const maxLengthTextArea: number = 500;
@@ -37,10 +41,6 @@ const NewOrder: React.FC = () => {
   } = useForm<any>();
 
   const { Option } = Select;
-
-  // React.useEffect(() => {
-  //   openDialogError(statusResponse);
-  // }, [statusResponse]);
 
   React.useEffect(() => {
     dispatch(getListCategory({ role: "" }));
@@ -119,97 +119,102 @@ const NewOrder: React.FC = () => {
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                 <figure className="ps-block--form-box">
                   <figcaption>Order Detail</figcaption>
-                  <div className="ps-block__content">
-                    <div className="row">
-                      <div className="col-8">
-                        <div className="content-left">
-                          <div className="item">
-                            <div className="i-img">
-                              <img
-                                src="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mbp-spacegray-select-202011_GEO_DK?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1632948912000"
-                                alt="martfury"
-                              />
+                  <div className="ps-block__content order">
+                    {listOrder?.map((item: any, index: number) => (
+                      <>
+                        <div className="row">
+                          <div className="col-8">
+                            <div className="content-left">
+                              <div className="item">
+                                <div className="i-img">
+                                  {item.img.length > 0 ? <img src={item.img[0].secure_url} alt="product" /> : <ImageDefault />}
+                                </div>
+                              </div>
+                              <div className="item">
+                                <div className="i-content">
+                                  <h6>{item.title}</h6>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                          <div className="item">
-                            <div className="i-content">
-                              <h6>Dell Latitude 9420 Core i7 1185G7 16GB 512GB SSD 14 inch FHD Windows 10 Pro</h6>
+                          <div className="col-4">
+                            <div className="content-right">
+                              <div className="item">
+                                <div className="i-price">
+                                  <span>{formatMoney.format(Number(item.price))}</span>
+                                </div>
+                                <div className="i-qty">
+                                  <p>
+                                    Số lượng: <span>{item.quantity}</span>
+                                  </p>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="col-4">
-                        <div className="content-right">
-                          <div className="item">
-                            <div className="i-price">
-                              <span>13.900.000 đ</span>
-                            </div>
-                            <div className="i-qty">
-                              <p>
-                                Số lượng: <span>1</span>
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                        {listOrder?.length - 1 !== index && <hr />}
+                      </>
+                    ))}
+                    {listOrder?.length === 0 && <NoContent />}
                   </div>
                 </figure>
+
                 <figure className="ps-block--form-box">
-                  <figcaption>Order Summary</figcaption>
-                  <div className="ps-block__content">
-                    <div className="row">
-                    <div className="col-6">
-                      <div className="row">
-                        <div className="col-6">
-                          <p></p>
-                          <p></p>
-                          <p></p>
-                        </div>
-                        <div className="col-6">
-                          <div className="o-price"><p></p>
-                          <p></p>
-                          <p></p></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className="row">
-                        <div className="col-6">
-                          <p>SubTotal</p>
-                          <p>Discount</p>
-                          <p>Shipping</p>
-                        </div>
-                        <div className="col-6">
-                          <div className="o-price"><p>12.000.000 đ</p>
-                          <p>12.000.000 đ</p>
-                          <p>12.000.000 đ</p></div>
-                        </div>
-                      </div>
-                    </div>
-                    </div>
-                  </div>
+                 <OrderSummary />
                 </figure>
               </div>
             </div>
           </div>
           <figure className="ps-block--form-box">
-            <figcaption>Mô tả sản phẩm</figcaption>
-            <EditorText ref={childRef} defaultValue={dataUpdate[0] ? dataUpdate[0].contentEditor : "<p></p>"} />
-          </figure>
-          <figure className="ps-block--form-box">
-            <figcaption>Thông tin cấu hình</figcaption>
+            <figcaption>Thông tin khách hàng</figcaption>
             <div className="ps-block__content">
-              <ConfigInfo
-                onSubmit={onFinish}
-                setValue={setValue}
-                control={control}
-                maxLength={maxLength}
-                maxLengthTextArea={maxLengthTextArea}
-                defaultValue={dataUpdate[0] ? dataUpdate[0].contentInfo : ""}
-              />
+              <div className="row">
+                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <div className="form-group">
+                    <label>Tên khách hàng</label>
+                    <Form.Item name="note" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                      <Input maxLength={maxLength} showCount placeholder="Họ tên..." />
+                    </Form.Item>
+                  </div>
+                </div>
+                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <div className="form-group">
+                    <label>Địa chỉ</label>
+                    <Form.Item name="note" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                      <Input maxLength={maxLength} showCount placeholder="Địa chỉ..." />
+                    </Form.Item>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <div className="form-group">
+                    <label>Số điện thoại</label>
+                    <Form.Item name="note" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                      <Input maxLength={maxLength} showCount placeholder="Phone number..." />
+                    </Form.Item>
+                  </div>
+                </div>
+                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <div className="form-group">
+                    <label>Email</label>
+                    <Form.Item name="note" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                      <Input maxLength={maxLength} showCount placeholder="Email..." />
+                    </Form.Item>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="form-group">
+                  <label>Ghi chú</label>
+                  <Form.Item name="note" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                    <TextArea maxLength={maxLength} showCount placeholder="Note..." />
+                  </Form.Item>
+                </div>
+              </div>
             </div>
           </figure>
+
           <div className="ps-form__bottom">
             <Form.Item>
               <Space style={{ width: "100%", justifyContent: "flex-end" }}>

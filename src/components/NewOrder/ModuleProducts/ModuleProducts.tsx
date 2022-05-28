@@ -49,7 +49,7 @@ const ModuleProducts: React.FC = () => {
   ];
 
   const processAction = (item: any) => {
-    const isInOrder = listOrder.filter((itemOrder: any) => itemOrder.id === item.id).length > 0 ? true : false;
+    const isInOrder = listOrder.filter((itemOrder: any) => itemOrder._id === item.id).length > 0 ? true : false;
     if (!isInOrder) {
       return (
         <Link to="" className="add-item" onClick={(e) => handleUpdateProduct(e, item)}>
@@ -92,7 +92,10 @@ const ModuleProducts: React.FC = () => {
 
   const handleUpdateProduct = (e: any, record: any) => {
     e.preventDefault();
-    dispatch(updateListOrder(record));
+    let bodyProduct = cloneDeep(record.status);
+    delete bodyProduct.contentEditor;
+    delete bodyProduct.contentInfo;
+    dispatch(updateListOrder({...bodyProduct, quantity: 1}));
   };
 
   const handleRemoveProduct = async (e: any, record: any) => {

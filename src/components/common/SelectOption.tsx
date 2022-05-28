@@ -4,7 +4,7 @@ import { ISelectService } from "../../types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { filterListProducts } from "../redux/Slices/productSlice";
 
-const SelectOption: React.FC<ISelectService> = ({ className, placeholder, defaultValue, isCategory, isBrand, isStatus, isDefault }) => {
+const SelectOption: React.FC<ISelectService> = ({ className, isPayment, placeholder, defaultValue, isCategory, isBrand, isStatus, isDefault }) => {
   const [form] = Form.useForm<any>();
   const [selectedValues, setSelectedValues] = React.useState<any>([]);
   const dispatch = useDispatch();
@@ -17,6 +17,7 @@ const SelectOption: React.FC<ISelectService> = ({ className, placeholder, defaul
   const dataCategory = listAllCategory.map((item: any) => item.title);
   const dataBrand = listDropDown.length > 0 ? listDropDown[0]["dropdown"]["list-brand"].map((brand: any) => brand.label) : [];
   const dataStatus = listDropDown.length > 0 ? listDropDown[0]["dropdown"]["list-status"].map((brand: any) => brand.label) : [];
+  const dataPayment = listDropDown.length > 0 ? listDropDown[0]["dropdown"]["list-payment"].map((brand: any) => brand.label) : [];
 
   const handleChange = (e: any, select: any) => {
     setSelectedValues(e);
@@ -70,7 +71,18 @@ const SelectOption: React.FC<ISelectService> = ({ className, placeholder, defaul
         ))}
       </Select>
     );
-  } else
+  }else if (isPayment) {
+    return (
+      <Select className={className} placeholder={placeholder} onChange={(e) => handleChange(e, "payment")} value={selectedValues}>
+        {dataPayment?.map((item: any, index: any) => (
+          <Option key={index} value={item}>
+            {item}
+          </Option>
+        ))}
+      </Select>
+    );
+  }
+   else
     return <Select placeholder={placeholder} className={className} onChange={(e) => handleChange(e, "category")} value={selectedValues}></Select>;
 };
 

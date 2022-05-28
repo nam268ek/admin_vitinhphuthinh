@@ -120,7 +120,7 @@ export const openDialogError = (statusResponse: any) => {
   }
 };
 
-export  const formatMoney = new Intl.NumberFormat("vi-VN", {
+export const formatMoney = new Intl.NumberFormat("vi-VN", {
   style: "currency",
   currency: "VND",
 });
