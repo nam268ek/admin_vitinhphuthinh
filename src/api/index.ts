@@ -46,9 +46,9 @@ const APIClientService = {
     const url = "/list-dropdown";
     return AxiosClient.post(url, { params });
   },
-  getCardPostList: () => {
-    const url = "/cardposts";
-    return AxiosClient.get(url);
+  createOrder: (params: any) => {
+    const url = "/orders";
+    return AxiosClient.post(url, { params });
   },
   getCardPostListLimit: (params: any) => {
     const url = "/cardposts";

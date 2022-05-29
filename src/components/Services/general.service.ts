@@ -69,6 +69,30 @@ export const originalCategory: any = {
   },
 };
 
+export const originalOrder: any = {
+  role: "admin",
+  action: "",
+  data: {
+    stord: "",
+    customer: {
+      name: "",
+      phone: "",
+      email: "",
+      address: "",
+      note: "",
+    },
+    priord: {
+      subtotal: 0,
+      discount: 0,
+      feeship: 0,
+      total: 0,
+      note: "",
+      payment: "",
+    },
+    listprod: [],
+  },
+};
+
 export const originalListDropDown: any = {
   role: "admin",
   action: "",

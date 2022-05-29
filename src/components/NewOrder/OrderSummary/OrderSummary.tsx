@@ -1,28 +1,38 @@
-import { Form, Input } from "antd";
+/* eslint-disable no-useless-computed-key */
+import { Form, Input, InputNumber } from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
 import SelectOption from "../../common/SelectOption";
 import { formatMoney } from "../../Services/general.service";
 
-const OrderSummary: React.FC = () => {
+const OrderSummary: React.FC<any> = ({ form }) => {
   const { listImages, dataUpdate, statusResponse, listImageRemove } = useSelector((state: any) => state.product);
   const maxLength: number = 100;
   const { listOrder } = useSelector((state: any) => state.order);
   const [subtotal, setSubtotal] = React.useState<number>(0);
   const [total, setTotal] = React.useState<number>(0);
-  const [tempPrice, setTempPrice] = React.useState<number>(0);
+  const [discount, setDiscount] = React.useState<number>(0);
+  const [feeShip, setFeeShip] = React.useState<number>(0);
 
   const handleUpdatePrice = (e: any, action: string) => {
     const { value } = e.target;
-    const price = value ? Number(value) : 0;
-    setTempPrice(subtotal - price);
-    setTotal(subtotal - price);
-    // if(action === 'discount'){
-    // }
-    // if(action === 'feeship'){
-    //     setTotal(subtotal + price);
-    // }
+    const price = value ? Number(value.replace(/\,/g, "")) : 0;
+    if (action === "discount") {
+      setDiscount(price);
+    }
+    if (action === "feeship") {
+      setFeeShip(price);
+    }
   };
+
+  React.useEffect(() => {
+    setTotal(subtotal - feeShip - discount);
+    form.setFieldsValue({
+      ["subtotal"]: subtotal,
+      ["total"]: total,
+    });
+  }, [discount, feeShip, subtotal, form, total]);
+
   React.useEffect(() => {
     const caculatorOrder = () => {
       let total = 0;
@@ -60,20 +70,49 @@ const OrderSummary: React.FC = () => {
                   <p>{formatMoney.format(subtotal)}</p>
                 </div>
               </div>
+              <Form.Item name="subtotal" hidden>
+                <Input />
+              </Form.Item>
             </div>
             <div className="row">
-              <p className="i-sub">
-                <Form.Item name="discount" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
-                  <Input type="number" addonBefore="Giảm giá" defaultValue={0} onBlur={(e) => handleUpdatePrice(e, "discount")} />
+              <div className="i-sub">
+                <Form.Item
+                  name="discount"
+                  // noStyle
+                  initialValue={dataUpdate[0] ? dataUpdate[0].previousPrice : ""}
+                >
+                  <InputNumber
+                    min={0}
+                    max={1000000000}
+                    addonBefore="Giảm giá"
+                    formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    parser={(value: any) => value.replace(/\$\s?|(,*)/g, "")}
+                    style={{ width: "100%" }}
+                    placeholder="Giảm giá..."
+                    onBlur={(e) => handleUpdatePrice(e, "discount")}
+                  />
                 </Form.Item>
-              </p>
+              </div>
             </div>
             <div className="row">
-              <p className="i-sub">
-                <Form.Item name="feeship" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
-                  <Input type="number" addonBefore="Phí Ship." defaultValue={0} onBlur={(e) => handleUpdatePrice(e, "feeship")} />
+              <div className="i-sub">
+                <Form.Item
+                  name="feeship"
+                  // noStyle
+                  initialValue={dataUpdate[0] ? dataUpdate[0].previousPrice : ""}
+                >
+                  <InputNumber
+                    min={0}
+                    max={1000000000}
+                    addonBefore="Phí Ship."
+                    formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    parser={(value: any) => value.replace(/\$\s?|(,*)/g, "")}
+                    placeholder="Phí Ship..."
+                    style={{ width: "100%" }}
+                    onBlur={(e) => handleUpdatePrice(e, "feeship")}
+                  />
                 </Form.Item>
-              </p>
+              </div>
             </div>
           </div>
         </div>
@@ -89,6 +128,9 @@ const OrderSummary: React.FC = () => {
           <div className="col-6">
             <div className="o-price">
               <p>{formatMoney.format(total)}</p>
+              <Form.Item name="total" hidden>
+                <Input />
+              </Form.Item>
             </div>
           </div>
         </div>

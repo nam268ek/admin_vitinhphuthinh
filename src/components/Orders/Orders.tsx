@@ -14,7 +14,7 @@ import { getListDropdown, setAction, setIsLoading } from "../redux/Slices/Primar
 import { createProduct, getAllProducts, removeItemProduct, setDefaultDataFilter, updateProduct } from "../redux/Slices/productSlice";
 import { getListCategory } from "../redux/Slices/CategorySlice";
 import { BiRefresh } from "react-icons/bi";
-import Search from './../Search/Search';
+import Search from "./../Search/Search";
 
 const Orders: React.FC = () => {
   const [isDefault, setIsDefault] = React.useState<boolean>(false);
@@ -24,22 +24,24 @@ const Orders: React.FC = () => {
 
   const columns = [
     {
-      title: "ID",
+      title: "Order ID",
       dataIndex: "key",
       key: "key",
       render: (text: string) => <span>{text}</span>,
     },
     {
-      title: "Tên sản phẩm",
+      title: "Khách hàng",
+      dataIndex: "key",
+      key: "key",
+      render: (text: string) => <span>{text}</span>,
+    },
+    {
+      title: "Sản phẩm",
       dataIndex: "name",
       key: "name",
       render: (text: string) => <span className="name-product">{text}</span>,
     },
-    {
-      title: "SKU",
-      dataIndex: "sku",
-      key: "sku",
-    },
+
     {
       title: "Giá",
       dataIndex: "price",
@@ -47,14 +49,13 @@ const Orders: React.FC = () => {
       render: (price: any) => <span className="price-product">{formatMoney.format(Number(price))}</span>,
     },
     {
-      title: "Trạng thái thanh toán",
+      title: "Trạng thái",
       key: "tags",
       dataIndex: "tags",
       render: (tags: any[]) => (
         <>
           {tags.map((tag) => {
-            let color =
-              tag === "Đã thanh toán" ? "green" : tag === "Chưa thanh toán" ? "cyan" : "red";
+            let color = tag === "Đã thanh toán" ? "green" : tag === "Chưa thanh toán" ? "cyan" : "red";
             return (
               <Tag color={color} key={tag}>
                 {tag}
@@ -68,9 +69,12 @@ const Orders: React.FC = () => {
       title: "Ngày đặt hàng",
       dataIndex: "date",
       key: "date",
-      render: (date: any) => (
-        <span>{moment(date).format("DD/MM/YYYY").toString()}</span>
-      ),
+      render: (date: any) => <span>{moment(date).format("DD/MM/YYYY").toString()}</span>,
+    },
+    {
+      title: "Payment",
+      dataIndex: "sku",
+      key: "sku",
     },
     {
       title: "Lựa chọn",

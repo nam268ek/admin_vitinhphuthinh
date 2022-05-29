@@ -18,6 +18,9 @@ import ModuleProducts from "./ModuleProducts/ModuleProducts";
 import NoContent from "../common/NoContent";
 import ImageDefault from "../common/ImageDefault";
 import OrderSummary from "./OrderSummary/OrderSummary";
+import OrderDetails from "./OrderDetail/OrderDetails";
+import { originalOrder } from './../Services/general.service';
+import { createNewOrder } from "../redux/Slices/orderSlice";
 
 const NewOrder: React.FC = () => {
   const dispatch = useDispatch();
@@ -48,45 +51,49 @@ const NewOrder: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onFinish = async (data: any) => {
-    const bodyNewProduct = cloneDeep(originalProduct);
-    bodyNewProduct.action = action;
-    if (action === "update") {
-      bodyNewProduct.data._id = dataUpdate[0]._id;
-    }
-    bodyNewProduct.data.img = [...listImages, { imgRm: listImageRemove }] || [];
-    bodyNewProduct.data.title = data.nameprod || "";
-    bodyNewProduct.data.contsum = data.prodsummary || "";
-    bodyNewProduct.data.price = data.pricesale ? parseInt(data.pricesale) : "";
-    bodyNewProduct.data.pricesale = data.pricesale ? parseInt(data.pricesale) : "";
-    bodyNewProduct.data.label = (((data.oriprice - data.pricesale) / data.oriprice) * 100) | 0;
-    bodyNewProduct.data.brand = data.brand ? data.brand : "";
-    bodyNewProduct.data.category = data.category ? data.category : "";
-    bodyNewProduct.data.count = data.count ? parseInt(data.count) : 1;
-    bodyNewProduct.data.previousPrice = data.oriprice ? parseInt(data.oriprice) : 0;
-    bodyNewProduct.data.contentEditor = childRef.current.contentEditor();
-    bodyNewProduct.data.sku = data.sku ? data.sku : "";
-    bodyNewProduct.data.contentInfo.model = data.model ? data.model : "";
-    bodyNewProduct.data.contentInfo.color = data.color ? data.color : "";
-    bodyNewProduct.data.contentInfo.cpu = data.cpu ? data.cpu : "";
-    bodyNewProduct.data.contentInfo.ram = data.ram ? data.ram : "";
-    bodyNewProduct.data.contentInfo.harddrive = data.harddrive ? data.harddrive : "";
-    bodyNewProduct.data.contentInfo.vgacard = data.vgacard ? data.vgacard : "";
-    bodyNewProduct.data.contentInfo.os = data.os ? data.os : "";
-    bodyNewProduct.data.contentInfo.warranty = data.warranty ? data.warranty : "";
-    bodyNewProduct.data.contentInfo.monitor = data.monitor ? data.monitor : "";
-    bodyNewProduct.data.contentInfo.network = data.network ? data.network : "";
-    bodyNewProduct.data.contentInfo.extend = data.extend ? data.extend : "";
-    bodyNewProduct.data.contentInfo.battery = data.battery ? data.battery : "";
-    bodyNewProduct.data.contentInfo.weight = data.weight ? data.weight : "";
+  const filterListOrder = (listOrder: any) => {
+    return listOrder.map((item: any) => {
+      return {
+        _id: item._id,
+        title: item.title,
+        img: item.img,
+        quantity: item.quantity,
+        price: item.price,
+      }
+    });
+  }
 
-    console.log(bodyNewProduct);
+  const onFinish = async (data: any) => {
+    const bodyNewOrder = cloneDeep(originalOrder);
+    bodyNewOrder.action = action || "create";
+    if(action === 'update') {
+      bodyNewOrder.data._id = dataUpdate[0]._id;
+    }
+    bodyNewOrder.data.stord = 'Đang xử lý';
+
+    bodyNewOrder.data.customer.name = data.namecustomer;
+    bodyNewOrder.data.customer.phone = data.phone;
+    bodyNewOrder.data.customer.email = data.email;
+    bodyNewOrder.data.customer.address = data.address;
+    bodyNewOrder.data.customer.note = data.notecustomer;
+    
+    bodyNewOrder.data.priord.subtotal = data.subtotal;
+    bodyNewOrder.data.priord.discount = data.discount;
+    bodyNewOrder.data.priord.total = data.total;
+    bodyNewOrder.data.priord.payment = data.payment ? data.payment : '';
+    bodyNewOrder.data.priord.note = data.note;
+    bodyNewOrder.data.priord.feeship = data.feeship;
+
+    bodyNewOrder.data.listprod = filterListOrder(listOrder) || [];
+    
+    console.log(bodyNewOrder); 
+    // console.log(bodyNewProduct);
 
     dispatch(setIsLoading(true));
-    const result = await dispatch(createProduct(bodyNewProduct));
+    const result = await dispatch(createNewOrder(bodyNewOrder));
     dispatch(setIsLoading(false));
     if (result.payload.code === 200) {
-      navigate("/products", { replace: true });
+      // navigate("/orders", { replace: true });
     }
   };
 
@@ -118,49 +125,10 @@ const NewOrder: React.FC = () => {
               </div>
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                 <figure className="ps-block--form-box">
-                  <figcaption>Order Detail</figcaption>
-                  <div className="ps-block__content order">
-                    {listOrder?.map((item: any, index: number) => (
-                      <>
-                        <div className="row">
-                          <div className="col-8">
-                            <div className="content-left">
-                              <div className="item">
-                                <div className="i-img">
-                                  {item.img.length > 0 ? <img src={item.img[0].secure_url} alt="product" /> : <ImageDefault />}
-                                </div>
-                              </div>
-                              <div className="item">
-                                <div className="i-content">
-                                  <h6>{item.title}</h6>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-4">
-                            <div className="content-right">
-                              <div className="item">
-                                <div className="i-price">
-                                  <span>{formatMoney.format(Number(item.price))}</span>
-                                </div>
-                                <div className="i-qty">
-                                  <p>
-                                    Số lượng: <span>{item.quantity}</span>
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        {listOrder?.length - 1 !== index && <hr />}
-                      </>
-                    ))}
-                    {listOrder?.length === 0 && <NoContent />}
-                  </div>
+                  <OrderDetails />
                 </figure>
-
                 <figure className="ps-block--form-box">
-                 <OrderSummary />
+                  <OrderSummary form={form}/>
                 </figure>
               </div>
             </div>
@@ -172,7 +140,7 @@ const NewOrder: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group">
                     <label>Tên khách hàng</label>
-                    <Form.Item name="note" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                    <Form.Item name="namecustomer" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
                       <Input maxLength={maxLength} showCount placeholder="Họ tên..." />
                     </Form.Item>
                   </div>
@@ -180,7 +148,7 @@ const NewOrder: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group">
                     <label>Địa chỉ</label>
-                    <Form.Item name="note" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                    <Form.Item name="address" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
                       <Input maxLength={maxLength} showCount placeholder="Địa chỉ..." />
                     </Form.Item>
                   </div>
@@ -190,7 +158,7 @@ const NewOrder: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group">
                     <label>Số điện thoại</label>
-                    <Form.Item name="note" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                    <Form.Item name="phone" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
                       <Input maxLength={maxLength} showCount placeholder="Phone number..." />
                     </Form.Item>
                   </div>
@@ -198,7 +166,7 @@ const NewOrder: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group">
                     <label>Email</label>
-                    <Form.Item name="note" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                    <Form.Item name="email" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
                       <Input maxLength={maxLength} showCount placeholder="Email..." />
                     </Form.Item>
                   </div>
@@ -207,7 +175,7 @@ const NewOrder: React.FC = () => {
               <div className="row">
                 <div className="form-group">
                   <label>Ghi chú</label>
-                  <Form.Item name="note" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                  <Form.Item name="notecustomer" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
                     <TextArea maxLength={maxLength} showCount placeholder="Note..." />
                   </Form.Item>
                 </div>
