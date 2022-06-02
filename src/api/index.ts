@@ -50,12 +50,12 @@ const APIClientService = {
     const url = "/orders";
     return AxiosClient.post(url, { params });
   },
-  getCardPostListLimit: (params: any) => {
-    const url = "/cardposts";
-    return AxiosClient.get(url, { params });
+  requestListOrder: (params: any) => {
+    const url = "/orders";
+    return AxiosClient.post(url, { params });
   },
-  asyncProductForUser: (params: any) => {
-    const url = "/cart";
+  updateOrder: (params: any) => {
+    const url = "/orders";
     return AxiosClient.post(url, { params });
   },
   asyncCartFromDatabase: () => {

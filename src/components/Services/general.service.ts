@@ -1,5 +1,4 @@
 import { Modal } from "antd";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 export const originalRegister: any = {
   email: "",
@@ -148,3 +147,19 @@ export const formatMoney = new Intl.NumberFormat("vi-VN", {
   style: "currency",
   currency: "VND",
 });
+
+// const openDialogConfirm = () => {
+//   return Modal.confirm({
+//     title: "Do you want to delete these items?",
+//     icon: <ExclamationCircleOutlined />,
+//     content: "When clicked the OK button, this dialog will be closed after 1 second",
+
+//     onOk() {
+//       return new Promise((resolve, reject) => {
+//         setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+//       }).catch(() => console.log("Oops errors!"));
+//     },
+
+//     onCancel() {},
+//   });
+// }

@@ -4,9 +4,9 @@ import { FiFilter } from "react-icons/fi";
 import { FaPlusCircle } from "react-icons/fa";
 import { Table, Tag, Space, Modal, Button } from "antd";
 import moment from "moment";
-import { MdDeleteForever, MdModeEdit } from "react-icons/md";
+import { MdCancel, MdDeleteForever, MdDownloadDone, MdFileDownloadDone, MdModeEdit } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { formatMoney, originalProduct } from "../Services/general.service";
+import { formatMoney, originalOrder, originalProduct } from "../Services/general.service";
 import SelectOption from "../common/SelectOption";
 import { useDispatch, useSelector } from "react-redux";
 import { cloneDeep } from "lodash";
@@ -15,30 +15,34 @@ import { createProduct, getAllProducts, removeItemProduct, setDefaultDataFilter,
 import { getListCategory } from "../redux/Slices/CategorySlice";
 import { BiRefresh } from "react-icons/bi";
 import Search from "./../Search/Search";
+import { getListOrder, updateListOrder, updateOrder, updateItemOrder } from "../redux/Slices/orderSlice";
+import ModalBox from "../common/ModalBox";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const Orders: React.FC = () => {
   const [isDefault, setIsDefault] = React.useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { dataFilter, listAllProducts, statusResponse } = useSelector((state: any) => state.product);
+  // const { dataFilter, listAllOrders, statusResponse } = useSelector((state: any) => state.order);
+  const { listAllOrders } = useSelector((state: any) => state.order);
 
   const columns = [
     {
       title: "Order ID",
-      dataIndex: "key",
-      key: "key",
+      dataIndex: "orderid",
+      key: "orderid",
       render: (text: string) => <span>{text}</span>,
     },
     {
       title: "Khách hàng",
-      dataIndex: "key",
-      key: "key",
+      dataIndex: "namecustomer",
+      key: "namecustomer",
       render: (text: string) => <span>{text}</span>,
     },
     {
       title: "Sản phẩm",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "nameprod",
+      key: "nameprod",
       render: (text: string) => <span className="name-product">{text}</span>,
     },
 
@@ -48,200 +52,77 @@ const Orders: React.FC = () => {
       key: "price",
       render: (price: any) => <span className="price-product">{formatMoney.format(Number(price))}</span>,
     },
-    {
-      title: "Trạng thái",
-      key: "tags",
-      dataIndex: "tags",
-      render: (tags: any[]) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag === "Đã thanh toán" ? "green" : tag === "Chưa thanh toán" ? "cyan" : "red";
-            return (
-              <Tag color={color} key={tag}>
-                {tag}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
+
     {
       title: "Ngày đặt hàng",
       dataIndex: "date",
       key: "date",
-      render: (date: any) => <span>{moment(date).format("DD/MM/YYYY").toString()}</span>,
+      render: (date: any) => <span>{moment(date).format("L, h:mm:ss A")}</span>,
     },
     {
       title: "Payment",
-      dataIndex: "sku",
-      key: "sku",
+      dataIndex: "payment",
+      key: "payment",
+    },
+    {
+      title: "Trạng thái",
+      key: "stord",
+      dataIndex: "stord",
+      render: (status: any) => (
+        <>
+          {status === "Đang xử lý" ? (
+            <Tag color="cyan" key={Math.random()}>
+              {status}
+            </Tag>
+          ) : status === "Đã hủy" ? (
+            <Tag color="red" key={Math.random()}>
+              {status}
+            </Tag>
+          ) : (
+            <Tag color="green" key={Math.random()}>
+              {status}
+            </Tag>
+          )}
+        </>
+      ),
     },
     {
       title: "Lựa chọn",
       key: "action",
       render: (text: string, record: any) => (
         <Space size="middle">
-          <Link to="" className="edit-item">
+          <Link to="" className="edit-item" onClick={(e) => handleUpdateOrder(e, record)}>
             <MdModeEdit size={20} />
           </Link>
+          <Link to="" className="done-item" onClick={(e) => handleDoneOrder(e, record)}>
+            <MdFileDownloadDone size={20} />
+          </Link>
           <Link to="" className="remove-item">
-            <MdDeleteForever size={20} />
+            <MdCancel size={20} />
           </Link>
         </Space>
       ),
     },
   ];
 
-  const data = [
-    {
-      key: "1",
-      name: "Laptop Dell Inspiron 15 7000 Gaming Laptop",
-      sku: "AB123456789-1",
-      price: "10.000.000 ₫",
-      category: "Laptop DELL",
-      date: new Date(),
-      tags: ["Đã thanh toán", "Chưa thanh toán"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["Đã hủy"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["cool", "teacher"],
-    },
-    {
-      key: "4",
-      name: "John Brown",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
-      date: new Date(),
-      tags: ["active", "Tồn kho"],
-    },
-    {
-      key: "5",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["loser"],
-    },
-    {
-      key: "6",
-      name: "Joe Black",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["cool", "teacher"],
-    },
-    {
-      key: "7",
-      name: "John Brown",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
-      date: new Date(),
-      tags: ["active", "Tồn kho"],
-    },
-    {
-      key: "8",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["loser"],
-    },
-    {
-      key: "9",
-      name: "Joe Black",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["cool", "teacher"],
-    },
-    {
-      key: "10",
-      name: "John Brown",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
-      date: new Date(),
-      tags: ["active", "Tồn kho"],
-    },
-    {
-      key: "11",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["loser"],
-    },
-    {
-      key: "12",
-      name: "Joe Black",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["cool", "teacher"],
-    },
-    {
-      key: "13",
-      name: "John Brown",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
-      date: new Date(),
-      tags: ["active", "Tồn kho"],
-    },
-    {
-      key: "14",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["loser"],
-    },
-  ];
+  const convertListOrders = (list: any[]) => {
+    return list
+      .map((item: any, index: number) => {
+        return {
+          key: index + 1,
+          id: item._id,
+          orderid: item.orderid,
+          namecustomer: item.customer.name || "",
+          nameprod: item.listprod[0].title || "",
+          price: item.priord.total || 0,
+          date: item.createdAt || "",
+          payment: item.priord.payment || "",
+          stord: item.stord || "",
+        };
+      })
+      .sort((a: any, b: any) => (a.date > b.date ? -1 : 1));
+  };
+  const data = convertListOrders(listAllOrders ? listAllOrders : []);
 
   const handleActiveProduct = async (checked: boolean, item: any) => {
     const bodyProduct = cloneDeep(originalProduct);
@@ -260,26 +141,59 @@ const Orders: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (statusResponse.length > 0 && statusResponse[0].status === "success") {
-      Modal.success({
-        title: "Thông báo",
-        content: `${statusResponse[0].message}`,
-        okText: "Ok",
-      });
-    }
-  }, [statusResponse]);
+    dispatch(getListOrder({ role: "" }));
+  }, []);
 
-  const handleUpdateProduct = (e: any, record: any) => {
+  const handleUpdateOrder = (e: any, record: any) => {
     e.preventDefault();
-    const itemEdit = listAllProducts.filter((item: any) => item._id === record.id);
+    const itemEdit = listAllOrders.filter((item: any) => item._id === record.id);
     if (itemEdit.length > 0) {
       dispatch(setAction("update"));
-      dispatch(updateProduct(itemEdit));
-      navigate("/products/create-product", { replace: true });
+      dispatch(updateOrder(itemEdit));
+
+      dispatch(updateListOrder({ data: itemEdit[0].listprod, update: true }));
+      navigate("/orders/create-order", { replace: true });
     }
   };
 
-  const handleRemoveProduct = async (e: any, record: any) => {
+  const openDialogConfirm = async (dispatch: any, action: any, item: any) => {
+    // let result: boolean = false;
+    Modal.confirm({
+      title: "Thông báo",
+      icon: <ExclamationCircleOutlined />,
+      content: "Xác nhận hoàn thành đơn hàng?",
+      onOk: async () => {
+        const data = await dispatch(action(item));
+        if (data.payload.code === 200) {
+          Modal.success({
+            title: "Thông báo",
+            content: "Đơn hàng đã được hoàn thành",
+          });
+          dispatch(getListOrder({ role: "" }));
+        }
+      },
+
+      onCancel() {},
+    });
+  };
+
+  const handleDoneOrder = (e: any, record: any) => {
+    e.preventDefault();
+    const itemEdit = listAllOrders.filter((item: any) => item._id === record.id);
+    if (itemEdit.length > 0) {
+      const bodyItem = cloneDeep(originalOrder);
+      bodyItem.action = "update";
+      bodyItem._id = itemEdit[0]._id;
+      bodyItem.data = cloneDeep(itemEdit[0]);
+      bodyItem.data.stord = "Đã hoàn thành";
+      delete bodyItem.data._id;
+      delete bodyItem.data["__v"];
+      openDialogConfirm(dispatch, updateItemOrder, bodyItem);
+      
+    }
+  };
+
+  const handleCancelOrder = async (e: any, record: any) => {
     const bodyRemoveProduct = cloneDeep(originalProduct);
     bodyRemoveProduct.action = "delete";
     bodyRemoveProduct.data._id = record.id;
@@ -314,7 +228,7 @@ const Orders: React.FC = () => {
   // const data = convertListProducts(dataFilter ? dataFilter : []);
 
   const handleDefaultData = () => {
-    dispatch(setDefaultDataFilter(listAllProducts));
+    dispatch(setDefaultDataFilter(listAllOrders));
     setIsDefault(!isDefault);
   };
 
@@ -362,7 +276,7 @@ const Orders: React.FC = () => {
           </div>
           <div className="ps-section__search">
             <form className="ps-form--search-simple">
-              <Search className="search-category" placeholder="Tìm kiếm sản phẩm..." listItem={listAllProducts} isDefault={isDefault} />
+              <Search className="search-category" placeholder="Tìm kiếm sản phẩm..." listItem={listAllOrders} isDefault={isDefault} />
               <button style={{ backgroundColor: "#fff" }} onClick={(e) => e.preventDefault()}>
                 <IoSearchOutline />
               </button>

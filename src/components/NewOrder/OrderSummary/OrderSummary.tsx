@@ -6,9 +6,9 @@ import SelectOption from "../../common/SelectOption";
 import { formatMoney } from "../../Services/general.service";
 
 const OrderSummary: React.FC<any> = ({ form }) => {
-  const { listImages, dataUpdate, statusResponse, listImageRemove } = useSelector((state: any) => state.product);
+  // const { listImages, dataUpdate, statusResponse, listImageRemove } = useSelector((state: any) => state.product);
   const maxLength: number = 100;
-  const { listOrder } = useSelector((state: any) => state.order);
+  const { listOrder, dataUpdate } = useSelector((state: any) => state.order);
   const [subtotal, setSubtotal] = React.useState<number>(0);
   const [total, setTotal] = React.useState<number>(0);
   const [discount, setDiscount] = React.useState<number>(0);
@@ -26,12 +26,22 @@ const OrderSummary: React.FC<any> = ({ form }) => {
   };
 
   React.useEffect(() => {
+    if (dataUpdate.length > 0) {
+      const { subtotal, feeship, discount, total } = dataUpdate[0].priord;
+      setTotal(total);
+      setSubtotal(subtotal);
+      setDiscount(discount);
+      setFeeShip(feeship);
+    }
+  }, []);
+
+  React.useEffect(() => {
     setTotal(subtotal - feeShip - discount);
     form.setFieldsValue({
       ["subtotal"]: subtotal,
       ["total"]: total,
     });
-  }, [discount, feeShip, subtotal, form, total]);
+  }, [discount, feeShip, subtotal, form, total, dataUpdate]);
 
   React.useEffect(() => {
     const caculatorOrder = () => {
@@ -55,7 +65,7 @@ const OrderSummary: React.FC<any> = ({ form }) => {
             </div>
             <div className="form-group">
               <label>Ghi chú</label>
-              <Form.Item name="note" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+              <Form.Item name="note" initialValue={dataUpdate[0] ? dataUpdate[0].priord.note : ""}>
                 <Input maxLength={maxLength} showCount placeholder="Ghi chú..." />
               </Form.Item>
             </div>
@@ -79,7 +89,7 @@ const OrderSummary: React.FC<any> = ({ form }) => {
                 <Form.Item
                   name="discount"
                   // noStyle
-                  initialValue={dataUpdate[0] ? dataUpdate[0].previousPrice : ""}
+                  initialValue={dataUpdate[0] ? dataUpdate[0].priord.discount : ""}
                 >
                   <InputNumber
                     min={0}
@@ -99,7 +109,7 @@ const OrderSummary: React.FC<any> = ({ form }) => {
                 <Form.Item
                   name="feeship"
                   // noStyle
-                  initialValue={dataUpdate[0] ? dataUpdate[0].previousPrice : ""}
+                  initialValue={dataUpdate[0] ? dataUpdate[0].priord.feeship : ""}
                 >
                   <InputNumber
                     min={0}
@@ -127,7 +137,7 @@ const OrderSummary: React.FC<any> = ({ form }) => {
           </div>
           <div className="col-6">
             <div className="o-price">
-              <p>{formatMoney.format(total)}</p>
+              <p>{total >= 0 ? formatMoney.format(total) : formatMoney.format(0)}</p>
               <Form.Item name="total" hidden>
                 <Input />
               </Form.Item>

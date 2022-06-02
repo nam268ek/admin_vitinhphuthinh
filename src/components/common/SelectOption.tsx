@@ -11,6 +11,7 @@ const SelectOption: React.FC<ISelectService> = ({ className, isPayment, placehol
   const { listAllCategory } = useSelector((state: any) => state.category);
   const { listAllProducts } = useSelector((state: any) => state.product);
   const { listDropDown } = useSelector((state: any) => state.primary);
+  const { dataUpdate } = useSelector((state: any) => state.order);
 
   const { Option } = Select;
   const dataCategory = listAllCategory.map((item: any) => item.title);
@@ -75,7 +76,7 @@ const SelectOption: React.FC<ISelectService> = ({ className, isPayment, placehol
     );
   } else if (isPayment) {
     return (
-      <Form.Item name="payment" className={className}>
+      <Form.Item name="payment" className={className} initialValue={dataUpdate[0] ? dataUpdate[0].priord.payment : ""}>
         <Select placeholder={placeholder} value={selectedValues}>
           {dataPayment?.map((item: any, index: any) => (
             <Option key={index} value={item}>

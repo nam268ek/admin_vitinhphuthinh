@@ -61,7 +61,7 @@ const Products: React.FC = () => {
       title: "Ngày cập nhật",
       dataIndex: "date",
       key: "date",
-      render: (text: string) => <span>{text}</span>,
+      render: (text: string) => <span>{moment(text).format("DD/MM/YYYY, h:mm:ss A")}</span>,
     },
     {
       title: "Lựa chọn",
@@ -127,18 +127,20 @@ const Products: React.FC = () => {
   };
 
   const convertListProducts = (list: any[]) => {
-    return list.map((item: any, index: number) => {
-      return {
-        key: index + 1,
-        id: item._id,
-        name: item.title || "",
-        sku: item.sku || "",
-        price: item.price || 0,
-        category: item.category || "",
-        status: item || false,
-        date: item.created_at || "",
-      };
-    });
+    return list
+      .map((item: any, index: number) => {
+        return {
+          key: index + 1,
+          id: item._id,
+          name: item.title || "",
+          sku: item.sku || "",
+          price: item.price || 0,
+          category: item.category || "",
+          status: item || false,
+          date: item.created_at || "",
+        };
+      })
+      .sort((a: any, b: any) => (a.date > b.date ? -1 : 1));
   };
 
   React.useEffect(() => {

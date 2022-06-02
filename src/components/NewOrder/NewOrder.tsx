@@ -19,18 +19,18 @@ import NoContent from "../common/NoContent";
 import ImageDefault from "../common/ImageDefault";
 import OrderSummary from "./OrderSummary/OrderSummary";
 import OrderDetails from "./OrderDetail/OrderDetails";
-import { originalOrder } from './../Services/general.service';
-import { createNewOrder } from "../redux/Slices/orderSlice";
+import { originalOrder } from "./../Services/general.service";
+import { createNewOrder, resetOrder, updateListOrder, updateOrder } from "../redux/Slices/orderSlice";
 
 const NewOrder: React.FC = () => {
   const dispatch = useDispatch();
   const childRef = React.useRef<any>(null);
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const { listImages, dataUpdate, statusResponse, listImageRemove } = useSelector((state: any) => state.product);
+  // const { listImages, dataUpdate, statusResponse, listImageRemove } = useSelector((state: any) => state.product);
   const { listDropDown } = useSelector((state: any) => state.primary);
   const { listAllCategory } = useSelector((state: any) => state.category);
-  const { listOrder } = useSelector((state: any) => state.order);
+  const { listOrder, dataUpdate } = useSelector((state: any) => state.order);
   const { action } = useSelector((state: any) => state.primary);
   const maxLength: number = 100;
   const maxLengthTextArea: number = 500;
@@ -59,34 +59,35 @@ const NewOrder: React.FC = () => {
         img: item.img,
         quantity: item.quantity,
         price: item.price,
-      }
+      };
     });
-  }
+  };
 
   const onFinish = async (data: any) => {
     const bodyNewOrder = cloneDeep(originalOrder);
     bodyNewOrder.action = action || "create";
-    if(action === 'update') {
+    if (action === "update") {
       bodyNewOrder.data._id = dataUpdate[0]._id;
     }
-    bodyNewOrder.data.stord = 'Đang xử lý';
+    bodyNewOrder.data.stord = "Đang xử lý";
+    bodyNewOrder.data.orderid = `VTPT${Date.now().toString().slice(-4)}`;
 
     bodyNewOrder.data.customer.name = data.namecustomer;
     bodyNewOrder.data.customer.phone = data.phone;
     bodyNewOrder.data.customer.email = data.email;
     bodyNewOrder.data.customer.address = data.address;
     bodyNewOrder.data.customer.note = data.notecustomer;
-    
+
     bodyNewOrder.data.priord.subtotal = data.subtotal;
     bodyNewOrder.data.priord.discount = data.discount;
     bodyNewOrder.data.priord.total = data.total;
-    bodyNewOrder.data.priord.payment = data.payment ? data.payment : '';
+    bodyNewOrder.data.priord.payment = data.payment ? data.payment : "";
     bodyNewOrder.data.priord.note = data.note;
     bodyNewOrder.data.priord.feeship = data.feeship;
 
     bodyNewOrder.data.listprod = filterListOrder(listOrder) || [];
-    
-    console.log(bodyNewOrder); 
+
+    console.log(bodyNewOrder);
     // console.log(bodyNewProduct);
 
     dispatch(setIsLoading(true));
@@ -98,19 +99,24 @@ const NewOrder: React.FC = () => {
   };
 
   const resetForm = () => {
-    dispatch(updateProduct([]));
+    dispatch(resetOrder({}));
   };
 
   const handleCancel = (e: any) => {
     e.preventDefault();
-    navigate("/products", { replace: true });
+    dispatch(updateOrder([]));
+    dispatch(updateListOrder([]));
+    navigate("/orders", { replace: true });
   };
 
   return (
     <div className="ps-main__wrapper">
       <div className="header--dashboard">
         <div className="header__left">
-          <h3>Tạo đơn hàng</h3>
+          <h3 className="d-flex justify-content-between align-items-baseline">
+            <span>Tạo đơn hàng</span>
+            <span className="order-id">{`OrderID: ${dataUpdate[0]?.orderid || `VTPT${Date.now().toString().slice(-4)}`}`}</span>
+          </h3>
           <p>
             (<span style={{ color: "red" }}>*</span>) Các trường buộc phải nhập
           </p>
@@ -128,7 +134,7 @@ const NewOrder: React.FC = () => {
                   <OrderDetails />
                 </figure>
                 <figure className="ps-block--form-box">
-                  <OrderSummary form={form}/>
+                  <OrderSummary form={form} />
                 </figure>
               </div>
             </div>
@@ -140,7 +146,7 @@ const NewOrder: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group">
                     <label>Tên khách hàng</label>
-                    <Form.Item name="namecustomer" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                    <Form.Item name="namecustomer" initialValue={dataUpdate[0] ? dataUpdate[0].customer.name : ""}>
                       <Input maxLength={maxLength} showCount placeholder="Họ tên..." />
                     </Form.Item>
                   </div>
@@ -148,7 +154,7 @@ const NewOrder: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group">
                     <label>Địa chỉ</label>
-                    <Form.Item name="address" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                    <Form.Item name="address" initialValue={dataUpdate[0] ? dataUpdate[0].customer.address : ""}>
                       <Input maxLength={maxLength} showCount placeholder="Địa chỉ..." />
                     </Form.Item>
                   </div>
@@ -158,7 +164,7 @@ const NewOrder: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group">
                     <label>Số điện thoại</label>
-                    <Form.Item name="phone" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                    <Form.Item name="phone" initialValue={dataUpdate[0] ? dataUpdate[0].customer.phone : ""}>
                       <Input maxLength={maxLength} showCount placeholder="Phone number..." />
                     </Form.Item>
                   </div>
@@ -166,7 +172,7 @@ const NewOrder: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group">
                     <label>Email</label>
-                    <Form.Item name="email" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                    <Form.Item name="email" initialValue={dataUpdate[0] ? dataUpdate[0].customer.email : ""}>
                       <Input maxLength={maxLength} showCount placeholder="Email..." />
                     </Form.Item>
                   </div>
@@ -175,7 +181,7 @@ const NewOrder: React.FC = () => {
               <div className="row">
                 <div className="form-group">
                   <label>Ghi chú</label>
-                  <Form.Item name="notecustomer" initialValue={dataUpdate[0] ? dataUpdate[0].title : ""}>
+                  <Form.Item name="notecustomer" initialValue={dataUpdate[0] ? dataUpdate[0].customer.note : ""}>
                     <TextArea maxLength={maxLength} showCount placeholder="Note..." />
                   </Form.Item>
                 </div>
