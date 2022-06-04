@@ -321,6 +321,7 @@ export interface ISelectService {
     isStatus?: boolean;
     isDefault?: boolean;
     isPayment?: boolean;
+    disabled?: boolean;
 }
 export interface IProtectedRoute {
     redirectPath: string;

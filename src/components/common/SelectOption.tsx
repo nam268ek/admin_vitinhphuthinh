@@ -4,7 +4,7 @@ import { ISelectService } from "../../types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { filterListProducts } from "../redux/Slices/productSlice";
 
-const SelectOption: React.FC<ISelectService> = ({ className, isPayment, placeholder, defaultValue, isCategory, isBrand, isStatus, isDefault }) => {
+const SelectOption: React.FC<ISelectService> = ({ className, isPayment, placeholder, defaultValue, isCategory, isBrand, isStatus, isDefault, disabled }) => {
   const [form] = Form.useForm<any>();
   const [selectedValues, setSelectedValues] = React.useState<any>([]);
   const dispatch = useDispatch();
@@ -77,7 +77,7 @@ const SelectOption: React.FC<ISelectService> = ({ className, isPayment, placehol
   } else if (isPayment) {
     return (
       <Form.Item name="payment" className={className} initialValue={dataUpdate[0] ? dataUpdate[0].priord.payment : ""}>
-        <Select placeholder={placeholder} value={selectedValues}>
+        <Select placeholder={placeholder} value={selectedValues} disabled={disabled}>
           {dataPayment?.map((item: any, index: any) => (
             <Option key={index} value={item}>
               {item}

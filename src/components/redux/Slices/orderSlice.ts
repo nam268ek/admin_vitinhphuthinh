@@ -28,6 +28,7 @@ const initialState = {
   statusResponse: [],
   listAllOrders: [],
   dataUpdate: [],
+  viewItemOrder: [],
 };
 const orderSlice = createSlice({
   name: "order",
@@ -49,6 +50,9 @@ const orderSlice = createSlice({
       state.dataUpdate = [];
       state.listOrder = [];
     },
+    updateViewItemOrder: (state: any, action: any) => {
+      state.viewItemOrder = [action.payload];
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(createNewOrder.fulfilled, (state: any, action: any) => {
@@ -69,5 +73,5 @@ const orderSlice = createSlice({
   },
 });
 const { reducer } = orderSlice;
-export const { updateListOrder, removeItemListOrder, updateOrder, resetOrder } = orderSlice.actions;
+export const { updateListOrder, removeItemListOrder, updateOrder, resetOrder, updateViewItemOrder } = orderSlice.actions;
 export default reducer;
