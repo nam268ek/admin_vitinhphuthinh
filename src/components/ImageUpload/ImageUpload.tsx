@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Upload } from "antd";
+import { Form, message, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import { IImageUpload } from "../../types/types";
 import { Controller, useForm } from "react-hook-form";
@@ -19,6 +19,7 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
   const { control } = useForm<any>();
   const [fileList, setFileList] = useState<any>([]);
   const [listPath, setListPath] = useState<any>([]);
+  const [isValid, setIsValid] = useState<boolean>(false);
   const { listImages } = useSelector((state: any) => state.product);
   const { Dragger }: { Dragger: any } = Upload;
   const dispatch = useDispatch();
@@ -40,7 +41,8 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
   }, [listFileUpdate, status]);
 
   const onChange = ({ fileList }: { fileList: any }) => {
-    setFileList(fileList);
+    isValid && setFileList(fileList);
+    console.log(fileList);
   };
 
   const onPreview = async (file: any) => {
@@ -86,7 +88,7 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
       onSuccess("Ok");
       console.log("server res: ", result);
     } catch (err) {
-      console.log("Eroor: ", err);
+      message.error("Upload failed");
       const error = new Error("Some error");
       onError({ err });
     }
@@ -96,15 +98,48 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
     dispatch(updateListImages(listPath));
   }, [listPath, dispatch]);
   console.log("listPath: ", listPath);
+
+  const beforeUpload = (file: any) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isJpgOrPng) {
+      setIsValid(false);
+      message.error("You can only upload JPG/PNG file!");
+    } else if (!isLt2M) {
+      setIsValid(false);
+      message.error("Image must smaller than 2MB!");
+    } else setIsValid(true);
+    return isJpgOrPng && isLt2M;
+  };
+
+  const onUploadFail = (err: any) => {
+    console.log("err: ", err);
+  };
   return (
     // <ImgCrop rotate>
-    <Controller
-      name="sku"
-      defaultValue=""
-      control={control}
-      render={({ field }) => (
+    // <Controller
+    //   name="sku"
+    //   defaultValue=""
+    //   control={control}
+    //   render={({ field }) => (
+    //     <Upload
+    //       {...field}
+    //       accept="image/*"
+    //       customRequest={uploadImage}
+    //       listType="picture-card"
+    //       className={styleClassName}
+    //       fileList={fileList}
+    //       onChange={onChange}
+    //       onPreview={onPreview}
+    //       onRemove={onRemove}
+    //     >
+    //       {(fileList.length < (maxNumberOfFiles || 1) || listImages.length < (maxNumberOfFiles || 1)) && "+ Upload"}
+    //     </Upload>
+    //   )}
+    // />
+    <Form.Item name="img">
+      <ImgCrop modalWidth={850} beforeCrop={beforeUpload} onUploadFail={onUploadFail}>
         <Upload
-          {...field}
           accept="image/*"
           customRequest={uploadImage}
           listType="picture-card"
@@ -116,8 +151,8 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
         >
           {(fileList.length < (maxNumberOfFiles || 1) || listImages.length < (maxNumberOfFiles || 1)) && "+ Upload"}
         </Upload>
-      )}
-    />
+      </ImgCrop>
+    </Form.Item>
   );
 };
 
