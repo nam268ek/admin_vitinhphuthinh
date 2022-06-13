@@ -91,7 +91,7 @@ const Products: React.FC = () => {
 
     dispatch(setIsLoading(true));
     await dispatch(createProduct(bodyProduct));
-    await dispatch(getAllProducts({ role: "" }));
+    await dispatch(getAllProducts({ role: "user" }));
     dispatch(setIsLoading(false));
   };
 
@@ -122,7 +122,7 @@ const Products: React.FC = () => {
 
     dispatch(setIsLoading(true));
     await dispatch(removeItemProduct(bodyRemoveProduct));
-    await dispatch(getAllProducts({ role: "" }));
+    await dispatch(getAllProducts({ role: "user" }));
     dispatch(setIsLoading(false));
   };
 
@@ -144,9 +144,9 @@ const Products: React.FC = () => {
   };
 
   React.useEffect(() => {
-    dispatch(getAllProducts({ role: "" }));
-    dispatch(getListCategory({ role: "" }));
-    dispatch(getListDropdown({ role: "" }));
+    dispatch(getAllProducts({ role: "user" }));
+    dispatch(getListCategory({ role: "user" }));
+    dispatch(getListDropdown({ role: "user" }));
   }, [dispatch]);
 
   const data = convertListProducts(dataFilter ? dataFilter : []);

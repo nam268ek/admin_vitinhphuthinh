@@ -46,8 +46,8 @@ const NewOrder: React.FC = () => {
   const { Option } = Select;
 
   React.useEffect(() => {
-    dispatch(getListCategory({ role: "" }));
-    dispatch(getListDropdown({ role: "" }));
+    dispatch(getListCategory({ role: "user" }));
+    dispatch(getListDropdown({ role: "user" }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

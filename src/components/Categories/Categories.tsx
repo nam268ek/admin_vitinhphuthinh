@@ -74,7 +74,7 @@ const Categories: React.FC = () => {
 
     dispatch(setIsLoading(true));
     await dispatch(removeItemCategory(bodyRemoveCategory));
-    await dispatch(getListCategory({ role: "" }));
+    await dispatch(getListCategory({ role: "user" }));
     dispatch(setIsLoading(false));
   };
 
@@ -172,7 +172,7 @@ const Categories: React.FC = () => {
 
       dispatch(setIsLoading(true));
       await dispatch(createNewCategory(bodyCategories));
-      await dispatch(getListCategory({ role: "" }));
+      await dispatch(getListCategory({ role: "user" }));
       dispatch(setIsLoading(false));
       form.resetFields();
       setEnabledSubmenu(false);
@@ -194,7 +194,7 @@ const Categories: React.FC = () => {
   }, [statusResponse]);
 
   React.useEffect(() => {
-    dispatch(getListCategory({ role: "" }));
+    dispatch(getListCategory({ role: "user" }));
   }, [dispatch]);
 
   const dataSort = cloneDeep(listAllCategory).sort((a: { index: number }, b: { index: number }) => {
