@@ -4,6 +4,7 @@ import primarySlice from '../Slices/PrimarySlice';
 import productSlice from '../Slices/productSlice';
 import categorySlice from '../Slices/CategorySlice';
 import orderSlice from '../Slices/orderSlice';
+import layoutSlice from '../Slices/layoutSlice';
 
 const reducers = combineReducers({
   login: LoginSlice,
@@ -11,6 +12,7 @@ const reducers = combineReducers({
   product: productSlice,
   category: categorySlice,
   order: orderSlice,
+  layout: layoutSlice,
 });
 
 const store = configureStore({

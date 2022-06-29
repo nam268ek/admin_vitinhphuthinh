@@ -123,21 +123,19 @@ const Orders: React.FC = () => {
   ];
 
   const convertListOrders = (list: any[]) => {
-    return list
-      .map((item: any, index: number) => {
-        return {
-          key: index + 1,
-          id: item._id,
-          orderid: item.orderid,
-          namecustomer: item.customer.name || "",
-          nameprod: item.listprod[0].title || "",
-          price: item.priord.total || 0,
-          date: item.createdAt || "",
-          payment: item.priord.payment || "",
-          stord: item.stord || "",
-        };
-      })
-      .sort((a: any, b: any) => (a.date > b.date ? -1 : 1));
+    return list.map((item: any, index: number) => {
+      return {
+        key: index + 1,
+        id: item._id,
+        orderid: item.orderid,
+        namecustomer: item.customer.name || "",
+        nameprod: item.listprod[0].title || "",
+        price: item.priord.total || 0,
+        date: item.createdAt || "",
+        payment: item.priord.payment || "",
+        stord: item.stord || "",
+      };
+    });
   };
   const data = convertListOrders(listAllOrders ? listAllOrders : []);
 

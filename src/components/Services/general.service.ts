@@ -99,19 +99,26 @@ export const originalListDropDown: any = {
     "list-brand": [],
   },
 };
-// {
-//   id: 1,
-//   title: "Laptop Dell",
-//   icon: <MdOutlineLaptopMac />,
-//   submenuTitle: "Sản phẩm Dell",
-//   submenu: [
-//     { id: 1, title: "Dell Inspiron", category: "dellProducts" },
-//     { id: 2, title: "Dell Latitude", category: "dellProducts" },
-//     { id: 3, title: "Dell Alienware", category: "dellProducts" },
-//     { id: 4, title: "Dell XPS", category: "dellProducts" },
-//     { id: 5, title: "Dell Vostro", category: "dellProducts" },
-//   ],
-// },
+
+export const originalListImgLayout: any = {
+  role: "admin",
+  action: "",
+  data: {
+    layout1: [
+      {
+        b1: [],
+        b2: [],
+        b3: [],
+      },
+    ],
+    layout2: [
+      {
+        b1: [],
+        b2: [],
+      },
+    ],
+  },
+};
 
 export const convertListCategory = (list: any[]) => {
   return list.map((item: any, index: number) => {

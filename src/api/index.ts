@@ -18,9 +18,9 @@ const APIClientService = {
     return AxiosClient.post(url, { params });
   },
   // getRefreshToken: (params) => {},
-  getOrderCanceled: () => {
-    const url = "/order/canceled";
-    return AxiosClient.get(url);
+  reqListImgLayout: (params: any) => {
+    const url = "/layout";
+    return AxiosClient.post(url, { params });
   },
   postRegister: (params: any) => {
     const url = "/register";

@@ -8,198 +8,30 @@ import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
 import SelectOption from "./../common/SelectOption";
 import ImageUpload from "../ImageUpload/ImageUpload";
+import { useDispatch, useSelector } from "react-redux";
+import { updateListImgLayout } from "../redux/Slices/layoutSlice";
+import { cloneDeep } from "lodash";
+import { originalListImgLayout } from "../Services/general.service";
+import { setIsLoading } from "../redux/Slices/PrimarySlice";
 
 const Layout: React.FC = () => {
+  const dispatch = useDispatch();
+  const { layout1, layout2 } = useSelector((state: any) => state.layout);
 
-  const onChange = (e: any) => {
-    console.log("Change:", e.target.value);
+  const enterLoading = async (index: any) => {
+    const layoutOrigin = cloneDeep(originalListImgLayout);
+    layoutOrigin.action = "RSAKEY03";
+    layoutOrigin.data = { layout1, layout2 };
+    
+    dispatch(setIsLoading(true));
+    await dispatch(updateListImgLayout(layoutOrigin));
+    dispatch(setIsLoading(false));
   };
-  const enterLoading = (index: any) => {};
-  const columns = [
-    {
-      title: "Tên danh mục",
-      dataIndex: "category",
-      key: "category",
-    },
-    {
-      title: "Link",
-      dataIndex: "price",
-      key: "price",
-    },
-    {
-      title: "Ngày tạo",
-      dataIndex: "date",
-      key: "date",
-      render: (date: any) => (
-        <span>{moment(date).format("DD/MM/YYYY").toString()}</span>
-      ),
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (text: string, record: any) => (
-        <Space size="middle">
-          <Link to="" className="edit-item">
-            <MdModeEdit size={20} />
-          </Link>
-          <Link to="" className="remove-item">
-            <MdDeleteForever size={20} />
-          </Link>
-        </Space>
-      ),
-    },
-  ];
 
-  const data = [
-    {
-      key: "1",
-      name: "Laptop Dell Inspiron 15 7000 Gaming Laptop",
-      sku: "AB123456789-1",
-      price: "10.000.000 ₫",
-      category: "Laptop DELL",
-      date: new Date(),
-      tags: ["Kích hoạt", "Tồn kho"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
+  const goBack = () => {
+    window.history.back();
+  }
 
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["cool", "teacher"],
-    },
-    {
-      key: "4",
-      name: "John Brown",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
-      date: new Date(),
-      tags: ["active", "Tồn kho"],
-    },
-    {
-      key: "5",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["loser"],
-    },
-    {
-      key: "6",
-      name: "Joe Black",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["cool", "teacher"],
-    },
-    {
-      key: "7",
-      name: "John Brown",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
-      date: new Date(),
-      tags: ["active", "Tồn kho"],
-    },
-    {
-      key: "8",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["loser"],
-    },
-    {
-      key: "9",
-      name: "Joe Black",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["cool", "teacher"],
-    },
-    {
-      key: "10",
-      name: "John Brown",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
-      date: new Date(),
-      tags: ["active", "Tồn kho"],
-    },
-    {
-      key: "11",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["loser"],
-    },
-    {
-      key: "12",
-      name: "Joe Black",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["cool", "teacher"],
-    },
-    {
-      key: "13",
-      name: "John Brown",
-      sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
-      date: new Date(),
-      tags: ["active", "Tồn kho"],
-    },
-    {
-      key: "14",
-      name: "Jim Green",
-      sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
-      date: new Date(),
-
-      tags: ["loser"],
-    },
-  ];
   return (
     <div className="ps-main__wrapper">
       <div className="header--dashboard">
@@ -218,11 +50,7 @@ const Layout: React.FC = () => {
                   <div className="background-content c-h-1">
                     <label>Background 1</label>
                     <div className="form-group--nest">
-                      <ImageUpload
-                        styleClassName="upload-image-home"
-                        maxNumberOfFiles={13}
-                        multiple={false}
-                      />
+                      <ImageUpload styleClassName="upload-image-home" maxNumberOfFiles={3} multiple={false} feature="layout1_b1" />
                     </div>
                   </div>
                 </div>
@@ -232,13 +60,13 @@ const Layout: React.FC = () => {
                   <div className="background-content">
                     <label>Background 2</label>
                     <div className="form-group--nest">
-                      <ImageUpload />
+                      <ImageUpload feature="layout1_b2" />
                     </div>
                   </div>
                   <div className="background-content">
                     <label>Background 3</label>
                     <div className="form-group--nest">
-                      <ImageUpload />
+                      <ImageUpload feature="layout1_b3" />
                     </div>
                   </div>
                 </div>
@@ -255,11 +83,7 @@ const Layout: React.FC = () => {
                   <div className="background-content">
                     <label>Background 1</label>
                     <div className="form-group--nest">
-                      <ImageUpload
-                        styleClassName="upload-image-home"
-                        maxNumberOfFiles={13}
-                        multiple={false}
-                      />
+                      <ImageUpload styleClassName="upload-image-home" multiple={false} feature="layout2_b1" />
                     </div>
                   </div>
                 </div>
@@ -269,7 +93,7 @@ const Layout: React.FC = () => {
                   <div className="background-content">
                     <label>Background 2</label>
                     <div className="form-group--nest">
-                      <ImageUpload />
+                      <ImageUpload feature="layout2_b2" />
                     </div>
                   </div>
                 </div>
@@ -280,20 +104,10 @@ const Layout: React.FC = () => {
         <div className="ps-form__content">
           <div className="ps-form__bottom">
             <Space style={{ width: "100%", justifyContent: "flex-end" }}>
-              <Button
-                type="primary"
-                loading={false}
-                onClick={() => enterLoading(0)}
-                className="ant-btn-primary"
-              >
+              <Button type="primary" loading={false} onClick={goBack} className="ant-btn-primary">
                 Back
               </Button>
-              <Button
-                type="primary"
-                loading={false}
-                onClick={() => enterLoading(0)}
-                className="ant-btn-primary"
-              >
+              <Button type="primary" htmlType="submit" loading={false} onClick={() => enterLoading(0)} className="ant-btn-primary">
                 Submit
               </Button>
             </Space>
