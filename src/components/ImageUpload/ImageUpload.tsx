@@ -6,6 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import APIClientService from "../../api";
 import { updateListImageRemove, updateListImages } from "../redux/Slices/productSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { updateListImageRemoveLayout, updateListImagesLayout } from "../redux/Slices/layoutSlice";
 
 const getSrcFromFile = (file: any) => {
   return new Promise((resolve) => {
@@ -15,7 +16,7 @@ const getSrcFromFile = (file: any) => {
   });
 };
 
-const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles, multiple, listFileUpdate, status }) => {
+const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles, multiple, listFileUpdate, status, feature }) => {
   const { control } = useForm<any>();
   const [fileList, setFileList] = useState<any>([]);
   const [listPath, setListPath] = useState<any>([]);
@@ -73,6 +74,9 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
     }
     if (listFileUpdate?.length > 0) {
       dispatch(updateListImageRemove(file));
+      if(feature) {
+        dispatch(updateListImageRemoveLayout({file, feature}));
+      }
     }
   };
 
@@ -96,7 +100,11 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
 
   useEffect(() => {
     dispatch(updateListImages(listPath));
-  }, [listPath, dispatch]);
+    if(feature) {
+      dispatch(updateListImagesLayout({listPath, feature}));
+    }
+  }, [listPath, dispatch, feature]);
+
   console.log("listPath: ", listPath);
 
   const beforeUpload = (file: any) => {

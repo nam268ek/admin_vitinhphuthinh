@@ -304,6 +304,7 @@ export interface IImageUpload {
     multiple?: boolean;
     listFileUpdate?: any;
     status?: any;
+    feature?: any;
 }
 export interface ISearchService {
     placeholder?: string;
