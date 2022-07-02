@@ -50,7 +50,7 @@ const Layout: React.FC = () => {
                   <div className="background-content c-h-1">
                     <label>Background 1</label>
                     <div className="form-group--nest">
-                      <ImageUpload styleClassName="upload-image-home" maxNumberOfFiles={3} multiple={false} feature="layout1_b1" />
+                      <ImageUpload styleClassName="upload-image-home" maxNumberOfFiles={3} multiple={false} feature="layout1_l1b1" />
                     </div>
                   </div>
                 </div>
@@ -60,13 +60,13 @@ const Layout: React.FC = () => {
                   <div className="background-content">
                     <label>Background 2</label>
                     <div className="form-group--nest">
-                      <ImageUpload feature="layout1_b2" />
+                      <ImageUpload feature="layout1_l1b2" />
                     </div>
                   </div>
                   <div className="background-content">
                     <label>Background 3</label>
                     <div className="form-group--nest">
-                      <ImageUpload feature="layout1_b3" />
+                      <ImageUpload feature="layout1_l1b3" />
                     </div>
                   </div>
                 </div>
@@ -83,7 +83,7 @@ const Layout: React.FC = () => {
                   <div className="background-content">
                     <label>Background 1</label>
                     <div className="form-group--nest">
-                      <ImageUpload styleClassName="upload-image-home" multiple={false} feature="layout2_b1" />
+                      <ImageUpload styleClassName="upload-image-home" multiple={false} feature="layout2_l2b1" />
                     </div>
                   </div>
                 </div>
@@ -93,7 +93,7 @@ const Layout: React.FC = () => {
                   <div className="background-content">
                     <label>Background 2</label>
                     <div className="form-group--nest">
-                      <ImageUpload feature="layout2_b2" />
+                      <ImageUpload feature="layout2_l2b2" />
                     </div>
                   </div>
                 </div>

@@ -12,28 +12,28 @@ const initialState = {
   statusUpdated: false,
   layout1: [
     {
-      b1: [],
-      b2: [],
-      b3: [],
+      l1b1: [],
+      l1b2: [],
+      l1b3: [],
     },
   ],
   layout2: [
     {
-      b1: [],
-      b2: [],
+      l2b1: [],
+      l2b2: [],
     },
   ],
   rlayout1: [
     {
-      b1: [],
-      b2: [],
-      b3: [],
+      l1b1: [],
+      l1b2: [],
+      l1b3: [],
     },
   ],
   rlayout2: [
     {
-      b1: [],
-      b2: [],
+      l2b1: [],
+      l2b2: [],
     },
   ],
   listImages: [],
