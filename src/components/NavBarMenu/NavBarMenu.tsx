@@ -62,7 +62,7 @@ const NavBarMenu: React.FC = () => {
                   <span>Orders</span>
                 </NavLink>
               </li>
-              <li className="">
+              {/* <li className="">
                 <NavLink
                   to="/customers"
                   className={({ isActive }) => (isActive ? "active-link" : "")}
@@ -70,7 +70,7 @@ const NavBarMenu: React.FC = () => {
                   <FiUsers />
                   <span>Customers</span>
                 </NavLink>
-              </li>
+              </li> */}
               <li className="">
                 <NavLink
                   to="/categories"
