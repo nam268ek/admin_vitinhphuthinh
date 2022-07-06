@@ -73,6 +73,7 @@ export const originalOrder: any = {
   action: "",
   data: {
     stord: "",
+    orderid: "",
     customer: {
       name: "",
       phone: "",
@@ -128,7 +129,7 @@ export const convertListCategory = (list: any[]) => {
       index: item.index,
       category: item.title,
       link: item.link,
-      created_at: item.created_at ? item.created_at : "",
+      createdAt: item.createdAt ? item.createdAt : "",
     };
   });
 };

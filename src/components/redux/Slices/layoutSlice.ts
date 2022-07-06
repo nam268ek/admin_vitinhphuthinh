@@ -10,32 +10,14 @@ export const updateListImgLayout: any = createAsyncThunk("REQUEST_LIST_IMG", asy
 
 const initialState = {
   statusUpdated: false,
-  layout1: [
-    {
-      l1b1: [],
-      l1b2: [],
-      l1b3: [],
-    },
-  ],
-  layout2: [
-    {
-      l2b1: [],
-      l2b2: [],
-    },
-  ],
-  rlayout1: [
-    {
-      l1b1: [],
-      l1b2: [],
-      l1b3: [],
-    },
-  ],
-  rlayout2: [
-    {
-      l2b1: [],
-      l2b2: [],
-    },
-  ],
+  layout: {
+    b1: [],
+    b2: [],
+    b3: [],
+    b4: [],
+    b5: [],
+    imgRm: [],
+  },
   listImages: [],
   listImageRemove: [],
   statusResponse: [],
@@ -48,21 +30,6 @@ const layoutSlice = createSlice({
   reducers: {
     updateListImagesLayout: (state: any, action: any) => {
       console.log(action.payload);
-      const layout = action.payload.feature.split("_");
-      if (layout[0] === "layout1") {
-        Object.keys(state.layout1[0]).forEach((key: any) => {
-          if (layout[1] === key) {
-            state.layout1[0][key] = action.payload.listPath;
-          }
-        });
-      }
-      if (layout[0] === "layout2") {
-        Object.keys(state.layout2[0]).forEach((key: any) => {
-          if (layout[1] === key) {
-            state.layout2[0][key] = action.payload.listPath;
-          }
-        });
-      }
     },
     updateListImageRemoveLayout: (state: any, action: any) => {
       const layout = action.payload.feature.split("_");
