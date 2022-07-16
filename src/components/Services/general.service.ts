@@ -93,6 +93,12 @@ export const originalOrder: any = {
   },
 };
 
+export const originalImage: any = {
+  role: "admin",
+  action: "",
+  data: {},
+};
+
 export const originalListDropDown: any = {
   role: "admin",
   action: "",
@@ -105,19 +111,13 @@ export const originalListImgLayout: any = {
   role: "admin",
   action: "",
   data: {
-    layout1: [
-      {
-        l1b1: [],
-        l1b2: [],
-        l1b3: [],
-      },
-    ],
-    layout2: [
-      {
-        l2b1: [],
-        l2b2: [],
-      },
-    ],
+    layout: {
+      b1: [],
+      b2: [],
+      b3: [],
+      b4: [],
+      b5: [],
+    },
   },
 };
 

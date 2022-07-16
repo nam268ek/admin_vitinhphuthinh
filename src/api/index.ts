@@ -78,8 +78,16 @@ const APIClientService = {
       },
     });
   },
-  paymentRequest: (params: any) => {
-    const url = "/create-checkout-session";
+  removeFile: (params: any) => {
+    const url = "/image-remove";
+    return AxiosClient.post(url, { params });
+  },
+  imageTemp: (params: any) => {
+    const url = "/check-images";
+    return AxiosClient.post(url, { params });
+  },
+  getLayouts: (params: any) => {
+    const url = "/layout";
     return AxiosClient.post(url, { params });
   },
 };

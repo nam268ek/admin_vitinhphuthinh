@@ -6,8 +6,14 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { resetProcessImg } from "../redux/Slices/productSlice";
 
 const NavBarMenu: React.FC = () => {
+  const dispatch = useDispatch();
+  const handleProcessImg = () => {
+    dispatch(resetProcessImg());
+  };
   return (
     <div className="ps-main__sidebar">
       <div className="ps-sidebar">
@@ -36,28 +42,19 @@ const NavBarMenu: React.FC = () => {
           <div className="ps-sidebar__center">
             <ul className="menu">
               <li className="">
-                <NavLink
-                  to="/"
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
-                >
+                <NavLink to="/" className={({ isActive }) => (isActive ? "active-link" : "")}>
                   <AiOutlineHome />
                   <span>Dashboard</span>
                 </NavLink>
               </li>
               <li className="">
-                <NavLink
-                  to="/products"
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
-                >
+                <NavLink to="/products" className={({ isActive }) => (isActive ? "active-link" : "")} onClick={handleProcessImg}>
                   <FiDatabase />
                   <span>Products</span>
                 </NavLink>
               </li>
               <li className="">
-                <NavLink
-                  to="/orders"
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
-                >
+                <NavLink to="/orders" className={({ isActive }) => (isActive ? "active-link" : "")}>
                   <BsBagCheck />
                   <span>Orders</span>
                 </NavLink>
@@ -72,28 +69,19 @@ const NavBarMenu: React.FC = () => {
                 </NavLink>
               </li> */}
               <li className="">
-                <NavLink
-                  to="/categories"
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
-                >
+                <NavLink to="/categories" className={({ isActive }) => (isActive ? "active-link" : "")}>
                   <BiCategoryAlt />
                   <span>Categories</span>
                 </NavLink>
               </li>
               <li className="">
-                <NavLink
-                  to="/layout"
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
-                >
+                <NavLink to="/layout" className={({ isActive }) => (isActive ? "active-link" : "")}>
                   <AiOutlineLayout />
                   <span>Layout</span>
                 </NavLink>
               </li>
               <li className="">
-                <NavLink
-                  to="/settings"
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
-                >
+                <NavLink to="/settings" className={({ isActive }) => (isActive ? "active-link" : "")}>
                   <IoSettingsOutline />
                   <span>Settings</span>
                 </NavLink>

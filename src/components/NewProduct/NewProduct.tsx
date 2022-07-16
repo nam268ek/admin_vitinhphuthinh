@@ -14,6 +14,7 @@ import { getListDropdown, setIsLoading } from "../redux/Slices/PrimarySlice";
 import SelectAddItem from "../common/SelectAddItem";
 import { getListCategory } from "../redux/Slices/CategorySlice";
 import { useNavigate } from "react-router-dom";
+import ImageUploadCloud from "../ImageUpload/ImageUploadCloud";
 
 const NewProduct: React.FC = () => {
   const dispatch = useDispatch();
@@ -53,7 +54,8 @@ const NewProduct: React.FC = () => {
     if (action === "update") {
       bodyNewProduct.data._id = dataUpdate[0]._id;
     }
-    bodyNewProduct.data.img = [...listImages, { imgRm: listImageRemove }] || [];
+    bodyNewProduct.data.img = [...listImages] || [];
+    bodyNewProduct.data.imgRm = listImageRemove;
     bodyNewProduct.data.title = data.nameprod || "";
     bodyNewProduct.data.contsum = data.prodsummary || "";
     bodyNewProduct.data.price = data.pricesale ? parseInt(data.pricesale) : "";
@@ -235,7 +237,9 @@ const NewProduct: React.FC = () => {
                     <div className="form-group m-0">
                       <label>Thumbnail Sản phẩm</label>
                       <div className="form-group--nest">
-                        <ImageUpload maxNumberOfFiles={3} listFileUpdate={dataUpdate[0] ? dataUpdate[0].img : []} status={action} />
+                        <ImageUploadCloud maxNumberOfFiles={3} listImages={listImages} status={action} />
+
+                        {/* <ImageUpload maxNumberOfFiles={3} listFileUpdate={dataUpdate[0] ? dataUpdate[0].img : []} status={action} /> */}
                       </div>
                     </div>
                   </div>

@@ -305,6 +305,7 @@ export interface IImageUpload {
     listFileUpdate?: any;
     status?: any;
     feature?: any;
+    listImages?: any;
 }
 export interface ISearchService {
     placeholder?: string;
