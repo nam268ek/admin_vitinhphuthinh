@@ -68,7 +68,9 @@ const productSlice = createSlice({
     },
     updateProduct: (state: any, action: any) => {
       state.dataUpdate = action.payload;
-      state.listImages = action.payload[0].img;
+      if (action.payload.length > 0) {
+        state.listImages = action.payload[0].img;
+      }
     },
     resetProcessImg: (state: any) => {
       state.listImages = [];

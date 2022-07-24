@@ -27,7 +27,7 @@ const getSrcFromFile = (file: any) => {
   });
 };
 
-const ImageUploadCloud: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles, multiple, listImages, status, feature }) => {
+const ImageUploadCloud: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles, multiple, listImages, status, feature, isCropImg }) => {
   // const { listImages } = useSelector((state: any) => state.product);
   const dispatch = useDispatch();
 
@@ -93,7 +93,26 @@ const ImageUploadCloud: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfF
 
   return (
     <Form.Item name="img">
-      <ImgCrop modalWidth={850} beforeCrop={beforeUpload} onUploadFail={onUploadFail}>
+      {isCropImg ? (
+        <ImgCrop modalWidth={850} beforeCrop={beforeUpload} onUploadFail={onUploadFail}>
+          <Upload
+            accept="image/*"
+            customRequest={uploadImage}
+            listType="picture-card"
+            className={styleClassName}
+            fileList={listImages}
+            onPreview={onPreview}
+            onRemove={onRemove}
+          >
+            {listImages.length < (maxNumberOfFiles || 1) && (
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
+              </div>
+            )}
+          </Upload>
+        </ImgCrop>
+      ) : (
         <Upload
           accept="image/*"
           customRequest={uploadImage}
@@ -110,7 +129,7 @@ const ImageUploadCloud: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfF
             </div>
           )}
         </Upload>
-      </ImgCrop>
+      )}
     </Form.Item>
   );
 };

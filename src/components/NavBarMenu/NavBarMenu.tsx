@@ -5,15 +5,21 @@ import { BsBagCheck } from "react-icons/bs";
 import { BiCategoryAlt } from "react-icons/bi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
-import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { resetProcessImg } from "../redux/Slices/productSlice";
+import { formatMoney } from "../Services/general.service";
 
 const NavBarMenu: React.FC = () => {
   const dispatch = useDispatch();
   const handleProcessImg = () => {
     dispatch(resetProcessImg());
   };
+  const { listAllProducts } = useSelector((state: any) => state.product);
+  const sumPrice = listAllProducts.reduce((a: any, b: any) => {
+    return a + b.price;
+  }, 0);
+
   return (
     <div className="ps-main__sidebar">
       <div className="ps-sidebar">
@@ -24,7 +30,7 @@ const NavBarMenu: React.FC = () => {
             </div>
             <div className="ps-block__right">
               <p>
-                Hello,<a href="!#">Soho Store</a>
+                Xin chào,<Link to="">Vi Tính Phú Thịnh</Link>
               </p>
             </div>
             <div className="ps-block__action">
@@ -34,8 +40,8 @@ const NavBarMenu: React.FC = () => {
             </div>
           </div>
           <div className="ps-block--earning-count">
-            <small>Earning</small>
-            <h3>$12,560.55</h3>
+            <small>Tổng giá trị kho hàng</small>
+            <h3>{formatMoney.format(Number(sumPrice))}</h3>
           </div>
         </div>
         <div className="ps-sidebar__content">

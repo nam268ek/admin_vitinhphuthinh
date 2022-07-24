@@ -54,7 +54,9 @@ const Layout: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group--left">
                     <div className="background-content c-h-1">
-                      <label>Background 1</label>
+                      <label>
+                        Background 1 | <span className="highlight">1230</span>px x <span className="highlight">425</span>px
+                      </label>
                       <div className="form-group--nest">
                         <ImageUploadCloud
                           styleClassName="upload-image-home"
@@ -70,13 +72,13 @@ const Layout: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group--right">
                     <div className="background-content">
-                      <label>Background 2</label>
+                      <label>Background 2 | <span className="highlight">390</span>px x <span className="highlight">193</span>px</label>
                       <div className="form-group--nest">
                         <ImageUploadCloud feature="b2" listImages={layout.b2} />
                       </div>
                     </div>
                     <div className="background-content">
-                      <label>Background 3</label>
+                      <label>Background 3 | <span className="highlight">390</span>px x <span className="highlight">193</span>px</label>
                       <div className="form-group--nest">
                         <ImageUploadCloud feature="b3" listImages={layout.b3} />
                       </div>
@@ -93,7 +95,7 @@ const Layout: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group--left">
                     <div className="background-content">
-                      <label>Background 1</label>
+                      <label>Background 1 | <span className="highlight">1090</span>px x <span className="highlight">245</span>px</label>
                       <div className="form-group--nest">
                         <ImageUploadCloud styleClassName="upload-image-home" multiple={false} feature="b4" listImages={layout.b4} />
                       </div>
@@ -103,7 +105,7 @@ const Layout: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group--right">
                     <div className="background-content">
-                      <label>Background 2</label>
+                      <label>Background 2 | <span className="highlight">530</span>px x <span className="highlight">245</span>px</label>
                       <div className="form-group--nest">
                         <ImageUploadCloud feature="b5" listImages={layout.b5} />
                       </div>
