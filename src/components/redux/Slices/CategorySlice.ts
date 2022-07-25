@@ -38,13 +38,12 @@ export const removeItemCategory: any = createAsyncThunk(
 );
 
 const initialState = {
-  isLogin: true,
   statusResponse: [],
   listAllCategory: [],
 
 };
 const categorySlice = createSlice({
-  name: "login",
+  name: "category",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

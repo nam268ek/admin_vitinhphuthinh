@@ -9,6 +9,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetProcessImg } from "../redux/Slices/productSlice";
 import { formatMoney } from "../Services/general.service";
+import { clearLocalStore } from "../redux/Slices/LoginSlice";
 
 const NavBarMenu: React.FC = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,10 @@ const NavBarMenu: React.FC = () => {
   const sumPrice = listAllProducts.reduce((a: any, b: any) => {
     return a + b.price;
   }, 0);
+
+  const handleLogout = () => {
+    dispatch(clearLocalStore());
+  }
 
   return (
     <div className="ps-main__sidebar">
@@ -34,9 +39,9 @@ const NavBarMenu: React.FC = () => {
               </p>
             </div>
             <div className="ps-block__action">
-              <a href="!#">
+              <Link to="" onClick={handleLogout}>
                 <ImExit />
-              </a>
+              </Link>
             </div>
           </div>
           <div className="ps-block--earning-count">
