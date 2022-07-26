@@ -156,9 +156,11 @@ const Products: React.FC = () => {
     setIsDefault(!isDefault);
   };
 
-  const handleAddProduct = () => {
+  const handleAddProduct = (e: any) => {
+    e.preventDefault();
     dispatch(setAction("create"));
     dispatch(updateProduct([]));
+    navigate("/products/create-product", { replace: true });
   };
 
   return (

@@ -22,7 +22,7 @@ const Categories: React.FC = () => {
   const [listSubmenu, setListSubmenu] = React.useState<number>(0);
   const [isSubmit, setIsSubmit] = React.useState<boolean>(false);
   const [itemEdit, setItemEdit] = React.useState<any>([]);
-  const [actionSubmit, setActionSubmit] = React.useState<any>({action: "create", id: ''});
+  const [actionSubmit, setActionSubmit] = React.useState<any>({ action: "create", id: "" });
   const dispatch = useDispatch();
   const { statusResponse, listAllCategory } = useSelector((state: any) => state.category);
   const [form] = Form.useForm();
@@ -47,9 +47,9 @@ const Categories: React.FC = () => {
     },
     {
       title: "Ngày tạo",
-      dataIndex: "created_at",
-      key: "created_at",
-      render: (text: String) => <span>{text}</span>,
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (text: string) => <span>{moment(text).format("DD/MM/YYYY, h:mm:ss A")}</span>,
     },
     {
       title: "Action",
@@ -85,23 +85,22 @@ const Categories: React.FC = () => {
     } else setEnabledSubmenu(false);
 
     setItemEdit([item]);
-    setActionSubmit({action: "update", id: record.id});
+    setActionSubmit({ action: "update", id: record.id });
   };
 
   const handleCancelUpdate = () => {
     setItemEdit([]);
     setEnabledSubmenu(!enableSubmenu);
     form.resetFields();
-   setActionSubmit({action: "create", id: ''});
-  }
+    setActionSubmit({ action: "create", id: "" });
+  };
 
   React.useEffect(() => {
     let data: any = [{ "submenu-child": "" }];
     form.setFieldsValue({
       listsubmenu: enableSubmenu ? data : [],
     });
-  
-}, [enableSubmenu, form]);
+  }, [enableSubmenu, form]);
 
   React.useEffect(() => {
     if (itemEdit.length > 0) {
@@ -124,8 +123,6 @@ const Categories: React.FC = () => {
     // }
     setEnabledSubmenu(!enableSubmenu);
   };
-
-
 
   const handleRemoveSubmenu = (remove: any, name: any, listField: any) => {
     if (listField.length > 1) {
@@ -166,9 +163,9 @@ const Categories: React.FC = () => {
       bodyCategories.data.icon = "BiCategoryAlt";
       bodyCategories.data.submenu = enableSubmenu ? mapListSubmenu(data["listsubmenu"], bodyCategories.data.title) : [];
       bodyCategories.data.link = data.namecate.trim().toLowerCase().split(" ").join("-");
-      if(actionSubmit.action === 'update') {
+      if (actionSubmit.action === "update") {
         bodyCategories.data._id = actionSubmit.id;
-      } 
+      }
 
       dispatch(setIsLoading(true));
       await dispatch(createNewCategory(bodyCategories));
@@ -177,9 +174,9 @@ const Categories: React.FC = () => {
       form.resetFields();
       setEnabledSubmenu(false);
 
-      if(actionSubmit.action === 'update') {
+      if (actionSubmit.action === "update") {
         setItemEdit([]);
-      } 
+      }
     }
   };
 
@@ -200,7 +197,7 @@ const Categories: React.FC = () => {
   const dataSort = cloneDeep(listAllCategory).sort((a: { index: number }, b: { index: number }) => {
     return a.index - b.index;
   });
-  
+
   const data = convertListCategory(dataSort ? dataSort : []);
   return (
     <>

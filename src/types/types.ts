@@ -305,6 +305,8 @@ export interface IImageUpload {
     listFileUpdate?: any;
     status?: any;
     feature?: any;
+    listImages?: any;
+    isCropImg?: boolean;
 }
 export interface ISearchService {
     placeholder?: string;

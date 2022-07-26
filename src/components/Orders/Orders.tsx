@@ -184,7 +184,7 @@ const Orders: React.FC = () => {
     Modal.confirm({
       title: "Thông báo",
       icon: <ExclamationCircleOutlined />,
-      content: <>{status ? "Xác nhận hoàn thành đơn hàng?" : "Xác nhận hủy đơn hàng?"}</>,
+      content: <>{status === "done" ? "Xác nhận hoàn thành đơn hàng?" : "Xác nhận hủy đơn hàng?"}</>,
       onOk: async () => {
         const data = await dispatch(action(item));
         if (data.payload.code === 200) {
@@ -211,7 +211,9 @@ const Orders: React.FC = () => {
       bodyItem.data.stord = "Đã hoàn thành";
       delete bodyItem.data._id;
       delete bodyItem.data["__v"];
-      openDialogConfirm(dispatch, updateItemOrder, bodyItem);
+      delete bodyItem.data.createdAt;
+      delete bodyItem.data.updatedAt;
+      openDialogConfirm(dispatch, updateItemOrder, bodyItem, "done");
     }
   };
 

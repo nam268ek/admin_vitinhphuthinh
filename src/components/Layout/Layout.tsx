@@ -2,35 +2,40 @@ import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { FiFilter } from "react-icons/fi";
 import { FaPlusCircle } from "react-icons/fa";
-import { Table, Tag, Space, Input, Button } from "antd";
+import { Table, Tag, Space, Input, Button, Form } from "antd";
 import moment from "moment";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
 import SelectOption from "./../common/SelectOption";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { useDispatch, useSelector } from "react-redux";
-import { updateListImgLayout } from "../redux/Slices/layoutSlice";
+import { GetDataLayouts, updateListImgLayout } from "../redux/Slices/layoutSlice";
 import { cloneDeep } from "lodash";
 import { originalListImgLayout } from "../Services/general.service";
 import { setIsLoading } from "../redux/Slices/PrimarySlice";
+import ImageUploadCloud from "../ImageUpload/ImageUploadCloud";
 
 const Layout: React.FC = () => {
   const dispatch = useDispatch();
-  const { layout1, layout2 } = useSelector((state: any) => state.layout);
+  const { layout } = useSelector((state: any) => state.layout);
 
   const enterLoading = async (index: any) => {
     const layoutOrigin = cloneDeep(originalListImgLayout);
     layoutOrigin.action = "RSAKEY03";
-    layoutOrigin.data = { layout1, layout2 };
-    
+    layoutOrigin.data.layout = layout;
+
     dispatch(setIsLoading(true));
     await dispatch(updateListImgLayout(layoutOrigin));
     dispatch(setIsLoading(false));
   };
 
+  React.useEffect(() => {
+    dispatch(GetDataLayouts({ role: "user" }));
+  }, []);
+
   const goBack = () => {
     window.history.back();
-  }
+  };
 
   return (
     <div className="ps-main__wrapper">
@@ -41,78 +46,88 @@ const Layout: React.FC = () => {
         </div>
       </div>
       <section className="ps-items-listing">
-        <div className="ps-form__content">
-          <figure className="ps-block--form-box c-b-1">
-            <figcaption>Layout 1</figcaption>
-            <div className="ps-block__layout">
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                <div className="form-group--left">
-                  <div className="background-content c-h-1">
-                    <label>Background 1</label>
-                    <div className="form-group--nest">
-                      <ImageUpload styleClassName="upload-image-home" maxNumberOfFiles={3} multiple={false} feature="layout1_l1b1" />
+        <Form>
+          <div className="ps-form__content">
+            <figure className="ps-block--form-box c-b-1">
+              <figcaption>Layout 1</figcaption>
+              <div className="ps-block__layout">
+                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <div className="form-group--left">
+                    <div className="background-content c-h-1">
+                      <label>
+                        Background 1 | <span className="highlight">1230</span>px x <span className="highlight">425</span>px
+                      </label>
+                      <div className="form-group--nest">
+                        <ImageUploadCloud
+                          styleClassName="upload-image-home"
+                          maxNumberOfFiles={3}
+                          multiple={false}
+                          feature="b1"
+                          listImages={layout.b1}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <div className="form-group--right">
+                    <div className="background-content">
+                      <label>Background 2 | <span className="highlight">390</span>px x <span className="highlight">193</span>px</label>
+                      <div className="form-group--nest">
+                        <ImageUploadCloud feature="b2" listImages={layout.b2} />
+                      </div>
+                    </div>
+                    <div className="background-content">
+                      <label>Background 3 | <span className="highlight">390</span>px x <span className="highlight">193</span>px</label>
+                      <div className="form-group--nest">
+                        <ImageUploadCloud feature="b3" listImages={layout.b3} />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                <div className="form-group--right">
-                  <div className="background-content">
-                    <label>Background 2</label>
-                    <div className="form-group--nest">
-                      <ImageUpload feature="layout1_l1b2" />
-                    </div>
-                  </div>
-                  <div className="background-content">
-                    <label>Background 3</label>
-                    <div className="form-group--nest">
-                      <ImageUpload feature="layout1_l1b3" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </figure>
-        </div>
-        <div className="ps-form__content">
-          <figure className="ps-block--form-box c-b-1">
-            <figcaption>Layout 2</figcaption>
-            <div className="ps-block__layout">
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                <div className="form-group--left">
-                  <div className="background-content">
-                    <label>Background 1</label>
-                    <div className="form-group--nest">
-                      <ImageUpload styleClassName="upload-image-home" multiple={false} feature="layout2_l2b1" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                <div className="form-group--right">
-                  <div className="background-content">
-                    <label>Background 2</label>
-                    <div className="form-group--nest">
-                      <ImageUpload feature="layout2_l2b2" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </figure>
-        </div>
-        <div className="ps-form__content">
-          <div className="ps-form__bottom">
-            <Space style={{ width: "100%", justifyContent: "flex-end" }}>
-              <Button type="primary" loading={false} onClick={goBack} className="ant-btn-primary">
-                Back
-              </Button>
-              <Button type="primary" htmlType="submit" loading={false} onClick={() => enterLoading(0)} className="ant-btn-primary">
-                Submit
-              </Button>
-            </Space>
+            </figure>
           </div>
-        </div>
+          <div className="ps-form__content">
+            <figure className="ps-block--form-box c-b-1">
+              <figcaption>Layout 2</figcaption>
+              <div className="ps-block__layout">
+                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <div className="form-group--left">
+                    <div className="background-content">
+                      <label>Background 1 | <span className="highlight">1090</span>px x <span className="highlight">245</span>px</label>
+                      <div className="form-group--nest">
+                        <ImageUploadCloud styleClassName="upload-image-home" multiple={false} feature="b4" listImages={layout.b4} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <div className="form-group--right">
+                    <div className="background-content">
+                      <label>Background 2 | <span className="highlight">530</span>px x <span className="highlight">245</span>px</label>
+                      <div className="form-group--nest">
+                        <ImageUploadCloud feature="b5" listImages={layout.b5} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </figure>
+          </div>
+          <div className="ps-form__content">
+            <div className="ps-form__bottom">
+              <Space style={{ width: "100%", justifyContent: "flex-end" }}>
+                <Button type="primary" loading={false} onClick={goBack} className="ant-btn-primary">
+                  Back
+                </Button>
+                <Button type="primary" htmlType="submit" loading={false} onClick={() => enterLoading(0)} className="ant-btn-primary">
+                  Submit
+                </Button>
+              </Space>
+            </div>
+          </div>
+        </Form>
       </section>
     </div>
   );

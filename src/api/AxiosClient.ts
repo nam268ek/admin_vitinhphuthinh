@@ -51,6 +51,9 @@ axiosClient.interceptors.response.use(
           return Promise.reject(_error);
         }
       }
+      if(err.response.data.data.urlRedirect === '/login') {
+        window.location.href = '/login';
+      }
     }
 
     return Promise.reject(err);

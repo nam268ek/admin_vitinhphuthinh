@@ -4,7 +4,7 @@ import ImgCrop from "antd-img-crop";
 import { IImageUpload } from "../../types/types";
 import { Controller, useForm } from "react-hook-form";
 import APIClientService from "../../api";
-import { updateListImageRemove, updateListImages } from "../redux/Slices/productSlice";
+import { updateListImages } from "../redux/Slices/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { updateListImageRemoveLayout, updateListImagesLayout } from "../redux/Slices/layoutSlice";
 
@@ -18,14 +18,7 @@ const getSrcFromFile = (file: any) => {
 
 const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles, multiple, listFileUpdate, status, feature }) => {
   const { control } = useForm<any>();
-  const [fileList, setFileList] = useState<any>([]);
-  const [listPath, setListPath] = useState<any>([]);
-  const [isValid, setIsValid] = useState<boolean>(false);
-  const { listImages } = useSelector((state: any) => state.product);
-  const { Dragger }: { Dragger: any } = Upload;
-  const dispatch = useDispatch();
-
-  useEffect(() => {
+  const [fileList, setFileList] = useState<any>(() => {
     if (status === "update") {
       if (listFileUpdate.length > 0) {
         const data = listFileUpdate.map((item: any) => {
@@ -36,10 +29,31 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
             url: item.secure_url,
           };
         });
-        setFileList(data);
-      } else setFileList([]);
-    }
-  }, [listFileUpdate, status]);
+        return data;
+      } else return [];
+    } else return [];
+  });
+  const [listPath, setListPath] = useState<any>([]);
+  const [isValid, setIsValid] = useState<boolean>(false);
+  const { listImages } = useSelector((state: any) => state.product);
+  const { Dragger }: { Dragger: any } = Upload;
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   if (status === "update") {
+  //     if (listFileUpdate.length > 0) {
+  //       const data = listFileUpdate.map((item: any) => {
+  //         return {
+  //           uid: item.public_id,
+  //           name: item.name,
+  //           status: "done",
+  //           url: item.secure_url,
+  //         };
+  //       });
+  //       setFileList(data);
+  //     } else setFileList([]);
+  //   }
+  // }, [listFileUpdate, status]);
 
   const onChange = ({ fileList }: { fileList: any }) => {
     isValid && setFileList(fileList);
@@ -60,36 +74,60 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
   };
 
   const onRemove = (file: any) => {
-    for (let item of listPath) {
-      if (item.name === file.name) {
-        const newListPath = listPath.filter((item: any) => item.name !== file.name);
-        setListPath(newListPath);
+    if (file.hasOwnProperty("uidFile")) {
+      for (let item of listPath) {
+        if (item.uid === file.uid) {
+          const newListPath = listPath.filter((item: any) => item.uidFile !== file.uidFile);
+          setListPath(newListPath);
+        }
+      }
+      for (let item of fileList) {
+        if (item.uid === file.uid) {
+          const newFileList = fileList.filter((item: any) => item.uidFile !== file.uidFile);
+          setFileList(newFileList);
+        }
       }
     }
-    for (let item of fileList) {
-      if (item.name === file.name) {
-        const newFileList = fileList.filter((item: any) => item.name !== file.name);
-        setFileList(newFileList);
+    if (file.hasOwnProperty("uid")) {
+      for (let item of listPath) {
+        if (item.uid === file.uid) {
+          const newListPath = listPath.filter((item: any) => item.uid !== file.uid);
+          setListPath(newListPath);
+        }
+      }
+      for (let item of fileList) {
+        if (item.uid === file.uid) {
+          const newFileList = fileList.filter((item: any) => item.uid !== file.uid);
+          setFileList(newFileList);
+        }
       }
     }
     if (listFileUpdate?.length > 0) {
-      dispatch(updateListImageRemove(file));
-      if(feature) {
-        dispatch(updateListImageRemoveLayout({file, feature}));
+      if (feature) {
+        dispatch(updateListImageRemoveLayout({ file, feature }));
       }
     }
   };
 
   const uploadImage = async (options: any) => {
     const { onSuccess, onError, file } = options;
-    const fmData = new FormData();
-
-    fmData.append("img", file);
     try {
+      const fmData = new FormData();
+      fmData.append("img", file);
       console.log(file);
       const result: any = await APIClientService.uploadFile(fmData);
-      setListPath([...listPath, result]);
-      onSuccess("Ok");
+      if (result.code === 200) {
+        const resImg = {
+          uidFile: file.uid,
+          name: result.data.name,
+          status: result.data.status,
+          url: result.data.url,
+          thumbUrl: result.data.thumbUrl,
+          path: result.data.path,
+        };
+        setListPath([...listPath, resImg]);
+        onSuccess("Ok");
+      }
       console.log("server res: ", result);
     } catch (err) {
       message.error("Upload failed");
@@ -100,8 +138,8 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
 
   useEffect(() => {
     dispatch(updateListImages(listPath));
-    if(feature) {
-      dispatch(updateListImagesLayout({listPath, feature}));
+    if (feature) {
+      dispatch(updateListImagesLayout({ listPath, feature }));
     }
   }, [listPath, dispatch, feature]);
 
@@ -112,10 +150,10 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isJpgOrPng) {
       setIsValid(false);
-      message.error("You can only upload JPG/PNG file!");
+      message.error("Bạn chỉ có thể upload JPG/PNG file!");
     } else if (!isLt2M) {
       setIsValid(false);
-      message.error("Image must smaller than 2MB!");
+      message.error("Kích thước ảnh không quá 2MB!");
     } else setIsValid(true);
     return isJpgOrPng && isLt2M;
   };
@@ -123,28 +161,9 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
   const onUploadFail = (err: any) => {
     console.log("err: ", err);
   };
+  let test = fileList.length < (maxNumberOfFiles || 1) ? true : false;
+  console.log(test);
   return (
-    // <ImgCrop rotate>
-    // <Controller
-    //   name="sku"
-    //   defaultValue=""
-    //   control={control}
-    //   render={({ field }) => (
-    //     <Upload
-    //       {...field}
-    //       accept="image/*"
-    //       customRequest={uploadImage}
-    //       listType="picture-card"
-    //       className={styleClassName}
-    //       fileList={fileList}
-    //       onChange={onChange}
-    //       onPreview={onPreview}
-    //       onRemove={onRemove}
-    //     >
-    //       {(fileList.length < (maxNumberOfFiles || 1) || listImages.length < (maxNumberOfFiles || 1)) && "+ Upload"}
-    //     </Upload>
-    //   )}
-    // />
     <Form.Item name="img">
       <ImgCrop modalWidth={850} beforeCrop={beforeUpload} onUploadFail={onUploadFail}>
         <Upload
@@ -157,7 +176,7 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
           onPreview={onPreview}
           onRemove={onRemove}
         >
-          {(fileList.length < (maxNumberOfFiles || 1) || listImages.length < (maxNumberOfFiles || 1)) && "+ Upload"}
+          {fileList.length < (maxNumberOfFiles || 1) && "+ Upload"}
         </Upload>
       </ImgCrop>
     </Form.Item>

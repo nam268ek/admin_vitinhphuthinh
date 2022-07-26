@@ -73,6 +73,7 @@ export const originalOrder: any = {
   action: "",
   data: {
     stord: "",
+    orderid: "",
     customer: {
       name: "",
       phone: "",
@@ -92,6 +93,12 @@ export const originalOrder: any = {
   },
 };
 
+export const originalImage: any = {
+  role: "admin",
+  action: "",
+  data: {},
+};
+
 export const originalListDropDown: any = {
   role: "admin",
   action: "",
@@ -104,19 +111,13 @@ export const originalListImgLayout: any = {
   role: "admin",
   action: "",
   data: {
-    layout1: [
-      {
-        l1b1: [],
-        l1b2: [],
-        l1b3: [],
-      },
-    ],
-    layout2: [
-      {
-        l2b1: [],
-        l2b2: [],
-      },
-    ],
+    layout: {
+      b1: [],
+      b2: [],
+      b3: [],
+      b4: [],
+      b5: [],
+    },
   },
 };
 
@@ -128,7 +129,7 @@ export const convertListCategory = (list: any[]) => {
       index: item.index,
       category: item.title,
       link: item.link,
-      created_at: item.created_at ? item.created_at : "",
+      createdAt: item.createdAt ? item.createdAt : "",
     };
   });
 };

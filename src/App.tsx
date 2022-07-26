@@ -16,10 +16,21 @@ import Notify from "./components/Notify/Notify";
 import Loading from "./components/common/Loading";
 import { setIsLoading } from "./components/redux/Slices/PrimarySlice";
 import NewOrder from "./components/NewOrder/NewOrder";
+import ValidateToken from "./api/authClient";
+import { setLogin } from "./components/redux/Slices/LoginSlice";
 
 const App: React.FC = () => {
   const { isLogin } = useSelector((state: any) => state.login);
   const { isLoading } = useSelector((state: any) => state.primary);
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    const handleToken = async () => {
+      const isToken = await ValidateToken.getToken();
+      if (isToken) dispatch(setLogin(true));
+    };
+    handleToken();
+  }, [dispatch]);
 
   return (
     <BrowserRouter>
@@ -29,18 +40,14 @@ const App: React.FC = () => {
             <NavBarMenu />
           </header>
         )}
-        
+
         <main style={isLogin ? { marginLeft: "320px" } : {}}>
           {isLoading && <Loading />}
 
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/notify" element={<Notify />} />
-            <Route
-              element={
-                <ProtectedRoute isProtected={isLogin} redirectPath="/notify" />
-              }
-            >
+            <Route element={<ProtectedRoute isProtected={isLogin} redirectPath="/notify" />}>
               <Route path="/" element={<Dashboard />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/create-product" element={<NewProduct />} />
