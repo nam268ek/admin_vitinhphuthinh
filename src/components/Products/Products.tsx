@@ -116,9 +116,15 @@ const Products: React.FC = () => {
   };
 
   const handleRemoveProduct = async (e: any, record: any) => {
-    const bodyRemoveProduct = cloneDeep(originalProduct);
-    bodyRemoveProduct.action = "delete";
-    bodyRemoveProduct.data._id = record.id;
+    const itemRemove = listAllProducts.filter((item: any) => item._id === record.id);
+    const bodyRemoveProduct = {
+      action: "delete",
+      role: "admin",
+      data: itemRemove[0],
+    };
+    // console.log(itemRemove);
+    // bodyRemoveProduct.action = "delete";
+    // bodyRemoveProduct.data._id = record.id;
 
     dispatch(setIsLoading(true));
     await dispatch(removeItemProduct(bodyRemoveProduct));

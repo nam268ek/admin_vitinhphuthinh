@@ -16,7 +16,7 @@ export const originalProduct: any = {
   action: "",
   data: {
     status: true,
-    img: "",
+    img: [],
     title: "",
     contsum: "",
     price: 0,
