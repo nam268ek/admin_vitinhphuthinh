@@ -1,4 +1,6 @@
 import { Modal } from "antd";
+import { isEmpty } from "lodash";
+import { IResData } from "../../types/types";
 
 export const originalRegister: any = {
   email: "",
@@ -134,18 +136,74 @@ export const convertListCategory = (list: any[]) => {
   });
 };
 
-export const openDialogError = (statusResponse: any) => {
-  if (statusResponse.length > 0 && statusResponse[0].status === "success") {
-    Modal.success({
-      title: "Thông báo",
-      content: `${statusResponse[0].message}`,
-      okText: "Ok",
-    });
-  }
-  if (statusResponse.length > 0 && statusResponse[0].status === "error") {
+export const openDialogError = (res: IResData, isShow?: string) => {
+  if (res && !isEmpty(res)) {
+    switch (res.code) {
+      case 200:
+        if (isShow === "showModel") {
+          Modal.success({
+            title: "Thông báo",
+            content: `${res.message}`,
+            okText: "Ok",
+          });
+        }
+        break;
+      case 400:
+        Modal.error({
+          title: "Thông báo",
+          content: `${res.message}`,
+          okText: "Ok",
+        });
+        break;
+      case 403:
+      case 401:
+        Modal.error({
+          title: "Thông báo",
+          content: `Authorization failed`,
+          okText: "Ok",
+        });
+        if (res.data && !isEmpty(res.data) && res.data.urlRedirect) {
+          localStorage.removeItem("persist:root");
+          localStorage.removeItem("refreshtokenvtpt");
+          localStorage.removeItem("tokenvtpt");
+          setTimeout(() => {
+            window.location.href = res.data.urlRedirect;
+          }, 2000);
+        }
+        break;
+      case 402:
+        Modal.error({
+          title: "Thông báo",
+          content: `Request failed`,
+          okText: "Ok",
+        });
+        break;
+      // case 403:
+      //   Modal.error({
+      //     title: "Thông báo",
+      //     content: `Authorization failed`,
+      //     okText: "Ok",
+      //   });
+      //   break;
+      case 404:
+        Modal.error({
+          title: "Thông báo",
+          content: `Not Found`,
+          okText: "Ok",
+        });
+        break;
+      case 500:
+        Modal.error({
+          title: "Thông báo",
+          content: `${res.message}`,
+          okText: "Ok",
+        });
+        break;
+    }
+  } else {
     Modal.error({
       title: "Thông báo",
-      content: `[${statusResponse[0].code}] ${statusResponse[0].message}`,
+      content: `Invalid error message`,
       okText: "Ok",
     });
   }

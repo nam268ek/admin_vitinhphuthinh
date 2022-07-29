@@ -52,12 +52,12 @@ const NavBarMenu: React.FC = () => {
         <div className="ps-sidebar__content">
           <div className="ps-sidebar__center">
             <ul className="menu">
-              <li className="">
+              {/* <li className="">
                 <NavLink to="/" className={({ isActive }) => (isActive ? "active-link" : "")}>
                   <AiOutlineHome />
                   <span>Dashboard</span>
                 </NavLink>
-              </li>
+              </li> */}
               <li className="">
                 <NavLink to="/products" className={({ isActive }) => (isActive ? "active-link" : "")} onClick={handleProcessImg}>
                   <FiDatabase />
@@ -91,12 +91,12 @@ const NavBarMenu: React.FC = () => {
                   <span>Layout</span>
                 </NavLink>
               </li>
-              <li className="">
+              {/* <li className="">
                 <NavLink to="/settings" className={({ isActive }) => (isActive ? "active-link" : "")}>
                   <IoSettingsOutline />
                   <span>Settings</span>
                 </NavLink>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

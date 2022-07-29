@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import NavBarMenu from "./components/NavBarMenu/NavBarMenu";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Products from "./components/Products/Products";
@@ -23,6 +23,8 @@ const App: React.FC = () => {
   const { isLogin } = useSelector((state: any) => state.login);
   const { isLoading } = useSelector((state: any) => state.primary);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   React.useEffect(() => {
     const handleToken = async () => {
@@ -32,36 +34,42 @@ const App: React.FC = () => {
     handleToken();
   }, [dispatch]);
 
+  React.useEffect(() => {
+    if (isLoading) {
+      const timeLoading = setTimeout(() => dispatch(setIsLoading(false)), 10000);
+      return () => clearTimeout(timeLoading);
+    }
+    if (location.pathname === "/") {
+      navigate("/products", { replace: true });
+    }
+  }, [dispatch, isLoading, navigate, location]);
+
   return (
-    <BrowserRouter>
-      <div className="App">
-        {isLogin && (
-          <header>
-            <NavBarMenu />
-          </header>
-        )}
-
-        <main style={isLogin ? { marginLeft: "320px" } : {}}>
-          {isLoading && <Loading />}
-
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/notify" element={<Notify />} />
-            <Route element={<ProtectedRoute isProtected={isLogin} redirectPath="/notify" />}>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/products/create-product" element={<NewProduct />} />
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/orders/create-order" element={<NewOrder />} />
-              <Route path="/customers" element={<Customers />} />
-              <Route path="/categories" element={<Categories />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/layout" element={<Layout />} />
-            </Route>
-          </Routes>
-        </main>
-      </div>
-    </BrowserRouter>
+    <div className="App">
+      {isLogin && (
+        <header>
+          <NavBarMenu />
+        </header>
+      )}
+      <main>
+        {isLoading && <Loading />}
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/notify" element={<Notify />} />
+          <Route element={<ProtectedRoute isProtected={isLogin} redirectPath="/notify" />}>
+            {/* <Route path="/" element={<Dashboard />} /> */}
+            <Route path="/products" element={<Products />} />
+            <Route path="/products/create-product" element={<NewProduct />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/orders/create-order" element={<NewOrder />} />
+            <Route path="/customers" element={<Customers />} />
+            <Route path="/categories" element={<Categories />} />
+            {/* <Route path="/settings" element={<Settings />} /> */}
+            <Route path="/layout" element={<Layout />} />
+          </Route>
+        </Routes>
+      </main>
+    </div>
   );
 };
 

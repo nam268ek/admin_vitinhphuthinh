@@ -1,17 +1,14 @@
-import axios from 'axios';
-import queryString from 'query-string';
-import ValidateToken from './authClient';
+import axios from "axios";
+import queryString from "query-string";
+import ValidateToken from "./authClient";
 //config .env for production
-const apiUrl =
-  process.env.NODE_ENV === 'production'
-    ? process.env.REACT_APP_PROD_API_URL
-    : process.env.REACT_APP_DEV_API_URL;
+const apiUrl = process.env.NODE_ENV === "production" ? process.env.REACT_APP_PROD_API_URL : process.env.REACT_APP_DEV_API_URL;
 
 //config axios client
 const axiosClient = axios.create({
   baseURL: apiUrl,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   paramsSerializer: (params: any) => queryString.stringify(params),
 });
@@ -35,24 +32,27 @@ axiosClient.interceptors.response.use(
   },
   async (err: any) => {
     const originalConfig = err.config;
-    if (originalConfig.url !== '/login' && err.response) {
+    if (originalConfig.url !== "/login" && err.response) {
       // Access Token was expired
       if (err.response.status === 403 && !originalConfig._retry) {
         originalConfig._retry = true;
         try {
-          const rs = await axiosClient.post('/auth/refresh', {
+          const rs = await axiosClient.post("/auth/refresh", {
             refreshToken: ValidateToken.handleRefreshToken(),
           });
           ValidateToken.updateTokenLocalStorage(rs);
           //config new token
-          originalConfig.headers.Authorization = `Bearer ${rs.data.token}`;
+          const token = await ValidateToken.getToken();
+          if (token) {
+            originalConfig.headers.Authorization = `Bearer ${token}`;
+          }
           return axiosClient(originalConfig);
         } catch (_error) {
           return Promise.reject(_error);
         }
       }
-      if(err.response.data.data.urlRedirect === '/login') {
-        window.location.href = '/login';
+      if (err.response.data.data.urlRedirect === "/login") {
+        window.location.href = "/login";
       }
     }
 

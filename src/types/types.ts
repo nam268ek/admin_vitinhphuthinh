@@ -341,3 +341,9 @@ export interface ISelectProps {
     defaultValue?: any;
     listItem?: any;
 }
+export interface IResData {
+    status: string;
+    code: number;
+    data: any;
+    message: string;
+}

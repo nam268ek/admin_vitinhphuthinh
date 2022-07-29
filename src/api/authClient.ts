@@ -1,3 +1,5 @@
+import { isEmpty } from "lodash";
+
 const getToken = async () => {
   if (localStorage.hasOwnProperty("tokenvtpt")) {
     const token = JSON.parse(localStorage.getItem("tokenvtpt") || "");
@@ -8,7 +10,7 @@ const getToken = async () => {
     return new Promise((resolve, reject) => {
       const waitTimer = setTimeout(() => {
         reject(false);
-        console.log("token timeout");
+        console.log("Token timeout");
       }, 5000);
 
       resolve(token);
@@ -18,12 +20,12 @@ const getToken = async () => {
 };
 
 const updateTokenLocalStorage = async (res: any) => {
-  const data: any = await new Promise((resolve, reject) => {
-    if (res.code !== 200) reject(res.messageError);
-    resolve(res.data);
-  });
-  const { token, refreshToken } = data;
-  if (data.hasOwnProperty("tokenvtpt")) {
+  // const data: any = await new Promise((resolve, reject) => {
+  //   if (res.code !== 200) reject(res.messageError);
+  //   resolve(res.data);
+  // });
+  if(res.data && !isEmpty(res.data)) {
+    const { token, refreshToken } = res.data;
     localStorage.setItem("tokenvtpt", JSON.stringify(token));
     localStorage.setItem("refreshtokenvtpt", JSON.stringify(refreshToken));
   }
