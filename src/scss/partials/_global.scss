@@ -19,7 +19,7 @@ body {
   overflow-x: hidden;
 }
 
-//header 
+//header
 header {
   position: fixed;
   top: 0;
@@ -72,7 +72,10 @@ select,
 textarea {
   outline: none;
   text-decoration: none;
-  transition: all 0.4s ease;
+  // transition: all 0.2s ease;
+}
+a {
+  transition: none !important;
 }
 // react-toastify
 .Toastify__toast-container {
@@ -80,5 +83,21 @@ textarea {
 
   .Toastify__toast-body {
     font-size: 14px;
+  }
+}
+@media screen and (max-width: 1440px) {
+  header {
+    max-width: 280px;
+  }
+  main {
+    margin-left: 280px;
+  }
+}
+@media screen and (min-width: 1440px) {
+  header {
+    max-width: 320px;
+  }
+  main {
+    margin-left: 320px;
   }
 }

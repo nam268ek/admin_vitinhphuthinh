@@ -5,19 +5,20 @@ import { FaPlusCircle } from "react-icons/fa";
 import { Table, Tag, Space, Input, Button, Form } from "antd";
 import moment from "moment";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SelectOption from "./../common/SelectOption";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import { useDispatch, useSelector } from "react-redux";
 import { GetDataLayouts, updateListImgLayout } from "../redux/Slices/layoutSlice";
 import { cloneDeep } from "lodash";
-import { originalListImgLayout } from "../Services/general.service";
+import { openDialogError, originalListImgLayout } from "../Services/general.service";
 import { setIsLoading } from "../redux/Slices/PrimarySlice";
 import ImageUploadCloud from "../ImageUpload/ImageUploadCloud";
 
 const Layout: React.FC = () => {
   const dispatch = useDispatch();
   const { layout } = useSelector((state: any) => state.layout);
+  const navigate = useNavigate();
 
   const enterLoading = async (index: any) => {
     const layoutOrigin = cloneDeep(originalListImgLayout);
@@ -72,13 +73,17 @@ const Layout: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group--right">
                     <div className="background-content">
-                      <label>Background 2 | <span className="highlight">390</span>px x <span className="highlight">193</span>px</label>
+                      <label>
+                        Background 2 | <span className="highlight">390</span>px x <span className="highlight">193</span>px
+                      </label>
                       <div className="form-group--nest">
                         <ImageUploadCloud feature="b2" listImages={layout.b2} />
                       </div>
                     </div>
                     <div className="background-content">
-                      <label>Background 3 | <span className="highlight">390</span>px x <span className="highlight">193</span>px</label>
+                      <label>
+                        Background 3 | <span className="highlight">390</span>px x <span className="highlight">193</span>px
+                      </label>
                       <div className="form-group--nest">
                         <ImageUploadCloud feature="b3" listImages={layout.b3} />
                       </div>
@@ -95,7 +100,9 @@ const Layout: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group--left">
                     <div className="background-content">
-                      <label>Background 1 | <span className="highlight">1090</span>px x <span className="highlight">245</span>px</label>
+                      <label>
+                        Background 1 | <span className="highlight">1090</span>px x <span className="highlight">245</span>px
+                      </label>
                       <div className="form-group--nest">
                         <ImageUploadCloud styleClassName="upload-image-home" multiple={false} feature="b4" listImages={layout.b4} />
                       </div>
@@ -105,7 +112,9 @@ const Layout: React.FC = () => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group--right">
                     <div className="background-content">
-                      <label>Background 2 | <span className="highlight">530</span>px x <span className="highlight">245</span>px</label>
+                      <label>
+                        Background 2 | <span className="highlight">530</span>px x <span className="highlight">245</span>px
+                      </label>
                       <div className="form-group--nest">
                         <ImageUploadCloud feature="b5" listImages={layout.b5} />
                       </div>
