@@ -15,9 +15,7 @@ const Login: React.FC = () => {
   const { isLogin } = useSelector((state: any) => state.login);
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("Vui lòng nhập đúng địng dạng email")
-      .required("Vui lòng nhập email"),
+    email: Yup.string().email("Vui lòng nhập đúng địng dạng email").required("Vui lòng nhập email"),
     password: Yup.string().required("Vui lòng nhập password"),
   });
 
@@ -54,49 +52,24 @@ const Login: React.FC = () => {
                   <h6>Đăng nhập tài khoản</h6>
                   <form onSubmit={onSubmit}>
                     <div className="inputs-wrapper w-100">
-                      <input
-                        type="text"
-                        className={`w-100 ${
-                          errors.email ? "error-border" : ""
-                        }`}
-                        placeholder="Email"
-                        {...register("email")}
-                      />
-                      {errors.email && (
-                        <Alert
-                          message={errors.email.message}
-                          type="info"
-                          showIcon
-                        />
-                      )}
+                      <input type="text" className={`w-100 ${errors.email ? "error-border" : ""}`} placeholder="Email" {...register("email")} />
+                      {errors.email && <Alert message={errors.email.message} type="info" showIcon />}
                     </div>
                     <div className="inputs-wrapper w-100">
                       <input
                         type="password"
-                        className={`w-100 ${
-                          errors.password ? "error-border" : ""
-                        }`}
+                        className={`w-100 ${errors.password ? "error-border" : ""}`}
                         placeholder="Password"
                         {...register("password")}
                       />
-                      {errors.password && (
-                        <Alert
-                          message={errors.password.message}
-                          type="info"
-                          showIcon
-                        />
-                      )}
+                      {errors.password && <Alert message={errors.password.message} type="info" showIcon />}
                     </div>
                     <div className="checkbox-input-wrapper d-flex">
                       <input type="checkbox" name="remember" id="remember" />
                       <label htmlFor="remember">Nhớ mật khẩu</label>
                     </div>
                     <div className="submit-btn login">
-                      <input
-                        type="submit"
-                        className="w-100"
-                        value="Đăng nhập"
-                      />
+                      <input type="submit" className="w-100" value="Đăng nhập" />
                     </div>
                   </form>
                 </div>
@@ -105,7 +78,7 @@ const Login: React.FC = () => {
           </div>
         </section>
       ) : (
-        <Navigate to="/" replace />
+        <Navigate to="/products" replace />
       )}
     </>
   );

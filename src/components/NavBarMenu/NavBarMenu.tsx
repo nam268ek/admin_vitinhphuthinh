@@ -61,13 +61,13 @@ const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink to="/products" className={({ isActive }) => (isActive ? "active-link" : "")} onClick={handleProcessImg}>
                   <FiDatabase />
-                  <span>Products</span>
+                  <span>Sản phẩm</span>
                 </NavLink>
               </li>
               <li className="">
                 <NavLink to="/orders" className={({ isActive }) => (isActive ? "active-link" : "")}>
                   <BsBagCheck />
-                  <span>Orders</span>
+                  <span>Đơn hàng</span>
                 </NavLink>
               </li>
               {/* <li className="">
@@ -82,13 +82,13 @@ const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink to="/categories" className={({ isActive }) => (isActive ? "active-link" : "")}>
                   <BiCategoryAlt />
-                  <span>Categories</span>
+                  <span>Danh mục</span>
                 </NavLink>
               </li>
               <li className="">
                 <NavLink to="/layout" className={({ isActive }) => (isActive ? "active-link" : "")}>
                   <AiOutlineLayout />
-                  <span>Layout</span>
+                  <span>Hình ảnh</span>
                 </NavLink>
               </li>
               {/* <li className="">

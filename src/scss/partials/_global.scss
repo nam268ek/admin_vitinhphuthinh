@@ -89,15 +89,16 @@ a {
   header {
     max-width: 280px;
   }
-  main {
-    margin-left: 280px;
+  .app-content {
+    transform: translateX(280px);
   }
 }
 @media screen and (min-width: 1440px) {
   header {
     max-width: 320px;
   }
-  main {
-    margin-left: 320px;
+  .app-content {
+    // margin-left: 320px;
+    transform: translateX(320px);
   }
 }

@@ -46,17 +46,17 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      {isLogin && (
-        <header>
-          <NavBarMenu />
-        </header>
-      )}
       <main>
         {isLoading && <Loading />}
+        {isLogin && (
+          <header>
+            <NavBarMenu />
+          </header>
+        )}
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/notify" element={<Notify />} />
-          <Route element={<ProtectedRoute isProtected={isLogin} redirectPath="/notify" />}>
+          <Route element={<ProtectedRoute isProtected={isLogin} redirectPath="/login" />}>
             {/* <Route path="/" element={<Dashboard />} /> */}
             <Route path="/products" element={<Products />} />
             <Route path="/products/create-product" element={<NewProduct />} />
