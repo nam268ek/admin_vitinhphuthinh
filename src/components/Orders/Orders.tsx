@@ -282,7 +282,7 @@ const Orders: React.FC = () => {
               <span>Tạo đơn hàng</span>
             </Link>
           </div>
-          <div className="ps-section__header">
+          {/* <div className="ps-section__header">
             <div className="ps-section__filter">
               <form className="ps-form--filter">
                 <div className="ps-form__left">
@@ -312,7 +312,7 @@ const Orders: React.FC = () => {
                 </button>
               </form>
             </div>
-          </div>
+          </div> */}
           <div className="ps-section__content">
             <div className="table-responsive">
               <Table columns={columns} dataSource={data} />
