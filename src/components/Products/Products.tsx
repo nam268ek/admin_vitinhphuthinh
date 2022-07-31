@@ -9,14 +9,23 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import SelectOption from "../common/SelectOption";
 import Search from "./../Search/Search";
 import { useSelector, useDispatch } from "react-redux";
-import { createProduct, getAllProducts, removeItemProduct, setDefaultDataFilter, updateProduct } from "../redux/Slices/productSlice";
-import { formatMoney, originalProduct } from "../Services/general.service";
+import {
+  createProduct,
+  getAllProducts,
+  removeItemProduct,
+  setDefaultDataFilter,
+  updateListAllProducts,
+  updateProduct,
+} from "../redux/Slices/productSlice";
+import { formatMoney, openDialogError, originalProduct, previousData, removePropertySpecificData } from "../Services/general.service";
 import { cloneDeep } from "lodash";
 import { setIsLoading, setAction, getListDropdown } from "../redux/Slices/PrimarySlice";
 import { getListCategory } from "../redux/Slices/CategorySlice";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const Products: React.FC = () => {
   const [isDefault, setIsDefault] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { dataFilter, listAllProducts, statusResponse } = useSelector((state: any) => state.product);
@@ -55,7 +64,7 @@ const Products: React.FC = () => {
       title: "Trạng thái",
       key: "status",
       dataIndex: "status",
-      render: (item: any) => <Switch defaultChecked={item.status} onChange={(e) => handleActiveProduct(e, item)} />,
+      render: (item: any) => <Switch checked={item.status} loading={loading} onChange={(e) => handleActiveProduct(e, item)} />,
     },
     {
       title: "Ngày cập nhật",
@@ -80,30 +89,46 @@ const Products: React.FC = () => {
   ];
 
   const handleActiveProduct = async (checked: boolean, item: any) => {
+    // const itemProd = listAllProducts.filter((o: any) => o._id === item.id);
+    previousData["listProducts"] = cloneDeep(listAllProducts);
     const bodyProduct = cloneDeep(originalProduct);
     const itemUpdate = cloneDeep(item);
     bodyProduct.action = "update";
     bodyProduct.data._id = item._id;
     itemUpdate["status"] = checked;
-    bodyProduct.data = itemUpdate;
+    bodyProduct.data = removePropertySpecificData(itemUpdate);
 
-    console.log(bodyProduct);
+    // if(itemUpdate.hasOwnProperty("updatedAt")) {
+    //   delete bodyProduct.data.updatedAt;
+    // }
+    // if(itemUpdate.hasOwnProperty("created_at")) {
+    //   delete bodyProduct.data.created_at;
+    // }
+    // // delete bodyProduct.data.created_at;
+    // delete bodyProduct.data.__v;
 
-    dispatch(setIsLoading(true));
-    await dispatch(createProduct(bodyProduct));
-    await dispatch(getAllProducts({ role: "user" }));
-    dispatch(setIsLoading(false));
+    // dispatch(setIsLoading(true));
+    setLoading(true);
+    const res = await dispatch(createProduct(bodyProduct));
+    openDialogError(res.payload);
+    if (res.payload.code === 200) {
+      await dispatch(getAllProducts({ role: "user" }));
+    } else {
+      dispatch(setDefaultDataFilter(previousData["listProducts"]));
+    }
+    setLoading(false);
+    // dispatch(setIsLoading(false));
   };
 
-  React.useEffect(() => {
-    if (statusResponse.length > 0 && statusResponse[0].status === "success") {
-      Modal.success({
-        title: "Thông báo",
-        content: `${statusResponse[0].message}`,
-        okText: "Ok",
-      });
-    }
-  }, [statusResponse]);
+  // React.useEffect(() => {
+  //   if (statusResponse.length > 0 && statusResponse[0].status === "success") {
+  //     Modal.success({
+  //       title: "Thông báo",
+  //       content: `${statusResponse[0].message}`,
+  //       okText: "Ok",
+  //     });
+  //   }
+  // }, [statusResponse]);
 
   const handleUpdateProduct = (e: any, record: any) => {
     e.preventDefault();
@@ -113,6 +138,25 @@ const Products: React.FC = () => {
       dispatch(updateProduct(itemEdit));
       navigate("/products/create-product", { replace: true });
     }
+  };
+
+  const openDialogConfirm = async (dispatch: any, action: any, item: any, status?: any) => {
+    Modal.confirm({
+      title: "Thông báo",
+      icon: <ExclamationCircleOutlined />,
+      content: <>{status === "delete" ? "Xác nhận xóa sản phẩm ?" : "Xác nhận ?"}</>,
+      onOk: async () => {
+        const data = await dispatch(action(item));
+        if (data.payload.code === 200) {
+          Modal.success({
+            title: "Thông báo",
+            content: "Đã xóa sản phẩm !",
+          });
+          await dispatch(getAllProducts({ role: "user" }));
+        }
+      },
+      onCancel() {},
+    });
   };
 
   const handleRemoveProduct = async (e: any, record: any) => {
@@ -127,26 +171,25 @@ const Products: React.FC = () => {
     // bodyRemoveProduct.data._id = record.id;
 
     dispatch(setIsLoading(true));
-    await dispatch(removeItemProduct(bodyRemoveProduct));
-    await dispatch(getAllProducts({ role: "user" }));
+    openDialogConfirm(dispatch, removeItemProduct, bodyRemoveProduct, "delete");
+    // await dispatch(removeItemProduct(bodyRemoveProduct));
+    // await dispatch(getAllProducts({ role: "user" }));
     dispatch(setIsLoading(false));
   };
 
   const convertListProducts = (list: any[]) => {
-    return list
-      .map((item: any, index: number) => {
-        return {
-          key: index + 1,
-          id: item._id,
-          name: item.title || "",
-          sku: item.sku || "",
-          price: item.price || 0,
-          category: item.category || "",
-          status: item || false,
-          date: item.created_at || "",
-        };
-      })
-      .sort((a: any, b: any) => (a.date > b.date ? -1 : 1));
+    return list.map((item: any, index: number) => {
+      return {
+        key: index + 1,
+        id: item._id,
+        name: item.title || "",
+        sku: item.sku || "",
+        price: item.price || 0,
+        category: item.category || "",
+        status: item || false,
+        date: item.updatedAt || "",
+      };
+    });
   };
 
   React.useEffect(() => {
@@ -167,6 +210,10 @@ const Products: React.FC = () => {
     dispatch(setAction("create"));
     dispatch(updateProduct([]));
     navigate("/products/create-product", { replace: true });
+  };
+
+  const handleChangeData = () => {
+    console.log("handleChangeData");
   };
 
   return (
@@ -217,7 +264,7 @@ const Products: React.FC = () => {
         </div>
         <div className="ps-section__content">
           <div className="table-responsive">
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={data} onChange={handleChangeData} />
           </div>
         </div>
       </section>
