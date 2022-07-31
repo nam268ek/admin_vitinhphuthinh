@@ -75,6 +75,9 @@ const productSlice = createSlice({
     resetProcessImg: (state: any) => {
       state.listImages = [];
     },
+    updateListAllProducts: (state: any, action: any) => {
+      state.listAllProducts = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -114,5 +117,5 @@ const productSlice = createSlice({
   },
 });
 const { reducer } = productSlice;
-export const { resetProcessImg, updateListImages, filterListProducts, setDefaultDataFilter, updateProduct } = productSlice.actions;
+export const { updateListAllProducts, resetProcessImg, updateListImages, filterListProducts, setDefaultDataFilter, updateProduct } = productSlice.actions;
 export default reducer;

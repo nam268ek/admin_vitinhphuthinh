@@ -242,7 +242,7 @@ const Orders: React.FC = () => {
         price: item.price || 0,
         category: item.category || "",
         status: item || false,
-        date: item.created_at || "",
+        date: item.updatedAt || "",
       };
     });
   };
