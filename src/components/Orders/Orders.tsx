@@ -30,31 +30,31 @@ const Orders: React.FC = () => {
   const { listAllOrders } = useSelector((state: any) => state.order);
 
   const columns = [
-    {
-      title: "Order ID",
-      dataIndex: "orderid",
-      key: "orderid",
-      render: (text: string) => <span>{text}</span>,
-    },
+    // {
+    //   title: "Order ID",
+    //   dataIndex: "orderid",
+    //   key: "orderid",
+    //   render: (text: string) => <span>{text}</span>,
+    // },
     {
       title: "Khách hàng",
       dataIndex: "namecustomer",
       key: "namecustomer",
       render: (text: string) => <span>{text}</span>,
     },
-    {
-      title: "Sản phẩm",
-      dataIndex: "nameprod",
-      key: "nameprod",
-      render: (text: string) => <span className="name-product">{text}</span>,
-    },
+    // {
+    //   title: "Sản phẩm",
+    //   dataIndex: "nameprod",
+    //   key: "nameprod",
+    //   render: (text: string) => <span className="name-product">{text}</span>,
+    // },
 
-    {
-      title: "Giá",
-      dataIndex: "price",
-      key: "price",
-      render: (price: any) => <span className="price-product">{formatMoney.format(Number(price))}</span>,
-    },
+    // {
+    //   title: "Giá",
+    //   dataIndex: "price",
+    //   key: "price",
+    //   render: (price: any) => <span className="price-product">{formatMoney.format(Number(price))}</span>,
+    // },
 
     {
       title: "Ngày đặt hàng",
@@ -62,11 +62,11 @@ const Orders: React.FC = () => {
       key: "date",
       render: (date: any) => <span>{moment(date).format("L, h:mm:ss A")}</span>,
     },
-    {
-      title: "Payment",
-      dataIndex: "payment",
-      key: "payment",
-    },
+    // {
+    //   title: "Payment",
+    //   dataIndex: "payment",
+    //   key: "payment",
+    // },
     {
       title: "Trạng thái",
       key: "stord",
