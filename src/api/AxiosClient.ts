@@ -1,5 +1,6 @@
 import axios from "axios";
 import queryString from "query-string";
+import { openDialogError } from "../components/Services/general.service";
 import ValidateToken from "./authClient";
 //config .env for production
 const apiUrl = process.env.NODE_ENV === "production" ? process.env.REACT_APP_PROD_API_URL : process.env.REACT_APP_DEV_API_URL;
@@ -55,7 +56,9 @@ axiosClient.interceptors.response.use(
         window.location.href = "/login";
       }
     }
-
+    if (err.message === "Network Error") {
+      openDialogError({ status: "error", code: 1, data: {}, message: "" });
+    }
     return Promise.reject(err);
   }
 );

@@ -43,23 +43,23 @@ const Products: React.FC = () => {
       key: "name",
       render: (text: string) => <span className="name-product">{text}</span>,
     },
-    {
-      title: "SKU",
-      dataIndex: "sku",
-      key: "sku",
-    },
+    // {
+    //   title: "SKU",
+    //   dataIndex: "sku",
+    //   key: "sku",
+    // },
     {
       title: "Giá",
       dataIndex: "price",
       key: "price",
       render: (price: any) => <span className="price-product">{formatMoney.format(Number(price))}</span>,
     },
-    {
-      title: "Danh mục",
-      dataIndex: "category",
-      key: "category",
-      render: (list: any) => <span className="category-product">{list[list.length - 1]}</span>,
-    },
+    // {
+    //   title: "Danh mục",
+    //   dataIndex: "category",
+    //   key: "category",
+    //   render: (list: any) => <span className="category-product">{list[list.length - 1]}</span>,
+    // },
     {
       title: "Trạng thái",
       key: "status",
@@ -204,6 +204,7 @@ const Products: React.FC = () => {
     dispatch(setDefaultDataFilter(listAllProducts));
     setIsDefault(!isDefault);
   };
+
 
   const handleAddProduct = (e: any) => {
     e.preventDefault();
