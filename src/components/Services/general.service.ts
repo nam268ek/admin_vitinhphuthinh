@@ -199,6 +199,13 @@ export const openDialogError = (res: IResData, isShow?: string) => {
           okText: "Ok",
         });
         break;
+      case 1:
+        Modal.error({
+          title: "Thông báo",
+          content: `Error connect to server`,
+          okText: "Ok",
+        });
+        break;
     }
   } else {
     Modal.error({
@@ -217,13 +224,13 @@ export const formatMoney = new Intl.NumberFormat("vi-VN", {
 export let previousData: any = [];
 
 export const removePropertySpecificData = (data: any) => {
-  if(data.hasOwnProperty("updatedAt")) {
+  if (data.hasOwnProperty("updatedAt")) {
     delete data.updatedAt;
   }
-  if(data.hasOwnProperty("created_at")) {
+  if (data.hasOwnProperty("created_at")) {
     delete data.created_at;
   }
-  if(data.hasOwnProperty("__v")) {
+  if (data.hasOwnProperty("__v")) {
     delete data.__v;
   }
   return data;

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import APIClientService from "../../../api";
+import { openDialogError } from "../../Services/general.service";
 
 export const RequestLogin: any = createAsyncThunk("REQUEST_LOGIN", async (params: any) => {
   const data: any = await APIClientService.getLogin(params).catch((err: any) => {
@@ -33,6 +34,7 @@ const LoginSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(RequestLogin.fulfilled, (state: any, action: any) => {
+        openDialogError(action.payload);
         const { token, refreshtoken } = action.payload.data;
         if (token && refreshtoken) {
           state.isLogin = true;
