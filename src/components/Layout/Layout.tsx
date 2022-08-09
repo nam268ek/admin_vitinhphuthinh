@@ -14,10 +14,11 @@ import { cloneDeep } from "lodash";
 import { openDialogError, originalListImgLayout } from "../Services/general.service";
 import { setIsLoading } from "../redux/Slices/PrimarySlice";
 import ImageUploadCloud from "../ImageUpload/ImageUploadCloud";
+import ImageUploadSingle from "../ImageUpload/ImageUploadSingle";
 
 const Layout: React.FC = () => {
   const dispatch = useDispatch();
-  const { layout } = useSelector((state: any) => state.layout);
+  const { layout, listImgLayout } = useSelector((state: any) => state.layout);
   const navigate = useNavigate();
 
   const enterLoading = async (index: any) => {
@@ -59,7 +60,7 @@ const Layout: React.FC = () => {
                         Background 1 | <span className="highlight">1230</span>px x <span className="highlight">425</span>px
                       </label>
                       <div className="form-group--nest">
-                        <ImageUploadCloud
+                        <ImageUploadSingle
                           styleClassName="upload-image-home"
                           maxNumberOfFiles={3}
                           multiple={false}
@@ -77,7 +78,7 @@ const Layout: React.FC = () => {
                         Background 2 | <span className="highlight">390</span>px x <span className="highlight">193</span>px
                       </label>
                       <div className="form-group--nest">
-                        <ImageUploadCloud feature="b2" listImages={layout.b2} />
+                        <ImageUploadSingle feature="b2" listImages={layout.b2} />
                       </div>
                     </div>
                     <div className="background-content">
@@ -85,7 +86,7 @@ const Layout: React.FC = () => {
                         Background 3 | <span className="highlight">390</span>px x <span className="highlight">193</span>px
                       </label>
                       <div className="form-group--nest">
-                        <ImageUploadCloud feature="b3" listImages={layout.b3} />
+                        <ImageUploadSingle feature="b3" listImages={layout.b3} />
                       </div>
                     </div>
                   </div>
@@ -97,6 +98,49 @@ const Layout: React.FC = () => {
             <figure className="ps-block--form-box c-b-1">
               <figcaption>Layout 2</figcaption>
               <div className="ps-block__layout">
+                <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <div className="form-group--left">
+                    <div className="background-content">
+                      <label>
+                        Background 1 | <span className="highlight">530</span>px x <span className="highlight">285</span>px
+                      </label>
+                      <div className="form-group--nest">
+                        <ImageUploadSingle styleClassName="upload-image-home" feature="b6" listImages={layout.b6} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <div className="form-group--left">
+                    <div className="background-content">
+                      <label>
+                        Background 2 | <span className="highlight">530</span>px x <span className="highlight">285</span>px
+                      </label>
+                      <div className="form-group--nest">
+                        <ImageUploadSingle styleClassName="upload-image-home" feature="b7" listImages={layout.b7} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <div className="form-group--right">
+                    <div className="background-content">
+                      <label>
+                        Background 3 | <span className="highlight">530</span>px x <span className="highlight">285</span>px
+                      </label>
+                      <div className="form-group--nest">
+                        <ImageUploadSingle feature="b8" styleClassName="upload-image-home" listImages={layout.b8} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </figure>
+          </div>
+          <div className="ps-form__content">
+            <figure className="ps-block--form-box c-b-1">
+              <figcaption>Layout 3</figcaption>
+              <div className="ps-block__layout">
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <div className="form-group--left">
                     <div className="background-content">
@@ -104,7 +148,7 @@ const Layout: React.FC = () => {
                         Background 1 | <span className="highlight">1090</span>px x <span className="highlight">245</span>px
                       </label>
                       <div className="form-group--nest">
-                        <ImageUploadCloud styleClassName="upload-image-home" multiple={false} feature="b4" listImages={layout.b4} />
+                        <ImageUploadSingle styleClassName="upload-image-home" multiple={false} feature="b4" listImages={layout.b4} />
                       </div>
                     </div>
                   </div>
@@ -116,7 +160,7 @@ const Layout: React.FC = () => {
                         Background 2 | <span className="highlight">530</span>px x <span className="highlight">245</span>px
                       </label>
                       <div className="form-group--nest">
-                        <ImageUploadCloud feature="b5" listImages={layout.b5} />
+                        <ImageUploadSingle feature="b5" listImages={layout.b5} />
                       </div>
                     </div>
                   </div>
@@ -124,7 +168,7 @@ const Layout: React.FC = () => {
               </div>
             </figure>
           </div>
-          <div className="ps-form__content">
+          {/* <div className="ps-form__content">
             <div className="ps-form__bottom">
               <Space style={{ width: "100%", justifyContent: "flex-end" }}>
                 <Button type="primary" loading={false} onClick={goBack} className="ant-btn-primary">
@@ -135,7 +179,7 @@ const Layout: React.FC = () => {
                 </Button>
               </Space>
             </div>
-          </div>
+          </div> */}
         </Form>
       </section>
     </div>

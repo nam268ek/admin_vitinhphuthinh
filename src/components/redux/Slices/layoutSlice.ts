@@ -15,6 +15,12 @@ export const uploadFileLayout: any = createAsyncThunk("UPLOAD_FILE_LAYOUT", asyn
   });
   return data;
 });
+export const uploadFileLayoutSingle: any = createAsyncThunk("UPLOAD_FILE_LAYOUT_SINGLE", async (params: any) => {
+  const data: any = await APIClientService.uploadFileSingle(params).catch((err: any) => {
+    return err.response.data;
+  });
+  return data;
+});
 
 export const removeFileLayout: any = createAsyncThunk("REMOVE_FILE_LAYOUT", async (params: any) => {
   const data: any = await APIClientService.removeFile(params).catch((err: any) => {
@@ -46,6 +52,9 @@ const initialState = {
     b3: [],
     b4: [],
     b5: [],
+    b6: [],
+    b7: [],
+    b8: [],
   },
   statusResponse: [],
   dataUpdate: [],
@@ -82,7 +91,7 @@ const layoutSlice = createSlice({
   extraReducers: (builder: any) => {
     builder
       .addCase(updateListImgLayout.fulfilled, (state: any, action: any) => {
-        openDialogError(action.payload, 'showModel');
+        openDialogError(action.payload, "showModel");
         if (action.payload.status === "success" && action.payload.data) {
           state.layout = action.payload.data.layout;
         }
@@ -103,6 +112,13 @@ const layoutSlice = createSlice({
       .addCase(GetDataLayouts.fulfilled, (state: any, action: any) => {
         if (action.payload.code === 200 && action.payload.data) {
           state.layout = action.payload.data[0].layout;
+        }
+        state.statusResponse = [...state.statusResponse, action.payload];
+      })
+      .addCase(uploadFileLayoutSingle.fulfilled, (state: any, action: any) => {
+        if (action.payload.code === 200 && action.payload.data) {
+          const { feature } = action.payload.data;
+          state.layout[feature] = [action.payload.data];
         }
         state.statusResponse = [...state.statusResponse, action.payload];
       });
