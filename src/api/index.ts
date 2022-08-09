@@ -78,6 +78,14 @@ const APIClientService = {
       },
     });
   },
+  uploadFileSingle: (formData: any) => {
+    const url = "/v1/layout";
+    return AxiosClient.post(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
   removeFile: (params: any) => {
     const url = "/image-remove";
     return AxiosClient.post(url, { params });
