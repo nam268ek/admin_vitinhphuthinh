@@ -168,7 +168,7 @@ const Layout: React.FC = () => {
               </div>
             </figure>
           </div>
-          <div className="ps-form__content">
+          {/* <div className="ps-form__content">
             <div className="ps-form__bottom">
               <Space style={{ width: "100%", justifyContent: "flex-end" }}>
                 <Button type="primary" loading={false} onClick={goBack} className="ant-btn-primary">
@@ -179,7 +179,7 @@ const Layout: React.FC = () => {
                 </Button>
               </Space>
             </div>
-          </div>
+          </div> */}
         </Form>
       </section>
     </div>
