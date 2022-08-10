@@ -168,18 +168,6 @@ const Layout: React.FC = () => {
               </div>
             </figure>
           </div>
-          {/* <div className="ps-form__content">
-            <div className="ps-form__bottom">
-              <Space style={{ width: "100%", justifyContent: "flex-end" }}>
-                <Button type="primary" loading={false} onClick={goBack} className="ant-btn-primary">
-                  Back
-                </Button>
-                <Button type="primary" htmlType="submit" loading={false} onClick={() => enterLoading(0)} className="ant-btn-primary">
-                  Submit
-                </Button>
-              </Space>
-            </div>
-          </div> */}
         </Form>
       </section>
     </div>
