@@ -1,68 +1,42 @@
-import { Form, Modal } from "antd";
+import { Button, Form, Space } from "antd";
+import { cloneDeep } from "lodash";
 import React from "react";
+import { useDispatch } from "react-redux";
 import EditorText from "../common/EditorText";
-const Policy: React.FC<any> = ({ childRef, titleModel, modalVisible, onOk, onCancel }) => {
+import { updateContentFooterEditor } from "../redux/Slices/FooterSlice";
+import { originalContentFooter } from "../Services/general.service";
+
+const Policy: React.FC<any> = ({ name, title }) => {
+  const childRef = React.useRef<any>(null);
+  const [form] = Form.useForm();
+  const dispatch = useDispatch();
+
+  const onFinish = async (data: any) => {
+    console.log("data", data);
+    const bodyContentFooter = cloneDeep(originalContentFooter);
+    bodyContentFooter.action = "update";
+    bodyContentFooter.data = {
+      [`${name}`]: childRef.current.contentEditor() || "",
+    };
+    const res = await dispatch(updateContentFooterEditor(bodyContentFooter));
+    if (res.payload.code === 200) {
+    }
+  };
+
   return (
-    <Modal title={titleModel} visible={modalVisible} onOk={onOk} onCancel={onCancel} width={1200}>
-      <div className="ps-block__layout">
-        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="form-group--left">
-            <div className="background-content">
-              <div className="form-group--nest">
-                <div className="form-group">
-                  <label>Chính sách vận chuyển</label>
-                  <Form.Item name="polship">
-                    <EditorText ref={childRef} defaultValue={"<p></p>"} />
-                  </Form.Item>
-                </div>
-                <div className="form-group">
-                  <label>Chính sách đổi trả</label>
-                  <Form.Item name="polreturn">
-                    <EditorText ref={childRef} defaultValue={"<p></p>"} />
-                  </Form.Item>
-                </div>
-                <div className="form-group">
-                  <label>Chính sách bảo hành</label>
-                  <Form.Item name="polwan">
-                    <EditorText ref={childRef} defaultValue={"<p></p>"} />
-                  </Form.Item>
-                </div>
-                <div className="form-group">
-                  <label>Chính sách trả góp</label>
-                  <Form.Item name="polinsta">
-                    <EditorText ref={childRef} defaultValue={"<p></p>"} />
-                  </Form.Item>
-                </div>
-                <div className="form-group">
-                  <label>Cam kết chất lượng</label>
-                  <Form.Item name="polquality">
-                    <EditorText ref={childRef} defaultValue={"<p></p>"} />
-                  </Form.Item>
-                </div>
-                <div className="form-group">
-                  <label>Điều khoản sử dụng</label>
-                  <Form.Item name="poluse">
-                    <EditorText ref={childRef} defaultValue={"<p></p>"} />
-                  </Form.Item>
-                </div>
-                <div className="form-group">
-                  <label>Chính sách mua hàng</label>
-                  <Form.Item name="polbuy">
-                    <EditorText ref={childRef} defaultValue={"<p></p>"} />
-                  </Form.Item>
-                </div>
-                <div className="form-group">
-                  <label>Chính sách bảo mật</label>
-                  <Form.Item name="polprot">
-                    <EditorText ref={childRef} defaultValue={"<p></p>"} />
-                  </Form.Item>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Modal>
+    <div className="container-block-rl">
+    <Form className="container-block-rl__ab" form={form} onFinish={onFinish}>
+      <label className="form-label__item-title">{title || ""}</label>
+      <EditorText ref={childRef} defaultValue={"<p></p>"} />
+      <Form.Item>
+        <Space className="mt-4" style={{ width: "100%", justifyContent: "flex-end" }}>
+          <Button type="primary" htmlType="submit" loading={false}>
+            Submit
+          </Button>
+        </Space>
+      </Form.Item>
+    </Form>
+    </div>
   );
 };
 export default Policy;

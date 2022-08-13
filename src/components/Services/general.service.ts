@@ -123,6 +123,33 @@ export const originalListImgLayout: any = {
   },
 };
 
+export const originalContentFooter: any = {
+  role: "admin",
+  action: "",
+  data: {
+    addrshop: "",
+    email: "",
+    fblink: "",
+    hotline: "",
+    zalolink: "",
+  },
+};
+
+export const originalContentFooterEditor: any = {
+  role: "admin",
+  action: "",
+  data: {
+    polship: "",
+    polreturn: "",
+    polwan: "",
+    polinsta: "",
+    polquality: "",
+    poluse: "",
+    polbuy: "",
+    polprot: "",
+  },
+};
+
 export const convertListCategory = (list: any[]) => {
   return list.map((item: any, index: number) => {
     return {

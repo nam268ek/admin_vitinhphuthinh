@@ -5,6 +5,7 @@ import productSlice from '../Slices/productSlice';
 import categorySlice from '../Slices/CategorySlice';
 import orderSlice from '../Slices/orderSlice';
 import layoutSlice from '../Slices/layoutSlice';
+import footerSlice from '../Slices/FooterSlice';
 import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 
@@ -15,6 +16,7 @@ const reducers = combineReducers({
   category: categorySlice,
   order: orderSlice,
   layout: layoutSlice,
+  footer: footerSlice,
 });
 
 // const store = configureStore({
