@@ -62,13 +62,13 @@ const APIClientService = {
     const url = "/cart";
     return AxiosClient.get(url);
   },
-  checkOutPurchase: (params: any) => {
-    const url = "/checkout";
+  reqFooter: (params: any) => {
+    const url = "/footer";
     return AxiosClient.post(url, { params });
   },
-  getDataPurchase: () => {
-    const url = "/checkout";
-    return AxiosClient.get(url);
+  reqFooterEditor: (params: any) => {
+    const url = "/footer/policy";
+    return AxiosClient.post(url, { params });
   },
   uploadFile: (formData: any) => {
     const url = "/image-upload";

@@ -41,7 +41,11 @@ const Products: React.FC = () => {
       title: "Tên sản phẩm",
       dataIndex: "name",
       key: "name",
-      render: (text: string) => <span className="name-product">{text}</span>,
+      render: (text: string, record: any) => (
+        <span className="name-product" onClick={(e) => handleUpdateProduct(e, record)}>
+          {text}
+        </span>
+      ),
     },
     // {
     //   title: "SKU",
@@ -204,7 +208,6 @@ const Products: React.FC = () => {
     dispatch(setDefaultDataFilter(listAllProducts));
     setIsDefault(!isDefault);
   };
-
 
   const handleAddProduct = (e: any) => {
     e.preventDefault();

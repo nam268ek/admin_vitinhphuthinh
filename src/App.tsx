@@ -18,6 +18,8 @@ import { setIsLoading } from "./components/redux/Slices/PrimarySlice";
 import NewOrder from "./components/NewOrder/NewOrder";
 import ValidateToken from "./api/authClient";
 import { setLogin } from "./components/redux/Slices/LoginSlice";
+import Blogs from "./components/Blogs/Blogs";
+import NewProductv1 from "./components/NewProduct/NewProduct-v1";
 
 const App: React.FC = () => {
   const { isLogin } = useSelector((state: any) => state.login);
@@ -64,8 +66,10 @@ const App: React.FC = () => {
             <Route path="/orders/create-order" element={<NewOrder />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/categories" element={<Categories />} />
-            {/* <Route path="/settings" element={<Settings />} /> */}
             <Route path="/layout" element={<Layout />} />
+            <Route path="/blogs" element={<NewProductv1 />} />
+            {/* <Route path="/blogs" element={<NewProductv1 />} /> */}
+            <Route path="/settings" element={<Settings />} />
           </Route>
         </Routes>
       </main>

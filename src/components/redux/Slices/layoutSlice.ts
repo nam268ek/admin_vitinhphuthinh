@@ -55,6 +55,8 @@ const initialState = {
     b6: [],
     b7: [],
     b8: [],
+    b9: [],
+    b10: [],
   },
   statusResponse: [],
   dataUpdate: [],

@@ -92,11 +92,17 @@ const NavBarMenu: React.FC = () => {
                 </NavLink>
               </li>
               {/* <li className="">
+                <NavLink to="/blogs" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                  <AiOutlineLayout />
+                  <span>Blogs</span>
+                </NavLink>
+              </li> */}
+              <li className="">
                 <NavLink to="/settings" className={({ isActive }) => (isActive ? "active-link" : "")}>
                   <IoSettingsOutline />
                   <span>Settings</span>
                 </NavLink>
-              </li> */}
+              </li>
             </ul>
           </div>
         </div>
