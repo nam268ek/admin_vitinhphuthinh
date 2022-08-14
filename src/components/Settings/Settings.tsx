@@ -3,13 +3,11 @@ import { cloneDeep } from "lodash";
 import React from "react";
 import { AiOutlineCodeSandbox } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import EditorSlate from "../common/EditorSlate";
-import EditorTiptap from "../common/EditorTiptap";
 import ImageUploadSingle from "../ImageUpload/ImageUploadSingle";
 import InfoFooter from "../InfoFooter/InfoFooter";
 import LogoLayout from "../LogoLayout/LogoLayout";
 import Policy from "../Policy/Policy";
-import { getContentFooter, updateContentFooter } from "../redux/Slices/FooterSlice";
+import { getContentFooter, getContentFooterEditor, updateContentFooter } from "../redux/Slices/FooterSlice";
 import { originalContentFooter } from "../Services/general.service";
 import { Dropdown, Menu, Space } from "antd";
 import { Link } from "react-router-dom";
@@ -21,12 +19,13 @@ const Settings: React.FC = () => {
       <Empty />
     </div>
   );
-  const { dataUpdate } = useSelector((state: any) => state.footer);
+  const { dataUpdate, dataUpdatePolicy } = useSelector((state: any) => state.footer);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(getContentFooter({ role: "user" }));
+    dispatch(getContentFooterEditor({ role: "user" }));
   }, []);
 
   React.useEffect(() => {
@@ -60,13 +59,12 @@ const Settings: React.FC = () => {
       // return <InfoFooter form={form} onFinish={onFinish} dataUpdate={dataUpdate} />;
     }
     if (numberFunc === 3 && name && name !== "" && title && title !== "") {
-      setContentJsx(<Policy name={name} title={title} />);
+      setContentJsx(<Policy name={name} title={title} dataUpdatePolicy={dataUpdatePolicy}/>);
       // return <Policy name={name} title={title} />;
     }
   };
 
   const handleOpenPolicy = (name: string, title: string) => {
-    console.log("asdasd");
     showContentFunction(name, title);
   };
 
