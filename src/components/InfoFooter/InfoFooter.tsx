@@ -1,7 +1,7 @@
 import { Button, Form, Input, Space } from "antd";
 import React from "react";
 
-const InfoFooter: React.FC<any> = ({ dataUpdate, form, onFinish }) => {
+const InfoFooter: React.FC<any> = ({ dataUpdate, form, onFinish, loading }) => {
   return (
     <div className="ps-block__layout w-100">
       <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -38,7 +38,7 @@ const InfoFooter: React.FC<any> = ({ dataUpdate, form, onFinish }) => {
               <div className="ps-form__bottom">
                 <Form.Item>
                   <Space style={{ width: "100%", justifyContent: "flex-end" }}>
-                    <Button type="primary" htmlType="submit" loading={false}>
+                    <Button type="primary" htmlType="submit" loading={loading}>
                       Submit
                     </Button>
                   </Space>
