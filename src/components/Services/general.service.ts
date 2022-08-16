@@ -163,11 +163,11 @@ export const convertListCategory = (list: any[]) => {
   });
 };
 
-export const openDialogError = (res: IResData, isShow?: string) => {
+export const openDialogError = (res: IResData, isShow?: any) => {
   if (res && !isEmpty(res)) {
     switch (res.code) {
       case 200:
-        if (isShow === "showModel") {
+        if (isShow === "showModel" || isShow === true) {
           Modal.success({
             title: "Thông báo",
             content: `${res.message}`,

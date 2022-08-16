@@ -44,7 +44,7 @@ const FooterSlice = createSlice({
   extraReducers: (builder: any) => {
     builder
       .addCase(updateContentFooter.fulfilled, (state: any, action: any) => {
-        openDialogError(action.payload);
+        openDialogError(action.payload, true);
         if (action.payload.code === 200 && action.payload.data) {
           state.dataUpdate = [action.payload.data];
         }

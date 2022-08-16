@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 
 const Settings: React.FC = () => {
   const [numberFunc, setNumberFunc] = React.useState<number>(1);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [contentJsx, setContentJsx] = React.useState<JSX.Element>(
     <div className="d-flex justify-content-center w-100">
       <Empty />
@@ -47,7 +48,9 @@ const Settings: React.FC = () => {
       hotline: data.hotline || "",
       zalolink: data.zalolink || "",
     };
+    setLoading(true);
     await dispatch(updateContentFooter(bodyContentFooter));
+    setLoading(false);
   };
 
   const showContentFunction = (name?: string, title?: string) => {
@@ -55,11 +58,11 @@ const Settings: React.FC = () => {
       setContentJsx(<LogoLayout />);
     }
     if (numberFunc === 2) {
-      setContentJsx(<InfoFooter form={form} onFinish={onFinish} dataUpdate={dataUpdate} />);
+      setContentJsx(<InfoFooter loading={loading} form={form} onFinish={onFinish} dataUpdate={dataUpdate} />);
       // return <InfoFooter form={form} onFinish={onFinish} dataUpdate={dataUpdate} />;
     }
     if (numberFunc === 3 && name && name !== "" && title && title !== "") {
-      setContentJsx(<Policy name={name} title={title} dataUpdatePolicy={dataUpdatePolicy}/>);
+      setContentJsx(<Policy name={name} title={title} dataUpdatePolicy={dataUpdatePolicy} />);
       // return <Policy name={name} title={title} />;
     }
   };
