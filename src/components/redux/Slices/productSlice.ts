@@ -43,6 +43,13 @@ export const setImageTempProduct: any = createAsyncThunk("SET_IMG_TEMP", async (
   return data;
 });
 
+export const reqUploadListProducts: any = createAsyncThunk("UPLOAD_FILE_EXCEL", async (params: any) => {
+  const data: any = await APIClientService.uploadFileExcel(params).catch((err: any) => {
+    return err.response.data;
+  });
+  return data;
+});
+
 const initialState = {
   statusUpdated: false,
   data: {},
@@ -113,9 +120,16 @@ const productSlice = createSlice({
         if (action.payload.code === 200) {
           state.listImages = state.listImages.filter((img: any) => img.uid !== action.payload.data);
         }
+      })
+      .addCase(reqUploadListProducts.fulfilled, (state: any, action: any) => {
+        if (action.payload.code === 200) {
+          state.listAllProducts = action.payload.data;
+          state.dataFilter = action.payload.data;
+        }
       });
   },
 });
 const { reducer } = productSlice;
-export const { updateListAllProducts, resetProcessImg, updateListImages, filterListProducts, setDefaultDataFilter, updateProduct } = productSlice.actions;
+export const { updateListAllProducts, resetProcessImg, updateListImages, filterListProducts, setDefaultDataFilter, updateProduct } =
+  productSlice.actions;
 export default reducer;

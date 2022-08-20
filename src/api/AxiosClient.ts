@@ -2,6 +2,9 @@ import axios from "axios";
 import queryString from "query-string";
 import { openDialogError } from "../components/Services/general.service";
 import ValidateToken from "./authClient";
+import store from "../components/redux/store/store";
+import { setLogout } from "../components/redux/Slices/LoginSlice";
+import { history } from "../utils/history";
 //config .env for production
 const apiUrl = process.env.NODE_ENV === "production" ? process.env.REACT_APP_PROD_API_URL : process.env.REACT_APP_DEV_API_URL;
 
@@ -53,7 +56,10 @@ axiosClient.interceptors.response.use(
         }
       }
       if (err.response.data.data.urlRedirect === "/login") {
-        window.location.href = "/login";
+        // window.location.href = "/login";
+        // openDialogError(err.response.data, true);
+        ValidateToken.removeTokenLocalStorage();
+        history.push("/login");
       }
     }
     if (err.message === "Network Error") {

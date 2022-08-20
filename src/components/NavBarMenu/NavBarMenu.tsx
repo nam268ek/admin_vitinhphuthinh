@@ -9,7 +9,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetProcessImg } from "../redux/Slices/productSlice";
 import { formatMoney } from "../Services/general.service";
-import { clearLocalStore } from "../redux/Slices/LoginSlice";
+import { setLogout } from "../redux/Slices/LoginSlice";
 
 const NavBarMenu: React.FC = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const NavBarMenu: React.FC = () => {
   }, 0);
 
   const handleLogout = () => {
-    dispatch(clearLocalStore());
+    dispatch(setLogout());
   }
 
   return (

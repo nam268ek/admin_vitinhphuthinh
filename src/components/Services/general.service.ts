@@ -1,6 +1,7 @@
 import { Modal } from "antd";
 import { isEmpty } from "lodash";
 import { IResData } from "../../types/types";
+import { history } from "../../utils/history";
 
 export const originalRegister: any = {
   email: "",
@@ -193,9 +194,7 @@ export const openDialogError = (res: IResData, isShow?: any) => {
           localStorage.removeItem("persist:root");
           localStorage.removeItem("refreshtokenvtpt");
           localStorage.removeItem("tokenvtpt");
-          setTimeout(() => {
-            window.location.href = res.data.urlRedirect;
-          }, 2000);
+          // history.push(res.data.urlRedirect);
         }
         break;
       case 402:
