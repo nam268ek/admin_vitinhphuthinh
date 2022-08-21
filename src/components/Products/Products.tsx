@@ -1,8 +1,8 @@
 import React from "react";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoAddSharp, IoSearchOutline } from "react-icons/io5";
 import { BiRefresh } from "react-icons/bi";
 import { FaPlusCircle } from "react-icons/fa";
-import { Table, Tag, Space, Button, message, Modal, Switch } from "antd";
+import { Table, Tag, Space, Button, message, Modal, Switch, Form, Input } from "antd";
 import moment from "moment";
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { Link, Navigate, useNavigate } from "react-router-dom";
@@ -22,10 +22,14 @@ import { cloneDeep } from "lodash";
 import { setIsLoading, setAction, getListDropdown } from "../redux/Slices/PrimarySlice";
 import { getListCategory } from "../redux/Slices/CategorySlice";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { TbPackgeImport } from "react-icons/tb";
+import UploadFileExcel from "../common/UploadFIleExcel";
+import ExportFileExcel from "../ExportFileExcel/ExportFileExcel";
 
 const Products: React.FC = () => {
   const [isDefault, setIsDefault] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [loadingTb, setLoadingTb] = React.useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { dataFilter, listAllProducts, statusResponse } = useSelector((state: any) => state.product);
@@ -220,6 +224,8 @@ const Products: React.FC = () => {
     console.log("handleChangeData");
   };
 
+  const handleImportExcel = (e: any) => {};
+
   return (
     <div className="ps-main__wrapper">
       <div className="header--dashboard">
@@ -230,6 +236,8 @@ const Products: React.FC = () => {
       </div>
       <section className="ps-items-listing">
         <div className="ps-section__actions">
+          <ExportFileExcel data={dataFilter}/>
+          <UploadFileExcel setLoadingTb={setLoadingTb} />
           <Link className="ps-btn success" to="/products/create-product" onClick={handleAddProduct}>
             <FaPlusCircle />
             <span>Thêm sản phẩm</span>
@@ -268,7 +276,7 @@ const Products: React.FC = () => {
         </div>
         <div className="ps-section__content">
           <div className="table-responsive">
-            <Table columns={columns} dataSource={data} onChange={handleChangeData} />
+            <Table columns={columns} dataSource={data} onChange={handleChangeData} loading={loadingTb} />
           </div>
         </div>
       </section>

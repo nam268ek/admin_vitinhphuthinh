@@ -98,6 +98,10 @@ const APIClientService = {
     const url = "/layout";
     return AxiosClient.post(url, { params });
   },
+  uploadFileExcel: (params: any) => {
+    const url = "/products/import";
+    return AxiosClient.post(url, { params });
+  },
 };
 
 export default APIClientService;
