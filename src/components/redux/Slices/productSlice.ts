@@ -111,18 +111,18 @@ const productSlice = createSlice({
       })
       .addCase(uploadFileImgToCloud.fulfilled, (state: any, action: any) => {
         // state.data = action.payload;
-        if (action.payload.code === 200) {
+        if (action.payload.code === 200 && action.payload.data) {
           state.listImages = [...state.listImages, action.payload.data];
           // state.statusResponse = [...state.statusResponse, action.payload];
         }
       })
       .addCase(removeFileImgToCloud.fulfilled, (state: any, action: any) => {
-        if (action.payload.code === 200) {
+        if (action.payload.code === 200 && action.payload.data) {
           state.listImages = state.listImages.filter((img: any) => img.uid !== action.payload.data);
         }
       })
       .addCase(reqUploadListProducts.fulfilled, (state: any, action: any) => {
-        if (action.payload.code === 200) {
+        if (action.payload.code === 200 && action.payload.data) {
           state.listAllProducts = action.payload.data;
           state.dataFilter = action.payload.data;
         }

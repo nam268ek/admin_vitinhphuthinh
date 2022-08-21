@@ -24,6 +24,7 @@ import { getListCategory } from "../redux/Slices/CategorySlice";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { TbPackgeImport } from "react-icons/tb";
 import UploadFileExcel from "../common/UploadFIleExcel";
+import ExportFileExcel from "../ExportFileExcel/ExportFileExcel";
 
 const Products: React.FC = () => {
   const [isDefault, setIsDefault] = React.useState<boolean>(false);
@@ -235,9 +236,8 @@ const Products: React.FC = () => {
       </div>
       <section className="ps-items-listing">
         <div className="ps-section__actions">
-          <Link className="c-btn-gray mr-10" to="">
-            <UploadFileExcel setLoadingTb={setLoadingTb}/>
-          </Link>
+          <ExportFileExcel data={dataFilter}/>
+          <UploadFileExcel setLoadingTb={setLoadingTb} />
           <Link className="ps-btn success" to="/products/create-product" onClick={handleAddProduct}>
             <FaPlusCircle />
             <span>Thêm sản phẩm</span>
@@ -276,7 +276,7 @@ const Products: React.FC = () => {
         </div>
         <div className="ps-section__content">
           <div className="table-responsive">
-            <Table columns={columns} dataSource={data} onChange={handleChangeData} loading={loadingTb}/>
+            <Table columns={columns} dataSource={data} onChange={handleChangeData} loading={loadingTb} />
           </div>
         </div>
       </section>

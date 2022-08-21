@@ -19,7 +19,7 @@ const NavBarMenu: React.FC = () => {
   const { listAllProducts } = useSelector((state: any) => state.product);
   const sumPrice = listAllProducts.reduce((a: any, b: any) => {
     return a + b.price;
-  }, 0);
+  }, 0) || NaN;
 
   const handleLogout = () => {
     dispatch(setLogout());
