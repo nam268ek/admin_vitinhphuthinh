@@ -236,14 +236,19 @@ const Products: React.FC = () => {
       </div>
       <section className="ps-items-listing">
         <div className="ps-section__actions">
-          <ExportFileExcel data={dataFilter}/>
-          <UploadFileExcel setLoadingTb={setLoadingTb} />
-          <Link className="ps-btn success" to="/products/create-product" onClick={handleAddProduct}>
-            <FaPlusCircle />
-            <span>Thêm sản phẩm</span>
-          </Link>
+          <div className="width-left">
+            <Search className="search-category" placeholder="Tìm kiếm sản phẩm..." listItem={listAllProducts} isDefault={isDefault} />
+          </div>
+          <div className="width-right d-flex">
+            <ExportFileExcel data={dataFilter} />
+            <UploadFileExcel setLoadingTb={setLoadingTb} />
+            <Button className="c-btn-success d-flex align-items-center" onClick={handleAddProduct}>
+              <FaPlusCircle size={12} />
+              <span style={{ paddingLeft: "5px" }}>Thêm sản phẩm</span>
+            </Button>
+          </div>
         </div>
-        <div className="ps-section__header">
+        <div className="ps-section__header pb-1">
           <div className="ps-section__filter">
             <form className="ps-form--filter">
               <div className="ps-form__left">
@@ -265,14 +270,14 @@ const Products: React.FC = () => {
               </div>
             </form>
           </div>
-          <div className="ps-section__search">
-            <form className="ps-form--search-simple">
+          {/* <div className="ps-section__search">
+            <div className="ps-form--search-simple">
               <Search className="search-category" placeholder="Tìm kiếm sản phẩm..." listItem={listAllProducts} isDefault={isDefault} />
               <button style={{ backgroundColor: "#fff" }} onClick={(e) => e.preventDefault()}>
                 <IoSearchOutline />
               </button>
-            </form>
-          </div>
+            </div>
+          </div> */}
         </div>
         <div className="ps-section__content">
           <div className="table-responsive">

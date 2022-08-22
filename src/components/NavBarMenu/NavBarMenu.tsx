@@ -19,7 +19,7 @@ const NavBarMenu: React.FC = () => {
   const { listAllProducts } = useSelector((state: any) => state.product);
   const sumPrice = listAllProducts.reduce((a: any, b: any) => {
     return a + b.price;
-  }, 0) || NaN;
+  }, 0) || 0;
 
   const handleLogout = () => {
     dispatch(setLogout());
@@ -59,13 +59,13 @@ const NavBarMenu: React.FC = () => {
                 </NavLink>
               </li> */}
               <li className="">
-                <NavLink to="/products" className={({ isActive }) => (isActive ? "active-link" : "")} onClick={handleProcessImg}>
+                <NavLink to="/products" className={({ isActive }) => (isActive ? "active-link" : "navlink")} onClick={handleProcessImg}>
                   <FiDatabase />
                   <span>Sản phẩm</span>
                 </NavLink>
               </li>
               <li className="">
-                <NavLink to="/orders" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                <NavLink to="/orders" className={({ isActive }) => (isActive ? "active-link" : "navlink")}>
                   <BsBagCheck />
                   <span>Đơn hàng</span>
                 </NavLink>
@@ -80,13 +80,13 @@ const NavBarMenu: React.FC = () => {
                 </NavLink>
               </li> */}
               <li className="">
-                <NavLink to="/categories" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                <NavLink to="/categories" className={({ isActive }) => (isActive ? "active-link" : "navlink")}>
                   <BiCategoryAlt />
                   <span>Danh mục</span>
                 </NavLink>
               </li>
               <li className="">
-                <NavLink to="/layout" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                <NavLink to="/layout" className={({ isActive }) => (isActive ? "active-link" : "navlink")}>
                   <AiOutlineLayout />
                   <span>Hình ảnh</span>
                 </NavLink>
@@ -98,7 +98,7 @@ const NavBarMenu: React.FC = () => {
                 </NavLink>
               </li> */}
               <li className="">
-                <NavLink to="/settings" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                <NavLink to="/settings" className={({ isActive }) => (isActive ? "active-link" : "navlink")}>
                   <IoSettingsOutline />
                   <span>Settings</span>
                 </NavLink>
