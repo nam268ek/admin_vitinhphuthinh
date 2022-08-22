@@ -1,5 +1,5 @@
 import React from "react";
-import { AutoComplete } from "antd";
+import { AutoComplete, Input } from "antd";
 import { ISearchService } from "../../types/types";
 import { useDispatch } from "react-redux";
 import { filterListProducts } from "../redux/Slices/productSlice";
@@ -35,12 +35,13 @@ const Search: React.FC<ISearchService> = ({ placeholder, className, listItem, is
       value={selectedValues}
       className={className}
       options={options}
-      placeholder={placeholder}
       filterOption={filterList}
       onSelect={handleSelectItem}
       onSearch={onSearch}
       onChange={(value: any) => setSelectedValues(value)}
-    />
+    >
+      <Input.Search size="large" placeholder={placeholder} enterButton />
+    </AutoComplete>
   );
 };
 
