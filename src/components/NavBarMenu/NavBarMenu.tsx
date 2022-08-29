@@ -35,11 +35,11 @@ const NavBarMenu: React.FC = () => {
             </div>
             <div className="ps-block__right">
               <p>
-                Xin chào,<Link to="">Vi Tính Phú Thịnh</Link>
+                Xin chào,<Link id="nameshop" to="">Vi Tính Phú Thịnh</Link>
               </p>
             </div>
             <div className="ps-block__action">
-              <Link to="" onClick={handleLogout}>
+              <Link id='logout' to="" onClick={handleLogout}>
                 <ImExit />
               </Link>
             </div>

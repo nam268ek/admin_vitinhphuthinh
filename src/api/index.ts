@@ -78,6 +78,14 @@ const APIClientService = {
       },
     });
   },
+  uploadFileEditor: (formData: any) => {
+    const url = "/upload/image/editor";
+    return AxiosClient.post(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
   uploadFileSingle: (formData: any) => {
     const url = "/v1/layout";
     return AxiosClient.post(url, formData, {

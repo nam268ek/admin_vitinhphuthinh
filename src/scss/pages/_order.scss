@@ -1,44 +1,51 @@
 .ant-space-item {
-    .done-item {
-        display: block;
-        padding: 5px;
-        color: #1daa55;
-        border-radius: 4px;
-        background: #e8fff6;
-        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-        &:hover {
-            background-color: #a1f0b2;
-        }
+  .done-item {
+    display: block;
+    padding: 5px;
+    color: #1daa55;
+    border-radius: 4px;
+    background: #e8fff6;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    &:hover {
+      background-color: #a1f0b2;
     }
-    .print-item {
-        display: block;
-        padding: 5px;
-        color: #444648;
-        border-radius: 4px;
-        background: #f1f1f1;
-        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-        &:hover {
-            background-color: #e2e2e2;
-        }
+  }
+  .print-item {
+    display: block;
+    padding: 5px;
+    color: #444648;
+    border-radius: 4px;
+    background: #f1f1f1;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    &:hover {
+      background-color: #e2e2e2;
     }
-    .view-item {
-        display: block;
-        padding: 5px;
-        color: #444648;
-        border-radius: 4px;
-        background: #f7f7f7;
-        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-        &:hover {
-            background-color: #f7f7f7;
-        }
+  }
+  .view-item {
+    display: block;
+    padding: 5px;
+    color: #444648;
+    border-radius: 4px;
+    background: #f7f7f7;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    &:hover {
+      background-color: #f7f7f7;
     }
+  }
 }
 .view {
-    padding-bottom: 1em;
+  padding-bottom: 1em;
 }
 .view-customer {
-    padding: 10px 0;
-    .form-group {
-        margin-bottom: 5px;
-    }
+  padding: 10px 0;
+  .form-group {
+    margin-bottom: 5px;
+  }
+}
+.dropdown-action {
+  margin-bottom: 10px;
+  button:first-of-type {
+    display: flex;
+    align-items: center;
+  }
 }

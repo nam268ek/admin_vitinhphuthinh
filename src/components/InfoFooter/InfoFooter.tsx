@@ -1,7 +1,37 @@
-import { Button, Form, Input, Space } from "antd";
 import React from "react";
+import { Button, Form, Input, Space } from "antd";
+import { originalContentFooter } from "../Services/general.service";
+import { cloneDeep } from "lodash";
+import { useDispatch, useSelector } from "react-redux";
+import { getContentFooter, updateContentFooter } from "../redux/Slices/FooterSlice";
 
-const InfoFooter: React.FC<any> = ({ dataUpdate, form, onFinish, loading }) => {
+const InfoFooter: React.FC<any> = () => {
+  const { dataUpdate } = useSelector((state: any) => state.footer);
+
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [form] = Form.useForm();
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(getContentFooter({ role: "user" }));
+  }, []);
+
+  const onFinish = async (data: any) => {
+    console.log("data", data);
+    const bodyContentFooter = cloneDeep(originalContentFooter);
+    bodyContentFooter.action = "update";
+    bodyContentFooter.data = {
+      addrshop: data.addrshop || "",
+      email: data.email || "",
+      fblink: data.fblink || "",
+      hotline: data.hotline || "",
+      zalolink: data.zalolink || "",
+    };
+    setLoading(true);
+    await dispatch(updateContentFooter(bodyContentFooter));
+    setLoading(false);
+  };
+
   return (
     <div className="ps-block__layout w-100">
       <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -10,12 +40,18 @@ const InfoFooter: React.FC<any> = ({ dataUpdate, form, onFinish, loading }) => {
             <Form className="ps-form ps-form--new-product" form={form} onFinish={onFinish}>
               <div className="form-group--nest">
                 <div className="form-group">
-                  <Form.Item name="addrshop" initialValue={dataUpdate[0] ? dataUpdate[0].addrshop : ""}>
+                  <Form.Item
+                    name="addrshop"
+                    initialValue={dataUpdate[0] ? dataUpdate[0].addrshop : ""}
+                  >
                     <Input addonBefore="Địa chỉ" maxLength={500} showCount />
                   </Form.Item>
                 </div>
                 <div className="form-group">
-                  <Form.Item name="hotline" initialValue={dataUpdate[0] ? dataUpdate[0].hotline : ""}>
+                  <Form.Item
+                    name="hotline"
+                    initialValue={dataUpdate[0] ? dataUpdate[0].hotline : ""}
+                  >
                     <Input addonBefore="Hotline" maxLength={500} showCount />
                   </Form.Item>
                 </div>
@@ -30,7 +66,10 @@ const InfoFooter: React.FC<any> = ({ dataUpdate, form, onFinish, loading }) => {
                   </Form.Item>
                 </div>
                 <div className="form-group">
-                  <Form.Item name="zalolink" initialValue={dataUpdate[0] ? dataUpdate[0].zalolink : ""}>
+                  <Form.Item
+                    name="zalolink"
+                    initialValue={dataUpdate[0] ? dataUpdate[0].zalolink : ""}
+                  >
                     <Input addonBefore="Link Zalo" maxLength={500} showCount />
                   </Form.Item>
                 </div>
@@ -51,4 +90,5 @@ const InfoFooter: React.FC<any> = ({ dataUpdate, form, onFinish, loading }) => {
     </div>
   );
 };
+
 export default InfoFooter;
