@@ -1,72 +1,69 @@
-import React from "react";
-import { IoSearchOutline } from "react-icons/io5";
-import { FiFilter } from "react-icons/fi";
-import { FaPlusCircle } from "react-icons/fa";
-import { Table, Tag, Space, Modal, Button } from "antd";
-import moment from "moment";
-import { MdCancel, MdDeleteForever, MdDownloadDone, MdFileDownloadDone, MdModeEdit, MdPrint } from "react-icons/md";
-import { FcAbout } from "react-icons/fc";
-import { Link, useNavigate } from "react-router-dom";
-import { formatMoney, originalOrder, originalProduct } from "../Services/general.service";
-import SelectOption from "../common/SelectOption";
-import { useDispatch, useSelector } from "react-redux";
+import { ExclamationCircleOutlined, DownOutlined } from "@ant-design/icons";
+import { Button, Dropdown, Menu, Modal, Space, Table, Tag } from "antd";
 import { cloneDeep } from "lodash";
-import { getListDropdown, setAction, setIsLoading } from "../redux/Slices/PrimarySlice";
-import { createProduct, getAllProducts, removeItemProduct, setDefaultDataFilter, updateProduct } from "../redux/Slices/productSlice";
-import { getListCategory } from "../redux/Slices/CategorySlice";
-import { BiRefresh } from "react-icons/bi";
-import Search from "./../Search/Search";
-import { getListOrder, updateListOrder, updateOrder, updateItemOrder, updateViewItemOrder } from "../redux/Slices/orderSlice";
+import moment from "moment";
+import React from "react";
+import { FaPlusCircle } from "react-icons/fa";
+import { FcAbout } from "react-icons/fc";
+import { MdCancel, MdFileDownloadDone, MdModeEdit, MdPrint } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import ModalBox from "../common/ModalBox";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { getListCategory } from "../redux/Slices/CategorySlice";
+import type { ColumnsType } from "antd/es/table";
+import type { TableRowSelection } from "antd/es/table/interface";
+import {
+  getListOrder,
+  updateItemOrder,
+  updateListOrder,
+  updateOrder,
+  updateViewItemOrder,
+} from "../redux/Slices/orderSlice";
+import { getListDropdown, setAction, setIsLoading } from "../redux/Slices/PrimarySlice";
+import {
+  createProduct,
+  getAllProducts,
+  setDefaultDataFilter,
+  updateProduct,
+} from "../redux/Slices/productSlice";
+import { originalOrder, originalProduct } from "../Services/general.service";
+
+interface DataType {
+  key: React.Key;
+  id: string;
+  orderid: string;
+  namecustomer: string;
+  nameprod: string;
+  price: number;
+  date: any;
+  payment: string;
+  stord: any;
+  // action: any;
+}
 
 const Orders: React.FC = () => {
   const childRef = React.useRef<any>(null);
   const [isDefault, setIsDefault] = React.useState<boolean>(false);
-  const [openModel, setOpenModel] = React.useState<boolean>(false);
+  const [loadingAction, setLoadingAction] = React.useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const { dataFilter, listAllOrders, statusResponse } = useSelector((state: any) => state.order);
   const { listAllOrders } = useSelector((state: any) => state.order);
+  const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
 
-  const columns = [
-    // {
-    //   title: "Order ID",
-    //   dataIndex: "orderid",
-    //   key: "orderid",
-    //   render: (text: string) => <span>{text}</span>,
-    // },
+  const columns: ColumnsType<DataType> = [
     {
       title: "Khách hàng",
       dataIndex: "namecustomer",
       key: "namecustomer",
       render: (text: string) => <span>{text}</span>,
     },
-    // {
-    //   title: "Sản phẩm",
-    //   dataIndex: "nameprod",
-    //   key: "nameprod",
-    //   render: (text: string) => <span className="name-product">{text}</span>,
-    // },
-
-    // {
-    //   title: "Giá",
-    //   dataIndex: "price",
-    //   key: "price",
-    //   render: (price: any) => <span className="price-product">{formatMoney.format(Number(price))}</span>,
-    // },
-
     {
       title: "Ngày đặt hàng",
       dataIndex: "date",
       key: "date",
       render: (date: any) => <span>{moment(date).format("L, h:mm:ss A")}</span>,
     },
-    // {
-    //   title: "Payment",
-    //   dataIndex: "payment",
-    //   key: "payment",
-    // },
     {
       title: "Trạng thái",
       key: "stord",
@@ -92,6 +89,7 @@ const Orders: React.FC = () => {
     {
       title: "Lựa chọn",
       key: "action",
+      dataIndex: "action",
       render: (text: string, record: any) => (
         <>
           {record?.stord === "Đang xử lý" ? (
@@ -134,6 +132,7 @@ const Orders: React.FC = () => {
         date: item.createdAt || "",
         payment: item.priord.payment || "",
         stord: item.stord || "",
+        // action: ""
       };
     });
   };
@@ -184,7 +183,9 @@ const Orders: React.FC = () => {
     Modal.confirm({
       title: "Thông báo",
       icon: <ExclamationCircleOutlined />,
-      content: <>{status === "done" ? "Xác nhận hoàn thành đơn hàng?" : "Xác nhận hủy đơn hàng?"}</>,
+      content: (
+        <>{status === "done" ? "Xác nhận hoàn thành đơn hàng?" : "Xác nhận hủy đơn hàng?"}</>
+      ),
       onOk: async () => {
         const data = await dispatch(action(item));
         if (data.payload.code === 200) {
@@ -265,6 +266,44 @@ const Orders: React.FC = () => {
     dispatch(updateProduct([]));
   };
 
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection: TableRowSelection<DataType> = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
+  const menu = (
+    <Menu
+      items={[
+        {
+          label: (
+            <Link to="" onClick={(e) => handleActionDropdown(1)}>
+              Xoá đơn hàng
+            </Link>
+          ),
+          key: "0",
+        },
+      ]}
+    />
+  );
+  const hasSelected = selectedRowKeys.length > 0;
+
+  const handleActionDropdown = (key: number) => {
+    switch (key) {
+      case 1:
+        let listItem: any[] = [];
+        for (let index in selectedRowKeys) {
+          if (listAllOrders[index]) listItem.push({ id: listAllOrders[index]._id });
+        }
+
+        // dispatch(reqRemoveSelectItemOrder(selectedRowKeys));
+        break;
+    }
+  };
+
   return (
     <>
       <ModalBox ref={childRef} />
@@ -276,46 +315,25 @@ const Orders: React.FC = () => {
           </div>
         </div>
         <section className="ps-items-listing">
-          <div className="ps-section__actions">
+          <div className="ps-section__actions pb-2">
             <Link className="ps-btn success" to="/orders/create-order">
               <FaPlusCircle />
               <span>Tạo đơn hàng</span>
             </Link>
           </div>
-          {/* <div className="ps-section__header">
-            <div className="ps-section__filter">
-              <form className="ps-form--filter">
-                <div className="ps-form__left">
-                  <div className="form-group">
-                    <SelectOption className="select-category" placeholder="Danh mục" isCategory={true} isDefault={isDefault} />
-                  </div>
-                  <div className="form-group">
-                    <SelectOption className="select-category" placeholder="Thương hiệu" isBrand={true} isDefault={isDefault} />
-                  </div>
-                  <div className="form-group">
-                    <SelectOption className="select-category" placeholder="Trạng thái" isStatus={true} isDefault={isDefault} />
-                  </div>
-                </div>
-                <div className="ps-form__right">
-                  <Button type="primary" className="ps-btn-secondary" onClick={handleDefaultData}>
-                    <BiRefresh size={20} />
-                    <span>Refresh</span>
-                  </Button>
-                </div>
-              </form>
-            </div>
-            <div className="ps-section__search">
-              <form className="ps-form--search-simple">
-                <Search className="search-category" placeholder="Tìm kiếm sản phẩm..." listItem={listAllOrders} isDefault={isDefault} />
-                <button style={{ backgroundColor: "#fff" }} onClick={(e) => e.preventDefault()}>
-                  <IoSearchOutline />
-                </button>
-              </form>
-            </div>
-          </div> */}
           <div className="ps-section__content">
             <div className="table-responsive">
-              <Table columns={columns} dataSource={data} />
+              <Dropdown.Button
+                loading={loadingAction}
+                disabled={!hasSelected}
+                className="dropdown-action"
+                overlay={menu}
+                trigger={["click"]}
+                icon={<DownOutlined />}
+              >
+                <Space>{loadingAction ? "Processing..." : "Action"}</Space>
+              </Dropdown.Button>
+              <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
             </div>
           </div>
         </section>

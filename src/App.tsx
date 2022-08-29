@@ -1,4 +1,3 @@
-import jwt_decode from "jwt-decode";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
@@ -7,14 +6,17 @@ import Categories from "./components/Categories/Categories";
 import Loading from "./components/common/Loading";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import Customers from "./components/Customers/Customers";
+import InfoFooter from "./components/InfoFooter/InfoFooter";
 import Layout from "./components/Layout/Layout";
 import Login from "./components/Login/Login";
+import LogoLayout from "./components/LogoLayout/LogoLayout";
 import NavBarMenu from "./components/NavBarMenu/NavBarMenu";
 import NewOrder from "./components/NewOrder/NewOrder";
 import NewProduct from "./components/NewProduct/NewProduct";
 import NewProductv1 from "./components/NewProduct/NewProduct-v1";
 import Notify from "./components/Notify/Notify";
 import Orders from "./components/Orders/Orders";
+import Policy from "./components/Policy/Policy";
 import Products from "./components/Products/Products";
 import { setLogout } from "./components/redux/Slices/LoginSlice";
 import { setIsLoading } from "./components/redux/Slices/PrimarySlice";
@@ -68,8 +70,11 @@ const App: React.FC = () => {
             <Route path="/categories" element={<Categories />} />
             <Route path="/layout" element={<Layout />} />
             <Route path="/blogs" element={<NewProductv1 />} />
-            {/* <Route path="/blogs" element={<NewProductv1 />} /> */}
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/settings" element={<Settings />}>
+              <Route path="logo" element={<LogoLayout />} />
+              <Route path="footer" element={<InfoFooter />} />
+              <Route path="policy" element={<Policy />} />
+            </Route>
           </Route>
         </Routes>
       </main>

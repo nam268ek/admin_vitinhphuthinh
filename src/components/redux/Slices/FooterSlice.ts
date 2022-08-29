@@ -2,12 +2,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import APIClientService from "../../../api";
 import { openDialogError } from "../../Services/general.service";
 
-export const updateContentFooter: any = createAsyncThunk("UPDATE_FOOTER_CONTENT", async (params: any) => {
-  const data: any = await APIClientService.reqFooter(params).catch((err: any) => {
-    return err.response.data;
-  });
-  return data;
-});
+export const updateContentFooter: any = createAsyncThunk(
+  "UPDATE_FOOTER_CONTENT",
+  async (params: any) => {
+    const data: any = await APIClientService.reqFooter(params).catch((err: any) => {
+      return err.response.data;
+    });
+    return data;
+  }
+);
 
 export const getContentFooter: any = createAsyncThunk("GET_FOOTER_CONTENT", async (params: any) => {
   const data: any = await APIClientService.reqFooter(params).catch((err: any) => {
@@ -16,19 +19,25 @@ export const getContentFooter: any = createAsyncThunk("GET_FOOTER_CONTENT", asyn
   return data;
 });
 
-export const getContentFooterEditor: any = createAsyncThunk("GET_FOOTER_CONTENT_EDITOR", async (params: any) => {
-  const data: any = await APIClientService.reqFooterEditor(params).catch((err: any) => {
-    return err.response.data;
-  });
-  return data;
-});
+export const getContentFooterEditor: any = createAsyncThunk(
+  "GET_FOOTER_CONTENT_EDITOR",
+  async (params: any) => {
+    const data: any = await APIClientService.reqFooterEditor(params).catch((err: any) => {
+      return err.response.data;
+    });
+    return data;
+  }
+);
 
-export const updateContentFooterEditor: any = createAsyncThunk("UPDATE_FOOTER_CONTENT_EDITOR", async (params: any) => {
-  const data: any = await APIClientService.reqFooterEditor(params).catch((err: any) => {
-    return err.response.data;
-  });
-  return data;
-});
+export const updateContentFooterEditor: any = createAsyncThunk(
+  "UPDATE_FOOTER_CONTENT_EDITOR",
+  async (params: any) => {
+    const data: any = await APIClientService.reqFooterEditor(params).catch((err: any) => {
+      return err.response.data;
+    });
+    return data;
+  }
+);
 
 const initialState = {
   statusUpdated: false,
@@ -67,7 +76,7 @@ const FooterSlice = createSlice({
       .addCase(updateContentFooterEditor.fulfilled, (state: any, action: any) => {
         openDialogError(action.payload);
         if (action.payload.code === 200 && action.payload.data) {
-          state.dataUpdatePolicy = action.payload.data;
+          state.dataUpdatePolicy = [action.payload.data];
         }
         state.statusResponse = [...state.statusResponse, action.payload];
       });

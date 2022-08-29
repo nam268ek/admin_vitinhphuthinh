@@ -28,7 +28,11 @@
   }
 }
 .active {
-  background-color: #f1f2f6;
+  // background-color: #f1f2f6;
+  background-color: #ffffff00;
+  border-bottom: 1px solid #ebebeb;
+  display: flex;
+  padding-bottom: 0.2rem;
 }
 .container-block-rl {
   position: relative;
@@ -52,4 +56,23 @@
 .loadSubmit {
   display: flex;
   align-items: center;
+}
+.container-block {
+  // border-radius: 0.5rem;
+
+  background-color: #fff;
+  box-shadow: 0 0 0.3125rem #1718180d, 0 0.0625rem 0.125rem #00000026;
+  outline: 0.0625rem solid #0000;
+
+  &__title {
+    align-items: center;
+    border-bottom: 0.0625rem solid #e1e3e5;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+
+    h2 {
+      font-size: 1rem;
+    }
+  }
 }
