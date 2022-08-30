@@ -58,6 +58,10 @@ const APIClientService = {
     const url = "/orders";
     return AxiosClient.post(url, { params });
   },
+  requestRemoveOrder: (params: any) => {
+    const url = "/orders";
+    return AxiosClient.post(url, { params });
+  },
   asyncCartFromDatabase: () => {
     const url = "/cart";
     return AxiosClient.get(url);

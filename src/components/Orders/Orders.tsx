@@ -14,6 +14,8 @@ import type { ColumnsType } from "antd/es/table";
 import type { TableRowSelection } from "antd/es/table/interface";
 import {
   getListOrder,
+  reqRemoveListSelectItemOrder,
+  resetOrder,
   updateItemOrder,
   updateListOrder,
   updateOrder,
@@ -228,24 +230,11 @@ const Orders: React.FC = () => {
       bodyItem.data = cloneDeep(itemEdit[0]);
       bodyItem.data.stord = "Đã hủy";
       delete bodyItem.data._id;
+      delete bodyItem.data.createdAt;
+      delete bodyItem.data.updatedAt;
       delete bodyItem.data["__v"];
-      openDialogConfirm(dispatch, updateItemOrder, bodyItem);
+      openDialogConfirm(dispatch, updateItemOrder, bodyItem, "");
     }
-  };
-
-  const convertListProducts = (list: any[]) => {
-    return list.map((item: any, index: number) => {
-      return {
-        key: index + 1,
-        id: item._id,
-        name: item.title || "",
-        sku: item.sku || "",
-        price: item.price || 0,
-        category: item.category || "",
-        status: item || false,
-        date: item.updatedAt || "",
-      };
-    });
   };
 
   React.useEffect(() => {
@@ -254,16 +243,14 @@ const Orders: React.FC = () => {
     dispatch(getListDropdown({ role: "user" }));
   }, [dispatch]);
 
-  // const data = convertListProducts(dataFilter ? dataFilter : []);
-
   const handleDefaultData = () => {
     dispatch(setDefaultDataFilter(listAllOrders));
     setIsDefault(!isDefault);
   };
 
-  const handleAddProduct = () => {
+  const handleAddOrder = () => {
     dispatch(setAction("create"));
-    dispatch(updateProduct([]));
+    dispatch(resetOrder());
   };
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
@@ -289,17 +276,24 @@ const Orders: React.FC = () => {
       ]}
     />
   );
-  const hasSelected = selectedRowKeys.length > 0;
+  const hasSelected = selectedRowKeys.length > 0 && listAllOrders.length > 0;
 
-  const handleActionDropdown = (key: number) => {
+  const handleActionDropdown = async (key: number) => {
     switch (key) {
       case 1:
         let listItem: any[] = [];
         for (let index in selectedRowKeys) {
-          if (listAllOrders[index]) listItem.push({ id: listAllOrders[index]._id });
+          if (listAllOrders[index]) listItem.push(listAllOrders[index]._id);
         }
+        const bodyListSelected = cloneDeep(originalOrder);
+        bodyListSelected.action = "delete";
+        bodyListSelected.data = listItem;
 
-        // dispatch(reqRemoveSelectItemOrder(selectedRowKeys));
+        setLoadingAction(true);
+        const res = await dispatch(reqRemoveListSelectItemOrder(bodyListSelected));
+        if (res.payload.code === 200) {
+          setLoadingAction(false);
+        }
         break;
     }
   };
@@ -316,7 +310,7 @@ const Orders: React.FC = () => {
         </div>
         <section className="ps-items-listing">
           <div className="ps-section__actions pb-2">
-            <Link className="ps-btn success" to="/orders/create-order">
+            <Link className="ps-btn success" to="/orders/create-order" onClick={handleAddOrder}>
               <FaPlusCircle />
               <span>Tạo đơn hàng</span>
             </Link>
@@ -333,7 +327,12 @@ const Orders: React.FC = () => {
               >
                 <Space>{loadingAction ? "Processing..." : "Action"}</Space>
               </Dropdown.Button>
-              <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+              <Table
+                rowSelection={rowSelection}
+                columns={columns}
+                dataSource={data}
+                loading={loadingAction}
+              />
             </div>
           </div>
         </section>
