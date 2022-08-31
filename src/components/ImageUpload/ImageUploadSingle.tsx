@@ -7,6 +7,7 @@ import APIClientService from "../../api";
 import { useDispatch } from "react-redux";
 import { removeFileLayout, SetCurrentLayoutState, uploadFileLayoutSingle } from "../redux/Slices/layoutSlice";
 import { removeFileImgToCloud } from "../redux/Slices/productSlice";
+import { openDialogError } from "../Services/general.service";
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -50,6 +51,7 @@ const ImageUploadSingle: React.FC<any> = ({ maxNumberOfFiles, multiple, feature,
         dispatch(SetCurrentLayoutState(feature));
         const resLayout = await dispatch(uploadFileLayoutSingle(fmData));
         if (resLayout.payload.code === 200) {
+          setFileList([resLayout.payload.data]);
           onSuccess();
         } else onError();
       }
@@ -59,10 +61,11 @@ const ImageUploadSingle: React.FC<any> = ({ maxNumberOfFiles, multiple, feature,
     }
   };
 
-  const onRemove = (file: any) => {
+  const onRemove = async (file: any) => {
     if (feature) {
       dispatch(SetCurrentLayoutState(feature));
-      dispatch(removeFileLayout(file));
+      const res = await dispatch(removeFileLayout(file));
+      openDialogError(res.payload, true);
     }
   };
 

@@ -57,7 +57,7 @@ const Layout: React.FC = () => {
                   <div className="form-group--left">
                     <div className="background-content c-h-1">
                       <label>
-                        Background 1 | <span className="highlight">1230</span>px x <span className="highlight">425</span>px
+                        Background 1 | <span className="highlight">1200</span>px x <span className="highlight">600</span>px
                       </label>
                       <div className="form-group--nest">
                         <ImageUploadSingle
@@ -75,7 +75,7 @@ const Layout: React.FC = () => {
                   <div className="form-group--right">
                     <div className="background-content">
                       <label>
-                        Background 2 | <span className="highlight">390</span>px x <span className="highlight">193</span>px
+                        Background 2 | <span className="highlight">1200</span>px x <span className="highlight">628</span>px
                       </label>
                       <div className="form-group--nest">
                         <ImageUploadSingle feature="b2" listImages={layout.b2} />
@@ -83,7 +83,7 @@ const Layout: React.FC = () => {
                     </div>
                     <div className="background-content">
                       <label>
-                        Background 3 | <span className="highlight">390</span>px x <span className="highlight">193</span>px
+                        Background 3 | <span className="highlight">1200</span>px x <span className="highlight">628</span>px
                       </label>
                       <div className="form-group--nest">
                         <ImageUploadSingle feature="b3" listImages={layout.b3} />
@@ -102,7 +102,7 @@ const Layout: React.FC = () => {
                   <div className="form-group--left">
                     <div className="background-content">
                       <label>
-                        Background 1 | <span className="highlight">530</span>px x <span className="highlight">285</span>px
+                        Background 1 | <span className="highlight">1200</span>px x <span className="highlight">628</span>px
                       </label>
                       <div className="form-group--nest">
                         <ImageUploadSingle styleClassName="upload-image-home" feature="b6" listImages={layout.b6} />
@@ -114,7 +114,7 @@ const Layout: React.FC = () => {
                   <div className="form-group--left">
                     <div className="background-content">
                       <label>
-                        Background 2 | <span className="highlight">530</span>px x <span className="highlight">285</span>px
+                        Background 2 | <span className="highlight">1200</span>px x <span className="highlight">628</span>px
                       </label>
                       <div className="form-group--nest">
                         <ImageUploadSingle styleClassName="upload-image-home" feature="b7" listImages={layout.b7} />
@@ -126,7 +126,7 @@ const Layout: React.FC = () => {
                   <div className="form-group--right">
                     <div className="background-content">
                       <label>
-                        Background 3 | <span className="highlight">530</span>px x <span className="highlight">285</span>px
+                        Background 3 | <span className="highlight">1200</span>px x <span className="highlight">628</span>px
                       </label>
                       <div className="form-group--nest">
                         <ImageUploadSingle feature="b8" styleClassName="upload-image-home" listImages={layout.b8} />
