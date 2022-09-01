@@ -69,6 +69,17 @@ const ImageUploadSingle: React.FC<any> = ({ maxNumberOfFiles, multiple, feature,
     }
   };
 
+  const beforeUpload = (file: any) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isJpgOrPng) {
+      message.error("Bạn chỉ có thể upload file JPG/PNG.");
+    } else if (!isLt2M) {
+      message.error("Kích thước ảnh không quá 2MB.");
+    }
+    return isJpgOrPng && isLt2M;
+  };
+
   return (
     <>
       <Form.Item name="img">
@@ -80,6 +91,7 @@ const ImageUploadSingle: React.FC<any> = ({ maxNumberOfFiles, multiple, feature,
           onPreview={handlePreview}
           onChange={handleChange}
           onRemove={onRemove}
+          beforeUpload={beforeUpload}
         >
           {fileList.length >= (maxNumberOfFiles || 1) ? null : uploadButton}
         </Upload>

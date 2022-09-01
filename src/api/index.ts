@@ -75,7 +75,7 @@ const APIClientService = {
     return AxiosClient.post(url, { params });
   },
   uploadFile: (formData: any) => {
-    const url = "/image-upload";
+    const url = "/image/product/upload";
     return AxiosClient.post(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -99,11 +99,11 @@ const APIClientService = {
     });
   },
   removeFile: (params: any) => {
-    const url = "/image-remove";
+    const url = "/image/remove";
     return AxiosClient.post(url, { params });
   },
   imageTemp: (params: any) => {
-    const url = "/check-images";
+    const url = "/images/check";
     return AxiosClient.post(url, { params });
   },
   getLayouts: (params: any) => {

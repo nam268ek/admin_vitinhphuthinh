@@ -56,7 +56,7 @@ const ImageUploadCloud: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfF
     const { onSuccess, onError, file } = options;
     try {
       const fmData = new FormData();
-      fmData.append("img", file);
+      fmData.append("image_product", file);
       if (feature) {
         dispatch(SetCurrentLayoutState(feature));
         const resLayout = await dispatch(uploadFileLayout(fmData));
