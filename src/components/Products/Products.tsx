@@ -169,10 +169,11 @@ const Products: React.FC = () => {
 
   const handleRemoveProduct = async (e: any, record: any) => {
     const itemRemove = listAllProducts.filter((item: any) => item._id === record.id);
+    const { updatedAt, __v, ...itemRest } = itemRemove[0];
     const bodyRemoveProduct = {
       action: "delete",
       role: "admin",
-      data: itemRemove[0],
+      data: itemRest,
     };
     // console.log(itemRemove);
     // bodyRemoveProduct.action = "delete";
