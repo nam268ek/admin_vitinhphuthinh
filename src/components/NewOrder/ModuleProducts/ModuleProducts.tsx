@@ -9,11 +9,11 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import SelectOption from "../../common/SelectOption";
 import Search from "./../../Search/Search";
 import { useSelector, useDispatch } from "react-redux";
-import { createProduct, getAllProducts, removeItemProduct, setDefaultDataFilter, updateProduct } from "../../redux/Slices/productSlice";
-import { formatMoney, originalProduct } from "../../Services/general.service";
+import { createProduct, removeItemProduct, setDefaultDataFilter, updateProduct } from "../../redux/Slices/productSlice";
+import { formatMoney } from "../../services/general.service";
 import { cloneDeep } from "lodash";
 import { setIsLoading, setAction, getListDropdown } from "../../redux/Slices/PrimarySlice";
-import { getListCategory } from "../../redux/Slices/CategorySlice";
+// import { getListCategory } from "../../redux/Slices/CategorySlice";
 import { BsCartCheckFill, BsFillCartPlusFill, BsFillCartXFill } from "react-icons/bs";
 import { removeItemListOrder, updateListOrder } from "../../redux/Slices/orderSlice";
 import type { ColumnsType } from "antd/lib/table";
@@ -65,19 +65,19 @@ const ModuleProducts: React.FC = () => {
   };
 
   const handleActiveProduct = async (checked: boolean, item: any) => {
-    const bodyProduct = cloneDeep(originalProduct);
-    const itemUpdate = cloneDeep(item);
-    bodyProduct.action = "update";
-    bodyProduct.data._id = item._id;
-    itemUpdate["status"] = checked;
-    bodyProduct.data = itemUpdate;
+    // const bodyProduct = cloneDeep(originalProduct);
+    // const itemUpdate = cloneDeep(item);
+    // bodyProduct.action = "update";
+    // bodyProduct.data._id = item._id;
+    // itemUpdate["status"] = checked;
+    // bodyProduct.data = itemUpdate;
 
-    console.log(bodyProduct);
+    // console.log(bodyProduct);
 
-    dispatch(setIsLoading(true));
-    await dispatch(createProduct(bodyProduct));
-    await dispatch(getAllProducts({ role: "user" }));
-    dispatch(setIsLoading(false));
+    // dispatch(setIsLoading(true));
+    // await dispatch(createProduct(bodyProduct));
+    // // await dispatch(getAllProducts({ role: "user" }));
+    // dispatch(setIsLoading(false));
   };
 
   React.useEffect(() => {
@@ -119,8 +119,8 @@ const ModuleProducts: React.FC = () => {
   };
 
   React.useEffect(() => {
-    dispatch(getAllProducts({ role: "user" }));
-    dispatch(getListCategory({ role: "user" }));
+    // dispatch(getAllProducts({ role: "user" }));
+    // dispatch(getListCategory({ role: "user" }));
     dispatch(getListDropdown({ role: "user" }));
   }, [dispatch]);
 

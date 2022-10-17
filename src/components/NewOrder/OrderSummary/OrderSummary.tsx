@@ -3,7 +3,7 @@ import { Form, Input, InputNumber } from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
 import SelectOption from "../../common/SelectOption";
-import { formatMoney } from "../../Services/general.service";
+import { formatMoney } from "../../services/general.service";
 
 const OrderSummary: React.FC<any> = ({ form }) => {
   // const { listImages, dataUpdate, statusResponse, listImageRemove } = useSelector((state: any) => state.product);

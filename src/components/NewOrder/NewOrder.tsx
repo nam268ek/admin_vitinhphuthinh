@@ -7,19 +7,19 @@ import EditorText from "../common/EditorText";
 import { useForm, Controller } from "react-hook-form";
 import ConfigInfo from "../ConfigInfo/ConfigInfo";
 import { cloneDeep } from "lodash";
-import { openDialogError, originalProduct, formatMoney } from "../Services/general.service";
+import {  formatMoney } from "../services/general.service";
 import { useDispatch, useSelector } from "react-redux";
 import { createProduct, updateProduct } from "../redux/Slices/productSlice";
 import { getListDropdown, setAction, setIsLoading } from "../redux/Slices/PrimarySlice";
 import SelectAddItem from "../common/SelectAddItem";
-import { getListCategory } from "../redux/Slices/CategorySlice";
+// import { getListCategory } from "../redux/Slices/CategorySlice";
 import { useNavigate } from "react-router-dom";
 import ModuleProducts from "./ModuleProducts/ModuleProducts";
 import NoContent from "../common/NoContent";
 import ImageDefault from "../common/ImageDefault";
 import OrderSummary from "./OrderSummary/OrderSummary";
 import OrderDetails from "./OrderDetail/OrderDetails";
-import { originalOrder } from "./../Services/general.service";
+import { originalOrder } from "../services/general.service";
 import {
   createNewOrder,
   resetOrder,
@@ -51,7 +51,7 @@ const NewOrder: React.FC = () => {
   const { Option } = Select;
 
   React.useEffect(() => {
-    dispatch(getListCategory({ role: "user" }));
+    // dispatch(getListCategory({ role: "user" }));
     dispatch(getListDropdown({ role: "user" }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

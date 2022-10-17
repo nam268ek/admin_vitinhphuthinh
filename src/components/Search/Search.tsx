@@ -14,12 +14,12 @@ const Search: React.FC<ISearchService> = ({ placeholder, className, listItem, is
   };
 
   const handleSelectItem = (value: any, option: any) => {
-    const data: any = listItem?.filter((item: any) => item._id === option.key);
+    const data: any = listItem?.filter((item: any) => item.id === option.key);
     dispatch(filterListProducts(data));
   };
 
   const onSearch = (value: any) => {
-    const options = listItem?.map((item: any) => ({ key: item._id, value: item.title }));
+    const options = listItem?.map((item: any) => ({ key: item.id, value: item.name }));
     setOptions(options);
     if (value === "") {
       setOptions([]);

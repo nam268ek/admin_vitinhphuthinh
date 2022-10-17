@@ -1,23 +1,30 @@
 import AxiosClient from "../api/AxiosClient";
-//get theme api
+
 const APIClientService = {
   createNewProduct: (params: any) => {
     const url = "/products";
     return AxiosClient.post(url, { params });
   },
-  getAllProducts: (params: any) => {
+  updateProductService: (params: any) => {
+    const url = "/products/update";
+    return AxiosClient.put(url, params);
+  },
+  deleteListProductService: (params: any) => {
+    const url = "/products/delete";
+    return AxiosClient.delete(url, params);
+  },
+  getListProductService: () => {
     const url = "/products";
-    return AxiosClient.post(url, { params });
+    return AxiosClient.get(url);
   },
   updatePassword: (params: any) => {
     const url = "/user/update-pass";
     return AxiosClient.put(url, { params });
   },
   getLogin: (params: any) => {
-    const url = "/login";
-    return AxiosClient.post(url, { params });
+    const url = "/auths";
+    return AxiosClient.post(url, params);
   },
-  // getRefreshToken: (params) => {},
   reqListImgLayout: (params: any) => {
     const url = "/layout";
     return AxiosClient.post(url, { params });
@@ -26,17 +33,17 @@ const APIClientService = {
     const url = "/register";
     return AxiosClient.post(url, { params });
   },
-  getCategory: (params: any) => {
+  listCategoryService: () => {
     const url = "/categories";
-    return AxiosClient.post(url, { params });
+    return AxiosClient.get(url);
   },
-  removeCategory: (params: any) => {
-    const url = "/categories";
-    return AxiosClient.post(url, { params });
+  removeCategoryService: (params: any) => {
+    const url = "/categories/remove";
+    return AxiosClient.delete(url, { data: params });
   },
-  createCategory: (params: any) => {
-    const url = "/categories";
-    return AxiosClient.post(url, { params });
+  createCategoryService: (params: any) => {
+    const url = "/categories/create";
+    return AxiosClient.post(url, params);
   },
   removeProduct: (params: any) => {
     const url = "/products";

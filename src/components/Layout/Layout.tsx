@@ -11,7 +11,7 @@ import ImageUpload from "../ImageUpload/ImageUpload";
 import { useDispatch, useSelector } from "react-redux";
 import { GetDataLayouts, updateListImgLayout } from "../redux/Slices/layoutSlice";
 import { cloneDeep } from "lodash";
-import { openDialogError, originalListImgLayout } from "../Services/general.service";
+import { originalListImgLayout } from "../services/general.service";
 import { setIsLoading } from "../redux/Slices/PrimarySlice";
 import ImageUploadCloud from "../ImageUpload/ImageUploadCloud";
 import ImageUploadSingle from "../ImageUpload/ImageUploadSingle";

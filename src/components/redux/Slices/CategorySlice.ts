@@ -1,46 +1,49 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import APIClientService from "../../../api";
+import { NAME_ACTION } from "../../../constants/const";
+import { IStateCategories } from "../../Categories/interfaces/categories.interface";
+import { openMessage } from "../../services/general.service";
 
-export const createNewCategory: any = createAsyncThunk(
-  "CREATE_NEW_CATEGORY",
-  async (params: any) => {
-    const data: any = await APIClientService.createCategory(params).catch(
-      (err: any) => {
-        return err.response.data;
-      }
-    );
-    return data;
+export const getCreateCategoryService: any = createAsyncThunk(
+  NAME_ACTION.CREATE_CATEGORY,
+  async (params: any, { rejectWithValue }) => {
+    try {
+      const response: any = await APIClientService.createCategoryService(params);
+      return response;
+    } catch (error: any) {
+      if (error) return rejectWithValue(error.response.data);
+    }
   }
 );
 
-export const getListCategory: any = createAsyncThunk(
-  "GET_LIST_CATEGORY",
-  async (params: any) => {
-    const data: any = await APIClientService.getCategory(params).catch(
-      (err: any) => {
-        return err.response.data;
-      }
-    );
-    return data;
+export const getListCategoryService: any = createAsyncThunk(
+  NAME_ACTION.GET_CATEGORY,
+  async (params: any, { rejectWithValue }) => {
+    try {
+      const response: any = await APIClientService.listCategoryService();
+      return response;
+    } catch (error: any) {
+      if (error) return rejectWithValue(error.response.data);
+    }
   }
 );
 
-export const removeItemCategory: any = createAsyncThunk(
-  "REMOVE_ITEM_CATEGORY",
-  async (params: any) => {
-    const data: any = await APIClientService.removeCategory(params).catch(
-      (err: any) => {
-        return err.response.data;
-      }
-    );
-    return data;
+export const getRemoveCategoryService: any = createAsyncThunk(
+  NAME_ACTION.REMOVE_CATEGORY,
+  async (params: string, { rejectWithValue }) => {
+    try {
+      console.log(params);
+      const response: any = await APIClientService.removeCategoryService(params);
+      return response;
+    } catch (error: any) {
+      if (error) return rejectWithValue(error.response.data);
+    }
   }
 );
 
-const initialState = {
-  statusResponse: [],
+const initialState: IStateCategories = {
+  loading: false,
   listAllCategory: [],
-
 };
 const categorySlice = createSlice({
   name: "category",
@@ -48,24 +51,39 @@ const categorySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(createNewCategory.pending, (state: any, action: any) => {
-        state.statusResponse = [];
+      .addCase(getCreateCategoryService.pending, (state: any, action: any) => {
+        state.loading = true;
       })
-      .addCase(createNewCategory.fulfilled, (state: any, action: any) => {
-        state.statusResponse = [...state.statusResponse, action.payload];
+      .addCase(getCreateCategoryService.fulfilled, (state: any, action: any) => {
+        state.loading = false;
+        openMessage(action, true);
       })
-      .addCase(getListCategory.pending, (state: any, action: any) => {
-        state.statusResponse = [];
+      .addCase(getCreateCategoryService.rejected, (state: any, action: any) => {
+        state.loading = false;
+        openMessage(action);
       })
-      .addCase(getListCategory.fulfilled, (state: any, action: any) => {
-        state.listAllCategory = action.payload.data;
+      .addCase(getListCategoryService.pending, (state: any, action: any) => {
+        state.loading = true;
       })
-      .addCase(removeItemCategory.pending, (state: any, action: any) => {
-        state.statusResponse = [];
+      .addCase(getListCategoryService.fulfilled, (state: any, action: any) => {
+        state.loading = false;
+        state.listAllCategory = action.payload;
       })
-      .addCase(removeItemCategory.fulfilled, (state: any, action: any) => {
-        state.statusResponse = [...state.statusResponse, action.payload];
+      .addCase(getListCategoryService.rejected, (state: any, action: any) => {
+        state.loading = false;
+        openMessage(action);
       })
+      .addCase(getRemoveCategoryService.pending, (state: any, action: any) => {
+        state.loading = true;
+      })
+      .addCase(getRemoveCategoryService.fulfilled, (state: any, action: any) => {
+        state.loading = false;
+        openMessage(action, true);
+      })
+      .addCase(getRemoveCategoryService.rejected, (state: any, action: any) => {
+        state.loading = false;
+        openMessage(action);
+      });
   },
 });
 const { reducer } = categorySlice;

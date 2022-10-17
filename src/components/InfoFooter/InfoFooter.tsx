@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Form, Input, Space } from "antd";
-import { originalContentFooter } from "../Services/general.service";
+import { originalContentFooter } from "../services/general.service";
 import { cloneDeep } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import { getContentFooter, updateContentFooter } from "../redux/Slices/FooterSlice";

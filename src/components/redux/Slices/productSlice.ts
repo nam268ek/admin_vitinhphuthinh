@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import APIClientService from "../../../api";
+import { IProducts } from "../../Products/interfaces/product.interface";
 
 export const createProduct: any = createAsyncThunk("CREATE_PRODUCT", async (params: any) => {
   const data: any = await APIClientService.createNewProduct(params).catch((err: any) => {
@@ -8,8 +9,22 @@ export const createProduct: any = createAsyncThunk("CREATE_PRODUCT", async (para
   return data;
 });
 
-export const getAllProducts: any = createAsyncThunk("GET_ALL_PRODUCT", async (params: any) => {
-  const data: any = await APIClientService.getAllProducts(params).catch((err: any) => {
+export const getUpdateProductService: any = createAsyncThunk("UPDATE_PRODUCT", async (params: any) => {
+  const data: any = await APIClientService.updateProductService(params).catch((err: any) => {
+    return err.response.data;
+  });
+  return data;
+});
+
+export const getDeleteListProductService: any = createAsyncThunk("DELETE_LIST_PRODUCT", async (params: any) => {
+  const data: any = await APIClientService.deleteListProductService(params).catch((err: any) => {
+    return err.response.data;
+  });
+  return data;
+});
+
+export const getListProductService: any = createAsyncThunk("GET_LIST_PRODUCT", async () => {
+  const data: any = await APIClientService.getListProductService().catch((err: any) => {
     return err.response.data;
   });
   return data;
@@ -95,13 +110,25 @@ const productSlice = createSlice({
         state.data = action.payload;
         state.statusResponse = [...state.statusResponse, action.payload];
       })
-      .addCase(getAllProducts.pending, (state: any, action: any) => {
-        state.statusResponse = [];
+      .addCase(getListProductService.fulfilled, (state: any, action: any) => {
+        if (action.payload.length > 0) {
+          state.listAllProducts = action.payload;
+        }
       })
-      .addCase(getAllProducts.fulfilled, (state: any, action: any) => {
-        state.listAllProducts = action.payload.data;
-        state.dataFilter = action.payload.data;
+      .addCase(getUpdateProductService.fulfilled, (state: any, action: any) => {
+        const { id } = action.payload;
+        state.listAllProducts = state.listAllProducts.map((item: IProducts, index: string) => {
+          if (item.id === id) return (state.listAllProducts[index] = action.payload);
+          return item;
+        });
       })
+      .addCase(getUpdateProductService.rejected, (state: any, action: any) => {})
+      .addCase(getDeleteListProductService.fulfilled, (state: any, action: any) => {
+        if (action.payload.length > 0) {
+          state.listAllProducts = action.payload;
+        }
+      })
+      .addCase(getDeleteListProductService.rejected, (state: any, action: any) => {})
       .addCase(removeItemProduct.pending, (state: any, action: any) => {
         state.statusResponse = [];
       })
@@ -130,6 +157,12 @@ const productSlice = createSlice({
   },
 });
 const { reducer } = productSlice;
-export const { updateListAllProducts, resetProcessImg, updateListImages, filterListProducts, setDefaultDataFilter, updateProduct } =
-  productSlice.actions;
+export const {
+  updateListAllProducts,
+  resetProcessImg,
+  updateListImages,
+  filterListProducts,
+  setDefaultDataFilter,
+  updateProduct,
+} = productSlice.actions;
 export default reducer;

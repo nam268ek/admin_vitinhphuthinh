@@ -2,16 +2,16 @@ import { UploadOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
 import { Button, message, Upload } from "antd";
 import { cloneDeep } from "lodash";
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { IoAddSharp } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { read, utils } from "xlsx";
 import { history } from "../../utils/history";
 import { setIsLoading } from "../redux/Slices/PrimarySlice";
-import { getAllProducts, reqUploadListProducts } from "../redux/Slices/productSlice";
-import { originalProduct } from "./../Services/general.service";
+import {  reqUploadListProducts } from "../redux/Slices/productSlice";
+// import { originalProduct } from "../services/general.service";
 
-const UploadFileExcel: React.FC<any> = ({ setLoadingTb }) => {
+const UploadFileExcel: React.FC = () => {
   const [countUpload, setCountUpload] = React.useState<number>(0);
   const dispatch = useDispatch();
   const SheetJSFT = ["xlsx", "xlsm", "xls", "xml", "csv"]
@@ -21,7 +21,7 @@ const UploadFileExcel: React.FC<any> = ({ setLoadingTb }) => {
     .join(",");
 
   useEffect(() => {
-    dispatch(getAllProducts({ role: "user" }));
+    // dispatch(getAllProducts({ role: "user" }));
   }, [countUpload]);
 
   const reqUploadExcel = async (info: any) => {
@@ -85,20 +85,18 @@ const UploadFileExcel: React.FC<any> = ({ setLoadingTb }) => {
               },
             };
           });
-          const bodyDataImportProducts = cloneDeep(originalProduct);
-          bodyDataImportProducts.action = "import";
-          bodyDataImportProducts.data = dataListProducts;
-          setLoadingTb(true);
-          const res = await dispatch(reqUploadListProducts(bodyDataImportProducts));
-          setLoadingTb(false);
-          if (res.payload.code === 200) {
-            message.success("Upload file excel success", 3);
-            onSuccess();
-            setCountUpload(countUpload + 1);
-          } else {
-            message.error("Upload file excel failed", 3);
-            onError();
-          }
+          // const bodyDataImportProducts = cloneDeep(originalProduct);
+          // bodyDataImportProducts.action = "import";
+          // bodyDataImportProducts.data = dataListProducts;
+          // const res = await dispatch(reqUploadListProducts(bodyDataImportProducts));
+          // if (res.payload.code === 200) {
+          //   message.success("Upload file excel success", 3);
+          //   onSuccess();
+          //   setCountUpload(countUpload + 1);
+          // } else {
+          //   message.error("Upload file excel failed", 3);
+          //   onError();
+          // }
         }
       }
     };

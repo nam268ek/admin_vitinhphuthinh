@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import APIClientService from "../../../api";
-import { openDialogError } from "../../Services/general.service";
+// import { openDialogError } from "../../services/general.service";
 
 export const updateListImgLayout: any = createAsyncThunk("UPDATE_LIST_IMG_LAYOUT", async (params: any) => {
   const data: any = await APIClientService.reqListImgLayout(params).catch((err: any) => {
@@ -93,7 +93,6 @@ const layoutSlice = createSlice({
   extraReducers: (builder: any) => {
     builder
       .addCase(updateListImgLayout.fulfilled, (state: any, action: any) => {
-        openDialogError(action.payload, "showModel");
         if (action.payload.status === "success" && action.payload.data) {
           state.layout = action.payload.data.layout;
         }

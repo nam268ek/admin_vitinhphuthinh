@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import APIClientService from "../../../api";
-import { openDialogError } from "../../Services/general.service";
+// import { openDialogError } from "../../services/general.service";
 
 export const updateContentFooter: any = createAsyncThunk(
   "UPDATE_FOOTER_CONTENT",
@@ -53,28 +53,27 @@ const FooterSlice = createSlice({
   extraReducers: (builder: any) => {
     builder
       .addCase(updateContentFooter.fulfilled, (state: any, action: any) => {
-        openDialogError(action.payload, true);
         if (action.payload.code === 200 && action.payload.data) {
           state.dataUpdate = [action.payload.data];
         }
         state.statusResponse = [...state.statusResponse, action.payload];
       })
       .addCase(getContentFooter.fulfilled, (state: any, action: any) => {
-        openDialogError(action.payload);
+        // openDialogError(action.payload);
         if (action.payload.code === 200 && action.payload.data) {
           state.dataUpdate = action.payload.data;
         }
         state.statusResponse = [...state.statusResponse, action.payload];
       })
       .addCase(getContentFooterEditor.fulfilled, (state: any, action: any) => {
-        openDialogError(action.payload);
+        // openDialogError(action.payload);
         if (action.payload.code === 200 && action.payload.data) {
           state.dataUpdatePolicy = action.payload.data;
         }
         state.statusResponse = [...state.statusResponse, action.payload];
       })
       .addCase(updateContentFooterEditor.fulfilled, (state: any, action: any) => {
-        openDialogError(action.payload);
+        // openDialogError(action.payload);
         if (action.payload.code === 200 && action.payload.data) {
           state.dataUpdatePolicy = [action.payload.data];
         }

@@ -10,7 +10,7 @@ import { usePrompt } from "../common/hook/useFrompt";
 import useQuery from "../common/hook/useQuery";
 import { getContentFooterEditor, updateContentFooterEditor } from "../redux/Slices/FooterSlice";
 import { clearImages } from "../redux/Slices/PrimarySlice";
-import { originalContentFooter } from "../Services/general.service";
+import { originalContentFooter } from "../services/general.service";
 
 const Policy: React.FC<any> = () => {
   const listDropdownPolicy = [

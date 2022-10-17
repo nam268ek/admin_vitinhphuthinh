@@ -1,14 +1,12 @@
-import React from "react";
-import { Link, Navigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-import { RequestLogin } from "../redux/Slices/LoginSlice";
-import { setIsLoading } from "../redux/Slices/PrimarySlice";
-import { originalRegister } from "../Services/general.service";
-import { cloneDeep } from "lodash";
 import { Alert } from "antd";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
+import * as Yup from "yup";
+import { requestLogin } from "../redux/Slices/LoginSlice";
+import { setIsLoading } from "../redux/Slices/PrimarySlice";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -27,11 +25,9 @@ const Login: React.FC = () => {
   } = useForm(formOptions);
 
   const onSubmit = handleSubmit(async (data: any) => {
-    const bodyLogin: any = cloneDeep(originalRegister);
-    bodyLogin.email = data.email;
-    bodyLogin.password = data.password;
+    const { email, password } = data;
     dispatch(setIsLoading(true));
-    await dispatch(RequestLogin(bodyLogin));
+    await dispatch(requestLogin({ email, password }));
     dispatch(setIsLoading(false));
   });
 
@@ -52,7 +48,12 @@ const Login: React.FC = () => {
                   <h6>Đăng nhập tài khoản</h6>
                   <form onSubmit={onSubmit}>
                     <div className="inputs-wrapper w-100">
-                      <input type="text" className={`w-100 ${errors.email ? "error-border" : ""}`} placeholder="Email" {...register("email")} />
+                      <input
+                        type="text"
+                        className={`w-100 ${errors.email ? "error-border" : ""}`}
+                        placeholder="Email"
+                        {...register("email")}
+                      />
                       {errors.email && <Alert message={errors.email.message} type="info" showIcon />}
                     </div>
                     <div className="inputs-wrapper w-100">

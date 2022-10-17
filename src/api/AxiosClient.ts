@@ -1,16 +1,13 @@
 import axios from "axios";
 import queryString from "query-string";
-import { openDialogError } from "../components/Services/general.service";
 import ValidateToken from "./authClient";
-import store from "../components/redux/store/store";
-import { setLogout } from "../components/redux/Slices/LoginSlice";
-import { history } from "../utils/history";
 //config .env for production
-const apiUrl = process.env.NODE_ENV === "production" ? process.env.REACT_APP_PROD_API_URL : process.env.REACT_APP_DEV_API_URL;
+const ROOT =
+  process.env.NODE_ENV === "production" ? process.env.REACT_APP_PROD_API_URL : process.env.REACT_APP_DEV_API_URL;
 
 //config axios client
 const axiosClient = axios.create({
-  baseURL: apiUrl,
+  baseURL: ROOT,
   headers: {
     "Content-Type": "application/json",
   },
@@ -24,11 +21,17 @@ axiosClient.interceptors.request.use(async (config: any) => {
     //add token to header
     config.headers.Authorization = `Bearer ${token}`;
   }
+  config.headers["X-Api-Key"] = process.env.REACT_APP_API_KEY;
   return config;
 });
 
 axiosClient.interceptors.response.use(
   async (res: any) => {
+    const { accesstoken, refreshtoken } = res.headers;
+    if (accesstoken && refreshtoken) {
+      localStorage.setItem("tokenvtpt", JSON.stringify(accesstoken));
+      localStorage.setItem("refreshtokenvtpt", JSON.stringify(refreshtoken));
+    }
     if (res && res.data) {
       return res.data;
     }
@@ -55,15 +58,6 @@ axiosClient.interceptors.response.use(
           return Promise.reject(_error);
         }
       }
-      if (err.response.data.data.urlRedirect === "/login") {
-        // window.location.href = "/login";
-        // openDialogError(err.response.data, true);
-        ValidateToken.removeTokenLocalStorage();
-        history.push("/login");
-      }
-    }
-    if (err.message === "Network Error") {
-      openDialogError({ status: "error", code: 1, data: {}, message: "" });
     }
     return Promise.reject(err);
   }

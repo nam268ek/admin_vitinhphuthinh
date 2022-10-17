@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import ImageDefault from "../../common/ImageDefault";
 import NoContent from "../../common/NoContent";
-import { formatMoney } from "../../Services/general.service";
+import { formatMoney } from "../../services/general.service";
 
 const OrderDetails: React.FC = () => {
   const { listOrder } = useSelector((state: any) => state.order);

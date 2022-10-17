@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle, useState } from "react";
 import { Modal, Button, Input, Form, InputNumber, Select } from "antd";
 import { useSelector } from "react-redux";
 import NoContent from "./NoContent";
-import { formatMoney } from "../Services/general.service";
+import { formatMoney } from "../services/general.service";
 import ImageDefault from "./ImageDefault";
 import SelectOption from "./SelectOption";
 import TextArea from "antd/lib/input/TextArea";

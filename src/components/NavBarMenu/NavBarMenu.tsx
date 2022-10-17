@@ -8,7 +8,7 @@ import { ImExit } from "react-icons/im";
 import { Link, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetProcessImg } from "../redux/Slices/productSlice";
-import { formatMoney } from "../Services/general.service";
+import { formatMoney } from "../services/general.service";
 import { setLogout } from "../redux/Slices/LoginSlice";
 
 const NavBarMenu: React.FC = () => {

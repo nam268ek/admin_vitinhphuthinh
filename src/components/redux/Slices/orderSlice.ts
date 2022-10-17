@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { cloneDeep } from "lodash";
 import APIClientService from "../../../api";
-import { openDialogError } from "../../Services/general.service";
+// import { openDialogError } from "../../services/general.service";
 
 export const createNewOrder: any = createAsyncThunk("CREATE_NEW_ORDER", async (params: any) => {
   const data: any = await APIClientService.createOrder(params).catch((err: any) => {
@@ -67,7 +67,6 @@ const orderSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createNewOrder.fulfilled, (state: any, action: any) => {
-        openDialogError(action.payload, true);
         if (action.payload.code === 200 && action.payload.data) {
           state.statusResponse = [...state.statusResponse, action.payload];
           state.dataUpdate = [];

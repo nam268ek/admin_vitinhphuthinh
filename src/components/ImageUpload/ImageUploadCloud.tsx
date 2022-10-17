@@ -16,7 +16,7 @@ import {
   uploadFileLayout,
 } from "../redux/Slices/layoutSlice";
 import { cloneDeep } from "lodash";
-import { originalImage } from "../Services/general.service";
+import { originalImage } from "../services/general.service";
 import { PlusOutlined } from "@ant-design/icons";
 
 const getSrcFromFile = (file: any) => {
@@ -92,7 +92,7 @@ const ImageUploadCloud: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfF
   };
 
   return (
-    <Form.Item name="img">
+    <Form.Item name="images">
       {isCropImg ? (
         <ImgCrop modalWidth={850} beforeCrop={beforeUpload} onUploadFail={onUploadFail}>
           <Upload
