@@ -1,21 +1,34 @@
-import { Form, Select } from "antd";
-import React from "react";
-import { ISelectOption } from "../Products/interfaces/product.interface";
+import { Form, Select } from 'antd';
+import React from 'react';
+import { ISelectOption } from '../../types/types';
 
-const SelectOptionV2: React.FC<ISelectOption> = ({ options, name, disabled, className, initialValue }) => {
-  const [form] = Form.useForm<any>();
-  const [selectedValues, setSelectedValues] = React.useState<any>([]);
+export const SelectOptionV2: React.FC<ISelectOption> = ({
+  options,
+  name,
+  disabled,
+  className,
+  placeholder,
+  rules,
+  validateTrigger,
+}) => {
+  const [form] = Form.useForm();
+  const [selectedValues, setSelectedValues] = React.useState<string | undefined>(undefined);
 
-  const onSelect = (value: any, option: any) => {
+  const onSelect = (value: string, option: any) => {
     setSelectedValues(value);
     form.getFieldValue(option);
   };
 
   return (
-    <Form.Item name={name} className={className} initialValue={initialValue || ""}>
-      <Select allowClear onSelect={onSelect} options={options} value={selectedValues} disabled={disabled}></Select>
+    <Form.Item name={name} className={className} rules={rules} validateTrigger={validateTrigger}>
+      <Select
+        allowClear
+        placeholder={placeholder}
+        onSelect={onSelect}
+        options={options}
+        value={selectedValues}
+        disabled={disabled}
+      />
     </Form.Item>
   );
 };
-
-export default SelectOptionV2;

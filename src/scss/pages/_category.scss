@@ -50,4 +50,9 @@
   .ant-input-number {
     width: 100% !important;
   }
+  .disable-field {
+    pointer-events: none;
+    opacity: 0.4;
+    color: #878787;
+  }
 }

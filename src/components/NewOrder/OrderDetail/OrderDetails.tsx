@@ -1,8 +1,8 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import ImageDefault from "../../common/ImageDefault";
-import NoContent from "../../common/NoContent";
-import { formatMoney } from "../../services/general.service";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import ImageDefault from '../../common/ImageDefault';
+import NoContent from '../../common/NoContent';
+import { formatMoney } from '../../services/general.service';
 
 const OrderDetails: React.FC = () => {
   const { listOrder } = useSelector((state: any) => state.order);
@@ -17,7 +17,13 @@ const OrderDetails: React.FC = () => {
               <div className="col-8">
                 <div className="content-left">
                   <div className="item">
-                    <div className="i-img">{item.img?.length > 0 ? <img src={item.img[0].secure_url} alt="product" /> : <ImageDefault />}</div>
+                    <div className="i-img">
+                      {item.img?.length > 0 ? (
+                        <img src={item.img[0].secure_url} alt="product" />
+                      ) : (
+                        <ImageDefault />
+                      )}
+                    </div>
                   </div>
                   <div className="item">
                     <div className="i-content">

@@ -3,16 +3,10 @@ export interface ICategories {
   name: string;
   category: string;
   index: string;
-  parent?: ICategories;
-}
-export interface ITableListCategoryProps {
-  setItemEdit: React.Dispatch<React.SetStateAction<ICategories[]>>;
-  categories: ICategories[];
-}
-export interface ICreateCategoryProps {
-  itemEdit: ICategories[];
+  parent: ICategories[];
 }
 export interface IStateCategories {
   loading: boolean;
-  listAllCategory: ICategories[];
+  itemSelected: ICategories[];
+  categories: ICategories[];
 }

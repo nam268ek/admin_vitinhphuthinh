@@ -1,10 +1,20 @@
-import React from "react";
-import { Form, Select } from "antd";
-import { ISelectService } from "../../types/types";
-import { useDispatch, useSelector } from "react-redux";
-import { filterListProducts } from "../redux/Slices/productSlice";
+import React from 'react';
+import { Form, Select } from 'antd';
+import { ISelectService } from '../../types/types';
+import { useDispatch, useSelector } from 'react-redux';
+// import { filterListProducts } from '../redux/Slices/ProductSlice';
 
-const SelectOption: React.FC<ISelectService> = ({ className, isPayment, placeholder, defaultValue, isCategory, isBrand, isStatus, isDefault, disabled }) => {
+export const SelectOption: React.FC<ISelectService> = ({
+  className,
+  isPayment,
+  placeholder,
+  defaultValue,
+  isCategory,
+  isBrand,
+  isStatus,
+  isDefault,
+  disabled,
+}) => {
   const [form] = Form.useForm<any>();
   const [selectedValues, setSelectedValues] = React.useState<any>([]);
   const dispatch = useDispatch();
@@ -15,28 +25,37 @@ const SelectOption: React.FC<ISelectService> = ({ className, isPayment, placehol
 
   const { Option } = Select;
   const dataCategory = listAllCategory.map((item: any) => item.title);
-  const dataBrand = listDropDown.length > 0 ? listDropDown[0]["dropdown"]["list-brand"].map((brand: any) => brand.label) : [];
-  const dataStatus = listDropDown.length > 0 ? listDropDown[0]["dropdown"]["list-status"].map((brand: any) => brand.label) : [];
-  const dataPayment = listDropDown.length > 0 ? listDropDown[0]["dropdown"]["list-payment"].map((brand: any) => brand.label) : [];
+  const dataBrand =
+    listDropDown.length > 0
+      ? listDropDown[0]['dropdown']['list-brand'].map((brand: any) => brand.label)
+      : [];
+  const dataStatus =
+    listDropDown.length > 0
+      ? listDropDown[0]['dropdown']['list-status'].map((brand: any) => brand.label)
+      : [];
+  const dataPayment =
+    listDropDown.length > 0
+      ? listDropDown[0]['dropdown']['list-payment'].map((brand: any) => brand.label)
+      : [];
 
   const handleChange = (e: any, select: any) => {
     setSelectedValues(e);
     //filter data for select
-    if (select === "category") {
+    if (select === 'category') {
       const data: any = listAllProducts.filter((item: any) => item.category[0] === e);
-      dispatch(filterListProducts(data));
+      // dispatch(filterListProducts(data));
     }
-    if (select === "brand") {
+    if (select === 'brand') {
       const data: any = listAllProducts.filter((item: any) => item.brand === e);
-      dispatch(filterListProducts(data));
+      // dispatch(filterListProducts(data));
     }
-    if (select === "status") {
-      const status = e === "Active" ? true : false;
+    if (select === 'status') {
+      const status = e === 'Active' ? true : false;
       const data: any = listAllProducts.filter((item: any) => item.status === status);
-      dispatch(filterListProducts(data));
+      // dispatch(filterListProducts(data));
     }
-    if (select === "payment") {
-      console.log(form.getFieldValue("payment"));
+    if (select === 'payment') {
+      console.log(form.getFieldValue('payment'));
     }
   };
 
@@ -46,7 +65,12 @@ const SelectOption: React.FC<ISelectService> = ({ className, isPayment, placehol
 
   if (isCategory) {
     return (
-      <Select className={className} placeholder={placeholder} onChange={(e) => handleChange(e, "category")} value={selectedValues}>
+      <Select
+        className={className}
+        placeholder={placeholder}
+        onChange={(e) => handleChange(e, 'category')}
+        value={selectedValues}
+      >
         {dataCategory?.map((item: any, index: any) => (
           <Option key={index} value={item}>
             {item}
@@ -56,7 +80,12 @@ const SelectOption: React.FC<ISelectService> = ({ className, isPayment, placehol
     );
   } else if (isBrand) {
     return (
-      <Select className={className} placeholder={placeholder} onChange={(e) => handleChange(e, "brand")} value={selectedValues}>
+      <Select
+        className={className}
+        placeholder={placeholder}
+        onChange={(e) => handleChange(e, 'brand')}
+        value={selectedValues}
+      >
         {dataBrand?.map((item: any, index: any) => (
           <Option key={index} value={item}>
             {item}
@@ -66,7 +95,12 @@ const SelectOption: React.FC<ISelectService> = ({ className, isPayment, placehol
     );
   } else if (isStatus) {
     return (
-      <Select className={className} placeholder={placeholder} onChange={(e) => handleChange(e, "status")} value={selectedValues}>
+      <Select
+        className={className}
+        placeholder={placeholder}
+        onChange={(e) => handleChange(e, 'status')}
+        value={selectedValues}
+      >
         {dataStatus?.map((item: any, index: any) => (
           <Option key={index} value={item}>
             {item}
@@ -76,7 +110,11 @@ const SelectOption: React.FC<ISelectService> = ({ className, isPayment, placehol
     );
   } else if (isPayment) {
     return (
-      <Form.Item name="payment" className={className} initialValue={dataUpdate[0] ? dataUpdate[0].priord.payment : ""}>
+      <Form.Item
+        name="payment"
+        className={className}
+        initialValue={dataUpdate[0] ? dataUpdate[0].priord.payment : ''}
+      >
         <Select placeholder={placeholder} value={selectedValues} disabled={disabled}>
           {dataPayment?.map((item: any, index: any) => (
             <Option key={index} value={item}>
@@ -86,8 +124,14 @@ const SelectOption: React.FC<ISelectService> = ({ className, isPayment, placehol
         </Select>
       </Form.Item>
     );
-  } else
-    return <Select placeholder={placeholder} className={className} onChange={(e) => handleChange(e, "category")} value={selectedValues}></Select>;
+  } else {
+    return (
+      <Select
+        placeholder={placeholder}
+        className={className}
+        onChange={(e) => handleChange(e, 'category')}
+        value={selectedValues}
+      ></Select>
+    );
+  }
 };
-
-export default SelectOption;

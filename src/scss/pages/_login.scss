@@ -1,8 +1,11 @@
 #login,
 #register {
   background-color: $secondary-bgColor;
-  padding: 100px 0;
+  padding: 12rem 0;
   height: 100vh;
+  .w-30 {
+    width: 30% !important;
+  }
 
   .links {
     padding-bottom: 30px;
@@ -19,7 +22,6 @@
   .account-wrapper {
     background-color: #fff;
     padding: 30px;
-    margin: 0 50px;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
     h6 {
@@ -30,8 +32,8 @@
     .inputs-wrapper {
       padding-bottom: 25px;
 
-      input[type="password"],
-      input[type="text"] {
+      input[type='password'],
+      input[type='text'] {
         @extend %input;
         padding: 15px;
       }
@@ -40,7 +42,7 @@
         border: 1px solid rgb(21, 107, 221) !important;
       }
 
-      p{
+      p {
         margin-bottom: 0;
         font-size: 13px;
       }
@@ -67,7 +69,7 @@
     .submit-btn {
       padding: 0 0 40px;
 
-      input[type="submit"] {
+      input[type='submit'] {
         @extend %primary-btn;
       }
     }

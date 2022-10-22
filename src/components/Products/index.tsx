@@ -1,21 +1,21 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Search from "../Search/Search";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Search from '../Search/Search';
 
-import DropDownNewProduct from "../NewProduct/DropDownNewProduct/DropDownNewProduct";
-import { getListDropdown } from "../redux/Slices/PrimarySlice";
-import { getListProductService } from "../redux/Slices/productSlice";
-import { ExcelBotton } from "./Component/ExcelBotton";
-import { TableListProduct } from "./Component/TableListProduct";
+import { DropDownNewProduct } from '../NewProduct/Component/DropDownNewProduct';
+import { getListProductService } from '../redux/Slices/ProductSlice';
+import { ExcelBotton } from './Component/ExcelBotton';
+import { TableListProduct } from './Component/TableListProduct';
+import { RootState } from '../redux/store/store';
 
 const Products: React.FC = () => {
   const dispatch = useDispatch();
-  const { listAllProducts } = useSelector((state: any) => state.product);
+  const { products } = useSelector((state: RootState) => state.product);
 
   React.useEffect(() => {
     dispatch(getListProductService());
     // dispatch(getListCategory({ role: "user" }));
-    dispatch(getListDropdown({ role: "user" }));
+    // dispatch(getListDropdown({ role: 'user' }));
   }, [dispatch]);
 
   return (
@@ -32,12 +32,12 @@ const Products: React.FC = () => {
             <Search
               className="search-category"
               placeholder="Tìm kiếm sản phẩm..."
-              listItem={listAllProducts}
+              listItem={products}
               // isDefault={isDefault}
             />
           </div>
           <div className="width-right d-flex">
-            <ExcelBotton products={listAllProducts} />
+            <ExcelBotton products={products} />
             <DropDownNewProduct />
           </div>
         </div>
@@ -46,7 +46,7 @@ const Products: React.FC = () => {
         </div>
         <div className="ps-section__content">
           <div className="table-responsive">
-            <TableListProduct products={listAllProducts} />
+            <TableListProduct />
           </div>
         </div>
       </section>

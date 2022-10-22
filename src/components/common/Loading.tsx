@@ -1,5 +1,5 @@
-import React from "react";
-import { Spin, Space } from "antd";
+import React from 'react';
+import { Spin, Space } from 'antd';
 
 const Loading: React.FC = () => {
   return (

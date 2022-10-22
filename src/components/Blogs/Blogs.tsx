@@ -1,28 +1,28 @@
-import { Space, Table } from "antd";
-import moment from "moment";
-import React from "react";
-import { MdDeleteForever } from "react-icons/md";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Space, Table } from 'antd';
+import moment from 'moment';
+import React from 'react';
+import { MdDeleteForever } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Blogs: React.FC = () => {
   const dispatch = useDispatch();
 
   const columns = [
     {
-      title: "Tên bài viết",
-      dataIndex: "title",
-      key: "title",
+      title: 'Tên bài viết',
+      dataIndex: 'title',
+      key: 'title',
     },
     {
-      title: "Ngày tạo",
-      dataIndex: "createdAt",
-      key: "createdAt",
-      render: (text: string) => <span>{moment(text).format("DD/MM/YYYY, h:mm:ss A")}</span>,
+      title: 'Ngày tạo',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (text: string) => <span>{moment(text).format('DD/MM/YYYY, h:mm:ss A')}</span>,
     },
     {
-      title: "Action",
-      key: "action",
+      title: 'Action',
+      key: 'action',
       render: (text: string, record: any) => (
         <Space size="middle">
           <Link to="" className="remove-item">
@@ -52,13 +52,11 @@ const Blogs: React.FC = () => {
     // const bodyRemoveCategory = cloneDeep(originalCategory);
     // bodyRemoveCategory.action = "delete";
     // bodyRemoveCategory.data._id = record.id;
-
     // dispatch(setIsLoading(true));
     // await dispatch(removeItemCategory(bodyRemoveCategory));
     // await dispatch(getListCategory({ role: "user" }));
     // dispatch(setIsLoading(false));
   };
-
 
   return (
     <>

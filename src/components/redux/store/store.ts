@@ -1,26 +1,25 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import LoginSlice from "../Slices/LoginSlice";
-import primarySlice from "../Slices/PrimarySlice";
-import productSlice from "../Slices/productSlice";
-import categorySlice from "../Slices/CategorySlice";
-import orderSlice from "../Slices/orderSlice";
-import layoutSlice from "../Slices/layoutSlice";
-import footerSlice from "../Slices/FooterSlice";
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { authReducer } from '../Slices/AuthSlice';
+// import { primaryReducer } from '../Slices/PrimarySlice';
+import { productReducer } from '../Slices/ProductSlice';
+import { categoryReducer } from '../Slices/CategorySlice';
+import { orderReducer } from '../Slices/OrderSlice';
+import { layoutReducer } from '../Slices/LayoutSlice';
+import { footerReducer } from '../Slices/FooterSlice';
 
 const reducers = combineReducers({
-  login: LoginSlice,
-  primary: primarySlice,
-  product: productSlice,
-  category: categorySlice,
-  order: orderSlice,
-  layout: layoutSlice,
-  footer: footerSlice,
+  auth: authReducer,
+  // primary: primaryReducer,
+  product: productReducer,
+  category: categoryReducer,
+  order: orderReducer,
+  layout: layoutReducer,
+  footer: footerReducer,
 });
 
-const store = configureStore({
+export const store = configureStore({
   reducer: reducers,
-  devTools: process.env.NODE_ENV !== "production",
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
-export default store;
 export type RootState = ReturnType<typeof store.getState>;

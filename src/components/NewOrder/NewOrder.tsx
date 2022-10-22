@@ -1,33 +1,32 @@
-import React from "react";
-import ImageUpload from "../ImageUpload/ImageUpload";
-import { Form, Input, Select, Button, Space, Modal, InputNumber, message } from "antd";
-import StatusProduct from "../StatusProduct/StatusProduct";
-import SelectOption from "../common/SelectOption";
-import EditorText from "../common/EditorText";
-import { useForm, Controller } from "react-hook-form";
-import ConfigInfo from "../ConfigInfo/ConfigInfo";
-import { cloneDeep } from "lodash";
-import {  formatMoney } from "../services/general.service";
-import { useDispatch, useSelector } from "react-redux";
-import { createProduct, updateProduct } from "../redux/Slices/productSlice";
-import { getListDropdown, setAction, setIsLoading } from "../redux/Slices/PrimarySlice";
-import SelectAddItem from "../common/SelectAddItem";
+import React from 'react';
+import ImageUpload from '../ImageUpload/ImageUpload';
+import { Form, Input, Select, Button, Space, Modal, InputNumber, message } from 'antd';
+// import StatusProduct from '../StatusProduct/StatusProduct';
+import { SelectOption } from '../common/SelectOption';
+import EditorText from '../common/EditorText';
+import { useForm, Controller } from 'react-hook-form';
+import ConfigInfo from '../ConfigInfo/ConfigInfo';
+import { cloneDeep } from 'lodash';
+import { formatMoney, originalOrder } from '../services/general.service';
+import { useDispatch, useSelector } from 'react-redux';
+// import { createProduct, updateProduct } from '../redux/Slices/ProductSlice';
+// import { getListDropdown, setAction, setIsLoading } from '../redux/Slices/PrimarySlice';
+import SelectAddItem from '../common/SelectAddItem';
 // import { getListCategory } from "../redux/Slices/CategorySlice";
-import { useNavigate } from "react-router-dom";
-import ModuleProducts from "./ModuleProducts/ModuleProducts";
-import NoContent from "../common/NoContent";
-import ImageDefault from "../common/ImageDefault";
-import OrderSummary from "./OrderSummary/OrderSummary";
-import OrderDetails from "./OrderDetail/OrderDetails";
-import { originalOrder } from "../services/general.service";
-import {
-  createNewOrder,
-  resetOrder,
-  updateListOrder,
-  updateOrder,
-} from "../redux/Slices/orderSlice";
+import { useNavigate } from 'react-router-dom';
+import ModuleProducts from './ModuleProducts/ModuleProducts';
+import NoContent from '../common/NoContent';
+import ImageDefault from '../common/ImageDefault';
+import OrderSummary from './OrderSummary/OrderSummary';
+import OrderDetails from './OrderDetail/OrderDetails';
+// import {
+//   createNewOrder,
+//   resetOrder,
+//   updateListOrder,
+//   updateOrder,
+// } from '../redux/Slices/OrderSlice';
 
-const NewOrder: React.FC = () => {
+export const NewOrder: React.FC = () => {
   const dispatch = useDispatch();
   const childRef = React.useRef<any>(null);
   const [form] = Form.useForm();
@@ -37,8 +36,8 @@ const NewOrder: React.FC = () => {
   const { listAllCategory } = useSelector((state: any) => state.category);
   const { listOrder, dataUpdate } = useSelector((state: any) => state.order);
   const { action } = useSelector((state: any) => state.primary);
-  const maxLength: number = 100;
-  const maxLengthTextArea: number = 500;
+  const maxLength = 100;
+  const maxLengthTextArea = 500;
   const { TextArea } = Input;
   const {
     register,
@@ -52,12 +51,11 @@ const NewOrder: React.FC = () => {
 
   React.useEffect(() => {
     // dispatch(getListCategory({ role: "user" }));
-    dispatch(getListDropdown({ role: "user" }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // dispatch(getListDropdown({ role: 'user' }));
   }, []);
 
-  const filterListOrder = (listOrder: any) => {
-    return listOrder.map((item: any) => {
+  const filterListOrder = (list: any) => {
+    return list.map((item: any) => {
       return {
         _id: item._id,
         title: item.title,
@@ -70,11 +68,11 @@ const NewOrder: React.FC = () => {
 
   const onFinish = async (data: any) => {
     const bodyNewOrder = cloneDeep(originalOrder);
-    bodyNewOrder.action = action || "create";
-    if (action === "update") {
+    bodyNewOrder.action = action || 'create';
+    if (action === 'update') {
       bodyNewOrder.data._id = dataUpdate[0]._id;
     }
-    bodyNewOrder.data.stord = "Đang xử lý";
+    bodyNewOrder.data.stord = 'Đang xử lý';
     bodyNewOrder.data.orderid = `VTPT${Date.now().toString().slice(-4)}`;
 
     bodyNewOrder.data.customer.name = data.namecustomer;
@@ -86,7 +84,7 @@ const NewOrder: React.FC = () => {
     bodyNewOrder.data.priord.subtotal = Number(data.subtotal);
     bodyNewOrder.data.priord.discount = Number(data.discount);
     bodyNewOrder.data.priord.total = Number(data.total) || 0;
-    bodyNewOrder.data.priord.payment = data.payment ? data.payment : "";
+    bodyNewOrder.data.priord.payment = data.payment ? data.payment : '';
     bodyNewOrder.data.priord.note = data.note;
     bodyNewOrder.data.priord.feeship = Number(data.feeship);
 
@@ -95,27 +93,27 @@ const NewOrder: React.FC = () => {
     console.log(bodyNewOrder);
     // console.log(bodyNewProduct);
     if (bodyNewOrder.data.listprod.length === 0) {
-      message.error("Đơn hàng phải có ít nhất 1 sản phẩm");
+      message.error('Đơn hàng phải có ít nhất 1 sản phẩm');
     } else {
-      dispatch(setIsLoading(true));
-      const result = await dispatch(createNewOrder(bodyNewOrder));
-      dispatch(setIsLoading(false));
-      if (result.payload.code === 200) {
-        dispatch(setAction(""));
-        navigate("/orders", { replace: true });
-      }
+      // dispatch(setIsLoading(true));
+      // const result = await dispatch(createNewOrder(bodyNewOrder));
+      // dispatch(setIsLoading(false));
+      // if (result.payload.code === 200) {
+      //   dispatch(setAction(''));
+      //   navigate('/orders', { replace: true });
+      // }
     }
   };
 
   const resetForm = () => {
-    dispatch(resetOrder());
+    // dispatch(resetOrder());
   };
 
   const handleCancel = (e: any) => {
     e.preventDefault();
-    dispatch(updateOrder([]));
-    dispatch(updateListOrder([]));
-    navigate("/orders", { replace: true });
+    // dispatch(updateOrder([]));
+    // dispatch(updateListOrder([]));
+    navigate('/orders', { replace: true });
   };
 
   return (
@@ -129,7 +127,7 @@ const NewOrder: React.FC = () => {
             }`}</span>
           </h3>
           <p>
-            (<span style={{ color: "red" }}>*</span>) Các trường buộc phải nhập
+            (<span style={{ color: 'red' }}>*</span>) Các trường buộc phải nhập
           </p>
         </div>
       </div>
@@ -159,11 +157,11 @@ const NewOrder: React.FC = () => {
                     <label>Tên khách hàng</label>
                     <Form.Item
                       name="namecustomer"
-                      initialValue={dataUpdate[0] ? dataUpdate[0].customer.name : ""}
+                      initialValue={dataUpdate[0] ? dataUpdate[0].customer.name : ''}
                       rules={[
                         {
                           required: true,
-                          message: "Vui lòng nhập Tên KH",
+                          message: 'Vui lòng nhập Tên KH',
                         },
                       ]}
                     >
@@ -176,7 +174,7 @@ const NewOrder: React.FC = () => {
                     <label>Địa chỉ</label>
                     <Form.Item
                       name="address"
-                      initialValue={dataUpdate[0] ? dataUpdate[0].customer.address : ""}
+                      initialValue={dataUpdate[0] ? dataUpdate[0].customer.address : ''}
                     >
                       <Input maxLength={maxLength} showCount placeholder="Địa chỉ..." />
                     </Form.Item>
@@ -189,11 +187,11 @@ const NewOrder: React.FC = () => {
                     <label>Số điện thoại</label>
                     <Form.Item
                       name="phone"
-                      initialValue={dataUpdate[0] ? dataUpdate[0].customer.phone : ""}
+                      initialValue={dataUpdate[0] ? dataUpdate[0].customer.phone : ''}
                       rules={[
                         {
                           required: true,
-                          message: "Vui lòng nhập SĐT",
+                          message: 'Vui lòng nhập SĐT',
                         },
                       ]}
                     >
@@ -206,7 +204,7 @@ const NewOrder: React.FC = () => {
                     <label>Email</label>
                     <Form.Item
                       name="email"
-                      initialValue={dataUpdate[0] ? dataUpdate[0].customer.email : ""}
+                      initialValue={dataUpdate[0] ? dataUpdate[0].customer.email : ''}
                     >
                       <Input maxLength={maxLength} showCount placeholder="Email..." />
                     </Form.Item>
@@ -218,7 +216,7 @@ const NewOrder: React.FC = () => {
                   <label>Ghi chú</label>
                   <Form.Item
                     name="notecustomer"
-                    initialValue={dataUpdate[0] ? dataUpdate[0].customer.note : ""}
+                    initialValue={dataUpdate[0] ? dataUpdate[0].customer.note : ''}
                   >
                     <TextArea maxLength={maxLength} showCount placeholder="Note..." />
                   </Form.Item>
@@ -229,7 +227,7 @@ const NewOrder: React.FC = () => {
 
           <div className="ps-form__bottom">
             <Form.Item>
-              <Space style={{ width: "100%", justifyContent: "flex-end" }}>
+              <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
                 <Button type="primary" danger loading={false} onClick={handleCancel}>
                   Cancel
                 </Button>
@@ -247,4 +245,3 @@ const NewOrder: React.FC = () => {
     </div>
   );
 };
-export default NewOrder;

@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Form, message, Upload } from "antd";
-import ImgCrop from "antd-img-crop";
-import { IImageUpload } from "../../types/types";
-import { Controller, useForm } from "react-hook-form";
-import APIClientService from "../../api";
-import { removeFileImgToCloud, setImageTempProduct, updateListImages, uploadFileImgToCloud } from "../redux/Slices/productSlice";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Form, message, Upload } from 'antd';
+import ImgCrop from 'antd-img-crop';
+import { IImageUpload } from '../../types/types';
+import { Controller, useForm } from 'react-hook-form';
+// import APIClientService from '../../api';
+// import {
+//   removeFileImgToCloud,
+//   setImageTempProduct,
+//   updateListImages,
+//   uploadFileImgToCloud,
+// } from '../redux/Slices/ProductSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   removeFileLayout,
   SetCurrentLayoutState,
@@ -14,10 +19,10 @@ import {
   updateListImagesLayout,
   updateListImgLayout,
   uploadFileLayout,
-} from "../redux/Slices/layoutSlice";
-import { cloneDeep } from "lodash";
-import { originalImage } from "../services/general.service";
-import { PlusOutlined } from "@ant-design/icons";
+} from '../redux/Slices/LayoutSlice';
+import { cloneDeep } from 'lodash';
+import { originalImage } from '../services/general.service';
+import { PlusOutlined } from '@ant-design/icons';
 
 const getSrcFromFile = (file: any) => {
   return new Promise((resolve) => {
@@ -27,7 +32,15 @@ const getSrcFromFile = (file: any) => {
   });
 };
 
-const ImageUploadCloud: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles, multiple, listImages, status, feature, isCropImg }) => {
+const ImageUploadCloud: React.FC<IImageUpload> = ({
+  styleClassName,
+  maxNumberOfFiles,
+  multiple,
+  listImages,
+  status,
+  feature,
+  isCropImg,
+}) => {
   // const { listImages } = useSelector((state: any) => state.product);
   const dispatch = useDispatch();
 
@@ -46,49 +59,49 @@ const ImageUploadCloud: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfF
 
   const onRemove = (file: any) => {
     if (feature) {
-      dispatch(SetCurrentLayoutState(feature));
+      // dispatch(SetCurrentLayoutState(feature));
       dispatch(removeFileLayout(file.uid));
     }
-    dispatch(removeFileImgToCloud(file.uid));
+    // dispatch(removeFileImgToCloud(file.uid));
   };
 
   const uploadImage = async (options: any) => {
     const { onSuccess, onError, file } = options;
     try {
       const fmData = new FormData();
-      fmData.append("image_product", file);
+      fmData.append('image_product', file);
       if (feature) {
-        dispatch(SetCurrentLayoutState(feature));
+        // dispatch(SetCurrentLayoutState(feature));
         const resLayout = await dispatch(uploadFileLayout(fmData));
         if (resLayout.payload.code === 200) {
-          dispatch(setImageTempLayout({ name: "imgLayout", data: resLayout.payload.data }));
+          dispatch(setImageTempLayout({ name: 'imgLayout', data: resLayout.payload.data }));
         }
       } else {
-        const resProduct = await dispatch(uploadFileImgToCloud(fmData));
-        if (resProduct.payload.code === 200) {
-          dispatch(setImageTempProduct({ name: "imgProducts", data: resProduct.payload.data }));
-        }
+        // const resProduct = await dispatch(uploadFileImgToCloud(fmData));
+        // if (resProduct.payload.code === 200) {
+        //   // dispatch(setImageTempProduct({ name: 'imgProducts', data: resProduct.payload.data }));
+        // }
       }
-      onSuccess("Ok");
+      onSuccess('Ok');
     } catch (err) {
-      message.error("Upload failed");
+      message.error('Upload failed');
       onError({ err });
     }
   };
 
   const beforeUpload = (file: any) => {
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isJpgOrPng) {
-      message.error("Bạn chỉ có thể upload file JPG/PNG.");
+      message.error('Bạn chỉ có thể upload file JPG/PNG.');
     } else if (!isLt2M) {
-      message.error("Kích thước ảnh không quá 2MB.");
+      message.error('Kích thước ảnh không quá 2MB.');
     }
     return isJpgOrPng && isLt2M;
   };
 
   const onUploadFail = (err: any) => {
-    console.log("err: ", err);
+    console.log('err: ', err);
   };
 
   return (

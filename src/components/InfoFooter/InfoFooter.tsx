@@ -1,9 +1,9 @@
-import React from "react";
-import { Button, Form, Input, Space } from "antd";
-import { originalContentFooter } from "../services/general.service";
-import { cloneDeep } from "lodash";
-import { useDispatch, useSelector } from "react-redux";
-import { getContentFooter, updateContentFooter } from "../redux/Slices/FooterSlice";
+import React from 'react';
+import { Button, Form, Input, Space } from 'antd';
+import { originalContentFooter } from '../services/general.service';
+import { cloneDeep } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContentFooter, updateContentFooter } from '../redux/Slices/FooterSlice';
 
 const InfoFooter: React.FC<any> = () => {
   const { dataUpdate } = useSelector((state: any) => state.footer);
@@ -13,19 +13,19 @@ const InfoFooter: React.FC<any> = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(getContentFooter({ role: "user" }));
+    dispatch(getContentFooter({ role: 'user' }));
   }, []);
 
   const onFinish = async (data: any) => {
-    console.log("data", data);
+    console.log('data', data);
     const bodyContentFooter = cloneDeep(originalContentFooter);
-    bodyContentFooter.action = "update";
+    bodyContentFooter.action = 'update';
     bodyContentFooter.data = {
-      addrshop: data.addrshop || "",
-      email: data.email || "",
-      fblink: data.fblink || "",
-      hotline: data.hotline || "",
-      zalolink: data.zalolink || "",
+      addrshop: data.addrshop || '',
+      email: data.email || '',
+      fblink: data.fblink || '',
+      hotline: data.hotline || '',
+      zalolink: data.zalolink || '',
     };
     setLoading(true);
     await dispatch(updateContentFooter(bodyContentFooter));
@@ -42,7 +42,7 @@ const InfoFooter: React.FC<any> = () => {
                 <div className="form-group">
                   <Form.Item
                     name="addrshop"
-                    initialValue={dataUpdate[0] ? dataUpdate[0].addrshop : ""}
+                    initialValue={dataUpdate[0] ? dataUpdate[0].addrshop : ''}
                   >
                     <Input addonBefore="Địa chỉ" maxLength={500} showCount />
                   </Form.Item>
@@ -50,25 +50,25 @@ const InfoFooter: React.FC<any> = () => {
                 <div className="form-group">
                   <Form.Item
                     name="hotline"
-                    initialValue={dataUpdate[0] ? dataUpdate[0].hotline : ""}
+                    initialValue={dataUpdate[0] ? dataUpdate[0].hotline : ''}
                   >
                     <Input addonBefore="Hotline" maxLength={500} showCount />
                   </Form.Item>
                 </div>
                 <div className="form-group">
-                  <Form.Item name="email" initialValue={dataUpdate[0] ? dataUpdate[0].email : ""}>
+                  <Form.Item name="email" initialValue={dataUpdate[0] ? dataUpdate[0].email : ''}>
                     <Input addonBefore="Email" maxLength={500} showCount />
                   </Form.Item>
                 </div>
                 <div className="form-group">
-                  <Form.Item name="fblink" initialValue={dataUpdate[0] ? dataUpdate[0].fblink : ""}>
+                  <Form.Item name="fblink" initialValue={dataUpdate[0] ? dataUpdate[0].fblink : ''}>
                     <Input addonBefore="Link FB" maxLength={500} showCount />
                   </Form.Item>
                 </div>
                 <div className="form-group">
                   <Form.Item
                     name="zalolink"
-                    initialValue={dataUpdate[0] ? dataUpdate[0].zalolink : ""}
+                    initialValue={dataUpdate[0] ? dataUpdate[0].zalolink : ''}
                   >
                     <Input addonBefore="Link Zalo" maxLength={500} showCount />
                   </Form.Item>
@@ -76,7 +76,7 @@ const InfoFooter: React.FC<any> = () => {
               </div>
               <div className="ps-form__bottom">
                 <Form.Item>
-                  <Space style={{ width: "100%", justifyContent: "flex-end" }}>
+                  <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
                     <Button type="primary" htmlType="submit" loading={loading}>
                       Submit
                     </Button>

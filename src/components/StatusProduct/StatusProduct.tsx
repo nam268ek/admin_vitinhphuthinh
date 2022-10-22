@@ -1,20 +1,19 @@
-import React from "react";
-import { Cascader, Form, Select } from "antd";
+import React from 'react';
+import { Cascader, Form, Select } from 'antd';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store/store';
 
-interface IProps {
-  list: any;
-  defaultValue?: any;
-}
+export const TreeCategory: React.FC = () => {
+  const { categories } = useSelector((state: RootState) => state.category);
 
-const StatusProduct: React.FC<IProps> = ({ list: listAllCategory, defaultValue }) => {
   const handleListCascader = () => {
-    return listAllCategory.map((item: any) => {
+    return categories.map((item: any) => {
       if (item.submenu.length > 0) {
         return {
           value: item.title,
           label: item.title,
-          children: item.submenu?.map((item: any) => {
-            return { value: item.title, label: item.title };
+          children: item.submenu?.map((o: any) => {
+            return { value: o.title, label: o.title };
           }),
         };
       }
@@ -29,14 +28,11 @@ const StatusProduct: React.FC<IProps> = ({ list: listAllCategory, defaultValue }
     <div className="form-group__content">
       <Form.Item
         name="category"
-        initialValue={defaultValue}
-        style={{ width: "100%" }}
-        rules={[{ required: true, message: "Vui lòng chọn danh mục" }]}
+        style={{ width: '100%' }}
+        rules={[{ required: true, message: 'Vui lòng chọn danh mục' }]}
       >
         <Cascader placeholder="Chọn danh mục" options={handleListCascader()} />
       </Form.Item>
     </div>
   );
 };
-
-export default StatusProduct;

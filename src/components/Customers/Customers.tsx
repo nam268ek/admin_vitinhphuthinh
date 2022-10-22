@@ -1,56 +1,51 @@
-import React from "react";
-import { IoSearchOutline } from "react-icons/io5";
-import { FiFilter } from "react-icons/fi";
-import { FaPlusCircle } from "react-icons/fa";
-import { Table, Tag, Space } from "antd";
-import moment from "moment";
-import { MdDeleteForever, MdModeEdit } from "react-icons/md";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { IoSearchOutline } from 'react-icons/io5';
+import { FiFilter } from 'react-icons/fi';
+import { FaPlusCircle } from 'react-icons/fa';
+import { Table, Tag, Space } from 'antd';
+import moment from 'moment';
+import { MdDeleteForever, MdModeEdit } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 const Customers: React.FC = () => {
   const columns = [
     {
-      title: "ID",
-      dataIndex: "key",
-      key: "key",
+      title: 'ID',
+      dataIndex: 'key',
+      key: 'key',
       render: (text: string) => <span>{text}</span>,
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
       render: (text: string) => <span className="name-product">{text}</span>,
     },
     {
-      title: "SKU",
-      dataIndex: "sku",
-      key: "sku",
+      title: 'SKU',
+      dataIndex: 'sku',
+      key: 'sku',
     },
     {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
       render: (text: string) => <span className="price-product">{text}</span>,
     },
     {
-      title: "Category",
-      dataIndex: "category",
-      key: "category",
+      title: 'Category',
+      dataIndex: 'category',
+      key: 'category',
     },
     {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
+      title: 'Tags',
+      key: 'tags',
+      dataIndex: 'tags',
       render: (tags: any[]) => (
         <>
           {tags.map((tag) => {
-            let color =
-              tag === "Kích hoạt"
-                ? "green"
-                : tag === "Tồn kho"
-                ? "cyan"
-                : "red";
-            if (tag === "loser") {
-              color = "volcano";
+            let color = tag === 'Kích hoạt' ? 'green' : tag === 'Tồn kho' ? 'cyan' : 'red';
+            if (tag === 'loser') {
+              color = 'volcano';
             }
             return (
               <Tag color={color} key={tag}>
@@ -62,16 +57,14 @@ const Customers: React.FC = () => {
       ),
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-      render: (date: any) => (
-        <span>{moment(date).format("DD/MM/YYYY").toString()}</span>
-      ),
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
+      render: (date: any) => <span>{moment(date).format('DD/MM/YYYY').toString()}</span>,
     },
     {
-      title: "Action",
-      key: "action",
+      title: 'Action',
+      key: 'action',
       render: (text: string, record: any) => (
         <Space size="middle">
           <Link to="" className="edit-item">
@@ -87,152 +80,152 @@ const Customers: React.FC = () => {
 
   const data = [
     {
-      key: "1",
-      name: "Laptop Dell Inspiron 15 7000 Gaming Laptop",
-      sku: "AB123456789-1",
-      price: "10.000.000 ₫",
-      category: "Laptop DELL",
+      key: '1',
+      name: 'Laptop Dell Inspiron 15 7000 Gaming Laptop',
+      sku: 'AB123456789-1',
+      price: '10.000.000 ₫',
+      category: 'Laptop DELL',
       date: new Date(),
-      tags: ["Kích hoạt", "Tồn kho"],
+      tags: ['Kích hoạt', 'Tồn kho'],
     },
     {
-      key: "2",
-      name: "Jim Green",
+      key: '2',
+      name: 'Jim Green',
       sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
+      price: '$1,121.00',
+      category: 'Electronics',
+      address: 'London No. 1 Lake Park',
       date: new Date(),
 
-      tags: ["loser"],
+      tags: ['loser'],
     },
     {
-      key: "3",
-      name: "Joe Black",
+      key: '3',
+      name: 'Joe Black',
       sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
+      price: '$1,121.00',
+      category: 'Electronics',
+      address: 'Sidney No. 1 Lake Park',
       date: new Date(),
 
-      tags: ["cool", "teacher"],
+      tags: ['cool', 'teacher'],
     },
     {
-      key: "4",
-      name: "John Brown",
+      key: '4',
+      name: 'John Brown',
       sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
+      price: '$1,121.00',
+      category: 'Electronics',
+      address: 'New York No. 1 Lake Park',
       date: new Date(),
-      tags: ["active", "Tồn kho"],
+      tags: ['active', 'Tồn kho'],
     },
     {
-      key: "5",
-      name: "Jim Green",
+      key: '5',
+      name: 'Jim Green',
       sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
+      price: '$1,121.00',
+      category: 'Electronics',
+      address: 'London No. 1 Lake Park',
       date: new Date(),
 
-      tags: ["loser"],
+      tags: ['loser'],
     },
     {
-      key: "6",
-      name: "Joe Black",
+      key: '6',
+      name: 'Joe Black',
       sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
+      price: '$1,121.00',
+      category: 'Electronics',
+      address: 'Sidney No. 1 Lake Park',
       date: new Date(),
 
-      tags: ["cool", "teacher"],
+      tags: ['cool', 'teacher'],
     },
     {
-      key: "7",
-      name: "John Brown",
+      key: '7',
+      name: 'John Brown',
       sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
+      price: '$1,121.00',
+      category: 'Electronics',
+      address: 'New York No. 1 Lake Park',
       date: new Date(),
-      tags: ["active", "Tồn kho"],
+      tags: ['active', 'Tồn kho'],
     },
     {
-      key: "8",
-      name: "Jim Green",
+      key: '8',
+      name: 'Jim Green',
       sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
+      price: '$1,121.00',
+      category: 'Electronics',
+      address: 'London No. 1 Lake Park',
       date: new Date(),
 
-      tags: ["loser"],
+      tags: ['loser'],
     },
     {
-      key: "9",
-      name: "Joe Black",
+      key: '9',
+      name: 'Joe Black',
       sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
+      price: '$1,121.00',
+      category: 'Electronics',
+      address: 'Sidney No. 1 Lake Park',
       date: new Date(),
 
-      tags: ["cool", "teacher"],
+      tags: ['cool', 'teacher'],
     },
     {
-      key: "10",
-      name: "John Brown",
+      key: '10',
+      name: 'John Brown',
       sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
+      price: '$1,121.00',
+      category: 'Electronics',
+      address: 'New York No. 1 Lake Park',
       date: new Date(),
-      tags: ["active", "Tồn kho"],
+      tags: ['active', 'Tồn kho'],
     },
     {
-      key: "11",
-      name: "Jim Green",
+      key: '11',
+      name: 'Jim Green',
       sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
+      price: '$1,121.00',
+      category: 'Electronics',
+      address: 'London No. 1 Lake Park',
       date: new Date(),
 
-      tags: ["loser"],
+      tags: ['loser'],
     },
     {
-      key: "12",
-      name: "Joe Black",
+      key: '12',
+      name: 'Joe Black',
       sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "Sidney No. 1 Lake Park",
+      price: '$1,121.00',
+      category: 'Electronics',
+      address: 'Sidney No. 1 Lake Park',
       date: new Date(),
 
-      tags: ["cool", "teacher"],
+      tags: ['cool', 'teacher'],
     },
     {
-      key: "13",
-      name: "John Brown",
+      key: '13',
+      name: 'John Brown',
       sku: 32,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "New York No. 1 Lake Park",
+      price: '$1,121.00',
+      category: 'Electronics',
+      address: 'New York No. 1 Lake Park',
       date: new Date(),
-      tags: ["active", "Tồn kho"],
+      tags: ['active', 'Tồn kho'],
     },
     {
-      key: "14",
-      name: "Jim Green",
+      key: '14',
+      name: 'Jim Green',
       sku: 42,
-      price: "$1,121.00",
-      category: "Electronics",
-      address: "London No. 1 Lake Park",
+      price: '$1,121.00',
+      category: 'Electronics',
+      address: 'London No. 1 Lake Park',
       date: new Date(),
 
-      tags: ["loser"],
+      tags: ['loser'],
     },
   ];
   return (
@@ -250,7 +243,7 @@ const Customers: React.FC = () => {
             <span>Thêm khách hàng</span>
           </Link>
         </div>
-        <div className="ps-section__header">
+        {/* <div className="ps-section__header">
           <div className="ps-section__filter">
             <form className="ps-form--filter" action="index.html" method="get">
               <div className="ps-form__left">
@@ -275,9 +268,7 @@ const Customers: React.FC = () => {
                           id="rc_select_0"
                         />
                       </span>
-                      <span className="ant-select-selection-placeholder">
-                        Select Category
-                      </span>
+                      <span className="ant-select-selection-placeholder">Select Category</span>
                     </div>
                     <span
                       className="ant-select-arrow"
@@ -326,9 +317,7 @@ const Customers: React.FC = () => {
                           id="rc_select_1"
                         />
                       </span>
-                      <span className="ant-select-selection-placeholder">
-                        Select Category
-                      </span>
+                      <span className="ant-select-selection-placeholder">Select Category</span>
                     </div>
                     <span
                       className="ant-select-arrow"
@@ -377,9 +366,7 @@ const Customers: React.FC = () => {
                           id="rc_select_2"
                         />
                       </span>
-                      <span className="ant-select-selection-placeholder">
-                        Status
-                      </span>
+                      <span className="ant-select-selection-placeholder">Status</span>
                     </div>
                     <span
                       className="ant-select-arrow"
@@ -417,22 +404,14 @@ const Customers: React.FC = () => {
             </form>
           </div>
           <div className="ps-section__search">
-            <form
-              className="ps-form--search-simple"
-              action="index.html"
-              method="get"
-            >
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search product"
-              />
+            <form className="ps-form--search-simple" action="index.html" method="get">
+              <input type="text" className="form-control" placeholder="Search product" />
               <button>
                 <IoSearchOutline />
               </button>
             </form>
           </div>
-        </div>
+        </div> */}
         <div className="ps-section__content">
           <div className="table-responsive">
             <Table columns={columns} dataSource={data} />

@@ -1,29 +1,30 @@
-import React from "react";
-import { FiDatabase, FiUsers } from "react-icons/fi";
-import { AiOutlineHome, AiOutlineLayout } from "react-icons/ai";
-import { BsBagCheck } from "react-icons/bs";
-import { BiCategoryAlt } from "react-icons/bi";
-import { IoSettingsOutline } from "react-icons/io5";
-import { ImExit } from "react-icons/im";
-import { Link, NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { resetProcessImg } from "../redux/Slices/productSlice";
-import { formatMoney } from "../services/general.service";
-import { setLogout } from "../redux/Slices/LoginSlice";
+import React from 'react';
+import { AiOutlineLayout } from 'react-icons/ai';
+import { BiCategoryAlt } from 'react-icons/bi';
+import { BsBagCheck } from 'react-icons/bs';
+import { FiDatabase } from 'react-icons/fi';
+import { ImExit } from 'react-icons/im';
+import { IoSettingsOutline } from 'react-icons/io5';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, NavLink } from 'react-router-dom';
+import { logout } from '../redux/Slices/AuthSlice';
+// import { resetProcessImg } from '../redux/Slices/ProductSlice';
+import { formatMoney } from '../services/general.service';
 
-const NavBarMenu: React.FC = () => {
+export const NavBarMenu: React.FC = () => {
   const dispatch = useDispatch();
-  const handleProcessImg = () => {
-    dispatch(resetProcessImg());
-  };
-  const { listAllProducts } = useSelector((state: any) => state.product);
-  const sumPrice = listAllProducts.reduce((a: any, b: any) => {
-    return a + b.price;
-  }, 0) || 0;
+  // const handleProcessImg = () => {
+  //   dispatch(resetProcessImg());
+  // };
+  // const { listAllProducts } = useSelector((state: any) => state.product);
+  const sumPrice = 0;
+  //   listAllProducts.reduce((a: any, b: any) => {
+  //     return a + b.price;
+  //   }, 0) || 0;
 
   const handleLogout = () => {
-    dispatch(setLogout());
-  }
+    dispatch(logout());
+  };
 
   return (
     <div className="ps-main__sidebar">
@@ -35,11 +36,14 @@ const NavBarMenu: React.FC = () => {
             </div>
             <div className="ps-block__right">
               <p>
-                Xin chào,<Link id="nameshop" to="">Vi Tính Phú Thịnh</Link>
+                Xin chào,
+                <Link id="nameshop" to="">
+                  Vi Tính Phú Thịnh
+                </Link>
               </p>
             </div>
             <div className="ps-block__action">
-              <Link id='logout' to="" onClick={handleLogout}>
+              <Link id="logout" to="" onClick={handleLogout}>
                 <ImExit />
               </Link>
             </div>
@@ -59,13 +63,20 @@ const NavBarMenu: React.FC = () => {
                 </NavLink>
               </li> */}
               <li className="">
-                <NavLink to="/products" className={({ isActive }) => (isActive ? "active-link" : "navlink")} onClick={handleProcessImg}>
+                <NavLink
+                  to="/products"
+                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
+                  // onClick={handleProcessImg}
+                >
                   <FiDatabase />
                   <span>Sản phẩm</span>
                 </NavLink>
               </li>
               <li className="">
-                <NavLink to="/orders" className={({ isActive }) => (isActive ? "active-link" : "navlink")}>
+                <NavLink
+                  to="/orders"
+                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
+                >
                   <BsBagCheck />
                   <span>Đơn hàng</span>
                 </NavLink>
@@ -80,13 +91,19 @@ const NavBarMenu: React.FC = () => {
                 </NavLink>
               </li> */}
               <li className="">
-                <NavLink to="/categories" className={({ isActive }) => (isActive ? "active-link" : "navlink")}>
+                <NavLink
+                  to="/categories"
+                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
+                >
                   <BiCategoryAlt />
                   <span>Danh mục</span>
                 </NavLink>
               </li>
               <li className="">
-                <NavLink to="/layout" className={({ isActive }) => (isActive ? "active-link" : "navlink")}>
+                <NavLink
+                  to="/layout"
+                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
+                >
                   <AiOutlineLayout />
                   <span>Hình ảnh</span>
                 </NavLink>
@@ -98,7 +115,10 @@ const NavBarMenu: React.FC = () => {
                 </NavLink>
               </li> */}
               <li className="">
-                <NavLink to="/settings" className={({ isActive }) => (isActive ? "active-link" : "navlink")}>
+                <NavLink
+                  to="/settings"
+                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
+                >
                   <IoSettingsOutline />
                   <span>Settings</span>
                 </NavLink>
@@ -110,4 +130,3 @@ const NavBarMenu: React.FC = () => {
     </div>
   );
 };
-export default NavBarMenu;

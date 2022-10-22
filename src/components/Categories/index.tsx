@@ -1,13 +1,8 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { CreateCategory } from "./Component/CreateCategory";
-import { TableListCategory } from "./Component/TableListCategory";
-import { ICategories } from "./interfaces/categories.interface";
+import React from 'react';
+import { CreateCategory } from './Component/CreateCategory';
+import { TableListCategory } from './Component/TableListCategory';
 
 const Categories: React.FC = () => {
-  const [itemEdit, setItemEdit] = React.useState<ICategories[]>([]);
-  const { listAllCategory } = useSelector((state: any) => state.category);
-
   return (
     <div id="category" className="ps-main__wrapper">
       <div className="header--dashboard">
@@ -17,8 +12,8 @@ const Categories: React.FC = () => {
         </div>
       </div>
       <section className="ps-items-listing">
-        <CreateCategory itemEdit={itemEdit} />
-        <TableListCategory setItemEdit={setItemEdit} categories={listAllCategory} />
+        <CreateCategory />
+        <TableListCategory />
       </section>
     </div>
   );

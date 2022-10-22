@@ -1,96 +1,79 @@
-import { message as messageAntd } from "antd";
-import { DURATION_TIMEOUT_SECONDS } from "../../constants/const";
+import { message as messageAntd } from 'antd';
+import { DURATION_TIMEOUT_SECONDS } from '../../constants/const';
+import { IAuth, IBodyCreateProduct } from '../../types/types';
 
-export const originalRegister: any = {
-  email: "",
-  password: "",
-  avatar: "",
+//body api
+export const originalRegister: IAuth = {
+  email: '',
+  password: '',
+  image: '',
 };
 
-export const originalLogin: any = {
-  email: "",
-  password: "",
+export const originalLogin: IAuth = {
+  email: '',
+  password: '',
 };
 
-export const bodyCreateProduct: any = {
-  category: "",
-  brand: "",
-  name: "",
+export const bodyCreateProduct: IBodyCreateProduct = {
+  category: '',
+  brand: '',
+  name: '',
   price: 0,
   images: [],
   tags: [],
-  description: "",
+  description: '',
   status: false,
   isNewProduct: false,
-  sku: "",
+  sku: '',
   specs: [],
   productInformation: {
     images: [],
-    content: "",
-  },
-};
-
-export const originalCategory: any = {
-  role: "admin",
-  action: "",
-  data: {
-    title: "",
-    icon: "",
-    index: "",
-    link: "",
-    submenuTitle: "",
-    submenu: [
-      {
-        id: "",
-        title: "",
-        category: "",
-      },
-    ],
+    content: '',
   },
 };
 
 export const originalOrder: any = {
-  role: "admin",
-  action: "",
+  role: 'admin',
+  action: '',
   data: {
-    stord: "",
-    orderid: "",
+    stord: '',
+    orderid: '',
     customer: {
-      name: "",
-      phone: "",
-      email: "",
-      address: "",
-      note: "",
+      name: '',
+      phone: '',
+      email: '',
+      address: '',
+      note: '',
     },
     priord: {
       subtotal: 0,
       discount: 0,
       feeship: 0,
       total: 0,
-      note: "",
-      payment: "",
+      note: '',
+      payment: '',
     },
     listprod: [],
   },
 };
 
 export const originalImage: any = {
-  role: "admin",
-  action: "",
+  role: 'admin',
+  action: '',
   data: {},
 };
 
 export const originalListDropDown: any = {
-  role: "admin",
-  action: "",
+  role: 'admin',
+  action: '',
   data: {
-    "list-brand": [],
+    'list-brand': [],
   },
 };
 
 export const originalListImgLayout: any = {
-  role: "admin",
-  action: "",
+  role: 'admin',
+  action: '',
   data: {
     layout: {
       b1: [],
@@ -103,44 +86,32 @@ export const originalListImgLayout: any = {
 };
 
 export const originalContentFooter: any = {
-  role: "admin",
-  action: "",
+  role: 'admin',
+  action: '',
   data: {
-    addrshop: "",
-    email: "",
-    fblink: "",
-    hotline: "",
-    zalolink: "",
+    addrshop: '',
+    email: '',
+    fblink: '',
+    hotline: '',
+    zalolink: '',
   },
 };
 
 export const originalContentFooterEditor: any = {
-  role: "admin",
-  action: "",
+  role: 'admin',
+  action: '',
   data: {
-    polship: "",
-    polreturn: "",
-    polwan: "",
-    polinsta: "",
-    polquality: "",
-    poluse: "",
-    polbuy: "",
-    polprot: "",
+    polship: '',
+    polreturn: '',
+    polwan: '',
+    polinsta: '',
+    polquality: '',
+    poluse: '',
+    polbuy: '',
+    polprot: '',
   },
 };
-
-export const convertListCategory = (list: any[]) => {
-  return list.map((item: any, index: number) => {
-    return {
-      id: item._id,
-      key: index,
-      index: item.index,
-      category: item.title,
-      link: item.link,
-      createdAt: item.createdAt ? item.createdAt : "",
-    };
-  });
-};
+//end body api
 
 export const openMessage = (action: any, isSuccess?: boolean) => {
   if (action.payload) {
@@ -149,7 +120,7 @@ export const openMessage = (action: any, isSuccess?: boolean) => {
       messageAntd.success({ content: message, duration: DURATION_TIMEOUT_SECONDS });
       return;
     }
-    if (typeof message === "string") {
+    if (typeof message === 'string') {
       messageAntd.error({ content: message, duration: DURATION_TIMEOUT_SECONDS });
       return;
     }
@@ -161,9 +132,18 @@ export const openMessage = (action: any, isSuccess?: boolean) => {
   messageAntd.error({ content: action.error.message, duration: DURATION_TIMEOUT_SECONDS });
 };
 
-export const formatMoney = new Intl.NumberFormat("vi-VN", {
-  style: "currency",
-  currency: "VND",
+export const formatMoney = new Intl.NumberFormat('vi-VN', {
+  style: 'currency',
+  currency: 'VND',
 });
 
-export let previousData: any = [];
+export const convertListDropdown = (list: any[]) => {
+  return (
+    list.map((item: any) => {
+      return {
+        label: item.name,
+        value: item.id,
+      };
+    }) || []
+  );
+};

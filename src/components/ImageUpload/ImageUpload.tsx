@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Form, message, Upload } from "antd";
-import ImgCrop from "antd-img-crop";
-import { IImageUpload } from "../../types/types";
-import { Controller, useForm } from "react-hook-form";
-import APIClientService from "../../api";
-import { updateListImages } from "../redux/Slices/productSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { updateListImageRemoveLayout, updateListImagesLayout } from "../redux/Slices/layoutSlice";
+/* eslint-disable @typescript-eslint/no-shadow */
+import React, { useEffect, useState } from 'react';
+import { Form, message, Upload } from 'antd';
+import ImgCrop from 'antd-img-crop';
+import { IImageUpload } from '../../types/types';
+import { Controller, useForm } from 'react-hook-form';
+import { requestService } from '../../api';
+// import { updateListImages } from '../redux/Slices/ProductSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateListImageRemoveLayout, updateListImagesLayout } from '../redux/Slices/LayoutSlice';
 
 const getSrcFromFile = (file: any) => {
   return new Promise((resolve) => {
@@ -16,22 +17,33 @@ const getSrcFromFile = (file: any) => {
   });
 };
 
-const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles, multiple, listFileUpdate, status, feature }) => {
+const ImageUpload: React.FC<IImageUpload> = ({
+  styleClassName,
+  maxNumberOfFiles,
+  multiple,
+  listFileUpdate,
+  status,
+  feature,
+}) => {
   const { control } = useForm<any>();
   const [fileList, setFileList] = useState<any>(() => {
-    if (status === "update") {
+    if (status === 'update') {
       if (listFileUpdate.length > 0) {
         const data = listFileUpdate.map((item: any) => {
           return {
             uid: item.public_id,
             name: item.name,
-            status: "done",
+            status: 'done',
             url: item.secure_url,
           };
         });
         return data;
-      } else return [];
-    } else return [];
+      } else {
+        return [];
+      }
+    } else {
+      return [];
+    }
   });
   const [listPath, setListPath] = useState<any>([]);
   const [isValid, setIsValid] = useState<boolean>(false);
@@ -74,28 +86,28 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
   };
 
   const onRemove = (file: any) => {
-    if (file.hasOwnProperty("uidFile")) {
-      for (let item of listPath) {
+    if (file.hasOwnProperty('uidFile')) {
+      for (const item of listPath) {
         if (item.uid === file.uid) {
           const newListPath = listPath.filter((item: any) => item.uidFile !== file.uidFile);
           setListPath(newListPath);
         }
       }
-      for (let item of fileList) {
+      for (const item of fileList) {
         if (item.uid === file.uid) {
           const newFileList = fileList.filter((item: any) => item.uidFile !== file.uidFile);
           setFileList(newFileList);
         }
       }
     }
-    if (file.hasOwnProperty("uid")) {
-      for (let item of listPath) {
+    if (file.hasOwnProperty('uid')) {
+      for (const item of listPath) {
         if (item.uid === file.uid) {
           const newListPath = listPath.filter((item: any) => item.uid !== file.uid);
           setListPath(newListPath);
         }
       }
-      for (let item of fileList) {
+      for (const item of fileList) {
         if (item.uid === file.uid) {
           const newFileList = fileList.filter((item: any) => item.uid !== file.uid);
           setFileList(newFileList);
@@ -113,9 +125,9 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
     const { onSuccess, onError, file } = options;
     try {
       const fmData = new FormData();
-      fmData.append("img", file);
+      fmData.append('img', file);
       console.log(file);
-      const result: any = await APIClientService.uploadFile(fmData);
+      const result: any = await requestService.uploadFile(fmData);
       if (result.code === 200) {
         const resImg = {
           uidFile: file.uid,
@@ -126,42 +138,44 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
           path: result.data.path,
         };
         setListPath([...listPath, resImg]);
-        onSuccess("Ok");
+        onSuccess('Ok');
       }
-      console.log("server res: ", result);
+      console.log('server res: ', result);
     } catch (err) {
-      message.error("Upload failed");
-      const error = new Error("Some error");
+      message.error('Upload failed');
+      const error = new Error('Some error');
       onError({ err });
     }
   };
 
   useEffect(() => {
-    dispatch(updateListImages(listPath));
+    // dispatch(updateListImages(listPath));
     if (feature) {
       dispatch(updateListImagesLayout({ listPath, feature }));
     }
   }, [listPath, dispatch, feature]);
 
-  console.log("listPath: ", listPath);
+  console.log('listPath: ', listPath);
 
   const beforeUpload = (file: any) => {
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isJpgOrPng) {
       setIsValid(false);
-      message.error("Bạn chỉ có thể upload JPG/PNG file!");
+      message.error('Bạn chỉ có thể upload JPG/PNG file!');
     } else if (!isLt2M) {
       setIsValid(false);
-      message.error("Kích thước ảnh không quá 2MB!");
-    } else setIsValid(true);
+      message.error('Kích thước ảnh không quá 2MB!');
+    } else {
+      setIsValid(true);
+    }
     return isJpgOrPng && isLt2M;
   };
 
   const onUploadFail = (err: any) => {
-    console.log("err: ", err);
+    console.log('err: ', err);
   };
-  let test = fileList.length < (maxNumberOfFiles || 1) ? true : false;
+  const test = fileList.length < (maxNumberOfFiles || 1) ? true : false;
   console.log(test);
   return (
     <Form.Item name="img">
@@ -176,7 +190,7 @@ const ImageUpload: React.FC<IImageUpload> = ({ styleClassName, maxNumberOfFiles,
           onPreview={onPreview}
           onRemove={onRemove}
         >
-          {fileList.length < (maxNumberOfFiles || 1) && "+ Upload"}
+          {fileList.length < (maxNumberOfFiles || 1) && '+ Upload'}
         </Upload>
       </ImgCrop>
     </Form.Item>

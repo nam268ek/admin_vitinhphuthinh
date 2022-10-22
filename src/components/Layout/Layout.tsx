@@ -1,20 +1,20 @@
-import React from "react";
-import { IoSearchOutline } from "react-icons/io5";
-import { FiFilter } from "react-icons/fi";
-import { FaPlusCircle } from "react-icons/fa";
-import { Table, Tag, Space, Input, Button, Form } from "antd";
-import moment from "moment";
-import { MdDeleteForever, MdModeEdit } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
-import SelectOption from "./../common/SelectOption";
-import ImageUpload from "../ImageUpload/ImageUpload";
-import { useDispatch, useSelector } from "react-redux";
-import { GetDataLayouts, updateListImgLayout } from "../redux/Slices/layoutSlice";
-import { cloneDeep } from "lodash";
-import { originalListImgLayout } from "../services/general.service";
-import { setIsLoading } from "../redux/Slices/PrimarySlice";
-import ImageUploadCloud from "../ImageUpload/ImageUploadCloud";
-import ImageUploadSingle from "../ImageUpload/ImageUploadSingle";
+import React from 'react';
+import { IoSearchOutline } from 'react-icons/io5';
+import { FiFilter } from 'react-icons/fi';
+import { FaPlusCircle } from 'react-icons/fa';
+import { Table, Tag, Space, Input, Button, Form } from 'antd';
+import moment from 'moment';
+import { MdDeleteForever, MdModeEdit } from 'react-icons/md';
+import { Link, useNavigate } from 'react-router-dom';
+import { SelectOption } from './../common/SelectOption';
+import ImageUpload from '../ImageUpload/ImageUpload';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetDataLayouts, updateListImgLayout } from '../redux/Slices/LayoutSlice';
+import { cloneDeep } from 'lodash';
+import { originalListImgLayout } from '../services/general.service';
+// import { setIsLoading } from '../redux/Slices/PrimarySlice';
+import ImageUploadCloud from '../ImageUpload/ImageUploadCloud';
+import ImageUploadSingle from '../ImageUpload/ImageUploadSingle';
 
 const Layout: React.FC = () => {
   const dispatch = useDispatch();
@@ -23,16 +23,16 @@ const Layout: React.FC = () => {
 
   const enterLoading = async (index: any) => {
     const layoutOrigin = cloneDeep(originalListImgLayout);
-    layoutOrigin.action = "RSAKEY03";
+    layoutOrigin.action = 'RSAKEY03';
     layoutOrigin.data.layout = layout;
 
-    dispatch(setIsLoading(true));
-    await dispatch(updateListImgLayout(layoutOrigin));
-    dispatch(setIsLoading(false));
+    // dispatch(setIsLoading(true));
+    // await dispatch(updateListImgLayout(layoutOrigin));
+    // dispatch(setIsLoading(false));
   };
 
   React.useEffect(() => {
-    dispatch(GetDataLayouts({ role: "user" }));
+    // dispatch(GetDataLayouts({ role: 'user' }));
   }, []);
 
   const goBack = () => {
@@ -57,7 +57,8 @@ const Layout: React.FC = () => {
                   <div className="form-group--left">
                     <div className="background-content c-h-1">
                       <label>
-                        Background 1 | <span className="highlight">1200</span>px x <span className="highlight">600</span>px
+                        Background 1 | <span className="highlight">1200</span>px x{' '}
+                        <span className="highlight">600</span>px
                       </label>
                       <div className="form-group--nest">
                         <ImageUploadSingle
@@ -75,7 +76,8 @@ const Layout: React.FC = () => {
                   <div className="form-group--right">
                     <div className="background-content">
                       <label>
-                        Background 2 | <span className="highlight">1200</span>px x <span className="highlight">628</span>px
+                        Background 2 | <span className="highlight">1200</span>px x{' '}
+                        <span className="highlight">628</span>px
                       </label>
                       <div className="form-group--nest">
                         <ImageUploadSingle feature="b2" listImages={layout.b2} />
@@ -83,7 +85,8 @@ const Layout: React.FC = () => {
                     </div>
                     <div className="background-content">
                       <label>
-                        Background 3 | <span className="highlight">1200</span>px x <span className="highlight">628</span>px
+                        Background 3 | <span className="highlight">1200</span>px x{' '}
+                        <span className="highlight">628</span>px
                       </label>
                       <div className="form-group--nest">
                         <ImageUploadSingle feature="b3" listImages={layout.b3} />
@@ -102,10 +105,15 @@ const Layout: React.FC = () => {
                   <div className="form-group--left">
                     <div className="background-content">
                       <label>
-                        Background 1 | <span className="highlight">1200</span>px x <span className="highlight">628</span>px
+                        Background 1 | <span className="highlight">1200</span>px x{' '}
+                        <span className="highlight">628</span>px
                       </label>
                       <div className="form-group--nest">
-                        <ImageUploadSingle styleClassName="upload-image-home" feature="b6" listImages={layout.b6} />
+                        <ImageUploadSingle
+                          styleClassName="upload-image-home"
+                          feature="b6"
+                          listImages={layout.b6}
+                        />
                       </div>
                     </div>
                   </div>
@@ -114,10 +122,15 @@ const Layout: React.FC = () => {
                   <div className="form-group--left">
                     <div className="background-content">
                       <label>
-                        Background 2 | <span className="highlight">1200</span>px x <span className="highlight">628</span>px
+                        Background 2 | <span className="highlight">1200</span>px x{' '}
+                        <span className="highlight">628</span>px
                       </label>
                       <div className="form-group--nest">
-                        <ImageUploadSingle styleClassName="upload-image-home" feature="b7" listImages={layout.b7} />
+                        <ImageUploadSingle
+                          styleClassName="upload-image-home"
+                          feature="b7"
+                          listImages={layout.b7}
+                        />
                       </div>
                     </div>
                   </div>
@@ -126,10 +139,15 @@ const Layout: React.FC = () => {
                   <div className="form-group--right">
                     <div className="background-content">
                       <label>
-                        Background 3 | <span className="highlight">1200</span>px x <span className="highlight">628</span>px
+                        Background 3 | <span className="highlight">1200</span>px x{' '}
+                        <span className="highlight">628</span>px
                       </label>
                       <div className="form-group--nest">
-                        <ImageUploadSingle feature="b8" styleClassName="upload-image-home" listImages={layout.b8} />
+                        <ImageUploadSingle
+                          feature="b8"
+                          styleClassName="upload-image-home"
+                          listImages={layout.b8}
+                        />
                       </div>
                     </div>
                   </div>
@@ -145,10 +163,16 @@ const Layout: React.FC = () => {
                   <div className="form-group--left">
                     <div className="background-content">
                       <label>
-                        Background 1 | <span className="highlight">1090</span>px x <span className="highlight">245</span>px
+                        Background 1 | <span className="highlight">1090</span>px x{' '}
+                        <span className="highlight">245</span>px
                       </label>
                       <div className="form-group--nest">
-                        <ImageUploadSingle styleClassName="upload-image-home" multiple={false} feature="b4" listImages={layout.b4} />
+                        <ImageUploadSingle
+                          styleClassName="upload-image-home"
+                          multiple={false}
+                          feature="b4"
+                          listImages={layout.b4}
+                        />
                       </div>
                     </div>
                   </div>
@@ -157,7 +181,8 @@ const Layout: React.FC = () => {
                   <div className="form-group--right">
                     <div className="background-content">
                       <label>
-                        Background 2 | <span className="highlight">530</span>px x <span className="highlight">245</span>px
+                        Background 2 | <span className="highlight">530</span>px x{' '}
+                        <span className="highlight">245</span>px
                       </label>
                       <div className="form-group--nest">
                         <ImageUploadSingle feature="b5" listImages={layout.b5} />

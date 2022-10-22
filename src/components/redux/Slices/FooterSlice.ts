@@ -1,42 +1,42 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import APIClientService from "../../../api";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { requestService } from '../../../api';
 // import { openDialogError } from "../../services/general.service";
 
 export const updateContentFooter: any = createAsyncThunk(
-  "UPDATE_FOOTER_CONTENT",
+  'UPDATE_FOOTER_CONTENT',
   async (params: any) => {
-    const data: any = await APIClientService.reqFooter(params).catch((err: any) => {
+    const data: any = await requestService.reqFooter(params).catch((err: any) => {
       return err.response.data;
     });
     return data;
-  }
+  },
 );
 
-export const getContentFooter: any = createAsyncThunk("GET_FOOTER_CONTENT", async (params: any) => {
-  const data: any = await APIClientService.reqFooter(params).catch((err: any) => {
+export const getContentFooter: any = createAsyncThunk('GET_FOOTER_CONTENT', async (params: any) => {
+  const data: any = await requestService.reqFooter(params).catch((err: any) => {
     return err.response.data;
   });
   return data;
 });
 
 export const getContentFooterEditor: any = createAsyncThunk(
-  "GET_FOOTER_CONTENT_EDITOR",
+  'GET_FOOTER_CONTENT_EDITOR',
   async (params: any) => {
-    const data: any = await APIClientService.reqFooterEditor(params).catch((err: any) => {
+    const data: any = await requestService.reqFooterEditor(params).catch((err: any) => {
       return err.response.data;
     });
     return data;
-  }
+  },
 );
 
 export const updateContentFooterEditor: any = createAsyncThunk(
-  "UPDATE_FOOTER_CONTENT_EDITOR",
+  'UPDATE_FOOTER_CONTENT_EDITOR',
   async (params: any) => {
-    const data: any = await APIClientService.reqFooterEditor(params).catch((err: any) => {
+    const data: any = await requestService.reqFooterEditor(params).catch((err: any) => {
       return err.response.data;
     });
     return data;
-  }
+  },
 );
 
 const initialState = {
@@ -46,8 +46,8 @@ const initialState = {
   dataUpdatePolicy: [],
 };
 
-const FooterSlice = createSlice({
-  name: "footer",
+const footerSlice = createSlice({
+  name: 'footer',
   initialState,
   reducers: {},
   extraReducers: (builder: any) => {
@@ -81,6 +81,4 @@ const FooterSlice = createSlice({
       });
   },
 });
-const { reducer } = FooterSlice;
-// export const {  } = FooterSlice.actions;
-export default reducer;
+export const footerReducer = footerSlice.reducer;
