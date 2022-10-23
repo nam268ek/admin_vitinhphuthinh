@@ -2,6 +2,7 @@ import { instance } from '../api/AxiosClient';
 import { PayloadLogin } from './interfaces';
 
 export const requestService = {
+  //Product services
   createProductService: (params: any) => {
     const url = '/products';
     return instance.post(url, params);
@@ -18,6 +19,7 @@ export const requestService = {
     const url = '/products';
     return instance.get(url);
   },
+  // Auth services
   updatePassword: (params: any) => {
     const url = '/user/update-pass';
     return instance.put(url, { params });
@@ -30,14 +32,16 @@ export const requestService = {
     const url = '/auths/logout';
     return instance.post(url);
   },
-  reqListImgLayout: (params: any) => {
-    const url = '/layout';
-    return instance.post(url, { params });
-  },
   postRegister: (params: any) => {
     const url = '/register';
     return instance.post(url, { params });
   },
+  //
+  reqListImgLayout: (params: any) => {
+    const url = '/layout';
+    return instance.post(url, { params });
+  },
+  //Category service
   listCategoryService: () => {
     const url = '/categories';
     return instance.get(url);
@@ -50,10 +54,11 @@ export const requestService = {
     const url = '/categories/create';
     return instance.post(url, params);
   },
-  removeProduct: (params: any) => {
-    const url = '/products';
-    return instance.post(url, { params });
+  updateCategoryService: (params: any) => {
+    const url = '/categories/update';
+    return instance.put(url, params);
   },
+  //
   getDropdown: (params: any) => {
     const url = '/list-dropdown';
     return instance.post(url, { params });

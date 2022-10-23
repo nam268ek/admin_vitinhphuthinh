@@ -1,6 +1,5 @@
 /* eslint-disable curly */
 import decodeJwt from 'jwt-decode';
-import { instance } from '../api/AxiosClient';
 import { IToken } from '../types/types';
 
 export const verify = (token: string): boolean => {
@@ -22,30 +21,6 @@ export const getUserToken = async (): Promise<IToken> => {
   return decodeJwt(token);
 };
 
-export const verifyRequestToken = async (): Promise<string | undefined> => {
-  const token = await getRefreshToken();
-  if (token) {
-    const isVerify = await instance.post('auths/verify', { token });
-    if (isVerify.data.exp > Date.now()) {
-      const response = await instance.post(
-        'auths/refresh',
-        { refreshToken: token },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      const { accesstoken, refreshtoken } = response.headers;
-      localStorage.setItem('token', accesstoken);
-      localStorage.setItem('refreshtoken', refreshtoken);
-
-      return accesstoken;
-    }
-  }
-};
-
 export const getToken = async (): Promise<string> => {
   const token = localStorage.getItem('token');
   //No loged in user
@@ -59,7 +34,8 @@ export const getToken = async (): Promise<string> => {
       reject(false);
     }, 5000);
 
-    resolve(token);
+    // eslint-disable-next-line quotes
+    resolve(token.replaceAll(`"`, ''));
     clearTimeout(waitTimer);
   });
 };
@@ -77,7 +53,8 @@ export const getRefreshToken = async (): Promise<string> => {
       reject(false);
     }, 5000);
 
-    resolve(token);
+    // eslint-disable-next-line quotes
+    resolve(token.replaceAll(`"`, ''));
     clearTimeout(waitTimer);
   });
 };

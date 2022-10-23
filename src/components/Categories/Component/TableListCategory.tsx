@@ -4,12 +4,14 @@ import React, { useEffect } from 'react';
 import { MdDeleteForever, MdModeEdit } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { NAME_ACTION } from '../../../constants/const';
 import {
-  addItemSelected,
+  addAction,
   getListCategoryService,
   getRemoveCategoryService,
 } from '../../redux/Slices/CategorySlice';
 import { RootState } from '../../redux/store/store';
+import { openMessage } from '../../services/general.service';
 import { ICategories } from '../interfaces/categories.interface';
 
 export const TableListCategory: React.FC = () => {
@@ -61,14 +63,17 @@ export const TableListCategory: React.FC = () => {
   }, [dispatch]);
 
   const handleRemoveCategory = async (record: any) => {
-    const response = await dispatch(getRemoveCategoryService({ categoryId: record.id })).unwrap();
-    if (response) {
+    try {
+      await dispatch(getRemoveCategoryService({ categoryId: record.id })).unwrap();
       await dispatch(getListCategoryService());
+      openMessage();
+    } catch (error) {
+      openMessage(error);
     }
   };
 
   const handleEditCategory = async (record: any) => {
-    dispatch(addItemSelected(record));
+    dispatch(addAction({ data: record, actionName: NAME_ACTION.UPDATE_CATEGORY }));
   };
 
   const convertDataSource = (list: ICategories[]) => {

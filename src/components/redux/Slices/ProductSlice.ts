@@ -86,10 +86,11 @@ export const getListProductService: any = createAsyncThunk(
 // );
 
 const initialState: IProductState = {
+  action: NAME_ACTION.DEFAULT_PRODUCT,
   isChange: false,
-  products: [],
   loading: false,
-  product: undefined,
+  products: [],
+  itemSelected: [],
 };
 
 const productSlice = createSlice({
@@ -116,6 +117,9 @@ const productSlice = createSlice({
     },
     [getCreateProductService.fulfilled]: (state) => {
       state.loading = false;
+      state.action = NAME_ACTION.DEFAULT_PRODUCT;
+      state.itemSelected = [];
+      state.isChange = false;
     },
     [getCreateProductService.rejected]: (state) => {
       state.loading = false;
@@ -125,6 +129,9 @@ const productSlice = createSlice({
     },
     [getUpdateProductService.fulfilled]: (state) => {
       state.loading = false;
+      state.action = NAME_ACTION.DEFAULT_PRODUCT;
+      state.itemSelected = [];
+      state.isChange = false;
     },
     [getUpdateProductService.rejected]: (state) => {
       state.loading = false;
@@ -134,6 +141,9 @@ const productSlice = createSlice({
     },
     [getDeleteListProductService.fulfilled]: (state) => {
       state.loading = false;
+      state.action = NAME_ACTION.DEFAULT_PRODUCT;
+      state.itemSelected = [];
+      state.isChange = false;
     },
     [getDeleteListProductService.rejected]: (state) => {
       state.loading = false;

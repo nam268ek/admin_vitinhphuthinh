@@ -1,3 +1,5 @@
+import { NAME_ACTION } from '../constants/const';
+
 // header
 export interface INavMenuDataTypes {
   id: number;
@@ -414,8 +416,9 @@ export interface IImageState {
   size: number;
 }
 export interface IProductState {
+  action: NAME_ACTION;
   isChange: boolean;
   products: IProducts[];
   loading: boolean;
-  product: IProducts | undefined;
+  itemSelected: IProducts[] | undefined;
 }

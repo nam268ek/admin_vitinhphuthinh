@@ -14,8 +14,6 @@ const Products: React.FC = () => {
 
   React.useEffect(() => {
     dispatch(getListProductService());
-    // dispatch(getListCategory({ role: "user" }));
-    // dispatch(getListDropdown({ role: 'user' }));
   }, [dispatch]);
 
   return (

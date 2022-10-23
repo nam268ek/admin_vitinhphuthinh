@@ -18,6 +18,20 @@ export const getCreateCategoryService: any = createAsyncThunk(
   },
 );
 
+export const getUpdateCategoryService: any = createAsyncThunk(
+  NAME_ACTION.CREATE_CATEGORY,
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await requestService.updateCategoryService(params);
+      return response;
+    } catch (error: any) {
+      if (error) {
+        return rejectWithValue(error.response.data);
+      }
+    }
+  },
+);
+
 export const getListCategoryService: any = createAsyncThunk(
   NAME_ACTION.GET_CATEGORY,
   async (_, { rejectWithValue }) => {
@@ -47,6 +61,7 @@ export const getRemoveCategoryService: any = createAsyncThunk(
 );
 
 const initialState: IStateCategories = {
+  action: NAME_ACTION.DEFAULT_CATEGORY,
   loading: false,
   categories: [],
   itemSelected: [],
@@ -55,14 +70,13 @@ export const categorySlice = createSlice({
   name: 'category',
   initialState,
   reducers: {
-    addItemSelected: (state, action) => {
-      state.itemSelected.push(action.payload);
+    addAction: (state, action) => {
+      const { data, actionName } = action.payload;
+      state.itemSelected.push(data);
+      state.action = actionName;
     },
-    cleanState: (state: any, action) => {
-      const { list } = action.payload;
-      for (const st of list) {
-        [state][st] = [];
-      }
+    cleanState: (state) => {
+      state.itemSelected = [];
     },
     setLoading: (state, action) => {
       state.loading = action.payload;
@@ -79,11 +93,24 @@ export const categorySlice = createSlice({
     [getListCategoryService.rejected]: (state) => {
       state.loading = false;
     },
+    [getUpdateCategoryService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUpdateCategoryService.fulfilled]: (state) => {
+      state.loading = false;
+      state.itemSelected = [];
+      state.action = NAME_ACTION.DEFAULT_CATEGORY;
+    },
+    [getUpdateCategoryService.rejected]: (state) => {
+      state.loading = false;
+    },
     [getCreateCategoryService.pending]: (state) => {
       state.loading = true;
     },
     [getCreateCategoryService.fulfilled]: (state) => {
       state.loading = false;
+      state.itemSelected = [];
+      state.action = NAME_ACTION.DEFAULT_CATEGORY;
     },
     [getCreateCategoryService.rejected]: (state) => {
       state.loading = false;
@@ -100,4 +127,4 @@ export const categorySlice = createSlice({
   },
 });
 export const categoryReducer = categorySlice.reducer;
-export const { addItemSelected, cleanState, setLoading } = categorySlice.actions;
+export const { addAction, cleanState, setLoading } = categorySlice.actions;

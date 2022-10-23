@@ -1,3 +1,5 @@
+import { NAME_ACTION } from '../../../constants/const';
+
 export interface ICategories {
   id: string;
   name: string;
@@ -9,4 +11,5 @@ export interface IStateCategories {
   loading: boolean;
   itemSelected: ICategories[];
   categories: ICategories[];
+  action: NAME_ACTION;
 }

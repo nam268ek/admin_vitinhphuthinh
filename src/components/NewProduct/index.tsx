@@ -1,8 +1,9 @@
 import { Button, Form, Input, InputNumber, Modal, Space, Empty } from 'antd';
-import { cloneDeep } from 'lodash';
+import { clone, cloneDeep } from 'lodash';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { NAME_ACTION } from '../../constants/const';
 import EditorText from '../common/EditorText';
 import { usePrompt } from '../common/hook/useFrompt';
 import { useQuery } from '../common/hook/useQuery';
@@ -10,6 +11,7 @@ import SelectAddItem from '../common/SelectAddItem';
 import ConfigInfo from '../ConfigInfo/ConfigInfo';
 import ImageUploadCloud from '../ImageUpload/ImageUploadCloud';
 import InfoPrintComponent from '../InfoPrintComponent/InfoPrintComponent';
+import { RootState } from '../redux/store/store';
 // import { getListCategory } from "../redux/Slices/CategorySlice";
 // import { clearImages, getListDropdown, setIsLoading } from '../redux/Slices/PrimarySlice';
 // import { createProduct, updateProduct } from '../redux/Slices/ProductSlice';
@@ -22,7 +24,8 @@ import { FormMeta } from './Component/FormMeta';
 import { FormProductDescription } from './Component/FormProductDescription';
 import { FormProductSpecs } from './Component/FormProductSpecs';
 
-export const NewProduct: React.FC = () => {
+export const NewProduct = () => {
+  const { action } = useSelector((state: RootState) => state.product);
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -35,44 +38,26 @@ export const NewProduct: React.FC = () => {
   const keyNumber: string | null = query.get('key');
   const [createKey, setCreateKey] = React.useState<string>('');
   const [submit, setSubmit] = React.useState<boolean>(false);
-
-  React.useEffect(() => {
-    if (keyNumber) {
-      switch (keyNumber) {
-        case '1':
-        case '2':
-          setCreateKey(keyNumber);
-          break;
-        default:
-          setCreateKey('');
-          break;
-      }
-    }
-  }, [keyNumber]);
-
-  React.useEffect(() => {
-    // dispatch(getListCategory({ role: "user" }));
-    // dispatch(getListDropdown({ role: 'user' }));
-  }, []);
-
-  const onFinish = async (data: any) => {
-    const body = cloneDeep(bodyCreateProduct);
-    for (const key in data) {
-      if (key === 'images' && data[key] === undefined) {
-        data[key] = [];
-      }
-      if (key !== 'images' && data[key] === undefined) {
-        data[key] = '';
-      }
-      // body[key] = data[key];
-    }
+  const handleCreateProduct = (data: any) => {
+    //
+  };
+  const handleUpdateProduct = (data: any) => {
+    //
   };
 
-  React.useEffect(() => {
-    if (!statusChangeForm && submit) {
-      navigate('/products', { replace: true });
+  const onFormFinish = async (data: any) => {
+    const body = cloneDeep(data);
+    switch (action) {
+      case NAME_ACTION.CREATE_PRODUCT:
+        handleCreateProduct(body);
+        break;
+      case NAME_ACTION.UPDATE_PRODUCT:
+        handleUpdateProduct(body);
+        break;
+      default:
+        break;
     }
-  }, [statusChangeForm, submit, navigate]);
+  };
 
   const resetForm = () => {
     setStatusChangeForm(false);
@@ -84,9 +69,7 @@ export const NewProduct: React.FC = () => {
 
     navigate('/products', { replace: true });
   };
-  const onFormFinish = () => {
-    //
-  };
+
   return (
     <>
       {createKey === '' ? (
@@ -94,7 +77,7 @@ export const NewProduct: React.FC = () => {
           <Empty />
         </div>
       ) : (
-        <div>
+        <div id="new-category">
           <Modal
             title="Warring !"
             open={showPrompt}

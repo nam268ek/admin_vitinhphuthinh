@@ -23,6 +23,8 @@ import { history } from './utils/history';
 import { getUserToken, handleAuth } from './utils/verifyToken';
 import { PrivateRoute } from './components/common/PrivateRoute';
 import { Indicator } from './components/Indicator/Indicator';
+import { getListProductService } from './components/redux/Slices/ProductSlice';
+import { getListCategoryService } from './components/redux/Slices/CategorySlice';
 
 export const App: React.FC = () => {
   const { isLogin, user } = useSelector((state: RootState) => state.auth);
@@ -56,6 +58,11 @@ export const App: React.FC = () => {
     return () => eventBus.remove('logout');
   }, [user, logoutAction]);
 
+  useEffect(() => {
+    dispatch(getListProductService());
+    dispatch(getListCategoryService());
+  }, []);
+
   return (
     <div className="App">
       <main>
@@ -70,7 +77,7 @@ export const App: React.FC = () => {
           <Route element={<PrivateRoute />}>
             <Route path="/" element={<Navigate to="/products" />} />
             <Route path="/products" element={<Products />} />
-            <Route path="/products/create" element={<NewProduct />} />
+            <Route path="/products/new" element={<NewProduct />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/orders/create-order" element={<NewOrder />} />
             <Route path="/customers" element={<Customers />} />

@@ -113,23 +113,30 @@ export const originalContentFooterEditor: any = {
 };
 //end body api
 
-export const openMessage = (action: any, isSuccess?: boolean) => {
-  if (action.payload) {
-    const { message } = action.payload;
-    if (isSuccess) {
-      messageAntd.success({ content: message, duration: DURATION_TIMEOUT_SECONDS });
-      return;
-    }
-    if (typeof message === 'string') {
-      messageAntd.error({ content: message, duration: DURATION_TIMEOUT_SECONDS });
-      return;
-    }
-    for (const item of message) {
-      messageAntd.error({ content: item, duration: DURATION_TIMEOUT_SECONDS });
-    }
-    return;
+// export const openMessage = (action: any, isSuccess?: boolean) => {
+//   if (action.payload) {
+//     const { message } = action.payload;
+//     if (isSuccess) {
+//       messageAntd.success({ content: message, duration: DURATION_TIMEOUT_SECONDS });
+//       return;
+//     }
+//     if (typeof message === 'string') {
+//       messageAntd.error({ content: message, duration: DURATION_TIMEOUT_SECONDS });
+//       return;
+//     }
+//     for (const item of message) {
+//       messageAntd.error({ content: item, duration: DURATION_TIMEOUT_SECONDS });
+//     }
+//     return;
+//   }
+//   messageAntd.error({ content: action.error.message, duration: DURATION_TIMEOUT_SECONDS });
+// };
+
+export const openMessage = (data?: any) => {
+  if (data && data.statusCode !== 200) {
+    return messageAntd.error({ content: data.message, duration: DURATION_TIMEOUT_SECONDS });
   }
-  messageAntd.error({ content: action.error.message, duration: DURATION_TIMEOUT_SECONDS });
+  return messageAntd.success({ content: 'Successfully', duration: DURATION_TIMEOUT_SECONDS });
 };
 
 export const formatMoney = new Intl.NumberFormat('vi-VN', {

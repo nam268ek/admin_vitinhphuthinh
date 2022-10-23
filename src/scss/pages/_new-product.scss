@@ -101,7 +101,7 @@
 .row:before,
 .row:after {
   display: table;
-  content: "";
+  content: '';
 }
 .row:after {
   clear: both;
@@ -109,7 +109,7 @@
 .row:before,
 .row:after {
   display: table;
-  content: "";
+  content: '';
 }
 .tbl-info-product tr:nth-of-type(2n + 1) {
   background: #fdfdfd;
@@ -183,4 +183,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+#new-category {
+  .active {
+    border-bottom: 0 !important;
+  }
 }

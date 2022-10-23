@@ -2,7 +2,8 @@ import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Menu, MenuProps } from 'antd';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NAME_ACTION } from '../../../constants/const';
 import { history } from '../../../utils/history';
 // import { setAction } from '../../redux/Slices/PrimarySlice';
 // import { updateProduct } from '../../redux/Slices/ProductSlice';
@@ -14,7 +15,7 @@ export const DropDownNewProduct: React.FC = () => {
   const onClick: MenuProps['onClick'] = ({ key }) => {
     // dispatch(setAction("create"));
     // dispatch(updateProduct([]));
-    history.push(`${location.pathname}/create?key=${key}`);
+    history.push(`${location.pathname}/new`);
   };
 
   const menu = (
@@ -22,11 +23,11 @@ export const DropDownNewProduct: React.FC = () => {
       onClick={onClick}
       items={[
         {
-          label: 'Computer - Laptop',
+          label: <Link to="">Computer - Laptop</Link>,
           key: '1',
         },
         {
-          label: 'Printer',
+          label: <NavLink to={`${location.pathname}/new`}>Printer</NavLink>,
           key: '2',
         },
       ]}

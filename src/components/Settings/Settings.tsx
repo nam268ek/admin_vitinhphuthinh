@@ -35,7 +35,7 @@ const Settings: React.FC = () => {
 
   return (
     <>
-      <div className="ps-main__wrapper">
+      <div id="setting" className="ps-main__wrapper">
         <div className="header--dashboard">
           <div className="header__left">
             <h3>Setting</h3>

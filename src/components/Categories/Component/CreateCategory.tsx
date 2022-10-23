@@ -3,18 +3,19 @@ import { Button, Form, Input, InputNumber, message, Space } from 'antd';
 import { cloneDeep } from 'lodash';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MAX_LENGTH_TEXT } from '../../../constants/const';
+import { MAX_LENGTH_TEXT, NAME_ACTION } from '../../../constants/const';
 import { SelectOptionV2 } from '../../common/SelectOptionV2';
 import {
   cleanState,
   getCreateCategoryService,
   getListCategoryService,
+  getUpdateCategoryService,
 } from '../../redux/Slices/CategorySlice';
 import { RootState } from '../../redux/store/store';
-import { convertListDropdown } from '../../services/general.service';
+import { convertListDropdown, openMessage } from '../../services/general.service';
 
 export const CreateCategory: React.FC = () => {
-  const { itemSelected, categories } = useSelector((state: RootState) => state.category);
+  const { itemSelected, categories, action } = useSelector((state: RootState) => state.category);
   const options = convertListDropdown(categories);
 
   const dispatch = useDispatch();
@@ -27,32 +28,53 @@ export const CreateCategory: React.FC = () => {
     }
   }, [itemSelected, form]);
 
-  const onFinish = async (data: any) => {
-    const isValid = validateSelectedItem(data.parent);
-    if (isValid) {
-      const body = cloneDeep(data);
-      if (!body.parent || body.parent.length === 0) delete body.parent;
-      const response = await dispatch(getCreateCategoryService(body)).unwrap();
+  const handleCreateCategory = async (body: any) => {
+    try {
+      await dispatch(getCreateCategoryService(body)).unwrap();
+      await dispatch(getListCategoryService());
 
-      if (response) {
-        form.resetFields();
-        await dispatch(getListCategoryService());
-      }
-      console.log(body);
+      form.resetFields();
+      openMessage();
+    } catch (error) {
+      openMessage(error);
     }
+  };
+
+  const handleUpdateCategory = async (body: any) => {
+    try {
+      await dispatch(
+        getUpdateCategoryService({ ...body, categoryId: itemSelected[0].id }),
+      ).unwrap();
+      await dispatch(getListCategoryService());
+
+      form.resetFields();
+      openMessage();
+    } catch (error) {
+      openMessage(error);
+    }
+  };
+
+  const onFinish = async (data: any) => {
+    const body = cloneDeep(data);
+    if (!body.parent || body.parent.length === 0) delete body.parent;
+
+    switch (action) {
+      case NAME_ACTION.CREATE_CATEGORY:
+        handleCreateCategory(body);
+        break;
+      case NAME_ACTION.UPDATE_CATEGORY:
+        handleUpdateCategory(body);
+        break;
+      default:
+        break;
+    }
+
+    console.log(body);
   };
 
   const handleCancel = () => {
-    dispatch(cleanState({ list: ['itemSelected'] }));
+    dispatch(cleanState());
     form.resetFields();
-  };
-
-  const validateSelectedItem = (id: string): boolean => {
-    if (itemSelected[0].id === id) {
-      message.error('Select parent not correct');
-      return false;
-    }
-    return true;
   };
 
   return (
