@@ -127,7 +127,7 @@ const ImageUpload: React.FC<IImageUpload> = ({
       const fmData = new FormData();
       fmData.append('img', file);
       console.log(file);
-      const result: any = await requestService.uploadFile(fmData);
+      const result: any = await requestService.uploadFileSingle(fmData);
       if (result.code === 200) {
         const resImg = {
           uidFile: file.uid,

@@ -1,20 +1,18 @@
-import { Form } from 'react-router-dom';
+import { Form } from 'antd';
 import { TreeCategory } from '../../StatusProduct/StatusProduct';
 
-export const FormCategories = () => {
+export const FormCategories: React.FC = () => {
   return (
-    <Form name="categories">
-      <figure className="ps-block--form-box">
-        <figcaption>Category</figcaption>
-        <div className="ps-block__content">
-          <div className="form-group">
-            <label>
-              Danh mục<sup>*</sup>
-            </label>
-            <TreeCategory />
-          </div>
+    <figure className="ps-block--form-box">
+      <figcaption>Category</figcaption>
+      <div className="ps-block__content">
+        <div className="form-group">
+          <label>
+            Danh mục<sup>*</sup>
+          </label>
+          <TreeCategory />
         </div>
-      </figure>
-    </Form>
+      </div>
+    </figure>
   );
 };

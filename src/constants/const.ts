@@ -30,3 +30,10 @@ export enum NAME_ACTION {
   UPDATE_IMAGE = 'UPDATE_IMAGE',
   GET_IMAGE = 'GET_IMAGE',
 }
+export enum KEY_UPLOAD_IMAGE {
+  SLIDESHOW = 'slideshow',
+  IMAGE_MIDDLE = 'image_middle',
+  IMAGE_BOTTOMX1 = 'image_bottomx1',
+  IMAGE_BOTTOMX2 = 'image_bottomx2',
+  IMAGE_PRODUCT = 'image_product',
+}

@@ -1,3 +1,4 @@
+import { UploadFileStatus } from 'antd/es/upload/interface';
 import { NAME_ACTION } from '../constants/const';
 
 // header
@@ -406,19 +407,25 @@ export interface IToken {
   exp: number;
   iat: string;
 }
-export interface IImageState {
+export interface IImage {
   id: string;
   keyId: string;
   name: string;
-  status: string;
+  status: UploadFileStatus;
   url: string;
   thumbUrl: string;
   size: number;
+  updatedAt: string;
 }
 export interface IProductState {
   action: NAME_ACTION;
   isChange: boolean;
   products: IProducts[];
   loading: boolean;
-  itemSelected: IProducts[] | undefined;
+  itemSelected: IProducts[];
+}
+export interface IImageState {
+  loading: boolean;
+  images: IImage[];
+  imageUploaded: IImage[];
 }

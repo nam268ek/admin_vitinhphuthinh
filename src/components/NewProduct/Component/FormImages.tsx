@@ -1,4 +1,5 @@
 import React from 'react';
+import { ImageUploadV2 } from '../../ImageUpload/ImageUploadV2';
 
 export const FormProductImages: React.FC = () => {
   return (
@@ -8,9 +9,7 @@ export const FormProductImages: React.FC = () => {
         <div className="form-group m-0">
           <label>Thumbnail Sản phẩm</label>
           <div className="form-group--nest">
-            {/* <ImageUploadCloud maxNumberOfFiles={3} listImages={listImages} status={action} /> */}
-
-            {/* <ImageUpload maxNumberOfFiles={3} listFileUpdate={dataUpdate[0] ? dataUpdate[0].img : []} status={action} /> */}
+            <ImageUploadV2 />
           </div>
         </div>
       </div>

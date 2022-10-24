@@ -36,10 +36,22 @@ export const requestService = {
     const url = '/register';
     return instance.post(url, { params });
   },
-  //
+  // image services
   reqListImgLayout: (params: any) => {
     const url = '/layout';
     return instance.post(url, { params });
+  },
+  uploadImageService: (formData: any) => {
+    const url = '/images/upload';
+    return instance.post(url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  listImageService: () => {
+    const url = '/image';
+    return instance.get(url);
   },
   //Category service
   listCategoryService: () => {
@@ -91,14 +103,7 @@ export const requestService = {
     const url = '/footer/policy';
     return instance.post(url, { params });
   },
-  uploadFile: (formData: any) => {
-    const url = '/image/product/upload';
-    return instance.post(url, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  },
+
   uploadFileEditor: (formData: any) => {
     const url = '/upload/image/editor';
     return instance.post(url, formData, {

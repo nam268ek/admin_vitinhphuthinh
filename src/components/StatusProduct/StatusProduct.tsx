@@ -2,26 +2,34 @@ import React from 'react';
 import { Cascader, Form, Select } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store/store';
+import { ICategories } from '../Categories/interfaces/categories.interface';
+import { cloneDeep } from 'lodash';
 
 export const TreeCategory: React.FC = () => {
   const { categories } = useSelector((state: RootState) => state.category);
 
   const handleListCascader = () => {
-    return categories.map((item: any) => {
-      if (item.submenu.length > 0) {
-        return {
-          value: item.title,
-          label: item.title,
-          children: item.submenu?.map((o: any) => {
-            return { value: o.title, label: o.title };
-          }),
+    const cascader: any[] = [];
+    checkParent(cascader, categories);
+    return cascader;
+  };
+  const checkParent = (cas: any[], list: any[]) => {
+    for (const category of list) {
+      if (category.parent && category.parent.length > 0) {
+        const temp = {
+          label: category.name,
+          value: category.id,
+          children: [],
         };
+        cas.push(temp);
+        checkParent(temp.children, category.parent);
+      } else {
+        cas.push({
+          label: category.name,
+          value: category.id,
+        });
       }
-      return {
-        value: item.title,
-        label: item.title,
-      };
-    });
+    }
   };
 
   return (

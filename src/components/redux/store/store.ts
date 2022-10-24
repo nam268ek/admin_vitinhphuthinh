@@ -1,15 +1,15 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { authReducer } from '../Slices/AuthSlice';
-// import { primaryReducer } from '../Slices/PrimarySlice';
-import { productReducer } from '../Slices/ProductSlice';
 import { categoryReducer } from '../Slices/CategorySlice';
-import { orderReducer } from '../Slices/OrderSlice';
-import { layoutReducer } from '../Slices/LayoutSlice';
 import { footerReducer } from '../Slices/FooterSlice';
+import { imageReducer } from '../Slices/ImageSlice';
+import { layoutReducer } from '../Slices/LayoutSlice';
+import { orderReducer } from '../Slices/OrderSlice';
+import { productReducer } from '../Slices/ProductSlice';
 
 const reducers = combineReducers({
   auth: authReducer,
-  // primary: primaryReducer,
+  image: imageReducer,
   product: productReducer,
   category: categoryReducer,
   order: orderReducer,

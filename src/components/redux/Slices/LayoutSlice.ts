@@ -13,7 +13,7 @@ export const updateListImgLayout: any = createAsyncThunk(
 );
 
 export const uploadFileLayout: any = createAsyncThunk('UPLOAD_FILE_LAYOUT', async (params: any) => {
-  const data: any = await requestService.uploadFile(params).catch((err: any) => {
+  const data: any = await requestService.uploadFileSingle(params).catch((err: any) => {
     return err.response.data;
   });
   return data;

@@ -1,6 +1,6 @@
-import { message as messageAntd } from 'antd';
+import { message as messageAntd, UploadFile } from 'antd';
 import { DURATION_TIMEOUT_SECONDS } from '../../constants/const';
-import { IAuth, IBodyCreateProduct } from '../../types/types';
+import { IAuth, IBodyCreateProduct, IImage } from '../../types/types';
 
 //body api
 export const originalRegister: IAuth = {
@@ -112,26 +112,6 @@ export const originalContentFooterEditor: any = {
   },
 };
 //end body api
-
-// export const openMessage = (action: any, isSuccess?: boolean) => {
-//   if (action.payload) {
-//     const { message } = action.payload;
-//     if (isSuccess) {
-//       messageAntd.success({ content: message, duration: DURATION_TIMEOUT_SECONDS });
-//       return;
-//     }
-//     if (typeof message === 'string') {
-//       messageAntd.error({ content: message, duration: DURATION_TIMEOUT_SECONDS });
-//       return;
-//     }
-//     for (const item of message) {
-//       messageAntd.error({ content: item, duration: DURATION_TIMEOUT_SECONDS });
-//     }
-//     return;
-//   }
-//   messageAntd.error({ content: action.error.message, duration: DURATION_TIMEOUT_SECONDS });
-// };
-
 export const openMessage = (data?: any) => {
   if (data && data.statusCode !== 200) {
     return messageAntd.error({ content: data.message, duration: DURATION_TIMEOUT_SECONDS });
@@ -153,4 +133,17 @@ export const convertListDropdown = (list: any[]) => {
       };
     }) || []
   );
+};
+export const convertTypeUploadImageList = (list: IImage[]): UploadFile[] => {
+  return list.map((file) => {
+    const { id, name, status, url, thumbUrl, updatedAt } = file;
+    return {
+      uid: id,
+      name,
+      status,
+      lastModifiedDate: new Date(updatedAt),
+      thumbUrl,
+      url,
+    };
+  });
 };
