@@ -62,7 +62,7 @@ export const NewProduct = () => {
 
   return (
     <>
-      <div id="new-category">
+      <div id="new-product">
         <Modal
           title="Warring !"
           open={showPrompt}

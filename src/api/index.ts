@@ -53,6 +53,10 @@ export const requestService = {
     const url = '/image';
     return instance.get(url);
   },
+  removeImageUploadService: (params: any) => {
+    const url = '/images/remove';
+    return instance.delete(url, { data: params });
+  },
   //Category service
   listCategoryService: () => {
     const url = '/categories';

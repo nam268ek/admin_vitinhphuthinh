@@ -112,11 +112,11 @@ export const originalContentFooterEditor: any = {
   },
 };
 //end body api
-export const openMessage = (data?: any) => {
+export const openMessage = (data?: any, key?: string) => {
   if (data && data.statusCode !== 200) {
-    return messageAntd.error({ content: data.message, duration: DURATION_TIMEOUT_SECONDS });
+    return messageAntd.error({ content: data.message, key, duration: DURATION_TIMEOUT_SECONDS });
   }
-  return messageAntd.success({ content: 'Successfully', duration: DURATION_TIMEOUT_SECONDS });
+  return messageAntd.success({ content: 'Successfully', key, duration: DURATION_TIMEOUT_SECONDS });
 };
 
 export const formatMoney = new Intl.NumberFormat('vi-VN', {
@@ -136,9 +136,9 @@ export const convertListDropdown = (list: any[]) => {
 };
 export const convertTypeUploadImageList = (list: IImage[]): UploadFile[] => {
   return list.map((file) => {
-    const { id, name, status, url, thumbUrl, updatedAt } = file;
+    const { keyId, name, status, url, thumbUrl, updatedAt } = file;
     return {
-      uid: id,
+      uid: keyId,
       name,
       status,
       lastModifiedDate: new Date(updatedAt),

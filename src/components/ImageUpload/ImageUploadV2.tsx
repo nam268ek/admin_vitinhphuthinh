@@ -1,15 +1,19 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Form, message, Upload } from 'antd';
-import type { RcFile, UploadProps } from 'antd/es/upload';
+/* eslint-disable no-constant-condition */
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { Form, message, Upload, UploadProps } from 'antd';
+import type { RcFile } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { KEY_UPLOAD_IMAGE } from '../../constants/const';
-import { IImage } from '../../types/types';
-import { getUploadImageService } from '../redux/Slices/ImageSlice';
-import { removeFileLayout, uploadFileLayoutSingle } from '../redux/Slices/LayoutSlice';
+import {
+  getRemoveImageUploadService,
+  getUploadImageService,
+  updateImageUploadedAction,
+} from '../redux/Slices/ImageSlice';
 import { RootState } from '../redux/store/store';
 import { convertTypeUploadImageList, openMessage } from '../services/general.service';
+import { DURATION_TIMEOUT_SECONDS } from '../../constants/const';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -20,10 +24,10 @@ const getBase64 = (file: RcFile): Promise<string> =>
   });
 
 export const ImageUploadV2: React.FC<any> = ({
-  maxFiles,
+  maxFiles = 3,
   keyUpload = KEY_UPLOAD_IMAGE.IMAGE_PRODUCT,
 }) => {
-  const { imageUploaded } = useSelector((state: RootState) => state.image);
+  const { imageUploaded, loading } = useSelector((state: RootState) => state.image);
 
   const dispatch = useDispatch();
   const listImageUpload = convertTypeUploadImageList(imageUploaded);
@@ -34,9 +38,6 @@ export const ImageUploadV2: React.FC<any> = ({
     }
   };
 
-  //   const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>
-  //     setFileList(newFileList);
-
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -46,24 +47,32 @@ export const ImageUploadV2: React.FC<any> = ({
 
   const handleUploadImage = async (options: any) => {
     const { onSuccess, onError, file } = options;
+    const key = 'upload';
 
     const formData = new FormData();
     formData.append('file', file);
     formData.append('keyName', keyUpload);
 
     try {
+      message.loading({ content: 'Uploading...', key });
       await dispatch(getUploadImageService(formData)).unwrap();
       onSuccess();
+      message.destroy(key);
     } catch (error) {
-      openMessage(error);
+      openMessage(error, key);
       onError();
     }
   };
 
   const onRemove = async (file: UploadFile) => {
-    if (keyUpload) {
-      // dispatch(SetCurrentLayoutState(feature));
-      const res = await dispatch(removeFileLayout(file));
+    const key = 'remove';
+    try {
+      message.loading({ content: 'Removing...', key });
+      await dispatch(getRemoveImageUploadService({ ids: [file.uid] })).unwrap();
+      dispatch(updateImageUploadedAction({ keyId: file.uid }));
+      openMessage(undefined, key);
+    } catch (error) {
+      openMessage(error, key);
     }
   };
 
@@ -85,9 +94,9 @@ export const ImageUploadV2: React.FC<any> = ({
         listType="picture-card"
         fileList={listImageUpload}
         onPreview={handlePreview}
-        // onChange={handleChange}
         onRemove={onRemove}
         beforeUpload={beforeUpload}
+        disabled={loading}
       >
         {imageUploaded.length >= (maxFiles || 1) ? null : uploadButton}
       </Upload>

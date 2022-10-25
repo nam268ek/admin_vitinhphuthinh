@@ -1,10 +1,11 @@
 /* eslint-disable curly */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../../api';
-import { IImageState } from '../../../types/types';
+import { NAME_ACTION } from '../../../constants/const';
+import { IImage, IImageState } from '../../../types/types';
 
 export const getUploadImageService: any = createAsyncThunk(
-  'UPLOAD_IMAGE',
+  NAME_ACTION.CREATE_IMAGE,
   async (params, { rejectWithValue }) => {
     try {
       const response = await requestService.uploadImageService(params);
@@ -14,9 +15,19 @@ export const getUploadImageService: any = createAsyncThunk(
     }
   },
 );
-
+export const getRemoveImageUploadService: any = createAsyncThunk(
+  NAME_ACTION.REMOVE_IMAGE,
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await requestService.removeImageUploadService(params);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
 export const getListImageService: any = createAsyncThunk(
-  'LIST_IMAGE',
+  NAME_ACTION.GET_IMAGE,
   async (_, { rejectWithValue }) => {
     try {
       const response = await requestService.listImageService();
@@ -36,7 +47,12 @@ const initialState: IImageState = {
 export const imageSlice = createSlice({
   name: 'image',
   initialState,
-  reducers: {},
+  reducers: {
+    updateImageUploadedAction: (state, action) => {
+      const { keyId } = action.payload;
+      state.imageUploaded = state.imageUploaded.filter((item: IImage) => item.keyId !== keyId);
+    },
+  },
   extraReducers: {
     [getListImageService.pending]: (state) => {
       state.loading = true;
@@ -58,6 +74,16 @@ export const imageSlice = createSlice({
     [getUploadImageService.rejected]: (state) => {
       state.loading = false;
     },
+    [getRemoveImageUploadService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getRemoveImageUploadService.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [getRemoveImageUploadService.rejected]: (state) => {
+      state.loading = false;
+    },
   },
 });
+export const { updateImageUploadedAction } = imageSlice.actions;
 export const imageReducer = imageSlice.reducer;
