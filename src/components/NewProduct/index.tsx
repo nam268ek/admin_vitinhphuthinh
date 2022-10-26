@@ -2,12 +2,14 @@ import { Button, Empty, Form, Modal, Space } from 'antd';
 import { FormProviderProps } from 'antd/lib/form/context';
 import { Store } from 'antd/lib/form/interface';
 import { cloneDeep } from 'lodash';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
 import { usePrompt } from '../common/hook/useFrompt';
+import { getListTagsService } from '../redux/Slices/TagSlice';
 import { RootState } from '../redux/store/store';
+import { openMessage } from '../services/general.service';
 import { FormCategories } from './Component/FormCategories';
 import { FormGeneral } from './Component/FormGeneral';
 import { FormProductImages } from './Component/FormImages';
@@ -18,10 +20,19 @@ import { FormProductSpecs } from './Component/FormProductSpecs';
 
 export const NewProduct = () => {
   const { action, itemSelected } = useSelector((state: RootState) => state.product);
+  const { imageUploaded } = useSelector((state: RootState) => state.image);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [statusChangeForm, setStatusChangeForm] = useState<boolean>(false);
   const [showPrompt, confirmNavigation, cancelNavigation, isConfirm] = usePrompt(statusChangeForm);
+
+  useEffect(() => {
+    try {
+      dispatch(getListTagsService()).unwrap();
+    } catch (error) {
+      openMessage(error);
+    }
+  }, [dispatch]);
 
   const handleCreateProduct = (data: any) => {
     console.log(data);
@@ -32,6 +43,7 @@ export const NewProduct = () => {
 
   const onFinish = async (data: any) => {
     console.log(data);
+    console.log(imageUploaded);
     const body = cloneDeep(data);
     switch (action) {
       case NAME_ACTION.CREATE_PRODUCT:

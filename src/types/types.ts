@@ -429,3 +429,11 @@ export interface IImageState {
   images: IImage[];
   imageUploaded: IImage[];
 }
+export interface TagState {
+  loading: boolean;
+  tags: ITag[];
+}
+export interface ITag {
+  id: string;
+  name: string;
+}

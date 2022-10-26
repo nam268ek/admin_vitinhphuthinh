@@ -1,6 +1,7 @@
 import { Form, Input } from 'antd';
 import React from 'react';
 import { MAX_LENGTH_TEXT } from '../../../constants/const';
+import { DropDownTags } from './DropdownTags';
 
 export const FormMeta: React.FC = () => {
   return (
@@ -20,9 +21,7 @@ export const FormMeta: React.FC = () => {
         </div>
         <div className="form-group">
           <label>Tags</label>
-          <Form.Item name="tags">
-            <Input maxLength={MAX_LENGTH_TEXT} showCount />
-          </Form.Item>
+          <DropDownTags />
         </div>
       </div>
     </figure>

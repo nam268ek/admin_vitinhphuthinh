@@ -74,6 +74,15 @@ export const requestService = {
     const url = '/categories/update';
     return instance.put(url, params);
   },
+  //tag services
+  listTagsService: () => {
+    const url = '/tags';
+    return instance.get(url);
+  },
+  createTagService: (params: any) => {
+    const url = '/tags/create';
+    return instance.post(url, params);
+  },
   //
   getDropdown: (params: any) => {
     const url = '/list-dropdown';

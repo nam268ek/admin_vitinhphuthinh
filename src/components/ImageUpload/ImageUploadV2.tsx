@@ -1,6 +1,6 @@
 /* eslint-disable no-constant-condition */
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { Form, message, Upload, UploadProps } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { Form, message, Upload } from 'antd';
 import type { RcFile } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import React from 'react';
@@ -13,7 +13,6 @@ import {
 } from '../redux/Slices/ImageSlice';
 import { RootState } from '../redux/store/store';
 import { convertTypeUploadImageList, openMessage } from '../services/general.service';
-import { DURATION_TIMEOUT_SECONDS } from '../../constants/const';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -37,7 +36,7 @@ export const ImageUploadV2: React.FC<any> = ({
       file.preview = await getBase64(file.originFileObj as RcFile);
     }
   };
-
+  console.log(listImageUpload);
   const uploadButton = (
     <div>
       <PlusOutlined />

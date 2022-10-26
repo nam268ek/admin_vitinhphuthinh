@@ -6,9 +6,11 @@ import { imageReducer } from '../Slices/ImageSlice';
 import { layoutReducer } from '../Slices/LayoutSlice';
 import { orderReducer } from '../Slices/OrderSlice';
 import { productReducer } from '../Slices/ProductSlice';
+import { tagReducer } from '../Slices/TagSlice';
 
 const reducers = combineReducers({
   auth: authReducer,
+  tag: tagReducer,
   image: imageReducer,
   product: productReducer,
   category: categoryReducer,
