@@ -5,7 +5,7 @@ export interface ICategories {
   name: string;
   category: string;
   index: string;
-  parent: ICategories[];
+  parent: string;
 }
 export interface IStateCategories {
   loading: boolean;

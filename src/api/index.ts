@@ -83,6 +83,15 @@ export const requestService = {
     const url = '/tags/create';
     return instance.post(url, params);
   },
+  // brand services
+  listBrandsService: () => {
+    const url = '/brands';
+    return instance.get(url);
+  },
+  createBrandService: (params: any) => {
+    const url = '/brands/create';
+    return instance.post(url, params);
+  },
   //
   getDropdown: (params: any) => {
     const url = '/list-dropdown';

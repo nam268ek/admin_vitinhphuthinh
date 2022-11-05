@@ -2,36 +2,41 @@ import { Divider, Form, Select } from 'antd';
 import { SelectProps } from 'antd/lib/select';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { tagRender } from '../../common/tagRender';
 import { RootState } from '../../redux/store/store';
 import { convertListDropdown } from '../../services/general.service';
-import { FormAddTag } from './FormAddTag';
+import { FormAddBrand } from './FormAddBrand';
 
-export const DropDownTags: React.FC = () => {
-  const { tags } = useSelector((state: RootState) => state.tag);
-  const [listTags, setListTags] = useState<SelectProps['options']>([]);
+export const DropDownBrands: React.FC = () => {
+  const { brands } = useSelector((state: RootState) => state.brand);
+  const [listBrands, setListBrands] = useState<SelectProps['options']>([]);
 
   useEffect(() => {
-    const list = convertListDropdown(tags);
-    setListTags([...list]);
-  }, [tags]);
+    const list = convertListDropdown(brands);
+    setListBrands([...list]);
+  }, [brands]);
 
   return (
-    <Form.Item name="tags">
+    <Form.Item
+      name="brands"
+      rules={[
+        {
+          required: true,
+          message: 'Please select your brands',
+        },
+      ]}
+    >
       <Select
-        mode="multiple"
         allowClear
         showArrow
         style={{ width: '100%' }}
-        placeholder="Tags name"
-        options={listTags}
+        placeholder="Brand name"
+        options={listBrands}
         optionFilterProp="label"
-        tagRender={tagRender}
         dropdownRender={(menu) => (
           <>
             {menu}
             <Divider style={{ margin: '8px 0' }} />
-            <FormAddTag />
+            <FormAddBrand />
           </>
         )}
       />

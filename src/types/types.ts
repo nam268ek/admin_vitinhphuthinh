@@ -437,3 +437,12 @@ export interface ITag {
   id: string;
   name: string;
 }
+export interface BrandState {
+  loading: boolean;
+  brands: IBrand[];
+}
+export interface IBrand {
+  id: string;
+  brandName: string;
+  logo?: IImage;
+}

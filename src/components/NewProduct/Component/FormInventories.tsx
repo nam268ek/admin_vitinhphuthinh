@@ -27,7 +27,15 @@ export const FormInventories: React.FC = () => {
             Số lượng<sup>*</sup>
           </label>
           <Form.Item noStyle>
-            <Form.Item name="quantity">
+            <Form.Item
+              name="quantity"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input the amount',
+                },
+              ]}
+            >
               <InputNumber
                 min={0}
                 max={500}

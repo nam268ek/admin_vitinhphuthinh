@@ -4,10 +4,8 @@ import EditorText from '../../common/EditorText';
 import { setChange } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
 
-export const FormProductDescription: React.FC = () => {
+export const FormProductDescription: React.FC<any> = ({ childRef }) => {
   const { isChange } = useSelector((state: RootState) => state.product);
-  const childRef = React.useRef<any>(null);
-
   const dispatch = useDispatch();
 
   const onValuesChangeForm = () => {
@@ -19,11 +17,7 @@ export const FormProductDescription: React.FC = () => {
   return (
     <figure className="ps-block--form-box">
       <figcaption>Mô tả sản phẩm</figcaption>
-      <EditorText
-        ref={childRef}
-        statusChangeEditor={onValuesChangeForm}
-        // defaultValue={dataUpdate[0] ? dataUpdate[0].contentEditor : '<p></p>'}
-      />
+      <EditorText ref={childRef} statusChangeEditor={onValuesChangeForm} />
     </figure>
   );
 };

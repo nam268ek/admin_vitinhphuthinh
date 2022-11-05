@@ -1,6 +1,11 @@
+/* eslint-disable prefer-const */
 import { message as messageAntd, UploadFile } from 'antd';
 import { DURATION_TIMEOUT_SECONDS } from '../../constants/const';
 import { IAuth, IBodyCreateProduct, IImage } from '../../types/types';
+
+// variables
+export let previousData: any = {};
+// --
 
 //body api
 export const originalRegister: IAuth = {
@@ -145,5 +150,16 @@ export const convertTypeUploadImageList = (list: IImage[]): UploadFile[] => {
       thumbUrl,
       url,
     };
+  });
+};
+export const unique = (arr: Array<any>) => {
+  const uniqueIds = new Set();
+  return arr.filter((element) => {
+    const isDuplicate = uniqueIds.has(element.value);
+    uniqueIds.add(element.value);
+    if (!isDuplicate) {
+      return true;
+    }
+    return false;
   });
 };

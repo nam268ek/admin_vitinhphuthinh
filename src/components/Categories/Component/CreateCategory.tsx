@@ -24,9 +24,17 @@ export const CreateCategory: React.FC = () => {
   useEffect(() => {
     if (itemSelected.length > 0) {
       const { name, index, category, parent } = itemSelected[0];
-      form.setFieldsValue({ name, index, category, parent: convertListDropdown(parent)[0] });
+      form.setFieldsValue({ name, index, category, parent: handleFilterParent(parent) });
     }
   }, [itemSelected, form]);
+
+  const handleFilterParent = (parent: string) => {
+    return categories
+      .filter((item) => item.id === parent)
+      .map((o) => {
+        return { label: o.name, value: o.id };
+      });
+  };
 
   const handleCreateCategory = async (body: any) => {
     try {

@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { authReducer } from '../Slices/AuthSlice';
+import { brandReducer } from '../Slices/BrandSlice';
 import { categoryReducer } from '../Slices/CategorySlice';
 import { footerReducer } from '../Slices/FooterSlice';
 import { imageReducer } from '../Slices/ImageSlice';
@@ -17,6 +18,7 @@ const reducers = combineReducers({
   order: orderReducer,
   layout: layoutReducer,
   footer: footerReducer,
+  brand: brandReducer,
 });
 
 export const store = configureStore({

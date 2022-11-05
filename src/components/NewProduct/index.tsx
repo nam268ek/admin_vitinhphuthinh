@@ -2,11 +2,12 @@ import { Button, Empty, Form, Modal, Space } from 'antd';
 import { FormProviderProps } from 'antd/lib/form/context';
 import { Store } from 'antd/lib/form/interface';
 import { cloneDeep } from 'lodash';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
 import { usePrompt } from '../common/hook/useFrompt';
+import { getListBrandsService } from '../redux/Slices/BrandSlice';
 import { getListTagsService } from '../redux/Slices/TagSlice';
 import { RootState } from '../redux/store/store';
 import { openMessage } from '../services/general.service';
@@ -19,16 +20,20 @@ import { FormProductDescription } from './Component/FormProductDescription';
 import { FormProductSpecs } from './Component/FormProductSpecs';
 
 export const NewProduct = () => {
-  const { action, itemSelected } = useSelector((state: RootState) => state.product);
+  const { action, itemSelected, isChange, loading } = useSelector(
+    (state: RootState) => state.product,
+  );
   const { imageUploaded } = useSelector((state: RootState) => state.image);
+  const [showPrompt, confirmNavigation, cancelNavigation, isConfirm] = usePrompt(isChange);
+  const childRef = useRef<any>(null);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [statusChangeForm, setStatusChangeForm] = useState<boolean>(false);
-  const [showPrompt, confirmNavigation, cancelNavigation, isConfirm] = usePrompt(statusChangeForm);
 
   useEffect(() => {
     try {
       dispatch(getListTagsService()).unwrap();
+      dispatch(getListBrandsService()).unwrap();
     } catch (error) {
       openMessage(error);
     }
@@ -42,6 +47,7 @@ export const NewProduct = () => {
   };
 
   const onFinish = async (data: any) => {
+    console.log(childRef.current.contentEditor());
     console.log(data);
     console.log(imageUploaded);
     const body = cloneDeep(data);
@@ -58,12 +64,12 @@ export const NewProduct = () => {
   };
 
   const resetForm = () => {
-    setStatusChangeForm(false);
+    // setStatusChangeForm(false);
   };
 
   const handleCancel = (e: any) => {
     e.preventDefault();
-    setStatusChangeForm(false);
+    // setStatusChangeForm(false);
 
     navigate('/products', { replace: true });
   };
@@ -108,18 +114,18 @@ export const NewProduct = () => {
                 </div>
               </div>
               <FormCategories />
-              <FormProductDescription />
+              <FormProductDescription childRef={childRef} />
               <FormProductSpecs />
               <Space>
                 <Form.Item>
                   <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
-                    <Button type="primary" danger loading={false} onClick={handleCancel}>
-                      Cancel
+                    <Button type="primary" danger onClick={handleCancel}>
+                      Back
                     </Button>
-                    <Button type="primary" loading={false} htmlType="reset" onClick={resetForm}>
+                    <Button type="primary" htmlType="reset" onClick={resetForm}>
                       Reset
                     </Button>
-                    <Button type="primary" htmlType="submit" loading={false}>
+                    <Button type="primary" htmlType="submit" loading={loading}>
                       Submit
                     </Button>
                   </Space>
