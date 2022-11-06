@@ -2,19 +2,16 @@ import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Menu, MenuProps } from 'antd';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { NAME_ACTION } from '../../../constants/const';
+import { Link, useLocation } from 'react-router-dom';
 import { history } from '../../../utils/history';
-// import { setAction } from '../../redux/Slices/PrimarySlice';
-// import { updateProduct } from '../../redux/Slices/ProductSlice';
+import { updateStateKeyProductAction } from '../../redux/Slices/ProductSlice';
 
 export const DropDownNewProduct: React.FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
   const onClick: MenuProps['onClick'] = ({ key }) => {
-    // dispatch(setAction("create"));
-    // dispatch(updateProduct([]));
+    dispatch(updateStateKeyProductAction(key));
     history.push(`${location.pathname}/new`);
   };
 
@@ -24,11 +21,11 @@ export const DropDownNewProduct: React.FC = () => {
       items={[
         {
           label: <Link to="">Computer - Laptop</Link>,
-          key: '1',
+          key: 'Computer - Laptop',
         },
         {
-          label: <NavLink to={`${location.pathname}/new`}>Printer</NavLink>,
-          key: '2',
+          label: <Link to="">Printer</Link>,
+          key: 'Printer',
         },
       ]}
     />

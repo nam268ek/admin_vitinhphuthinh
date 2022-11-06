@@ -1,15 +1,7 @@
 import React from 'react';
 import { Form, Input } from 'antd';
-import { Controller } from 'react-hook-form';
 
-const ConfigInfo: React.FC<any> = ({
-  onSubmit,
-  setValue,
-  control,
-  maxLength,
-  maxLengthTextArea,
-  defaultValue,
-}) => {
+const ConfigInfo: React.FC<any> = ({ onChange }) => {
   const { TextArea } = Input;
 
   return (
@@ -20,104 +12,104 @@ const ConfigInfo: React.FC<any> = ({
             <tr>
               <th className="attribute-label">Mã sản phẩm / Model </th>
               <td className="attribute-value ">
-                <Form.Item name="model" initialValue={defaultValue.model || ''}>
-                  <Input maxLength={maxLength} showCount width={'100%'} />
+                <Form.Item name="model">
+                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'model')} />
                 </Form.Item>
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Bộ Vi Xử Lý / CPU </th>
               <td className="attribute-value highlight">
-                <Form.Item name="cpu" initialValue={defaultValue.cpu || ''}>
-                  <Input maxLength={maxLength} showCount width={'100%'} />
+                <Form.Item name="cpu">
+                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'cpu')} />
                 </Form.Item>
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Bộ Nhớ Trong / RAM </th>
               <td className="attribute-value highlight">
-                <Form.Item name="ram" initialValue={defaultValue.ram}>
-                  <Input maxLength={maxLength} showCount width={'100%' || ''} />
+                <Form.Item name="ram">
+                  <Input showCount width={'100%' || ''} onChange={(e) => onChange(e, 'ram')} />
                 </Form.Item>
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Ổ Cứng (HDD/SDD)</th>
               <td className="attribute-value highlight">
-                <Form.Item name="harddrive" initialValue={defaultValue.harddrive || ''}>
-                  <Input maxLength={maxLength} showCount width={'100%'} />
+                <Form.Item name="harddrive">
+                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'harddrive')} />
                 </Form.Item>
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Màn hình / LCD </th>
               <td className="attribute-value ">
-                <Form.Item name="monitor" initialValue={defaultValue.monitor || ''}>
-                  <Input maxLength={maxLength} showCount width={'100%'} />
+                <Form.Item name="monitor">
+                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'monitor')} />
                 </Form.Item>
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Chip Đồ Họa / VGA </th>
               <td className="attribute-value highlight">
-                <Form.Item name="vgacard" initialValue={defaultValue.vgacard || ''}>
-                  <Input maxLength={maxLength} showCount width={'100%'} />
+                <Form.Item name="vgacard">
+                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'vgacard')} />
                 </Form.Item>
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Kết Nối / Network </th>
               <td className="attribute-value ">
-                <Form.Item name="network" initialValue={defaultValue.network || ''}>
-                  <Input maxLength={maxLength} showCount width={'100%'} />
+                <Form.Item name="network">
+                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'network')} />
                 </Form.Item>
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Giao Tiếp Mở Rộng </th>
               <td className="attribute-value ">
-                <Form.Item name="extend" initialValue={defaultValue.extend || ''}>
-                  <TextArea maxLength={maxLengthTextArea} showCount />
+                <Form.Item name="extend">
+                  <TextArea showCount onChange={(e) => onChange(e, 'extend')} />
                 </Form.Item>
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Dung Lượng Pin </th>
               <td className="attribute-value ">
-                <Form.Item name="battery" initialValue={defaultValue.battery || ''}>
-                  <Input maxLength={maxLength} showCount width={'100%'} />
+                <Form.Item name="battery">
+                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'battery')} />
                 </Form.Item>
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Hệ Điều Hành / Operating System</th>
               <td className="attribute-value highlight">
-                <Form.Item name="os" initialValue={defaultValue.os || ''}>
-                  <Input maxLength={maxLength} showCount width={'100%'} />
+                <Form.Item name="os">
+                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'os')} />
                 </Form.Item>
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Trọng Lượng / Weight </th>
               <td className="attribute-value ">
-                <Form.Item name="weight" initialValue={defaultValue.weight || ''}>
-                  <Input maxLength={maxLength} showCount width={'100%'} />
+                <Form.Item name="weight">
+                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'weight')} />
                 </Form.Item>
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Màu Sắc </th>
               <td className="attribute-value ">
-                <Form.Item name="color" initialValue={defaultValue.color || ''}>
-                  <Input maxLength={maxLength} showCount width={'100%'} />
+                <Form.Item name="color">
+                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'color')} />
                 </Form.Item>
               </td>
             </tr>
             <tr>
               <th className="attribute-label">Xuất Xứ / Bảo Hành </th>
               <td className="attribute-value highlight">
-                <Form.Item name="warranty" initialValue={defaultValue.warranty || ''}>
-                  <Input maxLength={maxLength} showCount width={'100%'} />
+                <Form.Item name="warranty">
+                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'warranty')} />
                 </Form.Item>
               </td>
             </tr>

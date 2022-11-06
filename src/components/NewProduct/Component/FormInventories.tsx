@@ -1,7 +1,7 @@
 import { Form, InputNumber } from 'antd';
 import React from 'react';
 
-export const FormInventories: React.FC = () => {
+export const FormInventories: React.FC<any> = ({ handleChange }) => {
   return (
     <figure className="ps-block--form-box">
       <figcaption>Inventory</figcaption>
@@ -17,6 +17,7 @@ export const FormInventories: React.FC = () => {
                 parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
                 style={{ width: '100%' }}
                 placeholder="Nhập giá sale..."
+                onChange={(e) => handleChange(e, 'priceSale')}
               />
             </Form.Item>
             <span className="form-money">VND</span>
@@ -43,6 +44,7 @@ export const FormInventories: React.FC = () => {
                 parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
                 style={{ width: '100%' }}
                 placeholder="Nhập số lượng..."
+                onChange={(e) => handleChange(e, 'quantity')}
               />
             </Form.Item>
           </Form.Item>

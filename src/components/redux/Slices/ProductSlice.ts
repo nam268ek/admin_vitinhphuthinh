@@ -91,6 +91,7 @@ const initialState: IProductState = {
   loading: false,
   products: [],
   itemSelected: [],
+  keyProduct: '',
 };
 
 const productSlice = createSlice({
@@ -99,6 +100,9 @@ const productSlice = createSlice({
   reducers: {
     setChange: (state, action) => {
       state.isChange = action.payload;
+    },
+    updateStateKeyProductAction: (state, action) => {
+      state.keyProduct = action.payload;
     },
   },
   extraReducers: {
@@ -151,4 +155,4 @@ const productSlice = createSlice({
   },
 });
 export const productReducer = productSlice.reducer;
-export const { setChange } = productSlice.actions;
+export const { setChange, updateStateKeyProductAction } = productSlice.actions;

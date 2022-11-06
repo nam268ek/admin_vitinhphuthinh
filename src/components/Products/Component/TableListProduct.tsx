@@ -104,7 +104,7 @@ export const TableListProduct: React.FC = () => {
       key: 'status',
       dataIndex: 'status',
       render: (value: any, item: DataTypeProduct) => (
-        <Switch checked={value} onChange={(e) => changeStatusProduct(e, item)} />
+        <Switch key={item.id} checked={value} onChange={(e) => changeStatusProduct(e, item)} />
       ),
     },
     {

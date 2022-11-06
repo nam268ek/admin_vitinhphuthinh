@@ -423,6 +423,7 @@ export interface IProductState {
   products: IProducts[];
   loading: boolean;
   itemSelected: IProducts[];
+  keyProduct: string;
 }
 export interface IImageState {
   loading: boolean;

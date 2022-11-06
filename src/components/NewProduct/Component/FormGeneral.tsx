@@ -3,7 +3,7 @@ import TextArea from 'antd/lib/input/TextArea';
 import React from 'react';
 import { MAX_LENGTH_TEXT, MAX_LENGTH_TEXT_AREA } from '../../../constants/const';
 
-export const FormGeneral: React.FC = () => {
+export const FormGeneral: React.FC<any> = ({ handleChange }) => {
   return (
     <figure className="ps-block--form-box">
       <figcaption>General</figcaption>
@@ -21,7 +21,12 @@ export const FormGeneral: React.FC = () => {
               },
             ]}
           >
-            <Input maxLength={MAX_LENGTH_TEXT} showCount placeholder="Nhập tên sản phẩm..." />
+            <Input
+              maxLength={MAX_LENGTH_TEXT}
+              showCount
+              placeholder="Nhập tên sản phẩm..."
+              onChange={(e) => handleChange(e, 'name')}
+            />
           </Form.Item>
         </div>
         <div className="form-group">
@@ -53,6 +58,7 @@ export const FormGeneral: React.FC = () => {
                 parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
                 style={{ width: '100%' }}
                 placeholder="Nhập giá gốc..."
+                onChange={(e) => handleChange(e, 'price')}
               />
             </Form.Item>
             <span className="form-money">VND</span>
@@ -71,7 +77,12 @@ export const FormGeneral: React.FC = () => {
               },
             ]}
           >
-            <Input maxLength={MAX_LENGTH_TEXT} showCount placeholder="Nhập SKU sản phẩm..." />
+            <Input
+              maxLength={MAX_LENGTH_TEXT}
+              showCount
+              placeholder="Nhập SKU sản phẩm..."
+              onChange={(e) => handleChange(e, 'sku')}
+            />
           </Form.Item>
         </div>
         <div className="form-group">
@@ -87,7 +98,12 @@ export const FormGeneral: React.FC = () => {
               },
             ]}
           >
-            <TextArea style={{ height: '195px' }} maxLength={MAX_LENGTH_TEXT_AREA} showCount />
+            <TextArea
+              style={{ height: '195px' }}
+              maxLength={MAX_LENGTH_TEXT_AREA}
+              showCount
+              onChange={(e) => handleChange(e, 'description')}
+            />
           </Form.Item>
         </div>
       </div>

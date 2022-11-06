@@ -6,7 +6,7 @@ import { RootState } from '../../redux/store/store';
 import { convertListDropdown } from '../../services/general.service';
 import { FormAddBrand } from './FormAddBrand';
 
-export const DropDownBrands: React.FC = () => {
+export const DropDownBrands: React.FC<any> = ({ handleChange }) => {
   const { brands } = useSelector((state: RootState) => state.brand);
   const [listBrands, setListBrands] = useState<SelectProps['options']>([]);
 
@@ -17,7 +17,7 @@ export const DropDownBrands: React.FC = () => {
 
   return (
     <Form.Item
-      name="brands"
+      name="brand"
       rules={[
         {
           required: true,
@@ -32,6 +32,7 @@ export const DropDownBrands: React.FC = () => {
         placeholder="Brand name"
         options={listBrands}
         optionFilterProp="label"
+        onChange={(e) => handleChange(e, 'brand')}
         dropdownRender={(menu) => (
           <>
             {menu}

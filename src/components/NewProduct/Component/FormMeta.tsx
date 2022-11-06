@@ -2,7 +2,7 @@ import React from 'react';
 import { DropDownBrands } from './DropdownBrands';
 import { DropDownTags } from './DropdownTags';
 
-export const FormMeta: React.FC = () => {
+export const FormMeta: React.FC<any> = ({ handleChange }) => {
   return (
     <figure className="ps-block--form-box">
       <figcaption>Meta</figcaption>
@@ -12,12 +12,12 @@ export const FormMeta: React.FC = () => {
             <label>
               Thương hiệu<sup>*</sup>
             </label>
-            <DropDownBrands />
+            <DropDownBrands handleChange={handleChange} />
           </div>
         </div>
         <div className="form-group">
           <label>Tags</label>
-          <DropDownTags />
+          <DropDownTags handleChange={handleChange} />
         </div>
       </div>
     </figure>

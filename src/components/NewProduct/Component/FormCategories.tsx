@@ -1,7 +1,6 @@
-import { Form } from 'antd';
 import { TreeCategory } from '../../StatusProduct/StatusProduct';
 
-export const FormCategories: React.FC = () => {
+export const FormCategories: React.FC<any> = ({ handleChange }) => {
   return (
     <figure className="ps-block--form-box">
       <figcaption>Category</figcaption>
@@ -10,7 +9,7 @@ export const FormCategories: React.FC = () => {
           <label>
             Danh mục<sup>*</sup>
           </label>
-          <TreeCategory />
+          <TreeCategory handleChange={handleChange} />
         </div>
       </div>
     </figure>

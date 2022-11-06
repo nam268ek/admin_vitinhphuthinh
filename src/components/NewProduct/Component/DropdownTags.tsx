@@ -7,7 +7,7 @@ import { RootState } from '../../redux/store/store';
 import { convertListDropdown } from '../../services/general.service';
 import { FormAddTag } from './FormAddTag';
 
-export const DropDownTags: React.FC = () => {
+export const DropDownTags: React.FC<any> = ({ handleChange }) => {
   const { tags } = useSelector((state: RootState) => state.tag);
   const [listTags, setListTags] = useState<SelectProps['options']>([]);
 
@@ -27,6 +27,7 @@ export const DropDownTags: React.FC = () => {
         options={listTags}
         optionFilterProp="label"
         tagRender={tagRender}
+        onChange={(e) => handleChange(e, 'tags')}
         dropdownRender={(menu) => (
           <>
             {menu}

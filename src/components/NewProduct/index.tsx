@@ -1,7 +1,8 @@
+/* eslint-disable curly */
 import { Button, Empty, Form, Modal, Space } from 'antd';
 import { FormProviderProps } from 'antd/lib/form/context';
 import { Store } from 'antd/lib/form/interface';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, cloneDeepWith, isBoolean, isNumber } from 'lodash';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +11,7 @@ import { usePrompt } from '../common/hook/useFrompt';
 import { getListBrandsService } from '../redux/Slices/BrandSlice';
 import { getListTagsService } from '../redux/Slices/TagSlice';
 import { RootState } from '../redux/store/store';
-import { openMessage } from '../services/general.service';
+import { bodyCreateProduct, openMessage } from '../services/general.service';
 import { FormCategories } from './Component/FormCategories';
 import { FormGeneral } from './Component/FormGeneral';
 import { FormProductImages } from './Component/FormImages';
@@ -18,13 +19,16 @@ import { FormInventories } from './Component/FormInventories';
 import { FormMeta } from './Component/FormMeta';
 import { FormProductDescription } from './Component/FormProductDescription';
 import { FormProductSpecs } from './Component/FormProductSpecs';
+import { FormStatus } from './Component/FormStatus';
 
 export const NewProduct = () => {
+  const bodyDataProduct: any = {};
+  let bodyDataProductSpecs: any = [];
+
   const { action, itemSelected, isChange, loading } = useSelector(
     (state: RootState) => state.product,
   );
   const { imageUploaded } = useSelector((state: RootState) => state.image);
-  const [showPrompt, confirmNavigation, cancelNavigation, isConfirm] = usePrompt(isChange);
   const childRef = useRef<any>(null);
 
   const dispatch = useDispatch();
@@ -40,7 +44,8 @@ export const NewProduct = () => {
   }, [dispatch]);
 
   const handleCreateProduct = (data: any) => {
-    console.log(data);
+    const body = cloneDeep(bodyCreateProduct);
+    const keys = Object.keys(data);
   };
   const handleUpdateProduct = (data: any) => {
     console.log(data);
@@ -74,22 +79,41 @@ export const NewProduct = () => {
     navigate('/products', { replace: true });
   };
   const [form] = Form.useForm();
-  const handleSubmit = () => {
-    form.submit();
+
+  const handleChange = (e: any, key: string) => {
+    let value;
+    if (isNumber(e) || isBoolean(e)) value = e;
+    else value = e.target.value;
+
+    bodyDataProduct[key] = value;
+    console.log(bodyDataProduct);
+  };
+
+  const handleChangeSpecs = (e: any, key: string) => {
+    let value;
+    if (isNumber(e) || isBoolean(e)) value = e;
+    else value = e.target.value;
+
+    bodyDataProductSpecs = handlePushDataToBody(cloneDeep(bodyDataProductSpecs), value, key);
+    console.log(bodyDataProductSpecs);
+  };
+
+  const handlePushDataToBody = (body: any, value: any, key: string) => {
+    const index = body.findIndex((item: any) => item.k === key);
+    if (index !== -1) {
+      body[index].v = value;
+    } else {
+      body.push({
+        k: key,
+        v: value,
+      });
+    }
+    return body;
   };
 
   return (
     <>
       <div id="new-product">
-        <Modal
-          title="Warring !"
-          open={showPrompt}
-          onOk={confirmNavigation}
-          onCancel={cancelNavigation}
-        >
-          <p>Dữ liệu chưa được save, bạn có chắc muốn rời đi?</p>
-        </Modal>
-
         <div className="ps-main__wrapper">
           <div className="header--dashboard">
             <div className="header__left">
@@ -104,18 +128,19 @@ export const NewProduct = () => {
               <div className="ps-form__content">
                 <div className="row">
                   <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                    <FormGeneral />
+                    <FormGeneral handleChange={handleChange} />
+                    <FormStatus handleChange={handleChange} />
                   </div>
                   <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                     <FormProductImages />
-                    <FormInventories />
-                    <FormMeta />
+                    <FormInventories handleChange={handleChange} />
+                    <FormMeta handleChange={handleChange} />
                   </div>
                 </div>
               </div>
-              <FormCategories />
+              <FormCategories handleChange={handleChange} />
               <FormProductDescription childRef={childRef} />
-              <FormProductSpecs />
+              <FormProductSpecs onChange={handleChangeSpecs} />
               <Space>
                 <Form.Item>
                   <Space style={{ width: '100%', justifyContent: 'flex-end' }}>

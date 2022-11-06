@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store/store';
 
-export const TreeCategory: React.FC = () => {
+export const TreeCategory: React.FC<any> = ({ handleChange }) => {
   const { categories } = useSelector((state: RootState) => state.category);
   const [options, setOptions] = useState<any>([]);
 
@@ -51,6 +51,7 @@ export const TreeCategory: React.FC = () => {
         <Cascader
           placeholder="Chọn danh mục"
           options={options}
+          onChange={(e) => handleChange(e, 'category')}
           loadData={loadData}
           changeOnSelect
         />
