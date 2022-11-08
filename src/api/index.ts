@@ -4,7 +4,7 @@ import { PayloadLogin } from './interfaces';
 export const requestService = {
   //Product services
   createProductService: (params: any) => {
-    const url = '/products';
+    const url = '/products/create';
     return instance.post(url, params);
   },
   updateProductService: (params: any) => {
