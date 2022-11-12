@@ -420,9 +420,9 @@ export interface IImage {
 export interface IProductState {
   action: NAME_ACTION;
   isChange: boolean;
-  products: IProducts[];
+  products: any[];
   loading: boolean;
-  itemSelected: IProducts[];
+  itemSelected: any[];
   keyProduct: string;
 }
 export interface IImageState {
@@ -446,4 +446,38 @@ export interface IBrand {
   id: string;
   brandName: string;
   logo?: IImage;
+}
+export enum SPECS {
+  model = 'model',
+  cpu = 'cpu',
+  memory = 'memory',
+  ram = 'ram',
+  hardDrive = 'hardDrive',
+  monitor = 'monitor',
+  vgaCard = 'vgaCard',
+  network = 'network',
+  extend = 'extend',
+  battery = 'battery',
+  os = 'os',
+  weight = 'weight',
+  color = 'color',
+  warranty = 'warranty',
+  nsx = 'nsx',
+  inCountry = 'inCountry',
+  timeWarranty = 'timeWarranty',
+  locationWarranty = 'locationWarranty',
+  categoryPrinter = 'categoryPrinter',
+  function = 'function',
+  pixel = 'pixel',
+  speedPrintBlackWhite = 'speedPrintBlackWhite',
+  speedPrintColor = 'speedPrintColor',
+  autoPrint = 'autoPrint',
+  categoryInk = 'categoryInk',
+  paperSize = 'paperSize',
+  paperTray = 'paperTray',
+  usbConnect = 'usbConnect',
+  internetConnect = 'internetConnect',
+  printToMobile = 'printToMobile',
+  sizeBox = 'sizeBox',
+  weigthBox = 'weigthBox',
 }

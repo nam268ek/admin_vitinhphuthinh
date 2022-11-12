@@ -6,11 +6,14 @@ import moment from 'moment';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { NAME_ACTION } from '../../../constants/const';
 import { DataTypeProduct } from '../../../types/types';
 import { history } from '../../../utils/history';
 import {
   getDeleteListProductService,
   getUpdateProductService,
+  setAction,
+  setItemSelectedAction,
 } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
 import { formatMoney } from '../../services/general.service';
@@ -43,7 +46,8 @@ export const TableListProduct: React.FC = () => {
       case 2:
         if (selectedIds.length === 1) {
           e.preventDefault();
-          history.push(`${location.pathname}/update?id=${selectedIds[0]}`);
+          // history.push(`${location.pathname}/update?id=${selectedIds[0]}`);
+          history.push(`${location.pathname}/${selectedIds[0]}`);
         } else {
           message.error('Vui lòng chỉ chọn 1 sản phẩm');
         }
@@ -104,7 +108,13 @@ export const TableListProduct: React.FC = () => {
       key: 'status',
       dataIndex: 'status',
       render: (value: any, item: DataTypeProduct) => (
-        <Switch key={item.id} checked={value} onChange={(e) => changeStatusProduct(e, item)} />
+        <Switch
+          key={item.id}
+          checked={value}
+          checkedChildren="Yes"
+          unCheckedChildren="No"
+          onChange={(e) => changeStatusProduct(e, item)}
+        />
       ),
     },
     {
@@ -124,7 +134,12 @@ export const TableListProduct: React.FC = () => {
     item: any,
   ) => {
     e.preventDefault();
-    history.push(`${location.pathname}/update?id=${item.id}`);
+    dispatch(setAction(NAME_ACTION.UPDATE_PRODUCT));
+
+    const product = products.filter((o) => o.id === item.id);
+    dispatch(setItemSelectedAction(product));
+    // history.push(`${location.pathname}/update?id=${item.id}`);
+    history.push(`${location.pathname}/${item.id}`);
   };
 
   const convertListProducts = (list: any[]) => {

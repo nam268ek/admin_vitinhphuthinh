@@ -75,7 +75,7 @@ export const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/orders"
-                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
+                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink disabled-link')}
                 >
                   <BsBagCheck />
                   <span>Đơn hàng</span>
@@ -102,22 +102,25 @@ export const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/layout"
-                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
+                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink disabled-link')}
                 >
                   <AiOutlineLayout />
-                  <span>Hình ảnh</span>
+                  <span>Marketing</span>
                 </NavLink>
               </li>
-              {/* <li className="">
-                <NavLink to="/blogs" className={({ isActive }) => (isActive ? "active-link" : "")}>
+              <li className="">
+                <NavLink
+                  to="/blogs"
+                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink disabled-link')}
+                >
                   <AiOutlineLayout />
                   <span>Blogs</span>
                 </NavLink>
-              </li> */}
+              </li>
               <li className="">
                 <NavLink
                   to="/settings"
-                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
+                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink disabled-link')}
                 >
                   <IoSettingsOutline />
                   <span>Settings</span>

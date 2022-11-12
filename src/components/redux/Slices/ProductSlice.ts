@@ -38,9 +38,9 @@ export const getDeleteListProductService: any = createAsyncThunk(
 );
 export const getListProductService: any = createAsyncThunk(
   NAME_ACTION.GET_PRODUCT,
-  async (asd, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await requestService.getListProductService();
+      const response = await requestService.listProductService();
       return response;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -48,42 +48,29 @@ export const getListProductService: any = createAsyncThunk(
   },
 );
 
-// export const uploadFileImgToCloud: any = createAsyncThunk(
-//   'UPLOAD_FILE_IMG_TO_CLOUD',
-//   async (params: any) => {
-//     const data: any = await APIClientService.uploadFile(params).catch((err: any) => {
-//       return err.response.data;
-//     });
-//     return data;
-//   },
-// );
+export const getCreateProductInventoryService: any = createAsyncThunk(
+  NAME_ACTION.CREATE_PRODUCT_INVENTORY,
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await requestService.createProductInventoryService(params);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
 
-// export const removeFileImgToCloud: any = createAsyncThunk(
-//   'REMOVE_FILE_IMG_TO_CLOUD',
-//   async (params: any) => {
-//     const data: any = await APIClientService.removeFile(params).catch((err: any) => {
-//       return err.response.data;
-//     });
-//     return data;
-//   },
-// );
-
-// export const setImageTempProduct: any = createAsyncThunk('SET_IMG_TEMP', async (params: any) => {
-//   const data: any = await APIClientService.imageTemp(params).catch((err: any) => {
-//     return err.response.data;
-//   });
-//   return data;
-// });
-
-// export const reqUploadListProducts: any = createAsyncThunk(
-//   'UPLOAD_FILE_EXCEL',
-//   async (params: any) => {
-//     const data: any = await APIClientService.uploadFileExcel(params).catch((err: any) => {
-//       return err.response.data;
-//     });
-//     return data;
-//   },
-// );
+export const getListProductInventoryService: any = createAsyncThunk(
+  NAME_ACTION.GET_PRODUCT_INVENTORY,
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await requestService.listProductInventoryService(params);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
 
 const initialState: IProductState = {
   action: NAME_ACTION.DEFAULT_PRODUCT,
@@ -103,6 +90,12 @@ const productSlice = createSlice({
     },
     updateStateKeyProductAction: (state, action) => {
       state.keyProduct = action.payload;
+    },
+    setAction: (state, action) => {
+      state.action = action.payload;
+    },
+    setItemSelectedAction: (state, action) => {
+      state.itemSelected = action.payload;
     },
   },
   extraReducers: {
@@ -143,16 +136,27 @@ const productSlice = createSlice({
     [getDeleteListProductService.pending]: (state) => {
       state.loading = true;
     },
-    [getDeleteListProductService.fulfilled]: (state) => {
+    [getDeleteListProductService.fulfilled]: (state, action) => {
       state.loading = false;
+      state.isChange = false;
       state.action = NAME_ACTION.DEFAULT_PRODUCT;
       state.itemSelected = [];
-      state.isChange = false;
+      state.products = action.payload;
     },
     [getDeleteListProductService.rejected]: (state) => {
+      state.loading = false;
+    },
+    [getCreateProductInventoryService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getCreateProductInventoryService.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [getCreateProductInventoryService.rejected]: (state) => {
       state.loading = false;
     },
   },
 });
 export const productReducer = productSlice.reducer;
-export const { setChange, updateStateKeyProductAction } = productSlice.actions;
+export const { setChange, updateStateKeyProductAction, setAction, setItemSelectedAction } =
+  productSlice.actions;

@@ -36,8 +36,8 @@ const ConfigInfo: React.FC<any> = ({ onChange }) => {
             <tr>
               <th className="attribute-label">Ổ Cứng (HDD/SDD)</th>
               <td className="attribute-value highlight">
-                <Form.Item name="harddrive">
-                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'harddrive')} />
+                <Form.Item name="hardDrive">
+                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'hardDrive')} />
                 </Form.Item>
               </td>
             </tr>
@@ -52,8 +52,8 @@ const ConfigInfo: React.FC<any> = ({ onChange }) => {
             <tr>
               <th className="attribute-label">Chip Đồ Họa / VGA </th>
               <td className="attribute-value highlight">
-                <Form.Item name="vgacard">
-                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'vgacard')} />
+                <Form.Item name="vgaCard">
+                  <Input showCount width={'100%'} onChange={(e) => onChange(e, 'vgaCard')} />
                 </Form.Item>
               </td>
             </tr>

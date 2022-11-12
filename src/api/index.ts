@@ -12,12 +12,20 @@ export const requestService = {
     return instance.put(url, params);
   },
   deleteListProductService: (params: any) => {
-    const url = '/products/delete';
-    return instance.delete(url, params);
+    const url = '/products/remove';
+    return instance.delete(url, { data: params });
   },
-  getListProductService: () => {
+  listProductService: () => {
     const url = '/products';
     return instance.get(url);
+  },
+  createProductInventoryService: (params: any) => {
+    const url = '/inventories/create';
+    return instance.post(url, params);
+  },
+  listProductInventoryService: (params: any) => {
+    const url = '/inventories';
+    return instance.post(url, params);
   },
   // Auth services
   updatePassword: (params: any) => {

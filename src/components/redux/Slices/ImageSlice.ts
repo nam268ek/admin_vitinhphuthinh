@@ -52,6 +52,9 @@ export const imageSlice = createSlice({
       const { keyId } = action.payload;
       state.imageUploaded = state.imageUploaded.filter((item: IImage) => item.keyId !== keyId);
     },
+    setImageAction: (state, action) => {
+      state.imageUploaded = action.payload;
+    },
   },
   extraReducers: {
     [getListImageService.pending]: (state) => {
@@ -85,5 +88,5 @@ export const imageSlice = createSlice({
     },
   },
 });
-export const { updateImageUploadedAction } = imageSlice.actions;
+export const { updateImageUploadedAction, setImageAction } = imageSlice.actions;
 export const imageReducer = imageSlice.reducer;

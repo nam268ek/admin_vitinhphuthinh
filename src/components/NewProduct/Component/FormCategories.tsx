@@ -1,4 +1,4 @@
-import { TreeCategory } from '../../StatusProduct/StatusProduct';
+import { TreeCategory } from './TreeCategory';
 
 export const FormCategories: React.FC<any> = ({ handleChange }) => {
   return (

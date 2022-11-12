@@ -78,6 +78,7 @@ export const App: React.FC = () => {
             <Route path="/" element={<Navigate to="/products" />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/new" element={<NewProduct />} />
+            <Route path="/products/:productId" element={<NewProduct />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/orders/create-order" element={<NewOrder />} />
             <Route path="/customers" element={<Customers />} />

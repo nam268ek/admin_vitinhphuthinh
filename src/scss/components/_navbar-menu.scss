@@ -157,7 +157,12 @@
     opacity: 1 !important;
   }
 }
-
+.disabled-link {
+  opacity: 0.5;
+  border-radius: 5px;
+  pointer-events: none;
+  background-color: #dddddd96;
+}
 // ======= Responsive Design ======= //
 // @media screen and (min-width: 1200px) {
 //     .ps-main__sidebar {
