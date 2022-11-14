@@ -53,7 +53,6 @@ export const TreeCategory: React.FC<any> = ({ handleChange }) => {
       <Form.Item
         name="category"
         style={{ width: '100%' }}
-        initialValue={['a', 'b']}
         rules={[{ required: true, message: 'Vui lòng chọn danh mục' }]}
       >
         {/* <Cascader

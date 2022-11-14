@@ -1,5 +1,5 @@
-import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, Menu, message, Space, Switch, Table } from 'antd';
+import { DownOutlined, SyncOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Menu, message, Space, Switch, Table, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { TableRowSelection } from 'antd/es/table/interface';
 import moment from 'moment';
@@ -11,12 +11,13 @@ import { DataTypeProduct } from '../../../types/types';
 import { history } from '../../../utils/history';
 import {
   getDeleteListProductService,
+  getListProductService,
   getUpdateProductService,
   setAction,
   setItemSelectedAction,
 } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
-import { formatMoney } from '../../services/general.service';
+import { formatMoney, openMessage } from '../../services/general.service';
 
 export const TableListProduct: React.FC = () => {
   const { loading, products } = useSelector((state: RootState) => state.product);
@@ -96,12 +97,18 @@ export const TableListProduct: React.FC = () => {
       ),
     },
     {
-      title: 'Giá',
-      dataIndex: 'price',
-      key: 'price',
-      render: (price: any) => (
-        <span className="price-product">{formatMoney.format(Number(price))}</span>
+      title: 'Giá bán',
+      dataIndex: 'priceSale',
+      key: 'priceSale',
+      render: (priceSale: any) => (
+        <span className="price-product">{formatMoney.format(Number(priceSale))}</span>
       ),
+    },
+    {
+      title: 'Số lượng',
+      dataIndex: 'quantity',
+      key: 'quantity',
+      render: (quantity: any) => <span className="price-product">{quantity}</span>,
     },
     {
       title: 'Trạng thái',
@@ -144,18 +151,30 @@ export const TableListProduct: React.FC = () => {
 
   const convertListProducts = (list: any[]) => {
     return list.map((item: any, index: number) => {
-      const { id, name, status, price, updatedAt } = item;
+      const { id, name, status, priceSale, updatedAt, quantity } = item;
       return {
         key: index + 1,
         id,
         name,
-        price,
+        priceSale,
         status,
+        quantity,
         updatedAt,
       };
     });
   };
   const data: DataTypeProduct[] = convertListProducts(products);
+
+  const handleSyncData = async () => {
+    const key = 'sync_data';
+    try {
+      message.loading({ content: 'Syncing...', key });
+      await dispatch(getListProductService()).unwrap();
+      openMessage(undefined, key);
+    } catch (error) {
+      openMessage(error, key);
+    }
+  };
 
   return (
     <>
@@ -169,7 +188,23 @@ export const TableListProduct: React.FC = () => {
       >
         <Space>{loading ? 'Processing...' : 'Action'}</Space>
       </Dropdown.Button>
-      <Table rowSelection={rowSelection} columns={columns} dataSource={data} loading={loading} />
+      <Space>
+        <Tooltip placement="right" title="Refresh & Sync data">
+          <Button
+            style={{ marginLeft: '10px' }}
+            type="default"
+            icon={<SyncOutlined spin={loading} />}
+            onClick={handleSyncData}
+          ></Button>
+        </Tooltip>
+      </Space>
+      <Table
+        rowKey={(record) => record.id}
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={data}
+        loading={loading}
+      />
     </>
   );
 };

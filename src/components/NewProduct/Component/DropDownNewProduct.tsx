@@ -4,7 +4,11 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { history } from '../../../utils/history';
-import { updateStateKeyProductAction } from '../../redux/Slices/ProductSlice';
+import { setImageAction } from '../../redux/Slices/ImageSlice';
+import {
+  updateStateKeyProductAction,
+  setDefaultProductAction,
+} from '../../redux/Slices/ProductSlice';
 
 export const DropDownNewProduct: React.FC = () => {
   const location = useLocation();
@@ -12,6 +16,8 @@ export const DropDownNewProduct: React.FC = () => {
 
   const onClick: MenuProps['onClick'] = ({ key }) => {
     dispatch(updateStateKeyProductAction(key));
+    dispatch(setImageAction([]));
+    dispatch(setDefaultProductAction());
     history.push(`${location.pathname}/new`);
   };
 

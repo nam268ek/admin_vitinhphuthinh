@@ -27,12 +27,7 @@ const Products: React.FC = () => {
       <section className="ps-items-listing">
         <div className="ps-section__actions">
           <div className="width-left">
-            <Search
-              className="search-category"
-              placeholder="Tìm kiếm sản phẩm..."
-              listItem={products}
-              // isDefault={isDefault}
-            />
+            <Search />
           </div>
           <div className="width-right d-flex">
             <ExcelBotton products={products} />

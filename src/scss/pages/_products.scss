@@ -290,12 +290,15 @@
   }
   .name-product {
     color: #5c5c5c;
+    border-bottom: 1px solid #a8a8a8;
+    outline: 4px;
+    outline-offset: 4px;
 
     &:hover {
       cursor: pointer;
-      border-bottom: 1px solid #5c5c5c;
-      outline: 4px;
-      outline-offset: 4px;
+      // border-bottom: 1px solid #5c5c5c;
+      // outline: 4px;
+      // outline-offset: 4px;
     }
   }
 }

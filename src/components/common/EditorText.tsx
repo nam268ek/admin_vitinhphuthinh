@@ -2,6 +2,7 @@
 import { Editor } from '@tinymce/tinymce-react';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import { useDispatch } from 'react-redux';
+import { getUploadImageEditorService } from '../redux/Slices/ImageSlice';
 // import { reqUploadImageEditor } from '../redux/Slices/PrimarySlice';
 
 const EditorText: React.FC<any> = forwardRef(({ defaultValue, statusChangeEditor }, ref) => {
@@ -16,6 +17,11 @@ const EditorText: React.FC<any> = forwardRef(({ defaultValue, statusChangeEditor
         return editorRef.current.getContent();
       }
     },
+    resetContentEditor: () => {
+      if (editorRef.current) {
+        editorRef.current.setContent('');
+      }
+    },
   }));
 
   React.useEffect(() => {
@@ -27,15 +33,17 @@ const EditorText: React.FC<any> = forwardRef(({ defaultValue, statusChangeEditor
   const image_upload_handler = (blobInfo: any): Promise<string> =>
     new Promise((resolve, reject) => {
       const formData = new FormData();
-      formData.append('editor', blobInfo.blob(), blobInfo.filename());
+      formData.append('file', blobInfo.blob(), blobInfo.filename());
+      formData.append('keyName', 'image_product_info');
 
-      // dispatch(reqUploadImageEditor(formData))
-      // .then((res: any) => {
-      //   resolve(res.payload.data.secure_url);
-      // })
-      // .catch((err: any) => {
-      //   reject(err.payload.message);
-      // });
+      dispatch(getUploadImageEditorService(formData))
+        .unwrap()
+        .then((res: any) => {
+          resolve(res.url);
+        })
+        .catch((err: any) => {
+          reject(err);
+        });
     });
 
   return (
@@ -50,7 +58,7 @@ const EditorText: React.FC<any> = forwardRef(({ defaultValue, statusChangeEditor
         menubar: true,
         plugins: 'link image code',
         // automatic_uploads: true,
-        // file_picker_types: "image",
+        // file_picker_types: 'image',
         // file_picker_callback: (cb, value, meta) => handleFilePickerCallback(cb, value, meta),
         // images_upload_url: `${process.env.REACT_APP_PROD_API_URL}image-upload`,
         // images_upload_credentials: true,

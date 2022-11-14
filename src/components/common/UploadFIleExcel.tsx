@@ -107,7 +107,7 @@ export const UploadFileExcel: React.FC = () => {
 
   return (
     <Upload customRequest={reqUploadExcel} accept={SheetJSFT} showUploadList={false}>
-      <Button className="c-btn-gray mr-10 d-flex align-items-center">
+      <Button disabled className="c-btn-gray mr-10 d-flex align-items-center">
         <IoAddSharp size={18} />
         <span style={{ paddingLeft: '5px' }}>Import Excel</span>
       </Button>

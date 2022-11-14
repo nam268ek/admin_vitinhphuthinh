@@ -152,12 +152,12 @@ const ModuleProducts: React.FC = () => {
   return (
     <>
       <div className="header-search">
-        <Search
+        {/* <Search
           className="search-category"
           placeholder="Tìm kiếm sản phẩm..."
           listItem={listAllProducts}
           isDefault={isDefault}
-        />
+        /> */}
         <Button type="primary" onClick={handleDefaultData}>
           Clear
         </Button>

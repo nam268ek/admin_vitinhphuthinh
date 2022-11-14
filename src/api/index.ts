@@ -23,6 +23,10 @@ export const requestService = {
     const url = '/inventories/create';
     return instance.post(url, params);
   },
+  updateProductInventoryService: (params: any) => {
+    const url = '/inventories/update';
+    return instance.put(url, params);
+  },
   listProductInventoryService: (params: any) => {
     const url = '/inventories';
     return instance.post(url, params);
@@ -58,7 +62,7 @@ export const requestService = {
     });
   },
   listImageService: () => {
-    const url = '/image';
+    const url = '/images';
     return instance.get(url);
   },
   removeImageUploadService: (params: any) => {

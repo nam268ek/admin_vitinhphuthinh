@@ -13,7 +13,8 @@ export const ExportFileExcel: React.FC<any> = ({ data }) => {
 
   return (
     <Button
-      disabled={data ? false : true}
+      // disabled={data ? false : true}
+      disabled={true}
       type="dashed"
       ghost
       className={data ? 'c-btn-gray mr-10 d-flex align-items-center' : 'mr-10 disabled'}

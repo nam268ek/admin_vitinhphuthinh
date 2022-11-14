@@ -25,6 +25,17 @@ export const getUpdateProductService: any = createAsyncThunk(
     }
   },
 );
+export const getUpdateProductInventoryService: any = createAsyncThunk(
+  NAME_ACTION.UPDATE_PRODUCT_INVENTORY,
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await requestService.updateProductInventoryService(params);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
 export const getDeleteListProductService: any = createAsyncThunk(
   NAME_ACTION.REMOVE_PRODUCT,
   async (params, { rejectWithValue }) => {
@@ -97,6 +108,13 @@ const productSlice = createSlice({
     setItemSelectedAction: (state, action) => {
       state.itemSelected = action.payload;
     },
+    setDefaultProductAction: (state) => {
+      state.action = NAME_ACTION.DEFAULT_PRODUCT;
+      state.itemSelected = [];
+    },
+    setUpdateListProductAction: (state, action) => {
+      state.products = action.payload;
+    },
   },
   extraReducers: {
     [getListProductService.pending]: (state) => {
@@ -114,9 +132,6 @@ const productSlice = createSlice({
     },
     [getCreateProductService.fulfilled]: (state) => {
       state.loading = false;
-      state.action = NAME_ACTION.DEFAULT_PRODUCT;
-      state.itemSelected = [];
-      state.isChange = false;
     },
     [getCreateProductService.rejected]: (state) => {
       state.loading = false;
@@ -124,11 +139,10 @@ const productSlice = createSlice({
     [getUpdateProductService.pending]: (state) => {
       state.loading = true;
     },
-    [getUpdateProductService.fulfilled]: (state) => {
+    [getUpdateProductService.fulfilled]: (state, action) => {
       state.loading = false;
-      state.action = NAME_ACTION.DEFAULT_PRODUCT;
-      state.itemSelected = [];
-      state.isChange = false;
+      const index = state.products.findIndex((o) => o.id === action.payload.id);
+      state.products[index] = action.payload;
     },
     [getUpdateProductService.rejected]: (state) => {
       state.loading = false;
@@ -138,8 +152,6 @@ const productSlice = createSlice({
     },
     [getDeleteListProductService.fulfilled]: (state, action) => {
       state.loading = false;
-      state.isChange = false;
-      state.action = NAME_ACTION.DEFAULT_PRODUCT;
       state.itemSelected = [];
       state.products = action.payload;
     },
@@ -155,8 +167,23 @@ const productSlice = createSlice({
     [getCreateProductInventoryService.rejected]: (state) => {
       state.loading = false;
     },
+    [getUpdateProductInventoryService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUpdateProductInventoryService.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [getUpdateProductInventoryService.rejected]: (state) => {
+      state.loading = false;
+    },
   },
 });
 export const productReducer = productSlice.reducer;
-export const { setChange, updateStateKeyProductAction, setAction, setItemSelectedAction } =
-  productSlice.actions;
+export const {
+  setChange,
+  setDefaultProductAction,
+  updateStateKeyProductAction,
+  setAction,
+  setUpdateListProductAction,
+  setItemSelectedAction,
+} = productSlice.actions;

@@ -37,11 +37,23 @@ export const getListImageService: any = createAsyncThunk(
     }
   },
 );
+export const getUploadImageEditorService: any = createAsyncThunk(
+  NAME_ACTION.UPLOAD_IMAGE_EDITOR,
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await requestService.uploadImageService(params);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
 
 const initialState: IImageState = {
   loading: false,
   images: [],
   imageUploaded: [],
+  imageEditor: [],
 };
 
 export const imageSlice = createSlice({
@@ -84,6 +96,16 @@ export const imageSlice = createSlice({
       state.loading = false;
     },
     [getRemoveImageUploadService.rejected]: (state) => {
+      state.loading = false;
+    },
+    [getUploadImageEditorService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUploadImageEditorService.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.imageEditor.push(action.payload);
+    },
+    [getUploadImageEditorService.rejected]: (state) => {
       state.loading = false;
     },
   },

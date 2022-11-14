@@ -333,7 +333,7 @@ export interface DataTypeProduct {
   key: React.Key;
   id: string;
   name: string;
-  price: number;
+  priceSale: number;
   status: boolean;
   updatedAt: any;
 }
@@ -429,6 +429,7 @@ export interface IImageState {
   loading: boolean;
   images: IImage[];
   imageUploaded: IImage[];
+  imageEditor: IImage[];
 }
 export interface TagState {
   loading: boolean;
