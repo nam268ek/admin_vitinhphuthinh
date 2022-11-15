@@ -12,9 +12,8 @@ import LogoLayout from './components/LogoLayout/LogoLayout';
 import { NavBarMenu } from './components/NavBarMenu/NavBarMenu';
 import { NewOrder } from './components/NewOrder/NewOrder';
 import { NewProduct } from './components/NewProduct';
-import Orders from './components/Orders/Orders';
 import Policy from './components/Policy/Policy';
-import Products from './components/Products';
+import Products from './components/Product';
 import { asyncUser, logout } from './components/redux/Slices/AuthSlice';
 import { RootState } from './components/redux/store/store';
 import Settings from './components/Settings/Settings';
@@ -25,6 +24,7 @@ import { PrivateRoute } from './components/common/PrivateRoute';
 import { Indicator } from './components/Indicator/Indicator';
 import { getListProductService } from './components/redux/Slices/ProductSlice';
 import { getListCategoryService } from './components/redux/Slices/CategorySlice';
+import Orders from './components/Order';
 
 export const App: React.FC = () => {
   const { isLogin, user } = useSelector((state: RootState) => state.auth);

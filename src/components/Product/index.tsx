@@ -2,11 +2,11 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Search from '../Search/Search';
 
-import { DropDownNewProduct } from '../NewProduct/Component/DropDownNewProduct';
 import { getListProductService } from '../redux/Slices/ProductSlice';
-import { ExcelBotton } from './Component/ExcelBotton';
-import { TableListProduct } from './Component/TableListProduct';
 import { RootState } from '../redux/store/store';
+import { DropDownNewProduct } from './Components/DropDownNewProduct';
+import { ExcelBotton } from './Components/ExcelBotton';
+import { TableListProduct } from './Components/TableListProducts';
 
 const Products: React.FC = () => {
   const dispatch = useDispatch();

@@ -21,14 +21,14 @@ import {
 import { getListTagsService } from '../redux/Slices/TagSlice';
 import { RootState } from '../redux/store/store';
 import { openMessage } from '../services/general.service';
-import { FormCategories } from './Component/FormCategories';
-import { FormGeneral } from './Component/FormGeneral';
-import { FormProductImages } from './Component/FormImages';
-import { FormInventories } from './Component/FormInventories';
-import { FormMeta } from './Component/FormMeta';
-import { FormProductDescription } from './Component/FormProductDescription';
-import { FormProductSpecs } from './Component/FormProductSpecs';
-import { FormStatus } from './Component/FormStatus';
+import { FormCategories } from './Components/FormCategories';
+import { FormGeneral } from './Components/FormGeneral';
+import { FormProductImages } from './Components/FormImages';
+import { FormInventories } from './Components/FormInventories';
+import { FormMeta } from './Components/FormMeta';
+import { FormProductDescription } from './Components/FormProductDescription';
+import { FormProductSpecs } from './Components/FormProductSpecs';
+import { FormStatus } from './Components/FormStatus';
 
 const bodyDataProduct: any = {};
 let bodyDataProductSpecs: any = [];

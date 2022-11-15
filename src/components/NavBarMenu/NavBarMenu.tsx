@@ -1,5 +1,5 @@
 import React from 'react';
-import { AiOutlineLayout } from 'react-icons/ai';
+import { AiOutlineChrome, AiOutlineLayout } from 'react-icons/ai';
 import { BiCategoryAlt } from 'react-icons/bi';
 import { BsBagCheck } from 'react-icons/bs';
 import { FiDatabase } from 'react-icons/fi';
@@ -56,12 +56,15 @@ export const NavBarMenu: React.FC = () => {
         <div className="ps-sidebar__content">
           <div className="ps-sidebar__center">
             <ul className="menu">
-              {/* <li className="">
-                <NavLink to="/" className={({ isActive }) => (isActive ? "active-link" : "")}>
-                  <AiOutlineHome />
+              <li className="">
+                <NavLink
+                  to="/home"
+                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink disabled-link')}
+                >
+                  <AiOutlineChrome />
                   <span>Dashboard</span>
                 </NavLink>
-              </li> */}
+              </li>
               <li className="">
                 <NavLink
                   to="/products"
@@ -75,7 +78,7 @@ export const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/orders"
-                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink disabled-link')}
+                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
                 >
                   <BsBagCheck />
                   <span>Đơn hàng</span>

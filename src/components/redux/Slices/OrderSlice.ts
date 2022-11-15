@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
+import { OrderState } from '../../../types/types';
 
 export const getCreateOrderService: any = createAsyncThunk(
   NAME_ACTION.CREATE_ORDER,
@@ -56,10 +57,9 @@ export const getRemoveOrderService: any = createAsyncThunk(
   },
 );
 
-const initialState = {
+const initialState: OrderState = {
   loading: false,
   orders: [],
-  orderUpdate: [],
 };
 export const orderSlice = createSlice({
   name: 'order',
@@ -75,7 +75,6 @@ export const orderSlice = createSlice({
     },
     [getListOrderService.rejected]: (state) => {
       state.loading = false;
-      state.orders = [];
     },
   },
 });

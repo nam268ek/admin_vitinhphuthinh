@@ -482,3 +482,50 @@ export enum SPECS {
   sizeBox = 'sizeBox',
   weigthBox = 'weigthBox',
 }
+export interface OrderState {
+  loading: boolean;
+  orders: IOrder[];
+}
+export interface IOrder {
+  id: string;
+  customer: ICustomer;
+  orderedItem: ICart;
+  billingAddress: string;
+  deliveryCharges: number;
+  discount: number;
+  isGift: boolean;
+  orderDate: string;
+  orderNumber: string;
+  orderStatus: 'done' | 'pending' | 'cancel';
+  paymentMethod: 'cash' | 'debit_card' | 'credit_card' | 'electronic_bank_transfer' | 'installment';
+  orderNotes: string;
+  totalOrderValue: number;
+  subTotalOrderValue: number;
+  orderQty: number;
+}
+export interface ICustomer {
+  id: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  address: string;
+  email: string;
+}
+export interface ICart {
+  id: string;
+  customer: ICustomer;
+  products: IProducts[];
+  state: 'active' | 'completed' | 'expired';
+  modifiedOn: string;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface DataTypeOrder {
+  key: React.Key;
+  id: string;
+  orderQty: number;
+  orderDate: string;
+  orderStatus: string;
+  totalOrderValue: number;
+  orderNumber: string;
+}
