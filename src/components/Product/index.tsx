@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Search from '../Search/Search';
+import { Search } from '../Search/Search';
 
 import { getListProductService } from '../redux/Slices/ProductSlice';
 import { RootState } from '../redux/store/store';
@@ -27,7 +27,7 @@ const Products: React.FC = () => {
       <section className="ps-items-listing">
         <div className="ps-section__actions">
           <div className="width-left">
-            <Search />
+            <Search listItems={products} />
           </div>
           <div className="width-right d-flex">
             <ExcelBotton products={products} />

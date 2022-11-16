@@ -24,7 +24,7 @@ import { PrivateRoute } from './components/common/PrivateRoute';
 import { Indicator } from './components/Indicator/Indicator';
 import { getListProductService } from './components/redux/Slices/ProductSlice';
 import { getListCategoryService } from './components/redux/Slices/CategorySlice';
-import Orders from './components/Order';
+import { Orders } from './components/Order';
 
 export const App: React.FC = () => {
   const { isLogin, user } = useSelector((state: RootState) => state.auth);
@@ -80,7 +80,8 @@ export const App: React.FC = () => {
             <Route path="/products/new" element={<NewProduct />} />
             <Route path="/products/:productId" element={<NewProduct />} />
             <Route path="/orders" element={<Orders />} />
-            <Route path="/orders/create-order" element={<NewOrder />} />
+            <Route path="/orders/new" element={<NewOrder />} />
+            <Route path="/orders/:orderId" element={<NewOrder />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/layout" element={<Layout />} />

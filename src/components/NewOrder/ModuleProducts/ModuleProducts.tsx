@@ -7,7 +7,7 @@ import moment from 'moment';
 import { MdAddShoppingCart, MdDeleteForever, MdModeEdit } from 'react-icons/md';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 // import SelectOption from '../../common/SelectOption';
-import Search from './../../Search/Search';
+import { Search } from './../../Search/Search';
 import { useSelector, useDispatch } from 'react-redux';
 // import {
 //   createProduct,

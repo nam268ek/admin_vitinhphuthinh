@@ -1,12 +1,25 @@
 import { AutoComplete, Form, Input } from 'antd';
-import { format } from 'node:path/win32';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setUpdateListOrdersAction } from '../redux/Slices/OrderSlice';
 import { setUpdateListProductAction } from '../redux/Slices/ProductSlice';
-import { RootState } from '../redux/store/store';
 
-const Search: React.FC = () => {
-  const { products } = useSelector((state: RootState) => state.product);
+type SearchProps = {
+  flowName: string;
+  listItems: any;
+  className: string;
+  placeholder: string;
+} & typeof defaultProps;
+
+const defaultProps = {
+  flowName: '',
+  listItems: [],
+  className: 'search-category',
+  placeholder: 'Tìm kiếm sản phẩm...',
+};
+
+export const Search = (props: SearchProps) => {
+  const { listItems, flowName, className, placeholder } = props;
   const [options, setOptions] = React.useState<any>([]);
   const [selectedValues, setSelectedValues] = React.useState<any>([]);
   const dispatch = useDispatch();
@@ -17,12 +30,17 @@ const Search: React.FC = () => {
   };
 
   const handleSelectItem = (value: any, option: any) => {
-    const data: any = products?.filter((item: any) => item.id === option.key);
+    const data: any = listItems?.filter((item: any) => item.id === option.key);
+
+    if (flowName === 'orders') {
+      dispatch(setUpdateListOrdersAction(data));
+      return;
+    }
     dispatch(setUpdateListProductAction(data));
   };
 
   const onSearch = (value: any) => {
-    const list = products?.map((item: any) => ({ key: item.id, value: item.name }));
+    const list = listItems?.map((item: any) => ({ key: item.id, value: item.name }));
     setOptions(list);
     if (value === '') {
       setOptions([]);
@@ -34,18 +52,18 @@ const Search: React.FC = () => {
       <Form.Item name="search" noStyle>
         <AutoComplete
           value={selectedValues}
-          className="search-category"
+          className={className}
           options={options}
           filterOption={filterList}
           onSelect={handleSelectItem}
           onSearch={onSearch}
           onChange={(value: any) => setSelectedValues(value)}
         >
-          <Input.Search size="large" placeholder="Tìm kiếm sản phẩm..." enterButton />
+          <Input.Search size="large" placeholder={placeholder} enterButton />
         </AutoComplete>
       </Form.Item>
     </Form>
   );
 };
 
-export default Search;
+Search.defaultProps = defaultProps;

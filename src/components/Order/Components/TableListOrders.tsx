@@ -3,7 +3,7 @@ import { Button, Dropdown, Menu, message, Space, Table, Tag, Tooltip } from 'ant
 import type { ColumnsType } from 'antd/es/table';
 import { TableRowSelection } from 'antd/es/table/interface';
 import moment from 'moment';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { NAME_ACTION } from '../../../constants/const';
@@ -18,10 +18,12 @@ import {
 } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
 import { openMessage } from '../../services/general.service';
+import { ModelStatus } from './ModelStatus';
 
 export const TableListOrders: React.FC = () => {
   const { loading, orders } = useSelector((state: RootState) => state.order);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -30,6 +32,10 @@ export const TableListOrders: React.FC = () => {
   const onSelectChange = (newSelectedRowKeys: React.Key[], selectedRows: DataTypeOrder[]) => {
     const ids = selectedRows.map((row) => row.id);
     setSelectedIds(ids);
+  };
+
+  const openModalStatusOrders = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   const rowSelection: TableRowSelection<DataTypeOrder> = {
@@ -42,16 +48,23 @@ export const TableListOrders: React.FC = () => {
   ) => {
     switch (key) {
       case 1:
-        await dispatch(getDeleteListProductService({ ids: selectedIds }));
+        try {
+          await dispatch(getDeleteListProductService({ ids: selectedIds })).unwrap();
+          openMessage();
+        } catch (error) {
+          openMessage(error);
+        }
         break;
       case 2:
         if (selectedIds.length === 1) {
           e.preventDefault();
-          // history.push(`${location.pathname}/update?id=${selectedIds[0]}`);
           history.push(`${location.pathname}/${selectedIds[0]}`);
         } else {
           message.error('Vui lòng chỉ chọn 1 sản phẩm');
         }
+        break;
+      case 3:
+        openModalStatusOrders();
         break;
     }
   };
@@ -75,6 +88,14 @@ export const TableListOrders: React.FC = () => {
           ),
           key: '1',
         },
+        {
+          label: (
+            <Link to="" onClick={(e) => handleActionDropdown(e, 3)}>
+              Update trạng thái
+            </Link>
+          ),
+          key: '3',
+        },
       ]}
     />
   );
@@ -84,7 +105,11 @@ export const TableListOrders: React.FC = () => {
       title: 'Mã đơn',
       dataIndex: 'orderNumber',
       key: 'orderNumber',
-      render: (orderNumber: string) => <span>{orderNumber}</span>,
+      render: (orderNumber: string, record: any) => (
+        <span className="name-product" onClick={(e) => handleUpdateProduct(e, record)}>
+          {orderNumber}
+        </span>
+      ),
     },
     {
       title: 'Giá trị',
@@ -127,20 +152,13 @@ export const TableListOrders: React.FC = () => {
       ),
     },
   ];
-  const changeStatusProduct = async (checked: boolean, item: any) => {
-    await dispatch(getUpdateProductService({ productId: item.id, status: checked }));
-  };
 
   const handleUpdateProduct = async (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
     item: any,
   ) => {
     e.preventDefault();
-    dispatch(setAction(NAME_ACTION.UPDATE_PRODUCT));
-
-    const product = orders.filter((o) => o.id === item.id);
-    dispatch(setItemSelectedAction(product));
-    // history.push(`${location.pathname}/update?id=${item.id}`);
+    dispatch(setAction(NAME_ACTION.UPDATE_ORDER));
     history.push(`${location.pathname}/${item.id}`);
   };
 
@@ -175,6 +193,7 @@ export const TableListOrders: React.FC = () => {
 
   return (
     <>
+      <ModelStatus listItemSelect={selectedIds} open={isModalOpen} setOpen={setIsModalOpen} />
       <Dropdown.Button
         loading={loading}
         disabled={!hasSelected}

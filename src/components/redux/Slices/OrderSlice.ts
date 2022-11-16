@@ -58,13 +58,21 @@ export const getRemoveOrderService: any = createAsyncThunk(
 );
 
 const initialState: OrderState = {
+  action: NAME_ACTION.DEFAULT_ORDER,
   loading: false,
   orders: [],
 };
 export const orderSlice = createSlice({
   name: 'order',
   initialState,
-  reducers: {},
+  reducers: {
+    setUpdateListOrdersAction: (state, action) => {
+      state.orders = action.payload;
+    },
+    setAction: (state, action) => {
+      state.action = action.payload;
+    },
+  },
   extraReducers: {
     [getListOrderService.pending]: (state) => {
       state.loading = true;
@@ -78,4 +86,5 @@ export const orderSlice = createSlice({
     },
   },
 });
+export const { setUpdateListOrdersAction } = orderSlice.actions;
 export const orderReducer = orderSlice.reducer;

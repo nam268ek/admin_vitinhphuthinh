@@ -178,26 +178,27 @@ export const TableListProduct: React.FC = () => {
 
   return (
     <>
-      <Dropdown.Button
-        loading={loading}
-        disabled={!hasSelected}
-        className="dropdown-action"
-        overlay={menu}
-        trigger={['click']}
-        icon={<DownOutlined />}
-      >
-        <Space>{loading ? 'Processing...' : 'Action'}</Space>
-      </Dropdown.Button>
-      <Space>
-        <Tooltip placement="right" title="Refresh & Sync data">
-          <Button
-            style={{ marginLeft: '10px' }}
-            type="default"
-            icon={<SyncOutlined spin={loading} />}
-            onClick={handleSyncData}
-          ></Button>
-        </Tooltip>
-      </Space>
+      <div className="d-flex gap-2 mb-2">
+        <Dropdown.Button
+          loading={loading}
+          disabled={!hasSelected}
+          className="dropdown-action"
+          overlay={menu}
+          trigger={['click']}
+          icon={<DownOutlined />}
+        >
+          <Space>{loading ? 'Processing...' : 'Action'}</Space>
+        </Dropdown.Button>
+        <Space>
+          <Tooltip placement="right" title="Refresh & Sync data">
+            <Button
+              type="default"
+              icon={<SyncOutlined spin={loading} />}
+              onClick={handleSyncData}
+            ></Button>
+          </Tooltip>
+        </Space>
+      </div>
       <Table
         rowKey={(record) => record.id}
         rowSelection={rowSelection}

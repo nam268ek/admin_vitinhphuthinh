@@ -484,6 +484,7 @@ export enum SPECS {
 }
 export interface OrderState {
   loading: boolean;
+  action: string;
   orders: IOrder[];
 }
 export interface IOrder {
