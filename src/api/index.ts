@@ -104,7 +104,11 @@ export const requestService = {
     const url = '/brands/create';
     return instance.post(url, params);
   },
-  //
+  //orders services
+  updateOrderStatusService: (params: any) => {
+    const url = '/orders/update/status';
+    return instance.put(url, params);
+  },
   getDropdown: (params: any) => {
     const url = '/list-dropdown';
     return instance.post(url, { params });

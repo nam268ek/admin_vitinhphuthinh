@@ -39,6 +39,7 @@ export const TableListOrders: React.FC = () => {
   };
 
   const rowSelection: TableRowSelection<DataTypeOrder> = {
+    selectedRowKeys: selectedIds,
     onChange: onSelectChange,
   };
 
@@ -102,12 +103,12 @@ export const TableListOrders: React.FC = () => {
 
   const columns: ColumnsType<DataTypeOrder> = [
     {
-      title: 'Mã đơn',
-      dataIndex: 'orderNumber',
-      key: 'orderNumber',
-      render: (orderNumber: string, record: any) => (
+      title: 'Khách hàng',
+      dataIndex: 'customer',
+      key: 'customer',
+      render: (customer: any, record: any) => (
         <span className="name-product" onClick={(e) => handleUpdateProduct(e, record)}>
-          {orderNumber}
+          {customer.email}
         </span>
       ),
     },
@@ -165,7 +166,7 @@ export const TableListOrders: React.FC = () => {
   const convertListOrders = (list: IOrder[]) => {
     return (
       list?.map((item: IOrder, index: number) => {
-        const { id, orderQty, orderDate, orderStatus, totalOrderValue, orderNumber } = item;
+        const { id, orderQty, orderDate, orderStatus, totalOrderValue, customer } = item;
         return {
           key: index + 1,
           id,
@@ -173,7 +174,7 @@ export const TableListOrders: React.FC = () => {
           orderDate,
           orderStatus,
           totalOrderValue,
-          orderNumber,
+          customer,
         };
       }) || []
     );
@@ -193,7 +194,12 @@ export const TableListOrders: React.FC = () => {
 
   return (
     <>
-      <ModelStatus listItemSelect={selectedIds} open={isModalOpen} setOpen={setIsModalOpen} />
+      <ModelStatus
+        setSelectedIds={setSelectedIds}
+        listItemSelect={selectedIds}
+        open={isModalOpen}
+        setOpen={setIsModalOpen}
+      />
       <Dropdown.Button
         loading={loading}
         disabled={!hasSelected}

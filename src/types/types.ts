@@ -528,5 +528,5 @@ export interface DataTypeOrder {
   orderDate: string;
   orderStatus: string;
   totalOrderValue: number;
-  orderNumber: string;
+  customer: ICustomer;
 }

@@ -1,25 +1,38 @@
 import { Button, Form, Modal, Select } from 'antd';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getListOrderService, getUpdateOrderStatusService } from '../../redux/Slices/OrderSlice';
 import { RootState } from '../../redux/store/store';
+import { openMessage } from '../../services/general.service';
 
-export const ModelStatus: React.FC<any> = ({ open, setOpen, listItemSelect }) => {
+export const ModelStatus: React.FC<any> = ({ open, setOpen, listItemSelect, setSelectedIds }) => {
   const { loading } = useSelector((state: RootState) => state.order);
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
 
   const handleCancel = () => {
     setOpen(false);
   };
 
-  const handleSelectImages = () => {
-    //
-    console.log(listItemSelect);
-    console.log(form.getFieldValue('orderStatus'));
+  const handleSelectImages = async () => {
+    const orderStatus = form.getFieldValue('orderStatus');
+    try {
+      await dispatch(getUpdateOrderStatusService({ ids: listItemSelect, orderStatus })).unwrap();
+      await dispatch(getListOrderService()).unwrap();
+
+      openMessage();
+      form.resetFields();
+      setOpen(false); // close modal
+      setSelectedIds([]); //clear select table
+    } catch (error) {
+      openMessage(error);
+    }
   };
 
   return (
     <Modal
       title="Update status orders"
+      width={'20%'}
       open={open}
       onCancel={handleCancel}
       confirmLoading={loading}
@@ -33,7 +46,7 @@ export const ModelStatus: React.FC<any> = ({ open, setOpen, listItemSelect }) =>
       ]}
     >
       <Form form={form}>
-        <Form.Item name="orderStatus">
+        <Form.Item name="orderStatus" style={{ marginBottom: 0 }}>
           <Select
             placeholder="Select order status"
             options={[

@@ -59,7 +59,7 @@ export const NewProduct = () => {
     handleLoadProductUpdate(productId);
   }, [productId]);
 
-  const handleLoadProductUpdate = async (id: string | undefined) => {
+  const handleLoadProductUpdate = (id: string | undefined) => {
     if (id) {
       const product = products.filter((p) => p.id === id);
       if (product.length > 0) {

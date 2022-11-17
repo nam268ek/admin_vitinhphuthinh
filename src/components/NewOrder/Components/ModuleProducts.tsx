@@ -7,7 +7,7 @@ import moment from 'moment';
 import { MdAddShoppingCart, MdDeleteForever, MdModeEdit } from 'react-icons/md';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 // import SelectOption from '../../common/SelectOption';
-import { Search } from './../../Search/Search';
+import { Search } from '../../Search/Search';
 import { useSelector, useDispatch } from 'react-redux';
 // import {
 //   createProduct,
@@ -22,15 +22,16 @@ import { cloneDeep } from 'lodash';
 import { BsCartCheckFill, BsFillCartPlusFill, BsFillCartXFill } from 'react-icons/bs';
 // import { removeItemListOrder, updateListOrder } from '../../redux/Slices/OrderSlice';
 import type { ColumnsType } from 'antd/lib/table';
+import { RootState } from '../../redux/store/store';
+import { IProducts } from '../../../types/types';
 
-const ModuleProducts: React.FC = () => {
+export const ModuleProducts: React.FC = () => {
+  const { products } = useSelector((state: RootState) => state.product);
+  const { orders } = useSelector((state: RootState) => state.order);
+
   const [isDefault, setIsDefault] = React.useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { dataFilter, listAllProducts, statusResponse } = useSelector(
-    (state: any) => state.product,
-  );
-  const { listOrder } = useSelector((state: any) => state.order);
 
   const columns: ColumnsType<any> = [
     {
@@ -52,8 +53,8 @@ const ModuleProducts: React.FC = () => {
     },
     {
       title: 'Giá',
-      dataIndex: 'price',
-      key: 'price',
+      dataIndex: 'priceSale',
+      key: 'priceSale',
       width: 120,
       render: (price: any) => (
         <span className="price-product">{formatMoney.format(Number(price))}</span>
@@ -63,7 +64,7 @@ const ModuleProducts: React.FC = () => {
 
   const processAction = (item: any) => {
     const isInOrder =
-      listOrder.filter((itemOrder: any) => itemOrder._id === item.id).length > 0 ? true : false;
+      orders?.filter((itemOrder: any) => itemOrder.id === item.id).length > 0 ? true : false;
     if (!isInOrder) {
       return (
         <Link to="" className="add-item" onClick={(e) => handleUpdateProduct(e, item)}>
@@ -93,16 +94,6 @@ const ModuleProducts: React.FC = () => {
     // dispatch(setIsLoading(false));
   };
 
-  React.useEffect(() => {
-    if (statusResponse.length > 0 && statusResponse[0].status === 'success') {
-      Modal.success({
-        title: 'Thông báo',
-        content: `${statusResponse[0].message}`,
-        okText: 'Ok',
-      });
-    }
-  }, [statusResponse]);
-
   const handleUpdateProduct = (e: any, record: any) => {
     e.preventDefault();
     const bodyProduct = cloneDeep(record.status);
@@ -117,27 +108,20 @@ const ModuleProducts: React.FC = () => {
   };
 
   const convertListProducts = (list: any[]) => {
-    return list.map((item: any, index: number) => {
+    return list?.map((item: any, index: number) => {
+      const { id, name, status, priceSale, updatedAt, quantity } = item;
       return {
         key: index + 1,
-        id: item._id,
-        name: item.title || '',
-        sku: item.sku || '',
-        price: item.price || 0,
-        category: item.category || '',
-        status: item || false,
-        date: item.updatedAt || '',
+        id,
+        name,
+        priceSale,
+        status,
+        quantity,
+        updatedAt,
       };
     });
   };
-
-  React.useEffect(() => {
-    // dispatch(getAllProducts({ role: "user" }));
-    // dispatch(getListCategory({ role: "user" }));
-    // dispatch(getListDropdown({ role: 'user' }));
-  }, [dispatch]);
-
-  const data = convertListProducts(dataFilter ? dataFilter : []);
+  const data = convertListProducts(products);
 
   const handleDefaultData = () => {
     // dispatch(setDefaultDataFilter(listAllProducts));
@@ -152,12 +136,7 @@ const ModuleProducts: React.FC = () => {
   return (
     <>
       <div className="header-search">
-        {/* <Search
-          className="search-category"
-          placeholder="Tìm kiếm sản phẩm..."
-          listItem={listAllProducts}
-          isDefault={isDefault}
-        /> */}
+        <Search listItems={products} />
         <Button type="primary" onClick={handleDefaultData}>
           Clear
         </Button>
@@ -166,6 +145,3 @@ const ModuleProducts: React.FC = () => {
     </>
   );
 };
-export default ModuleProducts;
-
-//

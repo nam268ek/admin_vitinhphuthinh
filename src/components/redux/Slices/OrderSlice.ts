@@ -56,6 +56,19 @@ export const getRemoveOrderService: any = createAsyncThunk(
     }
   },
 );
+export const getUpdateOrderStatusService: any = createAsyncThunk(
+  NAME_ACTION.UPDATE_ORDER_STATUS,
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await requestService.updateOrderStatusService(params);
+      return response;
+    } catch (error: any) {
+      if (error) {
+        return rejectWithValue(error.response.data);
+      }
+    }
+  },
+);
 
 const initialState: OrderState = {
   action: NAME_ACTION.DEFAULT_ORDER,
@@ -82,6 +95,15 @@ export const orderSlice = createSlice({
       state.orders = action.payload;
     },
     [getListOrderService.rejected]: (state) => {
+      state.loading = false;
+    },
+    [getUpdateOrderStatusService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUpdateOrderStatusService.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [getUpdateOrderStatusService.rejected]: (state) => {
       state.loading = false;
     },
   },

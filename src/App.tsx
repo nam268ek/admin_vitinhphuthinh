@@ -10,7 +10,7 @@ import Layout from './components/Layout/Layout';
 import Login from './components/Login/Login';
 import LogoLayout from './components/LogoLayout/LogoLayout';
 import { NavBarMenu } from './components/NavBarMenu/NavBarMenu';
-import { NewOrder } from './components/NewOrder/NewOrder';
+import { NewOrder } from './components/NewOrder';
 import { NewProduct } from './components/NewProduct';
 import Policy from './components/Policy/Policy';
 import Products from './components/Product';

@@ -39,8 +39,15 @@ export const Search = (props: SearchProps) => {
     dispatch(setUpdateListProductAction(data));
   };
 
+  const handleListOnSearch = () => {
+    if (flowName === 'orders') {
+      return listItems?.map((item: any) => ({ key: item.id, value: item.customer.email }));
+    }
+    return listItems?.map((item: any) => ({ key: item.id, value: item.name }));
+  };
+
   const onSearch = (value: any) => {
-    const list = listItems?.map((item: any) => ({ key: item.id, value: item.name }));
+    const list = handleListOnSearch();
     setOptions(list);
     if (value === '') {
       setOptions([]);

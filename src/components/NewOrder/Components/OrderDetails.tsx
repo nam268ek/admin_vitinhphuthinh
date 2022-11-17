@@ -2,16 +2,17 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import ImageDefault from '../../common/ImageDefault';
 import NoContent from '../../common/NoContent';
+import { RootState } from '../../redux/store/store';
 import { formatMoney } from '../../services/general.service';
 
 const OrderDetails: React.FC = () => {
-  const { listOrder } = useSelector((state: any) => state.order);
+  const { orders } = useSelector((state: RootState) => state.order);
 
   return (
     <>
       <figcaption>Order Detail</figcaption>
       <div className="ps-block__content order">
-        {listOrder?.map((item: any, index: number) => (
+        {orders?.map((item: any, index: number) => (
           <div key={index}>
             <div className="row">
               <div className="col-8">
