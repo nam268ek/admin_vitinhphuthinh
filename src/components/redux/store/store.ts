@@ -6,6 +6,7 @@ import { footerReducer } from '../Slices/FooterSlice';
 import { imageReducer } from '../Slices/ImageSlice';
 import { layoutReducer } from '../Slices/LayoutSlice';
 import { orderReducer } from '../Slices/OrderSlice';
+import { primaryReducer } from '../Slices/PrimarySlice';
 import { productReducer } from '../Slices/ProductSlice';
 import { tagReducer } from '../Slices/TagSlice';
 
@@ -19,6 +20,7 @@ const reducers = combineReducers({
   layout: layoutReducer,
   footer: footerReducer,
   brand: brandReducer,
+  primary: primaryReducer,
 });
 
 export const store = configureStore({

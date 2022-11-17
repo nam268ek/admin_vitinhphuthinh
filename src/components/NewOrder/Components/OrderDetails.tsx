@@ -5,7 +5,7 @@ import NoContent from '../../common/NoContent';
 import { RootState } from '../../redux/store/store';
 import { formatMoney } from '../../services/general.service';
 
-const OrderDetails: React.FC = () => {
+export const OrderDetails: React.FC<any> = ({ onChange }) => {
   const { orders } = useSelector((state: RootState) => state.order);
 
   return (
@@ -48,12 +48,11 @@ const OrderDetails: React.FC = () => {
                 </div>
               </div>
             </div>
-            {listOrder?.length - 1 !== index && <hr />}
+            {orders?.length - 1 !== index && <hr />}
           </div>
         ))}
-        {listOrder?.length === 0 && <NoContent />}
+        {orders?.length === 0 && <NoContent />}
       </div>
     </>
   );
 };
-export default OrderDetails;

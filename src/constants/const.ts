@@ -48,6 +48,9 @@ export enum NAME_ACTION {
   REMOVE_BRAND = 'REMOVE_BRAND',
   UPDATE_BRAND = 'UPDATE_BRAND',
   GET_BRAND = 'GET_BRAND',
+
+  //dropdown
+  GET_DROPDOWN_LIST = 'GET_DROPDOWN_LIST',
 }
 export enum KEY_UPLOAD_IMAGE {
   SLIDESHOW = 'slideshow',

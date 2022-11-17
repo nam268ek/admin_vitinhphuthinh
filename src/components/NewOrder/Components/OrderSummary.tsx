@@ -1,59 +1,26 @@
 /* eslint-disable no-useless-computed-key */
 import { Form, Input, InputNumber } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-// import SelectOption from '../../common/SelectOption';
-import { formatMoney } from '../../services/general.service';
+import { IDropdown } from '../../../types/types';
+import { SelectOptionV2 } from '../../common/SelectOptionV2';
+import { RootState } from '../../redux/store/store';
 
-export const OrderSummary: React.FC<any> = ({ form }) => {
-  // const { listImages, dataUpdate, statusResponse, listImageRemove } = useSelector((state: any) => state.product);
-  const maxLength = 100;
-  const { listOrder, dataUpdate } = useSelector((state: any) => state.order);
-  const [subtotal, setSubtotal] = React.useState<number>(0);
-  const [total, setTotal] = React.useState<number>(0);
-  const [discount, setDiscount] = React.useState<number>(0);
-  const [feeShip, setFeeShip] = React.useState<number>(0);
+export const OrderSummary: React.FC<any> = ({ form, onChange }) => {
+  const { dropdowns } = useSelector((state: RootState) => state.primary);
+  const [options, setOptions] = React.useState<any[]>([]);
 
-  // const handleUpdatePrice = (e: any, action: string) => {
-  //   const { value } = e.target;
-  //   // const price = value ? Number(value.replace(/\,/g, '')) : 0;
-  //   if (action === 'discount') {
-  //     setDiscount(price);
-  //   }
-  //   if (action === 'feeship') {
-  //     setFeeShip(price);
-  //   }
-  // };
+  useEffect(() => {
+    handleListDropdown();
+  }, [dropdowns]);
 
-  // React.useEffect(() => {
-  //   if (dataUpdate.length > 0) {
-  //     const { subtotal, feeship, discount, total } = dataUpdate[0].priord;
-  //     setTotal(total);
-  //     setSubtotal(subtotal);
-  //     setDiscount(discount);
-  //     setFeeShip(feeship);
-  //   }
-  // }, []);
+  const handleListDropdown = () => {
+    const list = dropdowns?.filter((item: IDropdown) => item.name === 'payment-method');
+    if (list.length > 0) {
+      setOptions(list[0].dropdowns);
+    }
+  };
 
-  React.useEffect(() => {
-    setTotal(subtotal - feeShip - discount);
-    form.setFieldsValue({
-      ['subtotal']: subtotal,
-      ['total']: total,
-    });
-  }, [discount, feeShip, subtotal, form, total, dataUpdate]);
-
-  // React.useEffect(() => {
-  //   const caculatorOrder = () => {
-  //     let total = 0;
-  //     listOrder.forEach((item: any) => {
-  //       total += item.price * item.quantity;
-  //     });
-  //     setSubtotal(total);
-  //     setTotal(total);
-  //   };
-  //   caculatorOrder();
-  // }, [listOrder]);
   return (
     <>
       <figcaption>Order Summary</figcaption>
@@ -61,17 +28,12 @@ export const OrderSummary: React.FC<any> = ({ form }) => {
         <div className="row">
           <div className="col-6">
             <div className="form-group">
-              {/* <SelectOption
+              <SelectOptionV2
+                name="paymentMethod"
                 placeholder="Phương thức thanh toán"
                 className="select-category"
-                isPayment
-              /> */}
-            </div>
-            <div className="form-group">
-              <label>Ghi chú</label>
-              <Form.Item name="note" initialValue={dataUpdate[0] ? dataUpdate[0].priord.note : ''}>
-                <Input maxLength={maxLength} showCount placeholder="Ghi chú..." />
-              </Form.Item>
+                options={options}
+              />
             </div>
           </div>
           <div className="col-6">
@@ -79,22 +41,14 @@ export const OrderSummary: React.FC<any> = ({ form }) => {
               <div className="col-6">
                 <p className="title-price">Tạm tính</p>
               </div>
-              <div className="col-6">
-                <div className="o-price">
-                  <p>{formatMoney.format(subtotal)}</p>
-                </div>
-              </div>
-              <Form.Item name="subtotal" hidden>
-                <Input />
+              <div className="col-6"></div>
+              <Form.Item name="subTotalOrderValue">
+                <Input disabled />
               </Form.Item>
             </div>
             <div className="row">
               <div className="i-sub">
-                <Form.Item
-                  name="discount"
-                  // noStyle
-                  initialValue={dataUpdate[0] ? dataUpdate[0].priord.discount : ''}
-                >
+                <Form.Item name="discount">
                   <InputNumber
                     min={0}
                     max={1000000000}
@@ -103,18 +57,14 @@ export const OrderSummary: React.FC<any> = ({ form }) => {
                     parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
                     style={{ width: '100%' }}
                     placeholder="Giảm giá..."
-                    // onBlur={(e) => handleUpdatePrice(e, 'discount')}
+                    onChange={(e) => onChange(e, 'discount')}
                   />
                 </Form.Item>
               </div>
             </div>
             <div className="row">
               <div className="i-sub">
-                <Form.Item
-                  name="feeship"
-                  // noStyle
-                  initialValue={dataUpdate[0] ? dataUpdate[0].priord.feeship : ''}
-                >
+                <Form.Item name="deliveryCharges">
                   <InputNumber
                     min={0}
                     max={1000000000}
@@ -123,7 +73,7 @@ export const OrderSummary: React.FC<any> = ({ form }) => {
                     parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
                     placeholder="Phí Ship..."
                     style={{ width: '100%' }}
-                    // onBlur={(e) => handleUpdatePrice(e, 'feeship')}
+                    onChange={(e) => onChange(e, 'deliveryCharges')}
                   />
                 </Form.Item>
               </div>
@@ -141,9 +91,8 @@ export const OrderSummary: React.FC<any> = ({ form }) => {
           </div>
           <div className="col-6">
             <div className="o-price">
-              <p>{total >= 0 ? formatMoney.format(total) : formatMoney.format(0)}</p>
-              <Form.Item name="total" hidden>
-                <Input />
+              <Form.Item name="totalOrderValue">
+                <Input disabled />
               </Form.Item>
             </div>
           </div>
@@ -152,5 +101,3 @@ export const OrderSummary: React.FC<any> = ({ form }) => {
     </>
   );
 };
-
-export default OrderSummary;

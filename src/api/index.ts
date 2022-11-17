@@ -31,6 +31,7 @@ export const requestService = {
     const url = '/inventories';
     return instance.post(url, params);
   },
+
   // Auth services
   updatePassword: (params: any) => {
     const url = '/user/update-pass';
@@ -48,6 +49,7 @@ export const requestService = {
     const url = '/register';
     return instance.post(url, { params });
   },
+
   // image services
   reqListImgLayout: (params: any) => {
     const url = '/layout';
@@ -69,6 +71,7 @@ export const requestService = {
     const url = '/images/remove';
     return instance.delete(url, { data: params });
   },
+
   //Category service
   listCategoryService: () => {
     const url = '/categories';
@@ -86,6 +89,7 @@ export const requestService = {
     const url = '/categories/update';
     return instance.put(url, params);
   },
+
   //tag services
   listTagsService: () => {
     const url = '/tags';
@@ -95,6 +99,7 @@ export const requestService = {
     const url = '/tags/create';
     return instance.post(url, params);
   },
+
   // brand services
   listBrandsService: () => {
     const url = '/brands';
@@ -104,6 +109,7 @@ export const requestService = {
     const url = '/brands/create';
     return instance.post(url, params);
   },
+
   //orders services
   updateOrderStatusService: (params: any) => {
     const url = '/orders/update/status';
@@ -128,6 +134,12 @@ export const requestService = {
   removeOrderService: (params: any) => {
     const url = '/orders';
     return instance.post(url, { data: params });
+  },
+
+  //dropdown services
+  listDropdownsService: (params: any) => {
+    const url = '/dropdowns';
+    return instance.get(url, params);
   },
   asyncCartFromDatabase: () => {
     const url = '/cart';

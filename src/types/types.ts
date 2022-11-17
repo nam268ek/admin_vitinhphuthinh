@@ -530,3 +530,11 @@ export interface DataTypeOrder {
   totalOrderValue: number;
   customer: ICustomer;
 }
+export interface PrimaryState {
+  loading: boolean;
+  dropdowns: IDropdown[];
+}
+export interface IDropdown {
+  name: string;
+  dropdowns: ISelectOptionProps[];
+}
