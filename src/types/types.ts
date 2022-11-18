@@ -351,6 +351,8 @@ export interface IProducts {
   isNewProduct: boolean;
   description: string;
   productInformation: IProductInformation;
+  priceSale?: number;
+  quantity?: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -389,6 +391,7 @@ export interface ISelectOption {
   placeholder?: string;
   rules?: any[];
   validateTrigger?: any;
+  onChange?: any;
 }
 export interface ISelectOptionProps {
   label: string;
@@ -515,11 +518,15 @@ export interface ICustomer {
 export interface ICart {
   id: string;
   customer: ICustomer;
-  products: IProducts[];
+  products: CartItem[];
   state: 'active' | 'completed' | 'expired';
   modifiedOn: string;
   createdAt: string;
   updatedAt: string;
+}
+export interface CartItem {
+  productId: string;
+  quantity: number;
 }
 export interface DataTypeOrder {
   key: React.Key;

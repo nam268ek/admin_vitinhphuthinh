@@ -9,13 +9,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { NAME_ACTION } from '../../../constants/const';
 import { DataTypeOrder, IOrder } from '../../../types/types';
 import { history } from '../../../utils/history';
-import { getListOrderService } from '../../redux/Slices/OrderSlice';
-import {
-  getDeleteListProductService,
-  getUpdateProductService,
-  setAction,
-  setItemSelectedAction,
-} from '../../redux/Slices/ProductSlice';
+import { getListOrderService, setOrderAction } from '../../redux/Slices/OrderSlice';
+import { getDeleteListProductService } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
 import { openMessage } from '../../services/general.service';
 import { ModelStatus } from './ModelStatus';
@@ -159,7 +154,7 @@ export const TableListOrders: React.FC = () => {
     item: any,
   ) => {
     e.preventDefault();
-    dispatch(setAction(NAME_ACTION.UPDATE_ORDER));
+    dispatch(setOrderAction(NAME_ACTION.UPDATE_ORDER));
     history.push(`${location.pathname}/${item.id}`);
   };
 

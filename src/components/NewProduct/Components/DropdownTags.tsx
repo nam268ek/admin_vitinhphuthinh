@@ -1,5 +1,4 @@
-import { Divider, Form, Select } from 'antd';
-import { SelectProps } from 'antd/lib/select';
+import { Divider, Form, Select, SelectProps } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { tagRender } from '../../common/tagRender';

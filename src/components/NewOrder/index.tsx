@@ -42,14 +42,14 @@ export const NewOrder: React.FC = () => {
 
     const order = orders?.filter((p) => p.id === id);
     if (order.length > 0) {
-      // const { images, category, brand, tags, categoryKey, specs, ...prod } = order[0];
+      const { customer, ...orderRest } = order[0];
 
       // dispatch(setImageAction(images));
       // dispatch(updateStateKeyProductAction(categoryKey));
-      // const unwindSpecs = unwindSpecsProduct(specs);
 
       form.setFieldsValue({
-        ...order[0],
+        ...orderRest,
+        ...customer,
       });
     }
   };
@@ -110,76 +110,73 @@ export const NewOrder: React.FC = () => {
   };
 
   return (
-    <div className="ps-main__wrapper">
-      <h3 className="header-button">
-        <span className="header-button-name">
-          {`${action === NAME_ACTION.CREATE_ORDER ? 'Tao' : 'Cập nhật'}`} don hang
-        </span>
-        <Form onFinish={onFinish} form={form}>
-          <Form.Item className="header-button-form">
-            <Space>
-              <Button type="primary" danger onClick={goBack}>
-                Back
-              </Button>
-              <Button type="primary" htmlType="reset" onClick={resetForm}>
-                Reset
-              </Button>
-              <Button type="primary" htmlType="submit" loading={loading}>
-                Submit
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
-      </h3>
-      <div className="header--dashboard">
-        <div className="header__left">
-          <h3 className="d-flex justify-content-between align-items-baseline">
-            <span>Tạo đơn hàng</span>
-            {/* <span className="order-id">{`OrderID: ${
-              dataUpdate[0]?.orderid || `VTPT${Date.now().toString().slice(-4)}`
-            }`}</span> */}
-          </h3>
-          <p>
-            (<span style={{ color: 'red' }}>*</span>) Các trường buộc phải nhập
-          </p>
-        </div>
-      </div>
-      <section className="ps-new-item">
-        <Form className="ps-form ps-form--new-product" form={form} onFinish={onFinish}>
-          <div className="ps-form__content">
-            <div className="row">
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                <ModuleProducts />
-              </div>
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                <figure className="ps-block--form-box">
-                  <OrderDetails onChange={onChange} />
-                </figure>
-                <figure className="ps-block--form-box">
-                  <OrderSummary onChange={onChange} />
-                </figure>
-              </div>
-            </div>
-          </div>
-          <FormCustomerOrder onChange={onChange} />
-
-          <div className="ps-form__bottom">
-            <Form.Item>
-              <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
-                <Button type="primary" danger loading={false} onClick={handleCancel}>
-                  Cancel
+    <div id="new-order">
+      <div className="ps-main__wrapper">
+        <h3 className="header-button">
+          <span className="header-button-name">
+            {`${action === NAME_ACTION.CREATE_ORDER ? 'Tạo' : 'Cập nhật'}`} đơn hàng
+          </span>
+          <Form onFinish={onFinish} form={form}>
+            <Form.Item className="header-button-form">
+              <Space>
+                <Button type="primary" danger onClick={goBack}>
+                  Back
                 </Button>
-                <Button type="primary" loading={false} htmlType="reset" onClick={resetForm}>
+                <Button type="primary" htmlType="reset" onClick={resetForm}>
                   Reset
                 </Button>
-                <Button type="primary" htmlType="submit" loading={false}>
+                <Button type="primary" htmlType="submit" loading={loading}>
                   Submit
                 </Button>
               </Space>
             </Form.Item>
+          </Form>
+        </h3>
+        <div className="content">
+          <div className="header--dashboard">
+            <div className="header__left">
+              <p>
+                (<span style={{ color: 'red' }}>*</span>) Các trường buộc phải nhập
+              </p>
+            </div>
           </div>
-        </Form>
-      </section>
+          <section className="ps-new-item">
+            <Form className="ps-form ps-form--new-product" form={form} onFinish={onFinish}>
+              <div className="ps-form__content">
+                <div className="row">
+                  <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <ModuleProducts />
+                  </div>
+                  <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <figure className="ps-block--form-box">
+                      <OrderDetails onChange={onChange} orderId={orderId} />
+                    </figure>
+                    <figure className="ps-block--form-box">
+                      <OrderSummary onChange={onChange} />
+                    </figure>
+                  </div>
+                </div>
+              </div>
+              <FormCustomerOrder onChange={onChange} />
+              <div className="ps-form__bottom">
+                <Form.Item>
+                  <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
+                    <Button type="primary" danger loading={false} onClick={handleCancel}>
+                      Cancel
+                    </Button>
+                    <Button type="primary" loading={false} htmlType="reset" onClick={resetForm}>
+                      Reset
+                    </Button>
+                    <Button type="primary" htmlType="submit" loading={false}>
+                      Submit
+                    </Button>
+                  </Space>
+                </Form.Item>
+              </div>
+            </Form>
+          </section>
+        </div>
+      </div>
     </div>
   );
 };

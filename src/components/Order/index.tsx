@@ -16,13 +16,13 @@ export const Orders: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  React.useEffect(() => {
-    try {
-      dispatch(getListOrderService()).unwrap();
-    } catch (error) {
-      openMessage(error);
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   try {
+  //     dispatch(getListOrderService()).unwrap();
+  //   } catch (error) {
+  //     openMessage(error);
+  //   }
+  // }, []);
 
   const handleCreateOrder = () => {
     navigate('/orders/new', { replace: true });

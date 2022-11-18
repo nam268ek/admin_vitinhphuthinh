@@ -25,6 +25,11 @@ import { Indicator } from './components/Indicator/Indicator';
 import { getListProductService } from './components/redux/Slices/ProductSlice';
 import { getListCategoryService } from './components/redux/Slices/CategorySlice';
 import { Orders } from './components/Order';
+import { getListOrderService } from './components/redux/Slices/OrderSlice';
+import { openMessage } from './components/services/general.service';
+import { getListTagsService } from './components/redux/Slices/TagSlice';
+import { getListBrandsService } from './components/redux/Slices/BrandSlice';
+import { getListImageService } from './components/redux/Slices/ImageSlice';
 
 export const App: React.FC = () => {
   const { isLogin, user } = useSelector((state: RootState) => state.auth);
@@ -59,8 +64,16 @@ export const App: React.FC = () => {
   }, [user, logoutAction]);
 
   useEffect(() => {
-    dispatch(getListProductService());
-    dispatch(getListCategoryService());
+    try {
+      dispatch(getListProductService()).unwrap();
+      dispatch(getListCategoryService()).unwrap();
+      dispatch(getListOrderService()).unwrap();
+      dispatch(getListTagsService()).unwrap();
+      dispatch(getListBrandsService()).unwrap();
+      dispatch(getListImageService()).unwrap();
+    } catch (error) {
+      openMessage(error);
+    }
   }, []);
 
   return (

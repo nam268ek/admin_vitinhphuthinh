@@ -6,7 +6,7 @@ import NoContent from './NoContent';
 import { formatMoney } from '../services/general.service';
 import ImageDefault from './ImageDefault';
 import { SelectOption } from './SelectOption';
-import TextArea from 'antd/lib/input/TextArea';
+import TextArea from 'antd/es/input/TextArea';
 
 const ModalBox: React.FC<any> = forwardRef(({ status, cancel }, ref) => {
   const [visible, setVisible] = useState<boolean>(false);

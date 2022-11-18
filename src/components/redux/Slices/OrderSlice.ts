@@ -82,7 +82,7 @@ export const orderSlice = createSlice({
     setUpdateListOrdersAction: (state, action) => {
       state.orders = action.payload;
     },
-    setAction: (state, action) => {
+    setOrderAction: (state, action) => {
       state.action = action.payload;
     },
   },
@@ -108,5 +108,5 @@ export const orderSlice = createSlice({
     },
   },
 });
-export const { setUpdateListOrdersAction } = orderSlice.actions;
+export const { setUpdateListOrdersAction, setOrderAction } = orderSlice.actions;
 export const orderReducer = orderSlice.reducer;

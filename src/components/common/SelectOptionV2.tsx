@@ -10,6 +10,7 @@ export const SelectOptionV2: React.FC<ISelectOption> = ({
   placeholder,
   rules,
   validateTrigger,
+  onChange,
 }) => {
   const [form] = Form.useForm();
   const [selectedValues, setSelectedValues] = React.useState<string | undefined>(undefined);
@@ -28,6 +29,7 @@ export const SelectOptionV2: React.FC<ISelectOption> = ({
         options={options}
         value={selectedValues}
         disabled={disabled}
+        onChange={(e) => onChange(e, name)}
       />
     </Form.Item>
   );

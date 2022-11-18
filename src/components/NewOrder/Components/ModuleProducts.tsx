@@ -1,32 +1,18 @@
-import React from 'react';
-import { IoSearchOutline } from 'react-icons/io5';
-import { BiRefresh } from 'react-icons/bi';
-import { FaPlusCircle } from 'react-icons/fa';
-import { Table, Tag, Space, Button, message, Modal, Switch, Checkbox } from 'antd';
-import moment from 'moment';
-import { MdAddShoppingCart, MdDeleteForever, MdModeEdit } from 'react-icons/md';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-// import SelectOption from '../../common/SelectOption';
-import { Search } from '../../Search/Search';
-import { useSelector, useDispatch } from 'react-redux';
-// import {
-//   createProduct,
-//   removeItemProduct,
-//   setDefaultDataFilter,
-//   updateProduct,
-// } from '../../redux/Slices/ProductSlice';
-import { formatMoney } from '../../services/general.service';
+import { SyncOutlined } from '@ant-design/icons';
+import { Button, message, Space, Table, Tooltip } from 'antd';
+import { ColumnsType } from 'antd/es/table';
 import { cloneDeep } from 'lodash';
-// import { setIsLoading, setAction, getListDropdown } from '../../redux/Slices/PrimarySlice';
-// import { getListCategory } from "../../redux/Slices/CategorySlice";
-import { BsCartCheckFill, BsFillCartPlusFill, BsFillCartXFill } from 'react-icons/bs';
-// import { removeItemListOrder, updateListOrder } from '../../redux/Slices/OrderSlice';
-import type { ColumnsType } from 'antd/lib/table';
+import React from 'react';
+import { BsFillCartPlusFill, BsFillCartXFill } from 'react-icons/bs';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { getListProductService } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
-import { IProducts } from '../../../types/types';
+import { Search } from '../../Search/Search';
+import { formatMoney, openMessage } from '../../services/general.service';
 
 export const ModuleProducts: React.FC = () => {
-  const { products } = useSelector((state: RootState) => state.product);
+  const { products, loading } = useSelector((state: RootState) => state.product);
   const { orders } = useSelector((state: RootState) => state.order);
 
   const [isDefault, setIsDefault] = React.useState<boolean>(false);
@@ -133,13 +119,31 @@ export const ModuleProducts: React.FC = () => {
     // dispatch(updateProduct([]));
   };
 
+  const handleSyncData = async () => {
+    const key = 'sync_data';
+    try {
+      message.loading({ content: 'Syncing...', key });
+      await dispatch(getListProductService()).unwrap();
+      openMessage(undefined, key);
+    } catch (error) {
+      openMessage(error, key);
+    }
+  };
+
   return (
     <>
       <div className="header-search">
         <Search listItems={products} />
-        <Button type="primary" onClick={handleDefaultData}>
-          Clear
-        </Button>
+        <Tooltip placement="top" title="Refresh & Sync data">
+          <Button
+            type="default"
+            className="d-flex align-items-center"
+            style={{ height: '40px' }}
+            onClick={handleSyncData}
+          >
+            <SyncOutlined spin={loading} />
+          </Button>
+        </Tooltip>
       </div>
       <Table columns={columns} dataSource={data} scroll={{ x: 'auto', y: '34rem' }} />
     </>

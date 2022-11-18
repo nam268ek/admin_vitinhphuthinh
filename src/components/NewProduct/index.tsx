@@ -45,15 +45,15 @@ export const NewProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    try {
-      dispatch(getListTagsService()).unwrap();
-      dispatch(getListBrandsService()).unwrap();
-      dispatch(getListImageService()).unwrap();
-    } catch (error) {
-      openMessage(error);
-    }
-  }, [dispatch]);
+  // useEffect(() => {
+  //   try {
+  //     dispatch(getListTagsService()).unwrap();
+  //     dispatch(getListBrandsService()).unwrap();
+  //     dispatch(getListImageService()).unwrap();
+  //   } catch (error) {
+  //     openMessage(error);
+  //   }
+  // }, [dispatch]);
 
   useEffect(() => {
     handleLoadProductUpdate(productId);

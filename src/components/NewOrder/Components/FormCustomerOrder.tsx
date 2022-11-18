@@ -1,5 +1,5 @@
 import { Form, Input } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
+import TextArea from 'antd/es/input/TextArea';
 import React from 'react';
 import { MAX_LENGTH_TEXT, MAX_LENGTH_TEXT_AREA } from '../../../constants/const';
 
@@ -9,7 +9,7 @@ export const FormCustomerOrder: React.FC<any> = ({ onChange }) => {
       <figcaption>Thông tin khách hàng</figcaption>
       <div className="ps-block__content">
         <div className="row">
-          <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+          <div className="col-xl-3 col-lg-6 col-md-12 col-sm-12 col-12">
             <div className="form-group">
               <label>First Name</label>
               <Form.Item
@@ -29,6 +29,8 @@ export const FormCustomerOrder: React.FC<any> = ({ onChange }) => {
                 />
               </Form.Item>
             </div>
+          </div>
+          <div className="col-xl-3 col-lg-6 col-md-12 col-sm-12 col-12">
             <div className="form-group">
               <label>Last Name</label>
               <Form.Item
@@ -107,7 +109,7 @@ export const FormCustomerOrder: React.FC<any> = ({ onChange }) => {
                 maxLength={MAX_LENGTH_TEXT_AREA}
                 showCount
                 placeholder="Note..."
-                onChange={(e) => onChange(e, 'orderNotes')}
+                onChange={(e: any) => onChange(e, 'orderNotes')}
               />
             </Form.Item>
           </div>

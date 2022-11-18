@@ -55,7 +55,7 @@ export const Search = (props: SearchProps) => {
   };
 
   return (
-    <Form form={form}>
+    <Form form={form} style={{ width: '100%' }}>
       <Form.Item name="search" noStyle>
         <AutoComplete
           value={selectedValues}

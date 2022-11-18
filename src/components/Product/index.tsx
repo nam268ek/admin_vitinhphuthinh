@@ -12,9 +12,9 @@ const Products: React.FC = () => {
   const dispatch = useDispatch();
   const { products } = useSelector((state: RootState) => state.product);
 
-  React.useEffect(() => {
-    dispatch(getListProductService());
-  }, [dispatch]);
+  // React.useEffect(() => {
+  //   dispatch(getListProductService());
+  // }, [dispatch]);
 
   return (
     <div className="ps-main__wrapper">

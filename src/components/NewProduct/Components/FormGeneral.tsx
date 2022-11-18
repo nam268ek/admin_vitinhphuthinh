@@ -1,5 +1,5 @@
 import { Form, Input, InputNumber } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
+import TextArea from 'antd/es/input/TextArea';
 import React from 'react';
 import { MAX_LENGTH_TEXT, MAX_LENGTH_TEXT_AREA } from '../../../constants/const';
 
@@ -102,7 +102,7 @@ export const FormGeneral: React.FC<any> = ({ handleChange }) => {
               style={{ height: '195px' }}
               maxLength={MAX_LENGTH_TEXT_AREA}
               showCount
-              onChange={(e) => handleChange(e, 'description')}
+              onChange={(e: any) => handleChange(e, 'description')}
             />
           </Form.Item>
         </div>
