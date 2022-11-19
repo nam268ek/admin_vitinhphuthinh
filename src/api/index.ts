@@ -139,7 +139,7 @@ export const requestService = {
   //dropdown services
   listDropdownsService: (params: any) => {
     const url = '/dropdowns';
-    return instance.get(url, params);
+    return instance.post(url, params);
   },
   asyncCartFromDatabase: () => {
     const url = '/cart';

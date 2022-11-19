@@ -1,6 +1,7 @@
 export const MAX_LENGTH_TEXT_AREA = 500;
 export const MAX_LENGTH_TEXT = 500;
 export const DURATION_TIMEOUT_SECONDS = 5;
+export const MAX_QTY = 500;
 export enum NAME_ACTION {
   //category
   CREATE_CATEGORY = 'CREATE_CATEGORY',
@@ -59,3 +60,4 @@ export enum KEY_UPLOAD_IMAGE {
   IMAGE_BOTTOMX2 = 'image_bottomx2',
   IMAGE_PRODUCT = 'image_product',
 }
+export const LIST_NAME_DROPDOWN_SERVICE = ['payment-method', 'order-status'];

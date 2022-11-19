@@ -81,6 +81,9 @@
       }
       .form-quantity {
         padding: 0 15px;
+        .input-number-quantity {
+          text-align: center;
+        }
       }
     }
     .i-price {
@@ -245,6 +248,11 @@
 
       .form-group {
         margin-bottom: 1.3rem;
+        .input-number-end {
+          .ant-input-number .ant-input-number-input {
+            text-align: end;
+          }
+        }
         label {
           margin-bottom: 0.7rem;
           font-weight: 400;

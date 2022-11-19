@@ -195,20 +195,20 @@ export const TableListOrders: React.FC = () => {
         open={isModalOpen}
         setOpen={setIsModalOpen}
       />
-      <Dropdown.Button
-        loading={loading}
-        disabled={!hasSelected}
-        className="dropdown-action"
-        overlay={menu}
-        trigger={['click']}
-        icon={<DownOutlined />}
-      >
-        <Space>{loading ? 'Processing...' : 'Action'}</Space>
-      </Dropdown.Button>
-      <Space>
+      <Space align="center" className="mb-2">
+        <Dropdown.Button
+          loading={loading}
+          disabled={!hasSelected}
+          className="d-flex justify-content-center align-items-center"
+          overlay={menu}
+          trigger={['click']}
+          icon={<DownOutlined className="d-flex justify-content-center align-items-center" />}
+        >
+          <Space>{loading ? 'Processing...' : 'Action'}</Space>
+        </Dropdown.Button>
         <Tooltip placement="right" title="Refresh & Sync data">
           <Button
-            style={{ marginLeft: '10px' }}
+            className="d-flex justify-content-center align-items-center"
             type="default"
             icon={<SyncOutlined spin={loading} />}
             onClick={handleSyncData}

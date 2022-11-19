@@ -1,34 +1,21 @@
 /* eslint-disable curly */
-import React, { useEffect } from 'react';
-import ImageUpload from '../ImageUpload/ImageUpload';
-import { Form, Input, Select, Button, Space, Modal, InputNumber, message } from 'antd';
-// import StatusProduct from '../StatusProduct/StatusProduct';
-import { SelectOption } from '../common/SelectOption';
-import EditorText from '../common/EditorText';
-import { useForm, Controller } from 'react-hook-form';
-import ConfigInfo from '../ConfigInfo/ConfigInfo';
-import { cloneDeep } from 'lodash';
-import { formatMoney, originalOrder } from '../services/general.service';
+import { Button, Form, Space } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { createProduct, updateProduct } from '../redux/Slices/ProductSlice';
-// import { getListDropdown, setAction, setIsLoading } from '../redux/Slices/PrimarySlice';
-import SelectAddItem from '../common/SelectAddItem';
-// import { getListCategory } from "../redux/Slices/CategorySlice";
 import { useNavigate, useParams } from 'react-router-dom';
-import { ModuleProducts } from './Components/ModuleProducts';
-import NoContent from '../common/NoContent';
-import ImageDefault from '../common/ImageDefault';
-import { OrderSummary } from './Components/OrderSummary';
-import { OrderDetails } from './Components/OrderDetails';
-import { FormCustomerOrder } from './Components/FormCustomerOrder';
 import { NAME_ACTION } from '../../constants/const';
 import { RootState } from '../redux/store/store';
+import { FormCustomerOrder } from './Components/FormCustomerOrder';
+import { ModuleProducts } from './Components/ModuleProducts';
+import { OrderDetails } from './Components/OrderDetails';
+import { OrderSummary } from './Components/OrderSummary';
 
 export const NewOrder: React.FC = () => {
   const { action, orders, loading } = useSelector((state: RootState) => state.order);
 
+  const [isReset, setIsReset] = useState<boolean>(false);
+
   const dispatch = useDispatch();
-  const childRef = React.useRef<any>(null);
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const { orderId } = useParams();
@@ -43,9 +30,6 @@ export const NewOrder: React.FC = () => {
     const order = orders?.filter((p) => p.id === id);
     if (order.length > 0) {
       const { customer, ...orderRest } = order[0];
-
-      // dispatch(setImageAction(images));
-      // dispatch(updateStateKeyProductAction(categoryKey));
 
       form.setFieldsValue({
         ...orderRest,
@@ -75,38 +59,24 @@ export const NewOrder: React.FC = () => {
     //
   };
 
-  const filterListOrder = (list: any) => {
-    return list.map((item: any) => {
-      return {
-        _id: item._id,
-        title: item.title,
-        img: item.img,
-        quantity: item.quantity,
-        price: item.price,
-      };
-    });
-  };
-
   const resetForm = (e: any) => {
     e.preventDefault();
     form.resetFields();
-    // dispatch(setImageAction([]));
-    // dispatch(setDefaultProductAction());
+    setIsReset(true);
   };
 
-  const handleCancel = (e: any) => {
-    e.preventDefault();
-    // dispatch(updateOrder([]));
-    // dispatch(updateListOrder([]));
+  const goBack = (e: any) => {
+    resetForm(e);
     navigate('/orders', { replace: true });
-  };
-
-  const goBack = () => {
-    //
   };
 
   const onChange = (event: any) => {
     //
+    // const reg = /^-?\d*(\.\d*)?$/;
+    // if (reg.test(event) || event === '') {
+    //   product.quantity = event;
+    //   setListItems(cloneListItems);
+    // }
   };
 
   return (
@@ -122,7 +92,7 @@ export const NewOrder: React.FC = () => {
                 <Button type="primary" danger onClick={goBack}>
                   Back
                 </Button>
-                <Button type="primary" htmlType="reset" onClick={resetForm}>
+                <Button type="primary" hidden={!!orderId} htmlType="reset" onClick={resetForm}>
                   Reset
                 </Button>
                 <Button type="primary" htmlType="submit" loading={loading}>
@@ -149,10 +119,10 @@ export const NewOrder: React.FC = () => {
                   </div>
                   <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                     <figure className="ps-block--form-box">
-                      <OrderDetails onChange={onChange} orderId={orderId} />
+                      <OrderDetails onChange={onChange} orderId={orderId} isReset={isReset} />
                     </figure>
                     <figure className="ps-block--form-box">
-                      <OrderSummary onChange={onChange} />
+                      <OrderSummary onChange={onChange} form={form} />
                     </figure>
                   </div>
                 </div>
@@ -161,13 +131,13 @@ export const NewOrder: React.FC = () => {
               <div className="ps-form__bottom">
                 <Form.Item>
                   <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
-                    <Button type="primary" danger loading={false} onClick={handleCancel}>
-                      Cancel
+                    <Button type="primary" danger onClick={goBack}>
+                      Back
                     </Button>
-                    <Button type="primary" loading={false} htmlType="reset" onClick={resetForm}>
+                    <Button type="primary" hidden={!!orderId} htmlType="reset" onClick={resetForm}>
                       Reset
                     </Button>
-                    <Button type="primary" htmlType="submit" loading={false}>
+                    <Button type="primary" htmlType="submit" loading={loading}>
                       Submit
                     </Button>
                   </Space>

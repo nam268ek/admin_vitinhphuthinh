@@ -63,19 +63,6 @@ export const App: React.FC = () => {
     return () => eventBus.remove('logout');
   }, [user, logoutAction]);
 
-  useEffect(() => {
-    try {
-      dispatch(getListProductService()).unwrap();
-      dispatch(getListCategoryService()).unwrap();
-      dispatch(getListOrderService()).unwrap();
-      dispatch(getListTagsService()).unwrap();
-      dispatch(getListBrandsService()).unwrap();
-      dispatch(getListImageService()).unwrap();
-    } catch (error) {
-      openMessage(error);
-    }
-  }, []);
-
   return (
     <div className="App">
       <main>

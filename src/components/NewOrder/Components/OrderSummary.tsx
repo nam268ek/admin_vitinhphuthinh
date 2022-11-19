@@ -5,8 +5,9 @@ import { useSelector } from 'react-redux';
 import { IDropdown } from '../../../types/types';
 import { SelectOptionV2 } from '../../common/SelectOptionV2';
 import { RootState } from '../../redux/store/store';
+import { formatMoney } from '../../services/general.service';
 
-export const OrderSummary: React.FC<any> = ({ onChange }) => {
+export const OrderSummary: React.FC<any> = ({ onChange, form }) => {
   const { dropdowns } = useSelector((state: RootState) => state.primary);
   const [options, setOptions] = React.useState<any[]>([]);
 
@@ -23,7 +24,7 @@ export const OrderSummary: React.FC<any> = ({ onChange }) => {
 
   return (
     <>
-      <figcaption>Order Summary</figcaption>
+      <figcaption className="header-figcaption">Order Summary</figcaption>
       <div className="ps-block__content order-sum">
         <div className="row">
           <div className="col-6">
@@ -42,7 +43,13 @@ export const OrderSummary: React.FC<any> = ({ onChange }) => {
             <div className="form-group">
               <label htmlFor="">Tạm tính</label>
               <Form.Item name="subTotalOrderValue">
-                <Input disabled />
+                <InputNumber
+                  disabled
+                  formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                  parser={(value: any) => value.replace(/\$\s?|(.*)/g, '')}
+                  className="input-number-end"
+                  addonAfter="VNĐ"
+                />
               </Form.Item>
             </div>
           </div>
@@ -57,6 +64,7 @@ export const OrderSummary: React.FC<any> = ({ onChange }) => {
                   parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
                   style={{ width: '100%' }}
                   placeholder="Giảm giá..."
+                  addonAfter="VNĐ"
                   onChange={(e) => onChange(e, 'discount')}
                 />
               </Form.Item>
@@ -72,6 +80,7 @@ export const OrderSummary: React.FC<any> = ({ onChange }) => {
                   formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
                   placeholder="Phí Ship..."
+                  addonAfter="VNĐ"
                   style={{ width: '100%' }}
                   onChange={(e) => onChange(e, 'deliveryCharges')}
                 />
@@ -81,7 +90,14 @@ export const OrderSummary: React.FC<any> = ({ onChange }) => {
           <div className="col-12">
             <div className="form-group">
               <Form.Item name="totalOrderValue">
-                <Input addonBefore="Tổng hóa đơn:" disabled />
+                <InputNumber
+                  className="input-number-end w-100"
+                  addonBefore="Tổng hóa đơn:"
+                  formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                  parser={(value: any) => value.replace(/\$\s?|(.*)/g, '')}
+                  disabled
+                  addonAfter="VNĐ"
+                />
               </Form.Item>
             </div>
           </div>

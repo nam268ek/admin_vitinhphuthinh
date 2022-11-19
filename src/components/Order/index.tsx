@@ -3,7 +3,8 @@ import React from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getListOrderService } from '../redux/Slices/OrderSlice';
+import { NAME_ACTION } from '../../constants/const';
+import { getListOrderService, setOrderAction } from '../redux/Slices/OrderSlice';
 import { RootState } from '../redux/store/store';
 import { Search } from '../Search/Search';
 import { openMessage } from '../services/general.service';
@@ -25,6 +26,7 @@ export const Orders: React.FC = () => {
   // }, []);
 
   const handleCreateOrder = () => {
+    dispatch(setOrderAction(NAME_ACTION.CREATE_ORDER));
     navigate('/orders/new', { replace: true });
   };
 

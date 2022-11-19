@@ -1,8 +1,7 @@
 /* eslint-disable react/display-name */
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { Modal, Button, Input, Form, InputNumber, Select } from 'antd';
+import { Modal, Button, Input, Form, InputNumber, Select, Empty } from 'antd';
 import { useSelector } from 'react-redux';
-import NoContent from './NoContent';
 import { formatMoney } from '../services/general.service';
 import ImageDefault from './ImageDefault';
 import { SelectOption } from './SelectOption';
@@ -85,7 +84,7 @@ const ModalBox: React.FC<any> = forwardRef(({ status, cancel }, ref) => {
                 {viewItemOrder[0]?.listprod?.length - 1 !== index && <hr />}
               </div>
             ))}
-            {viewItemOrder[0]?.listprod?.length === 0 && <NoContent />}
+            {viewItemOrder[0]?.listprod?.length === 0 && <Empty />}
           </div>
           <div className="row">
             <div className="line-dashed">

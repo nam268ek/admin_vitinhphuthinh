@@ -174,9 +174,9 @@ export const CreateCategory: React.FC = () => {
                       <span>Reset</span>
                     </Button>
                     <Button
-                      type="ghost"
+                      type="primary"
                       danger
-                      className="ps-btn-secondary"
+                      // className="ps-btn-secondary"
                       htmlType="button"
                       onClick={handleCancel}
                     >

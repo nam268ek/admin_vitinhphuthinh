@@ -6,7 +6,7 @@ import { MAX_LENGTH_TEXT, MAX_LENGTH_TEXT_AREA } from '../../../constants/const'
 export const FormCustomerOrder: React.FC<any> = ({ onChange }) => {
   return (
     <figure className="ps-block--form-box">
-      <figcaption>Thông tin khách hàng</figcaption>
+      <figcaption className="header-figcaption">Thông tin khách hàng</figcaption>
       <div className="ps-block__content">
         <div className="row">
           <div className="col-xl-3 col-lg-6 col-md-12 col-sm-12 col-12">

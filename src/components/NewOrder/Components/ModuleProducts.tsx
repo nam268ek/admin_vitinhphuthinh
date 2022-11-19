@@ -38,6 +38,13 @@ export const ModuleProducts: React.FC = () => {
       render: (text: string) => <span className="name-product">{text}</span>,
     },
     {
+      title: 'Số lượng',
+      dataIndex: 'quantity',
+      key: 'quantity',
+      width: 120,
+      render: (quantity: number) => <span className="price-product">{quantity}</span>,
+    },
+    {
       title: 'Giá',
       dataIndex: 'priceSale',
       key: 'priceSale',
