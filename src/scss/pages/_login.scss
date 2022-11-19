@@ -1,9 +1,9 @@
 .login-background {
-  background-image: url('../../../public/backgroud.png');
+  background-image: url('https://unsplash.it/1228/880?image=302');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  filter: blur(15px);
+  filter: blur(24px);
   height: 100vh;
 }
 #login,
@@ -19,9 +19,19 @@
   .w-30 {
     width: 30% !important;
   }
+  .text-header {
+    width: 100%;
+    background: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-align: center;
+    color: #5c6063;
+    font-size: 24px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  }
 
   .links {
-    padding-bottom: 30px;
+    // padding-bottom: 30px;
 
     a {
       display: inline-block;

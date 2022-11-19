@@ -36,7 +36,7 @@ const Login: React.FC = () => {
           <div className="row justify-content-center">
             <div className="d-flex flex-column w-30">
               <div className="links d-flex justify-content-center">
-                <p className="h3 fw-bold">Vi tính Phú Thịnh</p>
+                <p className="h3 fw-bold text-header">Vi tính Phú Thịnh</p>
               </div>
               <div className="login-area account-wrapper">
                 <Form onFinish={onFinish}>
@@ -47,7 +47,7 @@ const Login: React.FC = () => {
                       {
                         required: true,
                         type: 'email',
-                        message: 'Please enter your email address',
+                        message: 'Require email',
                       },
                     ]}
                     validateTrigger={['onChange', 'onBlur']}
@@ -60,7 +60,7 @@ const Login: React.FC = () => {
                       {
                         required: true,
                         type: 'string',
-                        message: 'Please enter your password',
+                        message: 'Require password',
                       },
                     ]}
                     validateTrigger={['onChange', 'onBlur']}
