@@ -8,8 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
 import { SPECS } from '../../types/types';
 import { TypeOf } from '../../utils/CheckTypeOfValue';
-import { getListBrandsService } from '../redux/Slices/BrandSlice';
-import { getListImageService, setImageAction } from '../redux/Slices/ImageSlice';
+import { setImageAction } from '../redux/Slices/ImageSlice';
 import {
   getCreateProductInventoryService,
   getCreateProductService,
@@ -18,7 +17,6 @@ import {
   setDefaultProductAction,
   updateStateKeyProductAction,
 } from '../redux/Slices/ProductSlice';
-import { getListTagsService } from '../redux/Slices/TagSlice';
 import { RootState } from '../redux/store/store';
 import { openMessage } from '../services/general.service';
 import { FormCategories } from './Components/FormCategories';
@@ -34,7 +32,7 @@ const bodyDataProduct: any = {};
 let bodyDataProductSpecs: any = [];
 
 export const NewProduct = () => {
-  const { action, itemSelected, isChange, loading, products, keyProduct } = useSelector(
+  const { action, itemSelected, loading, products, keyProduct } = useSelector(
     (state: RootState) => state.product,
   );
   const { imageUploaded } = useSelector((state: RootState) => state.image);
@@ -44,16 +42,6 @@ export const NewProduct = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   try {
-  //     dispatch(getListTagsService()).unwrap();
-  //     dispatch(getListBrandsService()).unwrap();
-  //     dispatch(getListImageService()).unwrap();
-  //   } catch (error) {
-  //     openMessage(error);
-  //   }
-  // }, [dispatch]);
 
   useEffect(() => {
     handleLoadProductUpdate(productId);

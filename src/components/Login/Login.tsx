@@ -29,53 +29,56 @@ const Login: React.FC = () => {
   };
 
   return (
-    <section id="login">
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="d-flex flex-column w-30">
-            <div className="links d-flex justify-content-center">
-              <p className="h3 fw-bold">Đăng nhập</p>
-            </div>
-            <div className="login-area account-wrapper">
-              <Form onFinish={onFinish}>
-                <Form.Item
-                  name="email"
-                  className="mb-4"
-                  rules={[
-                    {
-                      required: true,
-                      type: 'email',
-                      message: 'Please enter your email address',
-                    },
-                  ]}
-                  validateTrigger={['onChange', 'onBlur']}
-                >
-                  <Input placeholder="Email" />
-                </Form.Item>
-                <Form.Item
-                  name="password"
-                  rules={[
-                    {
-                      required: true,
-                      type: 'string',
-                      message: 'Please enter your password',
-                    },
-                  ]}
-                  validateTrigger={['onChange', 'onBlur']}
-                >
-                  <Input placeholder="Password" type="password" />
-                </Form.Item>
-                <Form.Item className="m-0">
-                  <Button style={{ width: '100%' }} type="primary" htmlType="submit">
-                    Login
-                  </Button>
-                </Form.Item>
-              </Form>
+    <>
+      <section className="login-background"></section>
+      <section id="login">
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="d-flex flex-column w-30">
+              <div className="links d-flex justify-content-center">
+                <p className="h3 fw-bold">Vi tính Phú Thịnh</p>
+              </div>
+              <div className="login-area account-wrapper">
+                <Form onFinish={onFinish}>
+                  <Form.Item
+                    name="email"
+                    className="mb-4"
+                    rules={[
+                      {
+                        required: true,
+                        type: 'email',
+                        message: 'Please enter your email address',
+                      },
+                    ]}
+                    validateTrigger={['onChange', 'onBlur']}
+                  >
+                    <Input placeholder="Email" />
+                  </Form.Item>
+                  <Form.Item
+                    name="password"
+                    rules={[
+                      {
+                        required: true,
+                        type: 'string',
+                        message: 'Please enter your password',
+                      },
+                    ]}
+                    validateTrigger={['onChange', 'onBlur']}
+                  >
+                    <Input placeholder="Password" type="password" />
+                  </Form.Item>
+                  <Form.Item className="m-0">
+                    <Button style={{ width: '100%' }} type="primary" htmlType="submit">
+                      Đăng nhập
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 

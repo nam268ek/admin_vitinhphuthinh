@@ -59,16 +59,13 @@ export const OrderDetails: React.FC<any> = ({ onChange, orderId, isReset }) => {
     if (key === 'increase') {
       if (product.quantity === MAX_QTY) return;
       product.quantity = ++product.quantity;
-      setListItems(cloneListItems);
-      return;
     }
     if (key === 'decrease') {
       if (product.quantity === 1) return;
       product.quantity = --product.quantity;
-      setListItems(cloneListItems);
-      return;
     }
     // change product quantity
+    setListItems(cloneListItems);
     onChange(product.quantity, 'quantity', productId);
   };
 
@@ -88,8 +85,8 @@ export const OrderDetails: React.FC<any> = ({ onChange, orderId, isReset }) => {
         product.quantity = 1;
       } else product.quantity = Number(inputValue);
 
-      setListItems(cloneListItems);
       // change product quantity
+      setListItems(cloneListItems);
       onChange(product.quantity, 'quantity', productId);
     }
   };

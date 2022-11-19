@@ -1,9 +1,11 @@
+/* eslint-disable new-cap */
 /* eslint-disable curly */
 import { Button, Form, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
+import { TypeOf } from '../../utils/CheckTypeOfValue';
 import { RootState } from '../redux/store/store';
 import { FormCustomerOrder } from './Components/FormCustomerOrder';
 import { ModuleProducts } from './Components/ModuleProducts';
@@ -70,13 +72,9 @@ export const NewOrder: React.FC = () => {
     navigate('/orders', { replace: true });
   };
 
-  const onChange = (event: any) => {
-    //
-    // const reg = /^-?\d*(\.\d*)?$/;
-    // if (reg.test(event) || event === '') {
-    //   product.quantity = event;
-    //   setListItems(cloneListItems);
-    // }
+  const onChange = (e: any) => {
+    let value = e;
+    if (TypeOf(e) === 'Object' && !(e instanceof Event)) value = e.target.value;
   };
 
   return (

@@ -93,7 +93,9 @@ export const CreateCategory: React.FC = () => {
             itemSelected.length > 0 ? 'ps-block--form-box ps-box-edit' : 'ps-block--form-box'
           }
         >
-          <figcaption>{itemSelected.length > 0 ? 'Update' : 'Thêm'} Danh mục</figcaption>
+          <figcaption className="header-figcaption">
+            {itemSelected.length > 0 ? 'Update' : 'Thêm'} Danh mục
+          </figcaption>
           <div className="ps-block__content">
             <div className="row">
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
