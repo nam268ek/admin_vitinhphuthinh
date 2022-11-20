@@ -1,20 +1,13 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Search } from '../Search/Search';
-
-import { getListProductService } from '../redux/Slices/ProductSlice';
+import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store/store';
+import { Search } from '../Search/Search';
 import { DropDownNewProduct } from './Components/DropDownNewProduct';
 import { ExcelBotton } from './Components/ExcelBotton';
 import { TableListProduct } from './Components/TableListProducts';
 
-const Products: React.FC = () => {
-  const dispatch = useDispatch();
+export const Products: React.FC = () => {
   const { products } = useSelector((state: RootState) => state.product);
-
-  // React.useEffect(() => {
-  //   dispatch(getListProductService());
-  // }, [dispatch]);
 
   return (
     <div className="ps-main__wrapper">
@@ -46,4 +39,3 @@ const Products: React.FC = () => {
     </div>
   );
 };
-export default Products;

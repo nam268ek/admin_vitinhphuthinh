@@ -1,12 +1,12 @@
 import { DownOutlined, SyncOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Menu, message, Space, Table, Tag, Tooltip } from 'antd';
+import { Badge, Button, Dropdown, Menu, message, Space, Table, Tag, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { TableRowSelection } from 'antd/es/table/interface';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { NAME_ACTION } from '../../../constants/const';
+import { NAME_ACTION, ORDER_STATUS } from '../../../constants/const';
 import { DataTypeOrder, IOrder } from '../../../types/types';
 import { history } from '../../../utils/history';
 import { getListOrderService, setOrderAction } from '../../redux/Slices/OrderSlice';
@@ -129,25 +129,32 @@ export const TableListOrders: React.FC = () => {
       title: 'Trạng thái',
       key: 'orderStatus',
       dataIndex: 'orderStatus',
-      render: (orderStatus: string) => (
-        <>
-          {orderStatus === 'pending' ? (
-            <Tag color="cyan" key={Math.random()}>
-              {orderStatus}
-            </Tag>
-          ) : orderStatus === 'cancel' ? (
-            <Tag color="red" key={Math.random()}>
-              {orderStatus}
-            </Tag>
-          ) : (
-            <Tag color="green" key={Math.random()}>
-              {orderStatus}
-            </Tag>
-          )}
-        </>
-      ),
+      render: (orderStatus: string) => handleStatusOrder(orderStatus),
     },
   ];
+
+  const handleStatusOrder = (orderStatus: string): JSX.Element => {
+    switch (orderStatus) {
+      case ORDER_STATUS.CREATE:
+        return <Badge color="rgba(0,0,0,.46)" count={orderStatus} />;
+      case ORDER_STATUS.PENDING:
+        return (
+          <Tooltip title="Đơn hàng đang được xử lý">
+            <Badge color="hwb(205 6% 9%)" count={orderStatus} />
+          </Tooltip>
+        );
+      case ORDER_STATUS.CANCEL:
+        return <Badge key={Math.random()} count={orderStatus} />;
+      default:
+        return (
+          <Badge
+            className="site-badge-count-109"
+            count={orderStatus}
+            style={{ backgroundColor: '#52c41a' }}
+          />
+        );
+    }
+  };
 
   const handleUpdateProduct = async (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,

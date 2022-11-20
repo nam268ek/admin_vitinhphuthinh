@@ -1,6 +1,6 @@
 import { Space, Table } from 'antd';
 import moment from 'moment';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MdDeleteForever, MdModeEdit } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -57,10 +57,6 @@ export const TableListCategory: React.FC = () => {
       ),
     },
   ];
-
-  useEffect(() => {
-    dispatch(getListCategoryService());
-  }, [dispatch]);
 
   const handleRemoveCategory = async (record: any) => {
     try {

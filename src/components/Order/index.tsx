@@ -1,29 +1,19 @@
-import { Button } from 'antd';
+import { Button, FloatButton } from 'antd';
 import React from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
-import { getListOrderService, setOrderAction } from '../redux/Slices/OrderSlice';
+import { setOrderAction } from '../redux/Slices/OrderSlice';
 import { RootState } from '../redux/store/store';
 import { Search } from '../Search/Search';
-import { openMessage } from '../services/general.service';
 import { TableListOrders } from './Components/TableListOrders';
 
 export const Orders: React.FC = () => {
   const { orders } = useSelector((state: RootState) => state.order);
-  const childRef = React.useRef<any>(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // React.useEffect(() => {
-  //   try {
-  //     dispatch(getListOrderService()).unwrap();
-  //   } catch (error) {
-  //     openMessage(error);
-  //   }
-  // }, []);
 
   const handleCreateOrder = () => {
     dispatch(setOrderAction(NAME_ACTION.CREATE_ORDER));
@@ -63,6 +53,7 @@ export const Orders: React.FC = () => {
           </div>
         </section>
       </div>
+      <FloatButton type="primary" className="float-button-doc" tooltip={<div>Documents</div>} />
     </div>
   );
 };

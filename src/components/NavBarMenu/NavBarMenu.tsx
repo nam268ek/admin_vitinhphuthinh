@@ -1,26 +1,39 @@
-import React from 'react';
+/* eslint-disable curly */
+import { LogoutOutlined } from '@ant-design/icons';
+import { Button, Tooltip } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineChrome, AiOutlineLayout } from 'react-icons/ai';
 import { BiCategoryAlt } from 'react-icons/bi';
 import { BsBagCheck } from 'react-icons/bs';
 import { FiDatabase } from 'react-icons/fi';
-import { ImExit } from 'react-icons/im';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { logout } from '../redux/Slices/AuthSlice';
-// import { resetProcessImg } from '../redux/Slices/ProductSlice';
+import { RootState } from '../redux/store/store';
 import { formatMoney } from '../services/general.service';
 
 export const NavBarMenu: React.FC = () => {
+  const { products } = useSelector((state: RootState) => state.product);
+
+  const [totalValueStore, setTotalValueStore] = useState<number>(0);
+
   const dispatch = useDispatch();
-  // const handleProcessImg = () => {
-  //   dispatch(resetProcessImg());
-  // };
-  // const { listAllProducts } = useSelector((state: any) => state.product);
-  const sumPrice = 0;
-  //   listAllProducts.reduce((a: any, b: any) => {
-  //     return a + b.price;
-  //   }, 0) || 0;
+
+  useEffect(() => {
+    handleTotalValueStore();
+  }, [products]);
+
+  const handleTotalValueStore = () => {
+    const listPrices = products?.map((item) => {
+      const { price, priceSale, quantity } = item;
+      if (item.priceSale) return { priceSale, quantity };
+      return { priceSale: price, quantity };
+    });
+
+    const prices = listPrices.reduce((prev, curr) => prev + curr.priceSale * curr.quantity, 0);
+    setTotalValueStore(prices);
+  };
 
   const handleLogout = () => {
     dispatch(logout());
@@ -37,20 +50,25 @@ export const NavBarMenu: React.FC = () => {
             <div className="ps-block__right">
               <p>
                 Xin chào,
-                <Link id="nameshop" to="">
-                  Vi Tính Phú Thịnh
-                </Link>
+                <p id="nameshop">Vi Tính Phú Thịnh</p>
               </p>
             </div>
             <div className="ps-block__action">
-              <Link id="logout" to="" onClick={handleLogout}>
-                <ImExit />
-              </Link>
+              <Tooltip title="Đăng xuất">
+                <Button
+                  type="primary"
+                  danger
+                  icon={
+                    <LogoutOutlined className="d-flex justify-content-center align-items-center" />
+                  }
+                  onClick={handleLogout}
+                ></Button>
+              </Tooltip>
             </div>
           </div>
           <div className="ps-block--earning-count">
             <small>Tổng giá trị kho hàng</small>
-            <h3>{formatMoney.format(Number(sumPrice))}</h3>
+            <h3>{formatMoney.format(Number(totalValueStore))}</h3>
           </div>
         </div>
         <div className="ps-sidebar__content">
@@ -69,7 +87,6 @@ export const NavBarMenu: React.FC = () => {
                 <NavLink
                   to="/products"
                   className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
-                  // onClick={handleProcessImg}
                 >
                   <FiDatabase />
                   <span>Sản phẩm</span>
@@ -84,15 +101,6 @@ export const NavBarMenu: React.FC = () => {
                   <span>Đơn hàng</span>
                 </NavLink>
               </li>
-              {/* <li className="">
-                <NavLink
-                  to="/customers"
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
-                >
-                  <FiUsers />
-                  <span>Customers</span>
-                </NavLink>
-              </li> */}
               <li className="">
                 <NavLink
                   to="/categories"
@@ -104,8 +112,8 @@ export const NavBarMenu: React.FC = () => {
               </li>
               <li className="">
                 <NavLink
-                  to="/layout"
-                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink disabled-link')}
+                  to="/marketings"
+                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
                 >
                   <AiOutlineLayout />
                   <span>Marketing</span>

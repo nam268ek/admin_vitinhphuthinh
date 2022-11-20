@@ -6,7 +6,7 @@
           .search-order {
             width: 100%;
             padding-right: 10px;
-            
+
             .ant-input-search-button {
               border-radius: 0 5px 5px 0 !important;
               display: flex;
@@ -74,6 +74,11 @@
     button:first-of-type {
       display: flex;
       align-items: center;
+    }
+  }
+  .float-button-doc {
+    .anticon {
+      display: flex;
     }
   }
 }

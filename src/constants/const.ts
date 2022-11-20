@@ -52,6 +52,11 @@ export enum NAME_ACTION {
 
   //dropdown
   GET_DROPDOWN_LIST = 'GET_DROPDOWN_LIST',
+
+  //marketings
+  CREATE_MARKETINGS = 'CREATE_MARKETINGS',
+  UPDATE_MARKETINGS = 'UPDATE_MARKETINGS',
+  GET_MARKETINGS = 'GET_MARKETINGS',
 }
 export enum KEY_UPLOAD_IMAGE {
   SLIDESHOW = 'slideshow',
@@ -59,5 +64,11 @@ export enum KEY_UPLOAD_IMAGE {
   IMAGE_BOTTOMX1 = 'image_bottomx1',
   IMAGE_BOTTOMX2 = 'image_bottomx2',
   IMAGE_PRODUCT = 'image_product',
+}
+export enum ORDER_STATUS {
+  CREATE = 'create',
+  PENDING = 'pending',
+  CANCEL = 'cancel',
+  DONE = 'done',
 }
 export const LIST_NAME_DROPDOWN_SERVICE = ['payment-method', 'order-status'];

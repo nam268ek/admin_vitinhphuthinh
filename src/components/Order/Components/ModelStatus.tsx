@@ -1,14 +1,23 @@
 import { Button, Form, Modal, Select } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { IDropdown } from '../../../types/types';
 import { getListOrderService, getUpdateOrderStatusService } from '../../redux/Slices/OrderSlice';
 import { RootState } from '../../redux/store/store';
 import { openMessage } from '../../services/general.service';
 
 export const ModelStatus: React.FC<any> = ({ open, setOpen, listItemSelect, setSelectedIds }) => {
   const { loading } = useSelector((state: RootState) => state.order);
+  const { dropdowns } = useSelector((state: RootState) => state.primary);
+
+  const [options, setOptions] = React.useState<any[]>([]);
+
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    handleListDropdown();
+  }, [dropdowns]);
 
   const handleCancel = () => {
     setOpen(false);
@@ -26,6 +35,13 @@ export const ModelStatus: React.FC<any> = ({ open, setOpen, listItemSelect, setS
       setSelectedIds([]); //clear select table
     } catch (error) {
       openMessage(error);
+    }
+  };
+
+  const handleListDropdown = () => {
+    const list = dropdowns?.filter((item: IDropdown) => item.name === 'order-status');
+    if (list.length > 0) {
+      setOptions(list[0].dropdowns);
     }
   };
 
@@ -47,23 +63,7 @@ export const ModelStatus: React.FC<any> = ({ open, setOpen, listItemSelect, setS
     >
       <Form form={form}>
         <Form.Item name="orderStatus" style={{ marginBottom: 0 }}>
-          <Select
-            placeholder="Select order status"
-            options={[
-              {
-                value: 'done',
-                label: 'done',
-              },
-              {
-                value: 'pending',
-                label: 'pending',
-              },
-              {
-                value: 'cancel',
-                label: 'cancel',
-              },
-            ]}
-          />
+          <Select placeholder="Select order status" options={options} />
         </Form.Item>
       </Form>
     </Modal>

@@ -336,6 +336,10 @@ export interface DataTypeProduct {
   priceSale: number;
   status: boolean;
   updatedAt: any;
+  quantity: number;
+}
+export interface DataTypeCustom extends DataTypeProduct {
+  quantity: number;
 }
 export interface IProducts {
   id: string;
@@ -544,4 +548,9 @@ export interface PrimaryState {
 export interface IDropdown {
   name: string;
   dropdowns: ISelectOptionProps[];
+}
+export interface MarketingState {
+  action: NAME_ACTION;
+  loading: boolean;
+  marketings: any[];
 }
