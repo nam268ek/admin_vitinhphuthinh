@@ -77,7 +77,11 @@ export const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/home"
-                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink disabled-link')}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'active-link text-decoration-none'
+                      : 'navlink disabled-link text-decoration-none'
+                  }
                 >
                   <AiOutlineChrome />
                   <span>Dashboard</span>
@@ -86,7 +90,9 @@ export const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/products"
-                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
+                  className={({ isActive }) =>
+                    isActive ? 'active-link text-decoration-none' : 'navlink text-decoration-none'
+                  }
                 >
                   <FiDatabase />
                   <span>Sản phẩm</span>
@@ -95,7 +101,9 @@ export const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/orders"
-                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
+                  className={({ isActive }) =>
+                    isActive ? 'active-link text-decoration-none' : 'navlink text-decoration-none'
+                  }
                 >
                   <BsBagCheck />
                   <span>Đơn hàng</span>
@@ -104,7 +112,9 @@ export const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/categories"
-                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
+                  className={({ isActive }) =>
+                    isActive ? 'active-link text-decoration-none' : 'navlink text-decoration-none'
+                  }
                 >
                   <BiCategoryAlt />
                   <span>Danh mục</span>
@@ -113,7 +123,9 @@ export const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/marketings"
-                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink')}
+                  className={({ isActive }) =>
+                    isActive ? 'active-link text-decoration-none' : 'navlink text-decoration-none'
+                  }
                 >
                   <AiOutlineLayout />
                   <span>Marketing</span>
@@ -122,7 +134,11 @@ export const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/blogs"
-                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink disabled-link')}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'active-link text-decoration-none'
+                      : 'navlink text-decoration-none disabled-link'
+                  }
                 >
                   <AiOutlineLayout />
                   <span>Blogs</span>
@@ -131,7 +147,11 @@ export const NavBarMenu: React.FC = () => {
               <li className="">
                 <NavLink
                   to="/settings"
-                  className={({ isActive }) => (isActive ? 'active-link' : 'navlink disabled-link')}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'active-link text-decoration-none'
+                      : 'navlink text-decoration-none disabled-link'
+                  }
                 >
                   <IoSettingsOutline />
                   <span>Settings</span>

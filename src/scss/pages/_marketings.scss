@@ -2,6 +2,12 @@
   .header-figcaption {
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
+    .title-name {
+      font-size: 18px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 10px;
+    }
   }
   .ps-main__wrapper {
     padding: 0;
@@ -33,6 +39,12 @@
     width: 100%;
   }
   .ps-block--form-box {
+    // padding: 10px 20px;
+    // background-color: #cbe6ff;
+    // font-size: 16px;
+    // font-weight: 600;
+    // text-transform: capitalize;
+
     figcaption {
       padding: 10px 20px;
       background-color: #cbe6ff;
@@ -166,8 +178,19 @@
   .ant-table-cell {
     background: #fafafa !important;
   }
-  // .model-image.ant-modal-content.ant-modal-footer {
-  //   display: flex !important;
-  //   justify-content: space-between !important;
+  .container-block-shadow {
+    padding: 20px 20px 40px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: capitalize;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  }
+
+  // .modal-list-table .table-list-default {
+  //   .ant-table-thead > tr > th {
+  //     background: #cbe6ff !important;
+  //   }
   // }
 }

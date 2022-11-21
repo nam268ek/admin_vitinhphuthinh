@@ -36,56 +36,6 @@ main {
   position: relative;
 }
 
-// // Button
-// button {
-//   background-color: transparent;
-//   border: none;
-//   outline: none;
-// }
-
-input[type="submit"],
-button {
-  cursor: pointer;
-}
-
-// input
-input[type="text"],
-input[type="password"] {
-  font-size: 14px;
-  // padding: 0 20px;
-  outline: none;
-  background-color: $main-bgColor;
-}
-
-// image{
-img {
-  // height: 100%;
-  // width: 100%;
-  // object-fit: cover;
-  // img {
-  vertical-align: middle;
-  border-style: none;
-}
-a,
-// button,
-input,
-select,
-textarea {
-  outline: none;
-  text-decoration: none;
-  // transition: all 0.2s ease;
-}
-a {
-  transition: none !important;
-}
-// react-toastify
-.Toastify__toast-container {
-  z-index: 9999999;
-
-  .Toastify__toast-body {
-    font-size: 14px;
-  }
-}
 @media screen and (max-width: 1440px) {
   header {
     max-width: 280px;

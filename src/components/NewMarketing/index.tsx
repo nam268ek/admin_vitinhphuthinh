@@ -86,7 +86,7 @@ export const NewMarketing = () => {
                   <FormSelectProducts />
                 </div>
               </div>
-              <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
+              <Space style={{ width: '100%', justifyContent: 'flex-end', marginTop: '2rem' }}>
                 <Form.Item>
                   <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
                     <Button type="primary" danger onClick={goBack}>

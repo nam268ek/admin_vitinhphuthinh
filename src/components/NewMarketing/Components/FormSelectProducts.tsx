@@ -51,72 +51,70 @@ export const FormSelectProducts = () => {
   };
   const data: DataTypeCustom[] = convertListProducts(products);
 
-  const columns: ColumnsType<DataTypeCustom> = [
-    {
-      title: 'ID',
-      dataIndex: 'key',
-      key: 'key',
-      render: (text: string) => <span>{text}</span>,
-    },
-    {
-      title: 'Tên sản phẩm',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text: string, record: any) => <span className="price-product">{text}</span>,
-    },
-    {
-      title: 'Giá bán',
-      dataIndex: 'priceSale',
-      key: 'priceSale',
-      render: (priceSale: any) => (
-        <span className="price-product">{formatMoney.format(Number(priceSale))}</span>
-      ),
-    },
-    {
-      title: 'Số lượng',
-      dataIndex: 'quantity',
-      key: 'quantity',
-      render: (quantity: any) => <span className="price-product">{quantity}</span>,
-    },
-  ];
+  // const columns: ColumnsType<DataTypeCustom> = [
+  //   {
+  //     title: 'Tên sản phẩm',
+  //     dataIndex: 'name',
+  //     key: 'name',
+  //     render: (text: string, record: any) => <span className="price-product">{text}</span>,
+  //   },
+  //   {
+  //     title: 'Giá bán',
+  //     dataIndex: 'priceSale',
+  //     key: 'priceSale',
+  //     render: (priceSale: any) => (
+  //       <span className="price-product">{formatMoney.format(Number(priceSale))}</span>
+  //     ),
+  //   },
+  //   {
+  //     title: 'Số lượng',
+  //     dataIndex: 'quantity',
+  //     key: 'quantity',
+  //     render: (quantity: any) => <span className="price-product">{quantity}</span>,
+  //   },
+  // ];
 
   return (
     <div className="col-xl-12 col-lg-6 col-md-12 col-sm-12 col-12">
-      <figure className="ps-block--form-box">
-        <figcaption className="header-figcaption d-flex justify-content-between align-items-center">
-          <span>Sản phẩm khuyến mãi</span>
-          <Button
-            type="primary"
-            onClick={openModelProducts}
-            className="d-flex justify-content-center align-items-center"
-            icon={<PlusOutlined className="d-flex justify-content-center align-items-center" />}
-          >
-            Thêm sản phẩm
-          </Button>
-          <ModalListProducts
-            listProductSelect={listProductSelect}
-            open={isModalOpen}
-            setOpen={setIsModalOpen}
-          />
-        </figcaption>
+      <div className="ps-block--form-box">
+        <div className="container-block-shadow">
+          <div className="header-figcaption">
+            <p className="title-name">Sản phẩm khuyến mãi</p>
+            <div>
+              <Button
+                type="primary"
+                onClick={openModelProducts}
+                className="d-flex justify-content-center align-items-center"
+                icon={<PlusOutlined className="d-flex justify-content-center align-items-center" />}
+              >
+                Thêm sản phẩm
+              </Button>
+            </div>
+            <ModalListProducts
+              listProductSelect={listProductSelect}
+              open={isModalOpen}
+              setOpen={setIsModalOpen}
+            />
+          </div>
 
-        <div className="ps-block__content">
-          {/* <Empty /> */}
-          <div className="row">
-            <div className="form-group m-0">
-              <div>
-                <Table
+          <div className="shadow-content">
+            {/* <Empty /> */}
+            <div className="row">
+              <div className="form-group m-0">
+                <div>
+                  {/* <Table
                   rowKey={(record) => record.id}
                   rowSelection={rowSelection}
                   columns={columns}
                   dataSource={data}
                   loading={loading}
-                />
+                /> */}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </figure>
+      </div>
     </div>
   );
 };

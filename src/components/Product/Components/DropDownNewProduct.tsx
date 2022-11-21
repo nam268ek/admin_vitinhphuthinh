@@ -26,11 +26,11 @@ export const DropDownNewProduct: React.FC = () => {
       onClick={onClick}
       items={[
         {
-          label: <Link to="">Computer - Laptop</Link>,
+          label: <label style={{ cursor: 'pointer' }}>Computer - Laptop</label>,
           key: 'Computer - Laptop',
         },
         {
-          label: <Link to="">Printer</Link>,
+          label: <label style={{ cursor: 'pointer' }}>Printer</label>,
           key: 'Printer',
         },
       ]}
@@ -39,7 +39,10 @@ export const DropDownNewProduct: React.FC = () => {
 
   return (
     <Dropdown overlay={menu}>
-      <Button className="c-btn-success d-flex align-items-center">
+      <Button
+        className="btn-green c-btn-success d-flex align-items-center text-uppercase"
+        style={{ height: '40px' }}
+      >
         <DownOutlined size={12} />
         <span style={{ paddingLeft: '5px' }}>Thêm sản phẩm</span>
       </Button>

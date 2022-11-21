@@ -9,6 +9,7 @@ type SearchProps = {
   listItems: any;
   className: string;
   placeholder: string;
+  selectItem?: any;
 } & typeof defaultProps;
 
 const defaultProps = {
@@ -19,7 +20,7 @@ const defaultProps = {
 };
 
 export const Search = (props: SearchProps) => {
-  const { listItems, flowName, className, placeholder } = props;
+  const { listItems, flowName, className, placeholder, selectItem } = props;
   const [options, setOptions] = React.useState<any>([]);
   const [selectedValues, setSelectedValues] = React.useState<any>([]);
   const dispatch = useDispatch();
@@ -36,7 +37,8 @@ export const Search = (props: SearchProps) => {
       dispatch(setUpdateListOrdersAction(data));
       return;
     }
-    dispatch(setUpdateListProductAction(data));
+    selectItem(data);
+    // dispatch(setUpdateListProductAction(data));
   };
 
   const handleListOnSearch = () => {

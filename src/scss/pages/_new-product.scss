@@ -157,10 +157,6 @@
     justify-content: space-between;
     align-items: center;
   }
-  // .model-image.ant-modal-content.ant-modal-footer {
-  //   display: flex !important;
-  //   justify-content: space-between !important;
-  // }
 }
 .model-image {
   .show-item {
@@ -207,66 +203,4 @@
     }
   }
 }
-#new-category {
-  .active {
-    border-bottom: 0 !important;
-  }
-}
-.ant-tag-green {
-  color: #690 !important;
-  background: #eff4e5 !important;
-  display: inline-block !important;
-  border-radius: 4px !important;
-  padding: 6px 10px !important;
-  font-weight: 600 !important;
-  font-size: 14px !important;
-  border-color: #fff0 !important;
-  border: 0 !important;
-  margin-bottom: 5px;
-}
-.ant-tag-cyan {
-  color: #666 !important;
-  background: #e9e9e9 !important;
-  display: inline-block !important;
-  border-radius: 4px !important;
-  padding: 6px 10px !important;
-  font-weight: 600 !important;
-  font-size: 14px !important;
-  border-color: #fff0 !important;
-  border: 0 !important;
-  margin-bottom: 5px;
-}
-.ant-tag-red {
-  color: rgb(190, 75, 75) !important;
-  background: #f1d4d4 !important;
-  display: inline-block !important;
-  border-radius: 4px !important;
-  padding: 6px 10px !important;
-  font-weight: 600 !important;
-  font-size: 14px !important;
-  border-color: #fff0 !important;
-  border: 0 !important;
-  margin-bottom: 5px;
-}
-.nodata {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.tbl-info-product tr:nth-of-type(2n + 1) {
-  background: #fdfdfd;
-}
-.tbl-info-product tr {
-  border-bottom: 1px solid #ececec;
-}
-.form__bottom {
-  display: flex;
-  justify-content: flex-end;
-}
-.ant-btn-loading-icon {
-  display: flex !important;
-}
-.ant-table-thead > tr > th {
-  background: #cbe6ff !important;
-}
+
