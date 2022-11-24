@@ -1,11 +1,11 @@
 import { DownOutlined, SyncOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Menu, message, Space, Switch, Table, Tooltip } from 'antd';
+import { Button, Dropdown, message, Space, Switch, Table, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { TableRowSelection } from 'antd/es/table/interface';
 import moment from 'moment';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { NAME_ACTION } from '../../../constants/const';
 import { DataTypeProduct } from '../../../types/types';
 import { history } from '../../../utils/history';
@@ -36,18 +36,14 @@ export const TableListProduct: React.FC = () => {
     onChange: onSelectChange,
   };
 
-  const handleActionDropdown = async (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    key: number,
-  ) => {
+  const handleActionDropdown = async (event: any) => {
+    const { key } = event;
     switch (key) {
-      case 1:
+      case '1':
         await dispatch(getDeleteListProductService({ ids: selectedIds }));
         break;
-      case 2:
+      case '2':
         if (selectedIds.length === 1) {
-          e.preventDefault();
-          // history.push(`${location.pathname}/update?id=${selectedIds[0]}`);
           history.push(`${location.pathname}/${selectedIds[0]}`);
         } else {
           message.error('Vui lòng chỉ chọn 1 sản phẩm');
@@ -56,28 +52,16 @@ export const TableListProduct: React.FC = () => {
     }
   };
 
-  const menu = (
-    <Menu
-      items={[
-        {
-          label: (
-            <Link to="" onClick={(e) => handleActionDropdown(e, 1)}>
-              Xoá sản phẩm
-            </Link>
-          ),
-          key: '0',
-        },
-        {
-          label: (
-            <Link to="" onClick={(e) => handleActionDropdown(e, 2)}>
-              Chỉnh sửa sản phẩm
-            </Link>
-          ),
-          key: '1',
-        },
-      ]}
-    />
-  );
+  const items = [
+    {
+      label: 'Xoá sản phẩm',
+      key: 1,
+    },
+    {
+      label: ' Chỉnh sửa sản phẩm',
+      key: 2,
+    },
+  ];
 
   const columns: ColumnsType<DataTypeProduct> = [
     {
@@ -176,13 +160,18 @@ export const TableListProduct: React.FC = () => {
     }
   };
 
+  const menu = {
+    items,
+    onClick: (e: any) => handleActionDropdown(e),
+  };
+
   return (
     <>
       <Space align="center" className="mb-2">
         <Dropdown.Button
           loading={loading}
           disabled={!hasSelected}
-          overlay={menu}
+          menu={menu}
           trigger={['click']}
           icon={<DownOutlined className="d-flex justify-content-center align-items-center" />}
         >

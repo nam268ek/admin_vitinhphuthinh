@@ -1,13 +1,13 @@
 import { DownOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Menu, MenuProps } from 'antd';
+import { Button, Dropdown, MenuProps } from 'antd';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { history } from '../../../utils/history';
 import { setImageAction } from '../../redux/Slices/ImageSlice';
 import {
-  updateStateKeyProductAction,
   setDefaultProductAction,
+  updateStateKeyProductAction,
 } from '../../redux/Slices/ProductSlice';
 
 export const DropDownNewProduct: React.FC = () => {
@@ -21,24 +21,19 @@ export const DropDownNewProduct: React.FC = () => {
     history.push(`${location.pathname}/new`);
   };
 
-  const menu = (
-    <Menu
-      onClick={onClick}
-      items={[
-        {
-          label: <label style={{ cursor: 'pointer' }}>Computer - Laptop</label>,
-          key: 'Computer - Laptop',
-        },
-        {
-          label: <label style={{ cursor: 'pointer' }}>Printer</label>,
-          key: 'Printer',
-        },
-      ]}
-    />
-  );
+  const items = [
+    {
+      label: 'Computer - Laptop',
+      key: 'Computer - Laptop',
+    },
+    {
+      label: 'Printer',
+      key: 'Printer',
+    },
+  ];
 
   return (
-    <Dropdown overlay={menu}>
+    <Dropdown menu={{ items, onClick }} trigger={['click']}>
       <Button
         className="btn-green c-btn-success d-flex align-items-center text-uppercase"
         style={{ height: '40px' }}

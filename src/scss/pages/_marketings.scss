@@ -188,9 +188,97 @@
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   }
 
-  // .modal-list-table .table-list-default {
-  //   .ant-table-thead > tr > th {
-  //     background: #cbe6ff !important;
-  //   }
-  // }
+  .shadow-content {
+    .c-header-table {
+      border: 1px solid #e3e3e3;
+      border-radius: 5px;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      padding: 15px 10px;
+      background-color: #f6f6f6;
+
+      div {
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      .c-w1 {
+        width: 32px;
+        min-width: 32px;
+        padding-right: 16px;
+      }
+      .c-w2 {
+        width: 106px;
+        min-width: 106px;
+        padding-right: 16px;
+      }
+      .c-w2-small {
+        width: 90px;
+        min-width: 90px;
+        padding-right: 16px;
+      }
+      .c-w3 {
+        width: 136px;
+        min-width: 136px;
+        padding-right: 16px;
+      }
+      .c-w4 {
+        width: 110px;
+        min-width: 110px;
+        padding-right: 0;
+      }
+      .c-w5 {
+        width: 126px;
+        min-width: 126px;
+        padding-right: 16px;
+      }
+      .c-w6 {
+        width: 136px;
+        min-width: 136px;
+        padding-right: 16px;
+      }
+      .c-w7 {
+        width: 285px;
+        min-width: 285px;
+        padding-right: 16px;
+      }
+      .c-w8 {
+        width: 80px;
+        min-width: 80px;
+        padding-right: 0;
+      }
+    }
+
+    .c-content-table {
+      border: 1px solid #e3e3e3;
+      border-radius: 5px;
+      // display: flex;
+      // align-items: center;
+      padding: 10px;
+      background-color: #f6f6f6;
+
+      div {
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      .c-border-item {
+        margin-top: 20px;
+        border-bottom: 1px solid #e3e3e3;
+      }
+
+      .c-w1 {
+        width: 32px;
+        min-width: 32px;
+        padding-right: 16px;
+      }
+      .c-w8 {
+        width: 80px;
+        min-width: 80px;
+        padding-right: 0;
+      }
+    }
+  }
 }

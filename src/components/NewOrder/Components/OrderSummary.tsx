@@ -2,6 +2,7 @@
 import { Form, Input, InputNumber } from 'antd';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { NAME_DROPDOWNS } from '../../../constants/const';
 import { IDropdown } from '../../../types/types';
 import { SelectOptionV2 } from '../../common/SelectOptionV2';
 import { RootState } from '../../redux/store/store';
@@ -16,7 +17,9 @@ export const OrderSummary: React.FC<any> = ({ onChange, form }) => {
   }, [dropdowns]);
 
   const handleListDropdown = () => {
-    const list = dropdowns?.filter((item: IDropdown) => item.name === 'payment-method');
+    const list = dropdowns?.filter(
+      (item: IDropdown) => item.name === NAME_DROPDOWNS.PAYMENT_METHOD,
+    );
     if (list.length > 0) {
       setOptions(list[0].dropdowns);
     }

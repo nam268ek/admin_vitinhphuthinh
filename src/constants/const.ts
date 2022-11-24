@@ -71,4 +71,13 @@ export enum ORDER_STATUS {
   CANCEL = 'cancel',
   DONE = 'done',
 }
-export const LIST_NAME_DROPDOWN_SERVICE = ['payment-method', 'order-status'];
+export enum NAME_DROPDOWNS {
+  PAYMENT_METHOD = 'payment-method',
+  ORDER_STATUS_S = 'order-status',
+  NUMBER_PRODUCT_MARKETINGS = 'number-product-marketings',
+}
+export const LIST_NAME_DROPDOWN_SERVICE = [
+  'payment-method',
+  'order-status',
+  'number-product-marketings',
+];

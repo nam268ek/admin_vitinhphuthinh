@@ -48,10 +48,10 @@ export const NavBarMenu: React.FC = () => {
               <img src="/img/user/admin.jpg" alt="" />
             </div>
             <div className="ps-block__right">
-              <p>
+              <div>
                 Xin chào,
                 <p id="nameshop">Vi Tính Phú Thịnh</p>
-              </p>
+              </div>
             </div>
             <div className="ps-block__action">
               <Tooltip title="Đăng xuất">

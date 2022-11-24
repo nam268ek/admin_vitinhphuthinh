@@ -1,6 +1,7 @@
 import { Button, Form, Modal, Select } from 'antd';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { NAME_DROPDOWNS } from '../../../constants/const';
 import { IDropdown } from '../../../types/types';
 import { getListOrderService, getUpdateOrderStatusService } from '../../redux/Slices/OrderSlice';
 import { RootState } from '../../redux/store/store';
@@ -39,7 +40,9 @@ export const ModelStatus: React.FC<any> = ({ open, setOpen, listItemSelect, setS
   };
 
   const handleListDropdown = () => {
-    const list = dropdowns?.filter((item: IDropdown) => item.name === 'order-status');
+    const list = dropdowns?.filter(
+      (item: IDropdown) => item.name === NAME_DROPDOWNS.ORDER_STATUS_S,
+    );
     if (list.length > 0) {
       setOptions(list[0].dropdowns);
     }
