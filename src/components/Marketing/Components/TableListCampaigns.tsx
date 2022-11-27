@@ -7,8 +7,9 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { NAME_ACTION } from '../../../constants/const';
-import { DataTypeProduct } from '../../../types/types';
+import { DataTypeMarketing, DataTypeProduct } from '../../../types/types';
 import { history } from '../../../utils/history';
+import { getListMarketingsService } from '../../redux/Slices/MarketingSlice';
 import {
   getDeleteListProductService,
   getListProductService,
@@ -20,19 +21,19 @@ import { RootState } from '../../redux/store/store';
 import { formatMoney, openMessage } from '../../services/general.service';
 
 export const TableListCampaigns: React.FC = () => {
-  const { loading, products } = useSelector((state: RootState) => state.product);
+  const { loading, marketings } = useSelector((state: RootState) => state.marketing);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const hasSelected = selectedIds.length > 0 && products.length > 0;
-  const onSelectChange = (newSelectedRowKeys: React.Key[], selectedRows: DataTypeProduct[]) => {
+  const hasSelected = selectedIds.length > 0 && marketings.length > 0;
+  const onSelectChange = (newSelectedRowKeys: React.Key[], selectedRows: DataTypeMarketing[]) => {
     const ids = selectedRows.map((row) => row.id);
     setSelectedIds(ids);
   };
 
-  const rowSelection: TableRowSelection<DataTypeProduct> = {
+  const rowSelection: TableRowSelection<DataTypeMarketing> = {
     onChange: onSelectChange,
   };
 
@@ -47,7 +48,6 @@ export const TableListCampaigns: React.FC = () => {
       case 2:
         if (selectedIds.length === 1) {
           e.preventDefault();
-          // history.push(`${location.pathname}/update?id=${selectedIds[0]}`);
           history.push(`${location.pathname}/${selectedIds[0]}`);
         } else {
           message.error('Vui lòng chỉ chọn 1 sản phẩm');
@@ -79,7 +79,7 @@ export const TableListCampaigns: React.FC = () => {
     />
   );
 
-  const columns: ColumnsType<DataTypeProduct> = [
+  const columns: ColumnsType<DataTypeMarketing> = [
     {
       title: 'Tên chương trình',
       dataIndex: 'name',
@@ -92,23 +92,17 @@ export const TableListCampaigns: React.FC = () => {
     },
     {
       title: 'Sản phẩm',
-      dataIndex: 'priceSale',
-      key: 'priceSale',
-      render: (priceSale: any) => (
-        <span className="price-product">{formatMoney.format(Number(priceSale))}</span>
+      dataIndex: 'quantitySelected',
+      key: 'quantitySelected',
+      render: (quantitySelected: number) => (
+        <span className="price-product">{quantitySelected}</span>
       ),
-    },
-    {
-      title: 'Số lượng',
-      dataIndex: 'quantity',
-      key: 'quantity',
-      render: (quantity: any) => <span className="price-product">{quantity}</span>,
     },
     {
       title: 'Trạng thái',
       key: 'status',
       dataIndex: 'status',
-      render: (value: any, item: DataTypeProduct) => (
+      render: (value: any, item: DataTypeMarketing) => (
         <Switch
           key={item.id}
           checked={value}
@@ -122,7 +116,11 @@ export const TableListCampaigns: React.FC = () => {
       title: 'Thời Gian',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
-      render: (text: string) => <span>{moment(text).format('DD/MM/YYYY, h:mm:ss A')}</span>,
+      render: (text: string, item: DataTypeMarketing) => (
+        <span>{`${moment(item.startDate).format('DD/MM/YYYY, h:mm:ss A')} - ${moment(
+          item.endDate,
+        ).format('DD/MM/YYYY, h:mm:ss A')}`}</span>
+      ),
     },
   ];
 
@@ -137,33 +135,32 @@ export const TableListCampaigns: React.FC = () => {
     e.preventDefault();
     dispatch(setAction(NAME_ACTION.UPDATE_PRODUCT));
 
-    const product = products.filter((o) => o.id === item.id);
+    const product = marketings?.filter((o) => o.id === item.id);
     dispatch(setItemSelectedAction(product));
-    // history.push(`${location.pathname}/update?id=${item.id}`);
     history.push(`${location.pathname}/${item.id}`);
   };
 
-  const convertListProducts = (list: any[]) => {
+  const convertListMarketings = (list: any[]) => {
     return list.map((item: any, index: number) => {
-      const { id, name, status, priceSale, updatedAt, quantity } = item;
+      const { id, name, status, startDate, endDate, listProducts } = item;
       return {
         key: index + 1,
         id,
         name,
-        priceSale,
         status,
-        quantity,
-        updatedAt,
+        startDate,
+        endDate,
+        quantitySelected: listProducts.length,
       };
     });
   };
-  const data: DataTypeProduct[] = convertListProducts(products);
+  const data: DataTypeMarketing[] = convertListMarketings(marketings);
 
   const handleSyncData = async () => {
     const key = 'sync_data';
     try {
       message.loading({ content: 'Syncing...', key });
-      await dispatch(getListProductService()).unwrap();
+      await dispatch(getListMarketingsService()).unwrap();
       openMessage(undefined, key);
     } catch (error) {
       openMessage(error, key);

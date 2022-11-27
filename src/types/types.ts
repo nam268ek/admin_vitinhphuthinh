@@ -554,3 +554,12 @@ export interface MarketingState {
   loading: boolean;
   marketings: any[];
 }
+export interface DataTypeMarketing {
+  key: React.Key;
+  id: string;
+  name: string;
+  status: boolean;
+  startDate: string;
+  endDate: string;
+  quantitySelected: number;
+}

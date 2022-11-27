@@ -63,6 +63,11 @@ export const requestService = {
       },
     });
   },
+  uploadImageCustomService: (params: any) => {
+    const { data, config } = params;
+    const url = '/images/upload';
+    return instance.post(url, data, config);
+  },
   listImageService: () => {
     const url = '/images';
     return instance.get(url);
@@ -134,6 +139,16 @@ export const requestService = {
   removeOrderService: (params: any) => {
     const url = '/orders';
     return instance.post(url, { data: params });
+  },
+
+  //marketings services
+  listMarketingsService: () => {
+    const url = '/marketings';
+    return instance.get(url);
+  },
+  createMarketingService: (params: any) => {
+    const url = '/marketings/create';
+    return instance.post(url, params);
   },
 
   //dropdown services

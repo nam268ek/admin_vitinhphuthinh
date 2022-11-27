@@ -5,7 +5,7 @@ import type { RcFile } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { KEY_UPLOAD_IMAGE } from '../../constants/const';
+import { UPLOAD_KEY } from '../../constants/const';
 import {
   getRemoveImageUploadService,
   getUploadImageService,
@@ -24,7 +24,7 @@ const getBase64 = (file: RcFile): Promise<string> =>
 
 export const ImageUploadV2: React.FC<any> = ({
   maxFiles = 3,
-  keyUpload = KEY_UPLOAD_IMAGE.IMAGE_PRODUCT,
+  keyUpload = UPLOAD_KEY.IMAGE_PRODUCT,
 }) => {
   const { imageUploaded, loading } = useSelector((state: RootState) => state.image);
 

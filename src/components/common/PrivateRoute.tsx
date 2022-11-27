@@ -6,6 +6,7 @@ import { LIST_NAME_DROPDOWN_SERVICE } from '../../constants/const';
 import { getListBrandsService } from '../redux/Slices/BrandSlice';
 import { getListCategoryService } from '../redux/Slices/CategorySlice';
 import { getListImageService } from '../redux/Slices/ImageSlice';
+import { getListMarketingsService } from '../redux/Slices/MarketingSlice';
 import { getListOrderService } from '../redux/Slices/OrderSlice';
 import { getListDropdownsService } from '../redux/Slices/PrimarySlice';
 import { getListProductService } from '../redux/Slices/ProductSlice';
@@ -27,6 +28,7 @@ export const PrivateRoute: React.FC = () => {
         dispatch(getListTagsService()).unwrap();
         dispatch(getListBrandsService()).unwrap();
         dispatch(getListImageService()).unwrap();
+        dispatch(getListMarketingsService()).unwrap();
         dispatch(getListDropdownsService({ ids: LIST_NAME_DROPDOWN_SERVICE })).unwrap();
       } catch (error) {
         openMessage(error);

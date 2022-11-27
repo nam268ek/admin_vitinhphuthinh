@@ -30,6 +30,7 @@ export enum NAME_ACTION {
 
   //image
   CREATE_IMAGE = 'CREATE_IMAGE',
+  CREATE_IMAGE_CUSTOM = 'CREATE_IMAGE_CUSTOM',
   DEFAULT_IMAGE = 'CREATE_IMAGE',
   REMOVE_IMAGE = 'REMOVE_IMAGE',
   UPDATE_IMAGE = 'UPDATE_IMAGE',
@@ -58,13 +59,6 @@ export enum NAME_ACTION {
   UPDATE_MARKETINGS = 'UPDATE_MARKETINGS',
   GET_MARKETINGS = 'GET_MARKETINGS',
 }
-export enum KEY_UPLOAD_IMAGE {
-  SLIDESHOW = 'slideshow',
-  IMAGE_MIDDLE = 'image_middle',
-  IMAGE_BOTTOMX1 = 'image_bottomx1',
-  IMAGE_BOTTOMX2 = 'image_bottomx2',
-  IMAGE_PRODUCT = 'image_product',
-}
 export enum ORDER_STATUS {
   CREATE = 'create',
   PENDING = 'pending',
@@ -81,3 +75,12 @@ export const LIST_NAME_DROPDOWN_SERVICE = [
   'order-status',
   'number-product-marketings',
 ];
+export enum UPLOAD_KEY {
+  SLIDESHOW = 'slideshow',
+  IMAGE_MIDDLE = 'image_middle',
+  IMAGE_BOTTOMX1 = 'image_bottomx1',
+  IMAGE_BOTTOMX2 = 'image_bottomx2',
+  IMAGE_PRODUCT = 'image_product',
+  IMAGE_PRODUCT_INFO = 'image_product_info',
+  IMAGE_BLOG = 'image_blog',
+}

@@ -15,6 +15,17 @@ export const getUploadImageService: any = createAsyncThunk(
     }
   },
 );
+export const getUploadImageCustomService: any = createAsyncThunk(
+  NAME_ACTION.CREATE_IMAGE_CUSTOM,
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await requestService.uploadImageCustomService(params);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
 export const getRemoveImageUploadService: any = createAsyncThunk(
   NAME_ACTION.REMOVE_IMAGE,
   async (params, { rejectWithValue }) => {
@@ -87,6 +98,16 @@ export const imageSlice = createSlice({
       state.imageUploaded.push(action.payload);
     },
     [getUploadImageService.rejected]: (state) => {
+      state.loading = false;
+    },
+    [getUploadImageCustomService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUploadImageCustomService.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.imageUploaded.push(action.payload);
+    },
+    [getUploadImageCustomService.rejected]: (state) => {
       state.loading = false;
     },
     [getRemoveImageUploadService.pending]: (state) => {

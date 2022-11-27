@@ -133,15 +133,13 @@ export const NavBarMenu: React.FC = () => {
               </li>
               <li className="">
                 <NavLink
-                  to="/blogs"
+                  to="/newspapers"
                   className={({ isActive }) =>
-                    isActive
-                      ? 'active-link text-decoration-none'
-                      : 'navlink text-decoration-none disabled-link'
+                    isActive ? 'active-link text-decoration-none' : 'navlink text-decoration-none'
                   }
                 >
                   <AiOutlineLayout />
-                  <span>Blogs</span>
+                  <span>Bài đăng</span>
                 </NavLink>
               </li>
               <li className="">

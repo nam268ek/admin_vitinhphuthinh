@@ -4,6 +4,8 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import React from 'react';
 import { MAX_LENGTH_TEXT } from '../../../constants/const';
+import 'dayjs/locale/vi';
+import locale from 'antd/es/date-picker/locale/vi_VN';
 
 export const FormInfoBasic: React.FC<any> = ({ onChange }) => {
   dayjs.extend(customParseFormat);
@@ -36,6 +38,11 @@ export const FormInfoBasic: React.FC<any> = ({ onChange }) => {
     };
   };
 
+  const handleSelectDateTime = (dates: any, dateStrings: [string, string]) => {
+    console.log(dates);
+    console.log(dateStrings);
+  };
+
   return (
     <div className="col-xl-12 col-lg-6 col-md-12 col-sm-12 col-12">
       <figure className="ps-block--form-box">
@@ -66,7 +73,7 @@ export const FormInfoBasic: React.FC<any> = ({ onChange }) => {
               <div className="form-group">
                 <label>Thời gian khuyến mãi</label>
                 <Form.Item
-                  name="lastName"
+                  name="dateTime"
                   rules={[
                     {
                       required: true,
@@ -76,10 +83,12 @@ export const FormInfoBasic: React.FC<any> = ({ onChange }) => {
                 >
                   <Space direction="vertical" size={12} style={{ width: '100%' }}>
                     <RangePicker
+                      locale={locale}
                       style={{ width: '100%' }}
                       disabledDate={disabledDate}
                       disabledTime={disabledRangeTime}
                       showNow
+                      onChange={handleSelectDateTime}
                       showTime={{
                         showNow: true,
                         defaultValue: [dayjs('00:00', 'HH:mm'), dayjs('11:59', 'HH:mm')],

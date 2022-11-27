@@ -13,7 +13,9 @@ import { Marketings } from './components/Marketing';
 import { NavBarMenu } from './components/NavBarMenu/NavBarMenu';
 import { NewMarketing } from './components/NewMarketing';
 import { NewOrder } from './components/NewOrder';
+import { NewPost } from './components/NewPost';
 import { NewProduct } from './components/NewProduct';
+import { Newspapers } from './components/Newspaper';
 import { Orders } from './components/Order';
 import Policy from './components/Policy/Policy';
 import { Products } from './components/Product';
@@ -79,6 +81,9 @@ export const App: React.FC = () => {
             <Route path="/marketings" element={<Marketings />} />
             <Route path="/marketings/new" element={<NewMarketing />} />
             <Route path="/marketings/:marketingId" element={<NewMarketing />} />
+            <Route path="/newspapers" element={<Newspapers />} />
+            <Route path="/newspapers/new" element={<NewPost />} />
+            <Route path="/newspapers/:newspaperId" element={<NewPost />} />
             <Route path="/settings" element={<Settings />}>
               <Route path="logo" element={<LogoLayout />} />
               <Route path="footer" element={<InfoFooter />} />

@@ -70,6 +70,7 @@
             color: #ec2434;
           }
         }
+
         .form-control {
           display: block;
           width: 100%;
@@ -278,6 +279,21 @@
         width: 80px;
         min-width: 80px;
         padding-right: 0;
+      }
+    }
+  }
+}
+
+#marketing {
+  .ant-table-cell {
+    .name-product {
+      color: #5c5c5c;
+      border-bottom: 1px solid #a8a8a8;
+      outline: 4px;
+      outline-offset: 4px;
+
+      &:hover {
+        cursor: pointer;
       }
     }
   }

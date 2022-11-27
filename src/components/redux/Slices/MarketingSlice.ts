@@ -4,11 +4,11 @@ import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { MarketingState } from '../../../types/types';
 
-export const getListBrandsService: any = createAsyncThunk(
-  NAME_ACTION.GET_BRAND,
+export const getListMarketingsService: any = createAsyncThunk(
+  NAME_ACTION.GET_MARKETINGS,
   async (_, { rejectWithValue }) => {
     try {
-      const response = await requestService.listBrandsService();
+      const response = await requestService.listMarketingsService();
       return response;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -16,11 +16,11 @@ export const getListBrandsService: any = createAsyncThunk(
   },
 );
 
-export const getCreateBrandService: any = createAsyncThunk(
-  NAME_ACTION.CREATE_BRAND,
+export const getCreateMarketingService: any = createAsyncThunk(
+  NAME_ACTION.CREATE_MARKETINGS,
   async (params, { rejectWithValue }) => {
     try {
-      const response = await requestService.createBrandService(params);
+      const response = await requestService.createMarketingService(params);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -43,24 +43,24 @@ export const marketingSlice = createSlice({
     },
   },
   extraReducers: {
-    [getListBrandsService.pending]: (state) => {
+    [getListMarketingsService.pending]: (state) => {
       state.loading = true;
     },
-    [getListBrandsService.fulfilled]: (state, action) => {
+    [getListMarketingsService.fulfilled]: (state, action) => {
       state.loading = false;
       state.marketings = action.payload;
     },
-    [getListBrandsService.rejected]: (state) => {
+    [getListMarketingsService.rejected]: (state) => {
       state.loading = false;
     },
-    [getCreateBrandService.pending]: (state) => {
+    [getCreateMarketingService.pending]: (state) => {
       state.loading = true;
     },
-    [getCreateBrandService.fulfilled]: (state, action) => {
+    [getCreateMarketingService.fulfilled]: (state, action) => {
       state.loading = false;
       state.marketings.push(action.payload);
     },
-    [getCreateBrandService.rejected]: (state) => {
+    [getCreateMarketingService.rejected]: (state) => {
       state.loading = false;
     },
   },

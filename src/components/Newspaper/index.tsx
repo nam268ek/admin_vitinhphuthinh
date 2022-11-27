@@ -4,54 +4,56 @@ import { FaPlusCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
-import { setMarketingAction } from '../redux/Slices/MarketingSlice';
+import { setOrderAction } from '../redux/Slices/OrderSlice';
 import { RootState } from '../redux/store/store';
 import { Search } from '../Search/Search';
-import { TableListCampaigns } from './Components/TableListCampaigns';
+import { TableListPosts } from './Components/TableListPosts';
 
-export const Marketings: React.FC = () => {
-  const { products } = useSelector((state: RootState) => state.product);
+export const Newspapers: React.FC = () => {
+  const { orders } = useSelector((state: RootState) => state.order);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleCreateMarketing = () => {
-    dispatch(setMarketingAction(NAME_ACTION.CREATE_MARKETINGS));
-    navigate('/marketings/new', { replace: true });
+  const handleCreateOrder = () => {
+    dispatch(setOrderAction(NAME_ACTION.CREATE_ORDER));
+    navigate('/newspapers/new', { replace: true });
   };
 
   return (
-    <div id="marketing">
+    <div id="newspaper">
       <div className="ps-main__wrapper">
         <div className="header--dashboard">
           <div className="header__left">
-            <h3>Marketings</h3>
-            <p>Danh sách chương trình</p>
+            <h3>Bài đăng</h3>
+            <p>Danh Sách bài đăng</p>
           </div>
         </div>
         <section className="ps-items-listing">
-          <div className="ps-section__actions">
+          <div className="ps-section__actions pb-2">
             <div className="width-left">
-              <Search listItems={products} />
+              <Search
+                listItems={orders}
+                flowName="orders"
+                className="search-order"
+                placeholder="Tìm kiếm đơn hàng..."
+              />
             </div>
             <div className="width-right d-flex">
-              <Button className="ps-btn success" onClick={handleCreateMarketing}>
+              <Button className="ps-btn success" onClick={handleCreateOrder}>
                 <FaPlusCircle />
-                <span>Tạo mới</span>
+                <span>Tạo đơn hàng</span>
               </Button>
             </div>
           </div>
-          <div className="ps-section__header pb-1">
-            <div className="ps-section__filter"></div>
-          </div>
           <div className="ps-section__content">
             <div className="table-responsive">
-              <TableListCampaigns />
+              <TableListPosts />
             </div>
           </div>
         </section>
-        <FloatButton type="primary" className="float-button-doc" tooltip={<div>Documents</div>} />
       </div>
+      <FloatButton type="primary" className="float-button-doc" tooltip={<div>Documents</div>} />
     </div>
   );
 };
