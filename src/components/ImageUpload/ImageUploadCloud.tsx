@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
 import { Form, message, Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
+import React from 'react';
 import { IImageUpload } from '../../types/types';
-import { Controller, useForm } from 'react-hook-form';
 // import APIClientService from '../../api';
 // import {
 //   removeFileImgToCloud,
@@ -10,19 +9,13 @@ import { Controller, useForm } from 'react-hook-form';
 //   updateListImages,
 //   uploadFileImgToCloud,
 // } from '../redux/Slices/ProductSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { PlusOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
 import {
   removeFileLayout,
-  SetCurrentLayoutState,
   setImageTempLayout,
-  updateListImageRemoveLayout,
-  updateListImagesLayout,
-  updateListImgLayout,
   uploadFileLayout,
 } from '../redux/Slices/LayoutSlice';
-import { cloneDeep } from 'lodash';
-import { originalImage } from '../services/general.service';
-import { PlusOutlined } from '@ant-design/icons';
 
 const getSrcFromFile = (file: any) => {
   return new Promise((resolve) => {

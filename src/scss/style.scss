@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+//antd css
 @import '~antd/dist/reset.css';
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
 // partials
 @import './partials/variables';
 @import './partials/mixins';

@@ -14,7 +14,7 @@ export const Products: React.FC = () => {
       <div className="ps-main__wrapper">
         <div className="header--dashboard">
           <div className="header__left">
-            <h3>Sản phẩm</h3>
+            <h3 className="text-4xl">Sản phẩm</h3>
             <p>Danh sách sản phẩm</p>
           </div>
         </div>

@@ -33,11 +33,9 @@ const Login: React.FC = () => {
       <section className="login-background"></section>
       <section id="login">
         <div className="container">
-          <div className="row justify-content-center">
-            <div className="d-flex flex-column w-30">
-              <div className="links d-flex justify-content-center">
-                <p className="h3 fw-bold text-header">Vi tính Phú Thịnh</p>
-              </div>
+          <div className="flex justify-center">
+            <div className="flex flex-col w-30">
+              <p className="text-header">Vi tính Phú Thịnh</p>
               <div className="login-area account-wrapper">
                 <Form onFinish={onFinish}>
                   <Form.Item
@@ -68,7 +66,7 @@ const Login: React.FC = () => {
                     <Input placeholder="Password" type="password" />
                   </Form.Item>
                   <Form.Item className="m-0">
-                    <Button style={{ width: '100%' }} type="primary" htmlType="submit">
+                    <Button className="w-full" type="primary" htmlType="submit">
                       Đăng nhập
                     </Button>
                   </Form.Item>

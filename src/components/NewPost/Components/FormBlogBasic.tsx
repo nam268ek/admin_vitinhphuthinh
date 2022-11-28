@@ -9,8 +9,8 @@ export const FormBlogBasic: React.FC<any> = ({ onChange }) => {
   return (
     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
       <figure className="ps-block--form-box">
-        <figcaption>Thông tin cơ bản</figcaption>
-        <div className="ps-block__content">
+        <figcaption className="px-4">Thông tin cơ bản</figcaption>
+        <div className="px-4 py-4 rounded-b-md border-slate-300">
           <div className="row">
             <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
               <div className="form-group">

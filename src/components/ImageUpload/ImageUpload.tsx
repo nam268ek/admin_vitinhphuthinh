@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import React, { useEffect, useState } from 'react';
 import { Form, message, Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
-import { IImageUpload } from '../../types/types';
-import { Controller, useForm } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
 import { requestService } from '../../api';
+import { IImageUpload } from '../../types/types';
 // import { updateListImages } from '../redux/Slices/ProductSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateListImageRemoveLayout, updateListImagesLayout } from '../redux/Slices/LayoutSlice';
@@ -25,7 +24,6 @@ const ImageUpload: React.FC<IImageUpload> = ({
   status,
   feature,
 }) => {
-  const { control } = useForm<any>();
   const [fileList, setFileList] = useState<any>(() => {
     if (status === 'update') {
       if (listFileUpdate.length > 0) {
