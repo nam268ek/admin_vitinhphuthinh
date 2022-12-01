@@ -8,6 +8,7 @@ import { setMarketingAction } from '../redux/Slices/MarketingSlice';
 import { RootState } from '../redux/store/store';
 import { Search } from '../Search/Search';
 import { TableListCampaigns } from './Components/TableListCampaigns';
+import { PlusOutlined } from '@ant-design/icons';
 
 export const Marketings: React.FC = () => {
   const { products } = useSelector((state: RootState) => state.product);
@@ -25,19 +26,22 @@ export const Marketings: React.FC = () => {
       <div className="ps-main__wrapper">
         <div className="header--dashboard">
           <div className="header__left">
-            <h3>Marketings</h3>
+            <h3 className="text-4xl">Marketings</h3>
             <p>Danh sách chương trình</p>
           </div>
         </div>
-        <section className="ps-items-listing">
-          <div className="ps-section__actions">
-            <div className="width-left">
-              <Search listItems={products} />
+        <section>
+          <div className="grid grid-flow-col grid-cols-2 gap-2 mb-2">
+            <div className="col-span-2">
+              <Search listItems={products} className="w-full" />
             </div>
-            <div className="width-right d-flex">
-              <Button className="ps-btn success" onClick={handleCreateMarketing}>
-                <FaPlusCircle />
-                <span>Tạo mới</span>
+            <div className="col-span-1">
+              <Button
+                className="flex items-center btn-green h-full border-0"
+                icon={<PlusOutlined />}
+                onClick={handleCreateMarketing}
+              >
+                <span className="uppercase">Tạo mới</span>
               </Button>
             </div>
           </div>

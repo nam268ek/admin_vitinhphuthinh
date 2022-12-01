@@ -8,8 +8,9 @@ import { setOrderAction } from '../redux/Slices/OrderSlice';
 import { RootState } from '../redux/store/store';
 import { Search } from '../Search/Search';
 import { TableListPosts } from './Components/TableListPosts';
+import { PlusOutlined } from '@ant-design/icons';
 
-export const Newspapers: React.FC = () => {
+export const Posts: React.FC = () => {
   const { orders } = useSelector((state: RootState) => state.order);
 
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ export const Newspapers: React.FC = () => {
 
   const handleCreateOrder = () => {
     dispatch(setOrderAction(NAME_ACTION.CREATE_ORDER));
-    navigate('/newspapers/new', { replace: true });
+    navigate('/posts/new', { replace: true });
   };
 
   return (
@@ -25,24 +26,27 @@ export const Newspapers: React.FC = () => {
       <div className="ps-main__wrapper">
         <div className="header--dashboard">
           <div className="header__left">
-            <h3>Bài đăng</h3>
+            <h3 className="text-3xl font-normal">Bài đăng</h3>
             <p>Danh Sách bài đăng</p>
           </div>
         </div>
-        <section className="ps-items-listing">
-          <div className="ps-section__actions pb-2">
-            <div className="width-left">
+        <section>
+          <div className="grid grid-flow-col grid-cols-2 gap-2 mb-2">
+            <div className="col-span-2">
               <Search
                 listItems={orders}
                 flowName="orders"
-                className="search-order"
-                placeholder="Tìm kiếm đơn hàng..."
+                className="w-full"
+                placeholder="Tìm kiếm post..."
               />
             </div>
-            <div className="width-right d-flex">
-              <Button className="ps-btn success" onClick={handleCreateOrder}>
-                <FaPlusCircle />
-                <span>Tạo đơn hàng</span>
+            <div className="col-span-1">
+              <Button
+                className="flex items-center btn-green h-full border-0"
+                icon={<PlusOutlined />}
+                onClick={handleCreateOrder}
+              >
+                <span className="ml-2 uppercase">Tạo post mới</span>
               </Button>
             </div>
           </div>

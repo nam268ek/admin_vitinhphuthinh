@@ -3,29 +3,29 @@ import React from 'react';
 
 export const FormInventories: React.FC<any> = ({ handleChange }) => {
   return (
-    <figure className="ps-block--form-box">
-      <figcaption>Inventory</figcaption>
-      <div className="ps-block__content">
-        <div className="form-group">
-          <label>Giá khuyến mãi</label>
-          <Form.Item style={{ position: 'relative' }}>
-            <Form.Item name="priceSale" noStyle>
-              <InputNumber
-                min={0}
-                max={1000000000}
-                formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
-                style={{ width: '100%' }}
-                placeholder="Nhập giá sale..."
-                onChange={(e) => handleChange(e, 'priceSale')}
-              />
-            </Form.Item>
-            <span className="form-money">VND</span>
+    <figure>
+      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
+        Inventory
+      </figcaption>
+      <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
+        <div className="mb-5">
+          <label className="mb-3 text-sm font-normal">Giá khuyến mãi</label>
+          <Form.Item name="priceSale" noStyle>
+            <InputNumber
+              min={0}
+              max={1000000000}
+              formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
+              style={{ width: '100%' }}
+              addonAfter="VNĐ"
+              placeholder="Nhập giá sale..."
+              onChange={(e) => handleChange(e, 'priceSale')}
+            />
           </Form.Item>
         </div>
-        <div className="form-group">
-          <label>
-            Số lượng<sup>*</sup>
+        <div className="mb-5">
+          <label className="mb-3 text-sm font-normal">
+            Số lượng<sup className="text-red-600 ml-1">*</sup>
           </label>
           <Form.Item noStyle>
             <Form.Item

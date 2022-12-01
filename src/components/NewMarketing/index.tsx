@@ -51,7 +51,7 @@ export const NewMarketing = () => {
     <div id="new-marketing">
       <div className="ps-main__wrapper">
         <h3 className="header-button">
-          <span className="header-button-name">
+          <span className="w-1/2 text-3xl font-normal">
             {`${action === NAME_ACTION.CREATE_MARKETINGS ? 'Thêm' : 'Cập nhật'}`} chương trình
           </span>
           <Form onFinish={onFinish} form={form}>

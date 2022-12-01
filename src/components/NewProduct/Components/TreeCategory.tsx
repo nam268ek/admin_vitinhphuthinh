@@ -52,6 +52,7 @@ export const TreeCategory: React.FC<any> = ({ handleChange }) => {
     <div className="form-group__content">
       <Form.Item
         name="category"
+        hasFeedback
         style={{ width: '100%' }}
         rules={[{ required: true, message: 'Vui lòng chọn danh mục' }]}
       >

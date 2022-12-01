@@ -27,74 +27,70 @@ export const OrderSummary: React.FC<any> = ({ onChange, form }) => {
 
   return (
     <>
-      <figcaption className="header-figcaption">Order Summary</figcaption>
-      <div className="ps-block__content order-sum">
-        <div className="row">
-          <div className="col-6">
-            <div className="form-group">
-              <label htmlFor="">Phương thức thanh toán</label>
-              <SelectOptionV2
-                name="paymentMethod"
-                placeholder="Phương thức thanh toán"
-                className="select-category"
-                options={options}
-                onChange={onChange}
+      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
+        Order Summary
+      </figcaption>
+      <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
+        <div className="grid grid-rows-2 grid-flow-row grid-cols-2 gap-3">
+          <div className="mb-3">
+            <label className="mb-3 text-sm font-normal">
+              Phương thức thanh toán<sup className="text-red-600 ml-1">*</sup>
+            </label>
+            <SelectOptionV2
+              name="paymentMethod"
+              placeholder="Phương thức thanh toán"
+              className="w-full m-0"
+              options={options}
+              onChange={onChange}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="mb-3 text-sm font-normal">Tạm tính</label>
+            <Form.Item noStyle name="subTotalOrderValue">
+              <InputNumber
+                disabled
+                formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                parser={(value: any) => value.replace(/\$\s?|(.*)/g, '')}
+                className="input-number-end w-full"
+                addonAfter="VNĐ"
               />
-            </div>
+            </Form.Item>
           </div>
-          <div className="col-6">
-            <div className="form-group">
-              <label htmlFor="">Tạm tính</label>
-              <Form.Item name="subTotalOrderValue">
-                <InputNumber
-                  disabled
-                  formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
-                  parser={(value: any) => value.replace(/\$\s?|(.*)/g, '')}
-                  className="input-number-end"
-                  addonAfter="VNĐ"
-                />
-              </Form.Item>
-            </div>
+          <div className="mb-3">
+            <label className="mb-3 text-sm font-normal">Giảm giá</label>
+            <Form.Item noStyle name="discount">
+              <InputNumber
+                min={0}
+                max={1000000000}
+                formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
+                style={{ width: '100%' }}
+                placeholder="Giảm giá..."
+                addonAfter="VNĐ"
+                onChange={(e) => onChange(e, 'discount')}
+              />
+            </Form.Item>
           </div>
-          <div className="col-6">
-            <div className="form-group">
-              <label htmlFor="">Giảm giá</label>
-              <Form.Item name="discount">
-                <InputNumber
-                  min={0}
-                  max={1000000000}
-                  formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
-                  style={{ width: '100%' }}
-                  placeholder="Giảm giá..."
-                  addonAfter="VNĐ"
-                  onChange={(e) => onChange(e, 'discount')}
-                />
-              </Form.Item>
-            </div>
+          <div className="mb-3">
+            <label className="mb-3 text-sm font-normal">Phí Ship</label>
+            <Form.Item noStyle name="deliveryCharges">
+              <InputNumber
+                min={0}
+                max={1000000000}
+                formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
+                placeholder="Phí Ship..."
+                addonAfter="VNĐ"
+                style={{ width: '100%' }}
+                onChange={(e) => onChange(e, 'deliveryCharges')}
+              />
+            </Form.Item>
           </div>
-          <div className="col-6">
-            <div className="form-group">
-              <label htmlFor="">Phí Ship</label>
-              <Form.Item name="deliveryCharges">
+          <div className="col-span-2">
+            <div className="mb-3 pt-2">
+              <Form.Item noStyle name="totalOrderValue">
                 <InputNumber
-                  min={0}
-                  max={1000000000}
-                  formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
-                  placeholder="Phí Ship..."
-                  addonAfter="VNĐ"
-                  style={{ width: '100%' }}
-                  onChange={(e) => onChange(e, 'deliveryCharges')}
-                />
-              </Form.Item>
-            </div>
-          </div>
-          <div className="col-12">
-            <div className="form-group">
-              <Form.Item name="totalOrderValue">
-                <InputNumber
-                  className="input-number-end w-100"
+                  className="input-number-end w-full"
                   addonBefore="Tổng hóa đơn:"
                   formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
                   parser={(value: any) => value.replace(/\$\s?|(.*)/g, '')}

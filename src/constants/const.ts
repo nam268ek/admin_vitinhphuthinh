@@ -58,6 +58,13 @@ export enum NAME_ACTION {
   CREATE_MARKETINGS = 'CREATE_MARKETINGS',
   UPDATE_MARKETINGS = 'UPDATE_MARKETINGS',
   GET_MARKETINGS = 'GET_MARKETINGS',
+
+  //post
+  DEFAULT_POST = 'DEFAULT_POST',
+  CREATE_POST = 'CREATE_POST',
+  UPDATE_POST = 'UPDATE_POST',
+  REMOVE_POST = 'REMOVE_POST',
+  GET_LIST_POSTS = 'GET_LIST_POSTS',
 }
 export enum ORDER_STATUS {
   CREATE = 'create',
@@ -69,11 +76,13 @@ export enum NAME_DROPDOWNS {
   PAYMENT_METHOD = 'payment-method',
   ORDER_STATUS_S = 'order-status',
   NUMBER_PRODUCT_MARKETINGS = 'number-product-marketings',
+  POST_STATUS_OPTIONS = 'post-status-options',
 }
 export const LIST_NAME_DROPDOWN_SERVICE = [
   'payment-method',
   'order-status',
   'number-product-marketings',
+  'post-status-options',
 ];
 export enum UPLOAD_KEY {
   SLIDESHOW = 'slideshow',

@@ -35,7 +35,7 @@ export const DropDownNewProduct: React.FC = () => {
   return (
     <Dropdown menu={{ items, onClick }} trigger={['click']}>
       <Button
-        className="btn-green c-btn-success d-flex align-items-center text-uppercase"
+        className="btn-green flex items-center border-0 h-full uppercase"
         style={{ height: '40px' }}
       >
         <DownOutlined size={12} />

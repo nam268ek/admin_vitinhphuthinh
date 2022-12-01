@@ -23,7 +23,7 @@ export const Products: React.FC = () => {
             <div className="width-left">
               <Search listItems={products} />
             </div>
-            <div className="width-right d-flex">
+            <div className="width-right flex">
               <ExcelBotton products={products} />
               <DropDownNewProduct />
             </div>

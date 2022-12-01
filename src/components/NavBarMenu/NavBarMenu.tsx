@@ -78,9 +78,7 @@ export const NavBarMenu: React.FC = () => {
                 <NavLink
                   to="/home"
                   className={({ isActive }) =>
-                    isActive
-                      ? 'active-link text-decoration-none'
-                      : 'navlink disabled-link text-decoration-none'
+                    isActive ? 'active-link no-underline' : 'navlink disabled-link no-underline'
                   }
                 >
                   <AiOutlineChrome />
@@ -91,7 +89,7 @@ export const NavBarMenu: React.FC = () => {
                 <NavLink
                   to="/products"
                   className={({ isActive }) =>
-                    isActive ? 'active-link text-decoration-none' : 'navlink text-decoration-none'
+                    isActive ? 'active-link no-underline' : 'navlink no-underline'
                   }
                 >
                   <FiDatabase />
@@ -102,7 +100,7 @@ export const NavBarMenu: React.FC = () => {
                 <NavLink
                   to="/orders"
                   className={({ isActive }) =>
-                    isActive ? 'active-link text-decoration-none' : 'navlink text-decoration-none'
+                    isActive ? 'active-link no-underline' : 'navlink no-underline'
                   }
                 >
                   <BsBagCheck />
@@ -113,7 +111,7 @@ export const NavBarMenu: React.FC = () => {
                 <NavLink
                   to="/categories"
                   className={({ isActive }) =>
-                    isActive ? 'active-link text-decoration-none' : 'navlink text-decoration-none'
+                    isActive ? 'active-link no-underline' : 'navlink no-underline'
                   }
                 >
                   <BiCategoryAlt />
@@ -124,7 +122,7 @@ export const NavBarMenu: React.FC = () => {
                 <NavLink
                   to="/marketings"
                   className={({ isActive }) =>
-                    isActive ? 'active-link text-decoration-none' : 'navlink text-decoration-none'
+                    isActive ? 'active-link no-underline' : 'navlink no-underline'
                   }
                 >
                   <AiOutlineLayout />
@@ -133,9 +131,9 @@ export const NavBarMenu: React.FC = () => {
               </li>
               <li className="">
                 <NavLink
-                  to="/newspapers"
+                  to="/posts"
                   className={({ isActive }) =>
-                    isActive ? 'active-link text-decoration-none' : 'navlink text-decoration-none'
+                    isActive ? 'active-link no-underline' : 'navlink no-underline'
                   }
                 >
                   <AiOutlineLayout />
@@ -146,9 +144,7 @@ export const NavBarMenu: React.FC = () => {
                 <NavLink
                   to="/settings"
                   className={({ isActive }) =>
-                    isActive
-                      ? 'active-link text-decoration-none'
-                      : 'navlink text-decoration-none disabled-link'
+                    isActive ? 'active-link no-underline' : 'navlink no-underline disabled-link'
                   }
                 >
                   <IoSettingsOutline />

@@ -200,7 +200,7 @@ export const NewProduct = () => {
     <div id="new-product">
       <div className="ps-main__wrapper">
         <h3 className="header-button">
-          <span className="header-button-name">
+          <span className="w-1/2 text-3xl font-normal">
             {`${action === NAME_ACTION.CREATE_PRODUCT ? 'Thêm' : 'Cập nhật'}`} sản phẩm
           </span>
           <Form onFinish={onFinish} form={form}>
@@ -227,19 +227,17 @@ export const NewProduct = () => {
               </p>
             </div>
           </div>
-          <section className="ps-new-item">
+          <section>
             <Form onFinish={onFinish} form={form}>
-              <div className="ps-form__content">
-                <div className="row">
-                  <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                    <FormGeneral handleChange={handleChange} />
-                    <FormStatus handleChange={handleChange} />
-                  </div>
-                  <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                    <FormProductImages />
-                    <FormInventories handleChange={handleChange} />
-                    <FormMeta handleChange={handleChange} />
-                  </div>
+              <div className="grid grid-cols-2 grid-flow-col gap-4">
+                <div>
+                  <FormGeneral handleChange={handleChange} />
+                  <FormStatus handleChange={handleChange} />
+                </div>
+                <div>
+                  <FormProductImages />
+                  <FormInventories handleChange={handleChange} />
+                  <FormMeta handleChange={handleChange} />
                 </div>
               </div>
               <FormCategories handleChange={handleChange} />

@@ -44,65 +44,65 @@ export const FormInfoBasic: React.FC<any> = ({ onChange }) => {
   };
 
   return (
-    <div className="col-xl-12 col-lg-6 col-md-12 col-sm-12 col-12">
-      <figure className="ps-block--form-box">
-        <figcaption className="header-figcaption">Thông tin cơ bản</figcaption>
-        <div className="ps-block__content">
-          <div className="row">
-            <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-              <div className="form-group m-0">
-                <label>Tên chương trình khuyến mãi</label>
-                <Form.Item
-                  name="name"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Vui lòng nhập ten',
-                    },
-                  ]}
-                >
-                  <Input
-                    maxLength={MAX_LENGTH_TEXT}
-                    showCount
-                    onChange={(e) => onChange(e, 'firstName')}
-                  />
-                </Form.Item>
-              </div>
-            </div>
-            <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-              <div className="form-group">
-                <label>Thời gian khuyến mãi</label>
-                <Form.Item
-                  name="dateTime"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Vui lòng nhập',
-                    },
-                  ]}
-                >
-                  <Space direction="vertical" size={12} style={{ width: '100%' }}>
-                    <RangePicker
-                      locale={locale}
-                      style={{ width: '100%' }}
-                      disabledDate={disabledDate}
-                      disabledTime={disabledRangeTime}
-                      showNow
-                      onChange={handleSelectDateTime}
-                      showTime={{
-                        showNow: true,
-                        defaultValue: [dayjs('00:00', 'HH:mm'), dayjs('11:59', 'HH:mm')],
-                        format: 'HH:mm',
-                      }}
-                      format="YYYY-MM-DD HH:mm"
-                    />
-                  </Space>
-                </Form.Item>
-              </div>
-            </div>
+    <figure>
+      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
+        Thông tin cơ bản
+      </figcaption>
+      <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
+        <div className="grid grid-cols-2 grid-flow-col gap-4">
+          <div className=" m-0">
+            <label className="mb-3 text-sm font-normal">
+              Tên chương trình khuyến mãi<sup className="text-red-600 ml-1">*</sup>
+            </label>
+            <Form.Item
+              name="name"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng nhập ten',
+                },
+              ]}
+            >
+              <Input
+                maxLength={MAX_LENGTH_TEXT}
+                showCount
+                onChange={(e) => onChange(e, 'firstName')}
+              />
+            </Form.Item>
+          </div>
+          <div className="m-0">
+            <label className="mb-3 text-sm font-normal">
+              Thời gian khuyến mãi<sup className="text-red-600 ml-1">*</sup>
+            </label>
+            <Form.Item
+              name="dateTime"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng nhập',
+                },
+              ]}
+            >
+              <Space direction="vertical" size={12} style={{ width: '100%' }}>
+                <RangePicker
+                  locale={locale}
+                  style={{ width: '100%' }}
+                  disabledDate={disabledDate}
+                  disabledTime={disabledRangeTime}
+                  showNow
+                  onChange={handleSelectDateTime}
+                  showTime={{
+                    showNow: true,
+                    defaultValue: [dayjs('00:00', 'HH:mm'), dayjs('11:59', 'HH:mm')],
+                    format: 'HH:mm',
+                  }}
+                  format="YYYY-MM-DD HH:mm"
+                />
+              </Space>
+            </Form.Item>
           </div>
         </div>
-      </figure>
-    </div>
+      </div>
+    </figure>
   );
 };

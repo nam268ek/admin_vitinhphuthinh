@@ -1,16 +1,10 @@
 /* eslint-disable curly */
-import { UploadOutlined } from '@ant-design/icons';
-import type { UploadProps } from 'antd';
-import { Button, message, Upload } from 'antd';
-import { cloneDeep } from 'lodash';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Button, Upload } from 'antd';
+import React, { useEffect } from 'react';
 import { IoAddSharp } from 'react-icons/io5';
 import { useDispatch } from 'react-redux';
 import { read, utils } from 'xlsx';
-import { history } from '../../utils/history';
-// import { setIsLoading } from '../redux/Slices/PrimarySlice';
-// import { reqUploadListProducts } from '../redux/Slices/ProductSlice';
-// import { originalProduct } from "../services/general.service";
+import { UploadOutlined } from '@ant-design/icons';
 
 export const UploadFileExcel: React.FC = () => {
   const [countUpload, setCountUpload] = React.useState<number>(0);
@@ -106,10 +100,13 @@ export const UploadFileExcel: React.FC = () => {
   };
 
   return (
-    <Upload customRequest={reqUploadExcel} accept={SheetJSFT} showUploadList={false}>
-      <Button disabled className="c-btn-gray mr-10 d-flex align-items-center">
-        <IoAddSharp size={18} />
-        <span style={{ paddingLeft: '5px' }}>Import Excel</span>
+    <Upload disabled customRequest={reqUploadExcel} accept={SheetJSFT} showUploadList={false}>
+      <Button
+        disabled={true}
+        icon={<UploadOutlined />}
+        className="bg-slate-100 h-10 mr-2 flex items-center"
+      >
+        <span className="ml-2 uppercase">Import Excel</span>
       </Button>
     </Upload>
   );

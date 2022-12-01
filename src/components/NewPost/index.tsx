@@ -1,61 +1,83 @@
 /* eslint-disable new-cap */
 /* eslint-disable curly */
 import { Button, Form, Space } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
 import { TypeOf } from '../../utils/CheckTypeOfValue';
+import { getCreatePostService, getListPostsService } from '../redux/Slices/PostSlice';
 import { RootState } from '../redux/store/store';
+import { openMessage } from '../services/general.service';
 import { FormBlogBasic } from './Components/FormBlogBasic';
+import { FormPostDetails } from './Components/FormPostDetails';
 
 export const NewPost: React.FC = () => {
-  const { action, orders, loading } = useSelector((state: RootState) => state.order);
+  const { action, posts, loading } = useSelector((state: RootState) => state.post);
+  const { imageUploaded } = useSelector((state: RootState) => state.image);
 
   const [isReset, setIsReset] = useState<boolean>(false);
+  const childRef = useRef<any>(null);
 
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const { orderId } = useParams();
+  const { postId } = useParams();
 
   useEffect(() => {
-    handleLoadOrderUpdate(orderId);
-  }, [orderId]);
+    handleLoadPostUpdate(postId);
+  }, [postId]);
 
-  const handleLoadOrderUpdate = (id: string | undefined) => {
+  const handleLoadPostUpdate = (id: string | undefined) => {
     if (!id) return;
 
-    const order = orders?.filter((p) => p.id === id);
-    if (order.length > 0) {
-      const { customer, ...orderRest } = order[0];
+    const post = posts?.filter((p) => p.id === id);
+    if (post.length > 0) {
+      const { customer, ...postRest } = post[0];
 
       form.setFieldsValue({
-        ...orderRest,
+        ...postRest,
         ...customer,
       });
     }
   };
 
   const onFinish = async (data: any) => {
+    console.log(data);
     switch (action) {
-      case NAME_ACTION.CREATE_PRODUCT:
-        handleCreateOrder();
+      case NAME_ACTION.CREATE_POST:
+        handleCreatePost(data);
         break;
-      case NAME_ACTION.UPDATE_PRODUCT:
-        handleUpdateOrder();
+      case NAME_ACTION.UPDATE_POST:
+        handleUpdatePost(data);
         break;
       default:
         break;
     }
   };
 
-  const handleCreateOrder = async () => {
-    //
+  const handleCreatePost = async (data: any) => {
+    const imageId = imageUploaded?.map((item) => item.id)[0] || undefined;
+    const bodyCreatePost = {
+      ...data,
+      images: imageId,
+      url: data.urlSlug,
+      content: childRef.current.contentEditor(),
+    };
+
+    try {
+      await dispatch(getCreatePostService(bodyCreatePost)).unwrap();
+      await dispatch(getListPostsService()).unwrap();
+      openMessage();
+    } catch (error) {
+      openMessage(error);
+    }
+    console.log(data);
   };
 
-  const handleUpdateOrder = async () => {
+  const handleUpdatePost = async (data: any) => {
     //
+    console.log(data);
   };
 
   const resetForm = (e: any) => {
@@ -66,10 +88,10 @@ export const NewPost: React.FC = () => {
 
   const goBack = (e: any) => {
     resetForm(e);
-    navigate('/orders', { replace: true });
+    navigate('/posts', { replace: true });
   };
 
-  const onChange = (e: any) => {
+  const onChange = (e: any, key: string) => {
     let value = e;
     if (TypeOf(e) === 'Object' && !(e instanceof Event)) value = e.target.value;
   };
@@ -78,8 +100,8 @@ export const NewPost: React.FC = () => {
     <div id="new-post">
       <div className="ps-main__wrapper">
         <h3 className="header-button">
-          <span className="header-button-name">
-            {`${action === NAME_ACTION.CREATE_ORDER ? 'Tạo' : 'Cập nhật'}`} đơn hàng
+          <span className="w-1/2 text-3xl font-normal">
+            {`${action === NAME_ACTION.CREATE_ORDER ? 'Tạo' : 'Cập nhật'}`} bài đăng
           </span>
           <Form onFinish={onFinish} form={form}>
             <Form.Item className="header-button-form">
@@ -87,7 +109,7 @@ export const NewPost: React.FC = () => {
                 <Button type="primary" danger onClick={goBack}>
                   Back
                 </Button>
-                <Button type="primary" hidden={!!orderId} htmlType="reset" onClick={resetForm}>
+                <Button type="primary" hidden={!!postId} htmlType="reset" onClick={resetForm}>
                   Reset
                 </Button>
                 <Button type="primary" htmlType="submit" loading={loading}>
@@ -105,16 +127,12 @@ export const NewPost: React.FC = () => {
               </p>
             </div>
           </div>
-          <section className="ps-new-item">
-            <Form className="ps-form ps-form--new-product" form={form} onFinish={onFinish}>
+          <section>
+            <Form form={form} onFinish={onFinish}>
               <div className="ps-form__content">
                 <div className="row">
-                  <FormBlogBasic />
-                  <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                    <figure className="ps-block--form-box"></figure>
-                    <figure className="ps-block--form-box"></figure>
-                    <figure className="ps-block--form-box"></figure>
-                  </div>
+                  <FormBlogBasic onChange={onChange} form={form} />
+                  <FormPostDetails childRef={childRef} defaultValue={<></>} />
                 </div>
               </div>
               <div className="ps-form__bottom">
@@ -123,7 +141,7 @@ export const NewPost: React.FC = () => {
                     <Button type="primary" danger onClick={goBack}>
                       Back
                     </Button>
-                    <Button type="primary" hidden={!!orderId} htmlType="reset" onClick={resetForm}>
+                    <Button type="primary" hidden={!!postId} htmlType="reset" onClick={resetForm}>
                       Reset
                     </Button>
                     <Button type="primary" htmlType="submit" loading={loading}>

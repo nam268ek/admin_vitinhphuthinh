@@ -87,7 +87,7 @@ export const ImageUploadV2: React.FC<any> = ({
   };
 
   return (
-    <Form.Item name="images">
+    <Form.Item name="images" noStyle>
       <Upload
         customRequest={handleUploadImage}
         listType="picture-card"

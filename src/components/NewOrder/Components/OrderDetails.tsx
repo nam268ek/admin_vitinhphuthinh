@@ -93,8 +93,10 @@ export const OrderDetails: React.FC<any> = ({ onChange, orderId, isReset }) => {
 
   return (
     <>
-      <figcaption className="header-figcaption">Order Detail</figcaption>
-      <div className="ps-block__content order">
+      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
+        Order Detail
+      </figcaption>
+      <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
         {listItems?.map((item: any, index: number) => (
           <div key={index}>
             <div className="row">
@@ -141,12 +143,8 @@ export const OrderDetails: React.FC<any> = ({ onChange, orderId, isReset }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="item d-flex align-items-center">
-                    <Button
-                      type="dashed"
-                      className="d-flex justify-content-center align-items-center"
-                      icon={<DeleteOutlined />}
-                    ></Button>
+                  <div className="item flex items-center">
+                    <Button type="dashed" icon={<DeleteOutlined />}></Button>
                   </div>
                 </div>
               </div>

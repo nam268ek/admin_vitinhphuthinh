@@ -15,8 +15,10 @@ export const FormProductDescription: React.FC<any> = ({ childRef, defaultValue }
   };
 
   return (
-    <figure className="ps-block--form-box">
-      <figcaption>Mô tả sản phẩm</figcaption>
+    <figure>
+      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
+        Mô tả sản phẩm
+      </figcaption>
       <EditorText
         ref={childRef}
         statusChangeEditor={onValuesChangeForm}

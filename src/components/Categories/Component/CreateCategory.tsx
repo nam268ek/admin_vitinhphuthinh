@@ -93,15 +93,15 @@ export const CreateCategory: React.FC = () => {
             itemSelected.length > 0 ? 'ps-block--form-box ps-box-edit' : 'ps-block--form-box'
           }
         >
-          <figcaption className="header-figcaption">
+          <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
             {itemSelected.length > 0 ? 'Update' : 'Thêm'} Danh mục
           </figcaption>
-          <div className="ps-block__content">
-            <div className="row">
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                <div className="form-group">
-                  <label>
-                    Tên danh mục<sup>*</sup>
+          <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
+            <div className="grid grid-cols-2 grid-flow-col gap-4">
+              <div>
+                <div className="mb-5">
+                  <label className="mb-3 text-sm font-normal">
+                    Tên danh mục<sup className="text-red-600 ml-1">*</sup>
                   </label>
                   <Form.Item
                     name="name"
@@ -117,15 +117,15 @@ export const CreateCategory: React.FC = () => {
                   </Form.Item>
                 </div>
 
-                <div className="form-group">
-                  <label>Parent</label>
+                <div className="mb-5">
+                  <label className="mb-3 text-sm font-normal">Parent</label>
                   <SelectOptionV2 name="parent" options={options} placeholder="Dell" />
                 </div>
               </div>
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                <div className="form-group">
-                  <label>
-                    Index<sup>*</sup>
+                <div className="mb-5">
+                  <label className="mb-3 text-sm font-normal">
+                    Index<sup className="text-red-600 ml-1">*</sup>
                   </label>
                   <Form.Item
                     name="index"
@@ -144,9 +144,9 @@ export const CreateCategory: React.FC = () => {
                     <InputNumber maxLength={2} width={100} placeholder="Vị trí hiện thị" />
                   </Form.Item>
                 </div>
-                <div className="form-group">
-                  <label>
-                    Link<sup>*</sup>
+                <div className="mb-5">
+                  <label className="mb-3 text-sm font-normal">
+                    Link<sup className="text-red-600 ml-1">*</sup>
                   </label>
                   <Form.Item
                     name="category"

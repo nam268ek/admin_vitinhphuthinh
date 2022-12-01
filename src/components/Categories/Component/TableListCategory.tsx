@@ -1,9 +1,8 @@
-import { Space, Table } from 'antd';
+import { DeleteFilled, EditFilled } from '@ant-design/icons';
+import { Button, Space, Table } from 'antd';
 import moment from 'moment';
 import React from 'react';
-import { MdDeleteForever, MdModeEdit } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { NAME_ACTION } from '../../../constants/const';
 import {
   addAction,
@@ -47,12 +46,19 @@ export const TableListCategory: React.FC = () => {
       key: 'action',
       render: (text: string, record: any) => (
         <Space size="middle">
-          <Link to="" className={disabledFieldCategory ? 'edit-item' : 'disable-field'}>
-            <MdModeEdit size={20} onClick={(e) => handleEditCategory(record)} />
-          </Link>
-          <Link to="" className={disabledFieldCategory ? 'remove-item' : 'disable-field'}>
-            <MdDeleteForever size={20} onClick={(e) => handleRemoveCategory(record)} />
-          </Link>
+          <Button
+            icon={<EditFilled />}
+            disabled={!disabledFieldCategory}
+            onClick={(e) => handleEditCategory(record)}
+            className="bg-blue-100 border-0 text-blue-500"
+          ></Button>
+          <Button
+            icon={<DeleteFilled />}
+            danger
+            disabled={!disabledFieldCategory}
+            onClick={(e) => handleRemoveCategory(record)}
+            className="bg-red-100 border-0 text-red-500 hover:bg-red-200 hover-text"
+          ></Button>
         </Space>
       ),
     },

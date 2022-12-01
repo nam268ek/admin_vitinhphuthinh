@@ -563,3 +563,16 @@ export interface DataTypeMarketing {
   endDate: string;
   quantitySelected: number;
 }
+export interface PostState {
+  action: NAME_ACTION;
+  loading: boolean;
+  posts: any[];
+}
+export interface DataTypePost {
+  key: React.Key;
+  id: string;
+  name: string;
+  status: string;
+  images: any[];
+  updatedAt: string;
+}

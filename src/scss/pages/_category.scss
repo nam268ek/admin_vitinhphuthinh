@@ -59,6 +59,12 @@
     opacity: 0.4;
     color: #878787;
   }
+  .hover-text {
+    :hover {
+      border: none !important;
+      color: rgb(231, 89, 89);
+    }
+  }
   .ps-block--form-box {
     figcaption {
       padding: 10px 20px;

@@ -7,11 +7,11 @@ const Categories: React.FC = () => {
     <div id="category" className="ps-main__wrapper">
       <div className="header--dashboard">
         <div className="header__left">
-          <h3>Danh mục</h3>
+          <h3 className="text-4xl">Danh mục</h3>
           <p>Danh sách danh mục</p>
         </div>
       </div>
-      <section className="ps-items-listing">
+      <section>
         <CreateCategory />
         <TableListCategory />
       </section>

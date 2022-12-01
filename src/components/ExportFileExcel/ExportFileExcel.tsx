@@ -1,7 +1,7 @@
-import React from 'react';
-import { MdOutlineImportExport } from 'react-icons/md';
-import { writeFileXLSX, utils } from 'xlsx';
+import { DownloadOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import React from 'react';
+import { utils, writeFileXLSX } from 'xlsx';
 
 export const ExportFileExcel: React.FC<any> = ({ data }) => {
   const exportToCSV = (listData: any) => {
@@ -13,15 +13,12 @@ export const ExportFileExcel: React.FC<any> = ({ data }) => {
 
   return (
     <Button
-      // disabled={data ? false : true}
       disabled={true}
-      type="dashed"
-      ghost
-      className={data ? 'c-btn-gray mr-10 d-flex align-items-center' : 'mr-10 disabled'}
+      className="h-full bg-slate-100"
+      icon={<DownloadOutlined />}
       onClick={(e) => exportToCSV(data)}
     >
-      <MdOutlineImportExport size={18} />
-      <span style={{ paddingLeft: '5px' }}>Export Excel</span>
+      <span className="ml-2 uppercase">Export Excel</span>
     </Button>
   );
 };

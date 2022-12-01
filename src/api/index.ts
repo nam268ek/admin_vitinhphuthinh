@@ -156,6 +156,21 @@ export const requestService = {
     const url = '/dropdowns';
     return instance.post(url, params);
   },
+
+  // posts services
+  listPostsService: () => {
+    const url = '/newspapers';
+    return instance.get(url);
+  },
+  createPostService: (params: any) => {
+    const url = '/newspapers/create';
+    return instance.post(url, params);
+  },
+  deleteListPostsService: (params: any) => {
+    const url = '/newspapers/delete';
+    return instance.delete(url, { data: params });
+  },
+
   asyncCartFromDatabase: () => {
     const url = '/cart';
     return instance.get(url);

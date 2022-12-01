@@ -105,70 +105,60 @@ export const FormSelectProducts = () => {
           <div className="shadow-content">
             {/* <Empty /> */}
             <div className="row">
-              <div className="form-group m-0">
-                <div className="c-header-table mb-3">
-                  <div className="c-w1">
+              <div className="m-0">
+                <div className="flex items-baseline justify-between px-3 py-4 bg-gray-100 mb-3 rounded-md border-x border-y border-solid border-gray-200">
+                  <div className="w-8 pr-4">
                     <Checkbox />
                   </div>
-                  <div className="c-w2">Tên sản phẩm</div>
-                  <div className="c-w3">Giá gốc</div>
-                  <div className="c-w4">Giá sau giảm</div>
-                  <div className="c-w5">Giảm giá</div>
-                  <div className="c-w6">Kho hàng</div>
-                  <div className="c-w7">Số lượng sản phẩm khuyến mãi</div>
-                  <div className="c-w8">Thao tác</div>
+                  <div className="text-sm pr-4 w-28">Tên sản phẩm</div>
+                  <div className="text-sm pr-4 w-28">Giá gốc</div>
+                  <div className="text-sm pr-4 w-52">Giá sau giảm</div>
+                  <div className="text-sm pr-4 w-36">Kho hàng</div>
+                  <div className="text-sm pr-4 w-60">Số lượng sản phẩm khuyến mãi</div>
+                  <div className="text-sm pr-4 w-20">Thao tác</div>
                 </div>
                 <div className="c-content-table">
                   {products?.map((item, index) => (
                     <div key={item?.id} className="mb-2">
-                      <div className="d-flex align-items-center w-100 mb-2">
-                        <div className="c-w1">
+                      <div className="flex items-center w-full mb-2">
+                        <div className="w-8 pr-4">
                           <Checkbox />
                         </div>
-                        <div className="d-flex align-items-center w-100 gap-2">
+                        <div className="flex w-full items-center gap-2">
                           <Avatar
                             size={40}
                             shape="square"
-                            className="d-flex justify-content-center align-items-center"
                             src="https://avatars.githubusercontent.com/u/8084606?v=4"
                             icon={
                               <UserOutlined className="d-flex justify-content-between align-items-center" />
                             }
                           />
-                          <span className="fw-normal">
+                          <span className="font-normal text-ellipsis text-base">
                             Avatars can be used to represent people or objects. It supports images,
                             Icons, or letters.
                           </span>
                         </div>
-                        <div className="c-w8">
-                          <Button
-                            type="default"
-                            shape="circle"
-                            className="d-flex justify-content-center align-items-center"
-                            icon={
-                              <DeleteOutlined className="d-flex justify-content-center align-items-center" />
-                            }
-                          ></Button>
+                        <div className="text-sm pr-4 w-20">
+                          <Button type="default" shape="circle" icon={<DeleteOutlined />}></Button>
                         </div>
                       </div>
-                      <div className="c-header-table border-0 bg-white align-items-center">
-                        <div className="c-w1"></div>
-                        <div className="c-w2-small">-</div>
-                        <div className="c-w3">{formatMoney.format(products[0].priceSale)}</div>
-                        <div className="c-w4">
+                      <div className="bg-white flex flex-row border-0 items-center justify-between py-4">
+                        <div className="w-8 pr-4"></div>
+                        <div className="text-sm pr-4 w-28">-</div>
+                        <div className="text-sm pr-4 w-28">
+                          {formatMoney.format(products[0].priceSale)}
+                        </div>
+                        <div className="text-sm pr-4 w-52">
                           <InputNumber min={1} addonAfter="VNĐ" />
                         </div>
-                        <div className="c-w5">
-                          <InputNumber min={1} addonAfter="VNĐ" />
-                        </div>
-                        <div className="c-w6">{products[0].quantity}</div>
-                        <div className="c-w7">
+                        <div className="text-sm pr-4 w-36">{products[0].quantity}</div>
+                        <div className="text-sm pr-4 w-60">
                           <FormSelectNumberMarketings
                             onChange={onChange}
                             productId={products[0].id}
                           />
                         </div>
-                        <div className="c-w8"></div>
+                        <div className="text-sm pr-4 w-20"></div>
                       </div>
                       {products?.length - 1 !== index && <div className="c-border-item"></div>}
                     </div>

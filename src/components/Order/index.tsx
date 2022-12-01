@@ -1,6 +1,6 @@
+import { PlusOutlined } from '@ant-design/icons';
 import { Button, FloatButton } from 'antd';
 import React from 'react';
-import { FaPlusCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
@@ -25,24 +25,27 @@ export const Orders: React.FC = () => {
       <div className="ps-main__wrapper">
         <div className="header--dashboard">
           <div className="header__left">
-            <h3>Đơn hàng</h3>
+            <h3 className="text-3xl font-normal">Đơn hàng</h3>
             <p>Danh Sách đơn hàng</p>
           </div>
         </div>
-        <section className="ps-items-listing">
-          <div className="ps-section__actions pb-2">
-            <div className="width-left">
+        <section>
+          <div className="grid grid-flow-col grid-cols-2 gap-2 mb-2">
+            <div className="col-span-2">
               <Search
                 listItems={orders}
                 flowName="orders"
-                className="search-order"
+                className="w-full"
                 placeholder="Tìm kiếm đơn hàng..."
               />
             </div>
-            <div className="width-right d-flex">
-              <Button className="ps-btn success" onClick={handleCreateOrder}>
-                <FaPlusCircle />
-                <span>Tạo đơn hàng</span>
+            <div className="col-span-1">
+              <Button
+                className="flex items-center btn-green h-full border-0"
+                icon={<PlusOutlined />}
+                onClick={handleCreateOrder}
+              >
+                <span className="uppercase">Tạo đơn hàng</span>
               </Button>
             </div>
           </div>

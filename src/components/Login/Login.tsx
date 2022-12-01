@@ -32,7 +32,7 @@ const Login: React.FC = () => {
     <>
       <section className="login-background"></section>
       <section id="login">
-        <div className="container">
+        <div className="container mx-auto">
           <div className="flex justify-center">
             <div className="flex flex-col w-30">
               <p className="text-header">Vi tính Phú Thịnh</p>

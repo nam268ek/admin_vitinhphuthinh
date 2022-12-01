@@ -81,7 +81,7 @@ export const NewOrder: React.FC = () => {
     <div id="new-order">
       <div className="ps-main__wrapper">
         <h3 className="header-button">
-          <span className="header-button-name">
+          <span className="w-1/2 text-3xl font-normal">
             {`${action === NAME_ACTION.CREATE_ORDER ? 'Tạo' : 'Cập nhật'}`} đơn hàng
           </span>
           <Form onFinish={onFinish} form={form}>
@@ -108,18 +108,18 @@ export const NewOrder: React.FC = () => {
               </p>
             </div>
           </div>
-          <section className="ps-new-item">
+          <section>
             <Form className="ps-form ps-form--new-product" form={form} onFinish={onFinish}>
               <div className="ps-form__content">
-                <div className="row">
-                  <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                <div className="grid grid-cols-2 grid-flow-col gap-4">
+                  <div>
                     <ModuleProducts />
                   </div>
-                  <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                    <figure className="ps-block--form-box">
+                  <div>
+                    <figure>
                       <OrderDetails onChange={onChange} orderId={orderId} isReset={isReset} />
                     </figure>
-                    <figure className="ps-block--form-box">
+                    <figure>
                       <OrderSummary onChange={onChange} form={form} />
                     </figure>
                   </div>

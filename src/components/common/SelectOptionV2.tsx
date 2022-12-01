@@ -21,7 +21,13 @@ export const SelectOptionV2: React.FC<ISelectOption> = ({
   };
 
   return (
-    <Form.Item name={name} className={className} rules={rules} validateTrigger={validateTrigger}>
+    <Form.Item
+      name={name}
+      className={className}
+      rules={rules}
+      hasFeedback
+      validateTrigger={validateTrigger}
+    >
       <Select
         allowClear
         placeholder={placeholder}

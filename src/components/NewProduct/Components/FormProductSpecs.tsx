@@ -20,9 +20,13 @@ export const FormProductSpecs: React.FC<any> = ({ onChange }) => {
   };
 
   return (
-    <figure className="ps-block--form-box">
-      <figcaption>Thông tin cấu hình</figcaption>
-      <div className="ps-block__content">{content}</div>
+    <figure>
+      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
+        Thông tin cấu hình
+      </figcaption>
+      <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
+        {content}
+      </div>
     </figure>
   );
 };

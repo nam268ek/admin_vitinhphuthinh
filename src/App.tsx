@@ -9,15 +9,13 @@ import { Indicator } from './components/Indicator/Indicator';
 import InfoFooter from './components/InfoFooter/InfoFooter';
 import Login from './components/Login/Login';
 import LogoLayout from './components/LogoLayout/LogoLayout';
-import { Marketings } from './components/Marketing';
 import { NavBarMenu } from './components/NavBarMenu/NavBarMenu';
-import { NewMarketing } from './components/NewMarketing';
 import { NewOrder } from './components/NewOrder';
 import { NewPost } from './components/NewPost';
 import { NewProduct } from './components/NewProduct';
-import { Newspapers } from './components/Newspaper';
 import { Orders } from './components/Order';
 import Policy from './components/Policy/Policy';
+import { Posts } from './components/Post';
 import { Products } from './components/Product';
 import { asyncUser, logout } from './components/redux/Slices/AuthSlice';
 import { RootState } from './components/redux/store/store';
@@ -78,12 +76,12 @@ export const App: React.FC = () => {
             <Route path="/orders/new" element={<NewOrder />} />
             <Route path="/orders/:orderId" element={<NewOrder />} />
             <Route path="/categories" element={<Categories />} />
-            <Route path="/marketings" element={<Marketings />} />
-            <Route path="/marketings/new" element={<NewMarketing />} />
-            <Route path="/marketings/:marketingId" element={<NewMarketing />} />
-            <Route path="/newspapers" element={<Newspapers />} />
-            <Route path="/newspapers/new" element={<NewPost />} />
-            <Route path="/newspapers/:newspaperId" element={<NewPost />} />
+            <Route path="/marketings" element={<Posts />} />
+            <Route path="/marketings/new" element={<NewPost />} />
+            <Route path="/marketings/:marketingId" element={<NewPost />} />
+            <Route path="/posts" element={<Posts />} />
+            <Route path="/posts/new" element={<NewPost />} />
+            <Route path="/posts/:postId" element={<NewPost />} />
             <Route path="/settings" element={<Settings />}>
               <Route path="logo" element={<LogoLayout />} />
               <Route path="footer" element={<InfoFooter />} />
