@@ -8,8 +8,8 @@ import {
   MailOutlined,
   PieChartOutlined,
 } from '@ant-design/icons';
-import { Avatar, MenuProps } from 'antd';
-import { Button, Menu, Tooltip } from 'antd';
+import { Avatar, MenuProps, Button, Menu, Tooltip } from 'antd';
+
 import React, { useEffect, useState } from 'react';
 import { AiOutlineLayout } from 'react-icons/ai';
 import { BiCategoryAlt } from 'react-icons/bi';
