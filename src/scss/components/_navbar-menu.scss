@@ -111,6 +111,9 @@
             text-transform: capitalize;
             transform-style: preserve-3d;
           }
+          .ant-menu-inline .ant-menu-sub.ant-menu-inline {
+            border-radius: 6px;
+          }
         }
         .menu {
           padding: 0;

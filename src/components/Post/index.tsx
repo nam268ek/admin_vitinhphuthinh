@@ -9,6 +9,7 @@ import { RootState } from '../redux/store/store';
 import { Search } from '../Search/Search';
 import { TableListPosts } from './Components/TableListPosts';
 import { PlusOutlined } from '@ant-design/icons';
+import { setImageAction } from '../redux/Slices/ImageSlice';
 
 export const Posts: React.FC = () => {
   const { orders } = useSelector((state: RootState) => state.order);
@@ -18,6 +19,7 @@ export const Posts: React.FC = () => {
 
   const handleCreatePost = () => {
     dispatch(setPostAction(NAME_ACTION.CREATE_POST));
+    dispatch(setImageAction([]));
     navigate('/posts/new', { replace: true });
   };
 

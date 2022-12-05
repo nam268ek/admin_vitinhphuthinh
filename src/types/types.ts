@@ -403,6 +403,7 @@ export interface ISelectOptionProps {
 }
 export interface AuthState {
   isLogin: boolean;
+  loading: boolean;
   user: object | undefined;
 }
 export interface IAuthToken {

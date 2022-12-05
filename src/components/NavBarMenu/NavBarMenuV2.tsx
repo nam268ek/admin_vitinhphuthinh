@@ -117,19 +117,21 @@ export const NavbarMenuV2: React.FC = () => {
 
   return (
     <div className="ps-main__sidebar">
-      <div className="ps-sidebar">
-        <div className="ps-sidebar__top">
-          <div className="ps-block--user-wellcome">
+      <div className="ps-sidebar relative h-full">
+        <div className="ps-sidebar__top pr-5 mb-[30px]">
+          <div className="ps-block--user-wellcome mb-[40px] relative flex flex-nowrap items-center w-full">
             <div className="ps-block__left">
-              <Avatar size={35} shape="circle" icon={<UserOutlined />} />
+              <img src="/img/user/admin.jpg" alt="" />
             </div>
-            <div className="ps-block__right">
+            <div className="ps-block__right pl-3">
               <div>
                 Xin chào,
-                <p id="nameshop">Vi Tính Phú Thịnh</p>
+                <p id="nameshop" className="mb-0 color-[#666] text-sm">
+                  Vi Tính Phú Thịnh
+                </p>
               </div>
             </div>
-            <div className="ps-block__action">
+            <div className="ps-block__action absolute top-1/2 translate-y-[-50%] right-3">
               <Tooltip title="Đăng xuất">
                 <Button
                   type="primary"
@@ -148,12 +150,12 @@ export const NavbarMenuV2: React.FC = () => {
           </div>
         </div>
         <div className="ps-sidebar__content">
-          <div className="ps-sidebar__center">
+          <div className="ps-sidebar__center pr-5">
             <ul id="menu" className="m-0 p-0">
               <Menu
                 defaultSelectedKeys={['2']}
                 mode="inline"
-                subMenuCloseDelay={0.08}
+                subMenuCloseDelay={0.01}
                 onSelect={handleSelectMenu}
                 items={items}
               />

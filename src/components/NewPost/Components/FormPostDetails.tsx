@@ -6,7 +6,7 @@ import { RootState } from '../../redux/store/store';
 
 export const FormPostDetails: React.FC<any> = ({ childRef, postId, onChange }) => {
   const { posts } = useSelector((state: RootState) => state.post);
-  const [defaultValue, setDefaultValue] = useState<string>('<></>');
+  const [defaultValue, setDefaultValue] = useState<string>('');
 
   useEffect(() => {
     handleLoadPostUpdate(postId);

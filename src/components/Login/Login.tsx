@@ -8,7 +8,7 @@ import { getLoginService } from '../redux/Slices/AuthSlice';
 import { RootState } from '../redux/store/store';
 
 const Login: React.FC = () => {
-  const { isLogin } = useSelector((state: RootState) => state.auth);
+  const { isLogin, loading } = useSelector((state: RootState) => state.auth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Login: React.FC = () => {
     try {
       await dispatch(getLoginService({ email, password })).unwrap();
     } catch (error: any) {
-      message.error({ content: error.message, duration: DURATION_TIMEOUT_SECONDS });
+      message.error({ content: 'Login failed', duration: DURATION_TIMEOUT_SECONDS });
     }
   };
 
@@ -66,7 +66,7 @@ const Login: React.FC = () => {
                     <Input placeholder="Password" type="password" />
                   </Form.Item>
                   <Form.Item className="m-0">
-                    <Button className="w-full" type="primary" htmlType="submit">
+                    <Button className="w-full" type="primary" htmlType="submit" loading={loading}>
                       Đăng nhập
                     </Button>
                   </Form.Item>

@@ -30,6 +30,7 @@ export const getLogoutService: any = createAsyncThunk(
 
 const initialState: AuthState = {
   isLogin: false,
+  loading: false,
   user: {},
 };
 
@@ -48,16 +49,22 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: {
+    [getLoginService.pending]: (state) => {
+      state.loading = true;
+    },
     [getLoginService.fulfilled]: (state, action) => {
       state.isLogin = true;
+      state.loading = false;
       state.user = action.payload;
     },
     [getLoginService.rejected]: (state) => {
-      state.isLogin = false;
+      state.isLogin = true;
+      state.loading = false;
       state.user = undefined;
     },
     [getLogoutService.fulfilled]: (state) => {
-      state.isLogin = false;
+      state.isLogin = true;
+      state.loading = false;
       state.user = undefined;
     },
   },

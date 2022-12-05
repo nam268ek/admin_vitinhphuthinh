@@ -41,19 +41,21 @@ export const NavBarMenu: React.FC = () => {
 
   return (
     <div className="ps-main__sidebar">
-      <div className="ps-sidebar">
-        <div className="ps-sidebar__top">
-          <div className="ps-block--user-wellcome">
+      <div className="ps-sidebar relative h-full">
+        <div className="ps-sidebar__top pr-5 mb-[30px]">
+          <div className="ps-block--user-wellcome mb-[40px] relative flex flex-nowrap items-center w-full">
             <div className="ps-block__left">
               <img src="/img/user/admin.jpg" alt="" />
             </div>
-            <div className="ps-block__right">
+            <div className="ps-block__right pl-3">
               <div>
                 Xin chào,
-                <p id="nameshop">Vi Tính Phú Thịnh</p>
+                <p id="nameshop" className="mb-0 color-[#666] text-sm">
+                  Vi Tính Phú Thịnh
+                </p>
               </div>
             </div>
-            <div className="ps-block__action">
+            <div className="ps-block__action absolute top-1/2 translate-y-[-50%] right-3">
               <Tooltip title="Đăng xuất">
                 <Button
                   type="primary"
