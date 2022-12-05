@@ -76,7 +76,11 @@ export const imageSlice = createSlice({
       state.imageUploaded = state.imageUploaded.filter((item: IImage) => item.keyId !== keyId);
     },
     setImageAction: (state, action) => {
-      state.imageUploaded = action.payload;
+      if (action.payload instanceof Array) {
+        state.imageUploaded = action.payload;
+      } else {
+        state.imageUploaded = [action.payload];
+      }
     },
   },
   extraReducers: {

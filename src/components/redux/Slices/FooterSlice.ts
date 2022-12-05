@@ -1,84 +1,83 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../../api';
-// import { openDialogError } from "../../services/general.service";
+import { NAME_ACTION } from '../../../constants/const';
+import { FooterState } from '../../../types/types';
 
-export const updateContentFooter: any = createAsyncThunk(
-  'UPDATE_FOOTER_CONTENT',
-  async (params: any) => {
-    const data: any = await requestService.reqFooter(params).catch((err: any) => {
-      return err.response.data;
-    });
-    return data;
+export const getCreateFooterService: any = createAsyncThunk(
+  NAME_ACTION.CREATE_FOOTER,
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await requestService.createFooterService(params);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+export const getListFootersService: any = createAsyncThunk(
+  NAME_ACTION.GET_LIST_FOOTERS,
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await requestService.getListFooterService();
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+export const getUpdateFooterService: any = createAsyncThunk(
+  NAME_ACTION.UPDATE_FOOTER,
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await requestService.updateFooterService(params);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
   },
 );
 
-export const getContentFooter: any = createAsyncThunk('GET_FOOTER_CONTENT', async (params: any) => {
-  const data: any = await requestService.reqFooter(params).catch((err: any) => {
-    return err.response.data;
-  });
-  return data;
-});
-
-export const getContentFooterEditor: any = createAsyncThunk(
-  'GET_FOOTER_CONTENT_EDITOR',
-  async (params: any) => {
-    const data: any = await requestService.reqFooterEditor(params).catch((err: any) => {
-      return err.response.data;
-    });
-    return data;
-  },
-);
-
-export const updateContentFooterEditor: any = createAsyncThunk(
-  'UPDATE_FOOTER_CONTENT_EDITOR',
-  async (params: any) => {
-    const data: any = await requestService.reqFooterEditor(params).catch((err: any) => {
-      return err.response.data;
-    });
-    return data;
-  },
-);
-
-const initialState = {
-  statusUpdated: false,
-  statusResponse: [],
-  dataUpdate: [],
-  dataUpdatePolicy: [],
+const initialState: FooterState = {
+  action: NAME_ACTION.CREATE_FOOTER,
+  loading: false,
+  footers: [],
+  policies: [],
 };
 
 const footerSlice = createSlice({
   name: 'footer',
   initialState,
   reducers: {},
-  extraReducers: (builder: any) => {
-    builder
-      .addCase(updateContentFooter.fulfilled, (state: any, action: any) => {
-        if (action.payload.code === 200 && action.payload.data) {
-          state.dataUpdate = [action.payload.data];
-        }
-        state.statusResponse = [...state.statusResponse, action.payload];
-      })
-      .addCase(getContentFooter.fulfilled, (state: any, action: any) => {
-        // openDialogError(action.payload);
-        if (action.payload.code === 200 && action.payload.data) {
-          state.dataUpdate = action.payload.data;
-        }
-        state.statusResponse = [...state.statusResponse, action.payload];
-      })
-      .addCase(getContentFooterEditor.fulfilled, (state: any, action: any) => {
-        // openDialogError(action.payload);
-        if (action.payload.code === 200 && action.payload.data) {
-          state.dataUpdatePolicy = action.payload.data;
-        }
-        state.statusResponse = [...state.statusResponse, action.payload];
-      })
-      .addCase(updateContentFooterEditor.fulfilled, (state: any, action: any) => {
-        // openDialogError(action.payload);
-        if (action.payload.code === 200 && action.payload.data) {
-          state.dataUpdatePolicy = [action.payload.data];
-        }
-        state.statusResponse = [...state.statusResponse, action.payload];
-      });
+  extraReducers: {
+    [getCreateFooterService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getCreateFooterService.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.footers.push(action.payload);
+    },
+    [getCreateFooterService.rejected]: (state) => {
+      state.loading = false;
+    },
+    [getUpdateFooterService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUpdateFooterService.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [getUpdateFooterService.rejected]: (state) => {
+      state.loading = false;
+    },
+    [getListFootersService.rejected]: (state) => {
+      state.loading = false;
+    },
+    [getListFootersService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getListFootersService.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.footers = action.payload;
+    },
   },
 });
 export const footerReducer = footerSlice.reducer;

@@ -1,36 +1,17 @@
 import { Form, Input } from 'antd';
 import { FormInstance } from 'rc-field-form/lib/interface';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { MAX_LENGTH_TEXT, NAME_DROPDOWNS, UPLOAD_KEY } from '../../../constants/const';
-import { IDropdown } from '../../../types/types';
-import { SelectOptionV2 } from '../../common/SelectOptionV2';
+import React from 'react';
+import { MAX_LENGTH_TEXT, UPLOAD_KEY } from '../../../constants/const';
 import { ImageUploadV2 } from '../../ImageUpload/ImageUploadV2';
 import { DropDownTags } from '../../NewProduct/Components/DropdownTags';
 import { TreeCategory } from '../../NewProduct/Components/TreeCategory';
-import { RootState } from '../../redux/store/store';
 import { convertViToEn } from '../../services/general.service';
 import { FormSelectStatusPost } from './FormSelectStatusPost';
 
-export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance }> = ({
+export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance<any> }> = ({
   onChange,
   form,
 }) => {
-  const { dropdowns } = useSelector((state: RootState) => state.primary);
-  const [options, setOptions] = useState<any[]>([]);
-  useEffect(() => {
-    handleListDropdown();
-  }, [dropdowns]);
-
-  const handleListDropdown = () => {
-    const list = dropdowns?.filter(
-      (item: IDropdown) => item.name === NAME_DROPDOWNS.POST_STATUS_OPTIONS,
-    );
-    if (list.length > 0) {
-      setOptions(list[0].dropdowns);
-    }
-  };
-
   const onChangeName = (event: any, key: string) => {
     const value = event.target.value;
     const slug = convertViToEn(value);
@@ -53,7 +34,7 @@ export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance }> = ({
                 Tên bài đăng<sup className="text-red-600 ml-1">*</sup>
               </label>
               <Form.Item
-                name="name"
+                name="namePost"
                 hasFeedback
                 rules={[
                   {
@@ -65,7 +46,7 @@ export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance }> = ({
                 <Input
                   maxLength={MAX_LENGTH_TEXT}
                   placeholder="Post name"
-                  onChange={(e) => onChangeName(e, 'name')}
+                  onChange={(e) => onChangeName(e, 'namePost')}
                 />
               </Form.Item>
             </div>
@@ -87,7 +68,7 @@ export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance }> = ({
                 <Input
                   maxLength={MAX_LENGTH_TEXT}
                   placeholder="Post url"
-                  onChange={(e) => onChange(e, 'name')}
+                  onChange={(e) => onChange(e, 'urlSlug')}
                 />
               </Form.Item>
             </div>
@@ -111,7 +92,7 @@ export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance }> = ({
               <label className="mb-3 text-sm font-normal">
                 Hình ảnh<sup className="text-red-600 ml-1">*</sup>
               </label>
-              <ImageUploadV2 maxFiles={1} keyUpload={UPLOAD_KEY.IMAGE_BLOG} />
+              <ImageUploadV2 maxFiles={1} keyUpload={UPLOAD_KEY.IMAGE_BLOG} onChange={onChange} />
             </div>
             <div className="mb-5">
               <label className="mb-3 text-sm font-normal">Tags</label>

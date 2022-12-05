@@ -4,7 +4,7 @@ import { FaPlusCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
-import { setOrderAction } from '../redux/Slices/OrderSlice';
+import { setPostAction } from '../redux/Slices/PostSlice';
 import { RootState } from '../redux/store/store';
 import { Search } from '../Search/Search';
 import { TableListPosts } from './Components/TableListPosts';
@@ -16,8 +16,8 @@ export const Posts: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleCreateOrder = () => {
-    dispatch(setOrderAction(NAME_ACTION.CREATE_ORDER));
+  const handleCreatePost = () => {
+    dispatch(setPostAction(NAME_ACTION.CREATE_POST));
     navigate('/posts/new', { replace: true });
   };
 
@@ -44,7 +44,7 @@ export const Posts: React.FC = () => {
               <Button
                 className="flex items-center btn-green h-full border-0"
                 icon={<PlusOutlined />}
-                onClick={handleCreateOrder}
+                onClick={handleCreatePost}
               >
                 <span className="ml-2 uppercase">Tạo post mới</span>
               </Button>

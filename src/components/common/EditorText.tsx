@@ -3,9 +3,8 @@ import { Editor } from '@tinymce/tinymce-react';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import { useDispatch } from 'react-redux';
 import { getUploadImageEditorService } from '../redux/Slices/ImageSlice';
-// import { reqUploadImageEditor } from '../redux/Slices/PrimarySlice';
 
-const EditorText: React.FC<any> = forwardRef(({ defaultValue, statusChangeEditor }, ref) => {
+const EditorText: React.FC<any> = forwardRef(({ defaultValue, name, onChange }, ref) => {
   const editorRef = React.useRef<any>(null);
   const dispatch = useDispatch();
   const [keyID, setKeyID] = React.useState<number>(1);
@@ -46,13 +45,17 @@ const EditorText: React.FC<any> = forwardRef(({ defaultValue, statusChangeEditor
         });
     });
 
+  const onEditorChange = (e: string, editor: any) => {
+    onChange(e, name);
+  };
+
   return (
     <Editor
       apiKey={TINYMCE}
       key={keyID}
       initialValue={defaultValue}
       onInit={(evt, editor) => (editorRef.current = editor)}
-      onChange={statusChangeEditor}
+      onEditorChange={onEditorChange}
       init={{
         height: 500,
         menubar: true,

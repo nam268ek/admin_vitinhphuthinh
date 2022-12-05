@@ -1,16 +1,24 @@
 /* eslint-disable new-cap */
 /* eslint-disable curly */
-import { Button, Form, Space } from 'antd';
+import { Button, Form, message, Space } from 'antd';
+import { cloneDeep } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
 import { TypeOf } from '../../utils/CheckTypeOfValue';
-import { getCreatePostService, getListPostsService } from '../redux/Slices/PostSlice';
+import { setImageAction } from '../redux/Slices/ImageSlice';
+import {
+  getCreatePostService,
+  getListPostsService,
+  getUpdatePostService,
+} from '../redux/Slices/PostSlice';
 import { RootState } from '../redux/store/store';
 import { openMessage } from '../services/general.service';
 import { FormBlogBasic } from './Components/FormBlogBasic';
 import { FormPostDetails } from './Components/FormPostDetails';
+
+const bodyUpdatePost: any = {};
 
 export const NewPost: React.FC = () => {
   const { action, posts, loading } = useSelector((state: RootState) => state.post);
@@ -33,11 +41,17 @@ export const NewPost: React.FC = () => {
 
     const post = posts?.filter((p) => p.id === id);
     if (post.length > 0) {
-      const { customer, ...postRest } = post[0];
+      const { url, category, tags, images, name, ...postRest } = post[0];
+
+      if (images) dispatch(setImageAction(images));
 
       form.setFieldsValue({
         ...postRest,
-        ...customer,
+        namePost: name,
+        images: images || [],
+        urlSlug: url,
+        category: category.id,
+        tags: tags?.map((tag: any) => tag.id),
       });
     }
   };
@@ -60,6 +74,7 @@ export const NewPost: React.FC = () => {
     const imageId = imageUploaded?.map((item) => item.id)[0] || undefined;
     const bodyCreatePost = {
       ...data,
+      name: data.namePost,
       images: imageId,
       url: data.urlSlug,
       content: childRef.current.contentEditor(),
@@ -76,8 +91,17 @@ export const NewPost: React.FC = () => {
   };
 
   const handleUpdatePost = async (data: any) => {
-    //
-    console.log(data);
+    const key = 'update';
+    try {
+      message.loading({ content: 'Updating...', key });
+      await dispatch(getUpdatePostService({ newspaperId: postId, ...bodyUpdatePost })).unwrap();
+      await dispatch(getListPostsService()).unwrap();
+
+      openMessage(undefined, key);
+      navigate('/posts', { replace: true });
+    } catch (error) {
+      openMessage(error, key);
+    }
   };
 
   const resetForm = (e: any) => {
@@ -93,7 +117,11 @@ export const NewPost: React.FC = () => {
 
   const onChange = (e: any, key: string) => {
     let value = e;
-    if (TypeOf(e) === 'Object' && !(e instanceof Event)) value = e.target.value;
+    if (key === 'images') {
+      value = e.id;
+    } else if (TypeOf(e) === 'Object' && !(e instanceof Event)) value = e.target.value;
+
+    bodyUpdatePost[key] = value;
   };
 
   return (
@@ -132,11 +160,11 @@ export const NewPost: React.FC = () => {
               <div className="ps-form__content">
                 <div className="row">
                   <FormBlogBasic onChange={onChange} form={form} />
-                  <FormPostDetails childRef={childRef} defaultValue={<></>} />
+                  <FormPostDetails childRef={childRef} postId={postId} onChange={onChange} />
                 </div>
               </div>
               <div className="ps-form__bottom">
-                <Form.Item>
+                <Form.Item noStyle>
                   <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
                     <Button type="primary" danger onClick={goBack}>
                       Back

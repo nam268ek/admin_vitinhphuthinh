@@ -1,9 +1,9 @@
 /* eslint-disable no-constant-condition */
 import { PlusOutlined } from '@ant-design/icons';
-import { Form, message, Upload } from 'antd';
+import { Form, message, Modal, Upload } from 'antd';
 import type { RcFile } from 'antd/es/upload';
-import type { UploadFile } from 'antd/es/upload/interface';
-import React from 'react';
+import type { UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload/interface';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { UPLOAD_KEY } from '../../constants/const';
 import {
@@ -24,9 +24,13 @@ const getBase64 = (file: RcFile): Promise<string> =>
 
 export const ImageUploadV2: React.FC<any> = ({
   maxFiles = 3,
+  onChange,
   keyUpload = UPLOAD_KEY.IMAGE_PRODUCT,
 }) => {
   const { imageUploaded, loading } = useSelector((state: RootState) => state.image);
+
+  const [previewOpen, setPreviewOpen] = useState<boolean>(false);
+  const [itemPreview, setItemPreview] = useState<any>();
 
   const dispatch = useDispatch();
   const listImageUpload = convertTypeUploadImageList(imageUploaded);
@@ -35,8 +39,12 @@ export const ImageUploadV2: React.FC<any> = ({
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj as RcFile);
     }
+    if (file.url) {
+      setItemPreview(file);
+      setPreviewOpen(true);
+    }
   };
-  console.log(listImageUpload);
+
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -54,12 +62,15 @@ export const ImageUploadV2: React.FC<any> = ({
 
     try {
       message.loading({ content: 'Uploading...', key });
-      await dispatch(getUploadImageService(formData)).unwrap();
-      onSuccess();
+      const response = await dispatch(getUploadImageService(formData)).unwrap();
+
+      onSuccess('Ok');
       message.destroy(key);
+      onChange(response, 'images');
     } catch (error) {
       openMessage(error, key);
-      onError();
+      const err = new Error('Error upload');
+      onError({ err });
     }
   };
 
@@ -86,8 +97,10 @@ export const ImageUploadV2: React.FC<any> = ({
     return isJpgOrPng && isLt2M;
   };
 
+  const handleCancel = () => setPreviewOpen(false);
+
   return (
-    <Form.Item name="images" noStyle>
+    <>
       <Upload
         customRequest={handleUploadImage}
         listType="picture-card"
@@ -99,6 +112,9 @@ export const ImageUploadV2: React.FC<any> = ({
       >
         {imageUploaded.length >= (maxFiles || 1) ? null : uploadButton}
       </Upload>
-    </Form.Item>
+      <Modal open={previewOpen} title={itemPreview?.name} footer={null} onCancel={handleCancel}>
+        <img alt="example" style={{ width: '100%' }} src={itemPreview?.thumbUrl} />
+      </Modal>
+    </>
   );
 };

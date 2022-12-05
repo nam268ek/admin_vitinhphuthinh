@@ -27,6 +27,18 @@ export const getCreatePostService: any = createAsyncThunk(
     }
   },
 );
+
+export const getUpdatePostService: any = createAsyncThunk(
+  NAME_ACTION.UPDATE_POST,
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await requestService.updatePostService(params);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
 export const getDeleteListPostService: any = createAsyncThunk(
   NAME_ACTION.REMOVE_POST,
   async (params, { rejectWithValue }) => {
@@ -71,6 +83,15 @@ export const postSlice = createSlice({
       state.posts.push(action.payload);
     },
     [getCreatePostService.rejected]: (state) => {
+      state.loading = false;
+    },
+    [getUpdatePostService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUpdatePostService.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [getUpdatePostService.rejected]: (state) => {
       state.loading = false;
     },
     [getDeleteListPostService.pending]: (state) => {

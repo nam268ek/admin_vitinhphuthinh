@@ -140,7 +140,7 @@ export const convertListDropdown = (list: any[]) => {
   );
 };
 export const convertTypeUploadImageList = (list: IImage[]): UploadFile[] => {
-  return list.map((file) => {
+  return list?.map((file) => {
     const { keyId, name, status, url, thumbUrl, updatedAt } = file;
     return {
       uid: keyId,

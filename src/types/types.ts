@@ -554,6 +554,12 @@ export interface MarketingState {
   loading: boolean;
   marketings: any[];
 }
+export interface FooterState {
+  action: NAME_ACTION;
+  loading: boolean;
+  footers: any[];
+  policies: any[];
+}
 export interface DataTypeMarketing {
   key: React.Key;
   id: string;

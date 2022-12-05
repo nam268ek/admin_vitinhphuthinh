@@ -170,6 +170,24 @@ export const requestService = {
     const url = '/newspapers/delete';
     return instance.delete(url, { data: params });
   },
+  updatePostService: (params: any) => {
+    const url = '/newspapers/update';
+    return instance.put(url, params);
+  },
+
+  //footer services
+  updateFooterService: (params: any) => {
+    const url = '/info/update';
+    return instance.put(url, params);
+  },
+  createFooterService: (params: any) => {
+    const url = '/info/create';
+    return instance.post(url, params);
+  },
+  getListFooterService: () => {
+    const url = '/info/footer';
+    return instance.get(url);
+  },
 
   asyncCartFromDatabase: () => {
     const url = '/cart';

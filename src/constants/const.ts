@@ -65,6 +65,13 @@ export enum NAME_ACTION {
   UPDATE_POST = 'UPDATE_POST',
   REMOVE_POST = 'REMOVE_POST',
   GET_LIST_POSTS = 'GET_LIST_POSTS',
+
+  //footer
+  DEFAULT_FOOTER = 'DEFAULT_FOOTER',
+  CREATE_FOOTER = 'CREATE_FOOTER',
+  UPDATE_FOOTER = 'UPDATE_FOOTER',
+  REMOVE_FOOTER = 'REMOVE_FOOTER',
+  GET_LIST_FOOTERS = 'GET_LIST_FOOTERS',
 }
 export enum ORDER_STATUS {
   CREATE = 'create',
@@ -92,4 +99,8 @@ export enum UPLOAD_KEY {
   IMAGE_PRODUCT = 'image_product',
   IMAGE_PRODUCT_INFO = 'image_product_info',
   IMAGE_BLOG = 'image_blog',
+}
+export enum KEY_INFORMATION {
+  FOOTER = 'footer',
+  POLICY = 'policy',
 }

@@ -144,7 +144,7 @@ export const NavBarMenu: React.FC = () => {
                 <NavLink
                   to="/settings"
                   className={({ isActive }) =>
-                    isActive ? 'active-link no-underline' : 'navlink no-underline disabled-link'
+                    isActive ? 'active-link no-underline' : 'navlink no-underline'
                   }
                 >
                   <IoSettingsOutline />

@@ -6,20 +6,22 @@ import Categories from './components/Categories';
 import { AuthVerify } from './components/common/AuthVerify';
 import { PrivateRoute } from './components/common/PrivateRoute';
 import { Indicator } from './components/Indicator/Indicator';
-import InfoFooter from './components/InfoFooter/InfoFooter';
 import Login from './components/Login/Login';
 import LogoLayout from './components/LogoLayout/LogoLayout';
+import { Marketings } from './components/Marketing';
 import { NavBarMenu } from './components/NavBarMenu/NavBarMenu';
+import { NavbarMenuV2 } from './components/NavBarMenu/NavBarMenuV2';
+import { NewMarketing } from './components/NewMarketing';
 import { NewOrder } from './components/NewOrder';
 import { NewPost } from './components/NewPost';
 import { NewProduct } from './components/NewProduct';
 import { Orders } from './components/Order';
-import Policy from './components/Policy/Policy';
 import { Posts } from './components/Post';
 import { Products } from './components/Product';
 import { asyncUser, logout } from './components/redux/Slices/AuthSlice';
 import { RootState } from './components/redux/store/store';
-import Settings from './components/Settings/Settings';
+import { Footer } from './components/Settings/Footer';
+import { Policy } from './components/Settings/Policy';
 import { eventBus } from './utils/EventBus';
 import { history } from './utils/history';
 import { getUserToken, handleAuth } from './utils/verifyToken';
@@ -61,7 +63,8 @@ export const App: React.FC = () => {
       <main>
         {isLogin && (
           <header>
-            <NavBarMenu />
+            {/* <NavBarMenu /> */}
+            <NavbarMenuV2 />
           </header>
         )}
         <Routes>
@@ -69,24 +72,33 @@ export const App: React.FC = () => {
           <Route path="/loading" element={<Indicator />} />
           <Route element={<PrivateRoute />}>
             <Route path="/" element={<Navigate to="/products" />} />
+
+            {/* route products */}
             <Route path="/products" element={<Products />} />
             <Route path="/products/new" element={<NewProduct />} />
             <Route path="/products/:productId" element={<NewProduct />} />
+
+            {/* route orders */}
             <Route path="/orders" element={<Orders />} />
             <Route path="/orders/new" element={<NewOrder />} />
             <Route path="/orders/:orderId" element={<NewOrder />} />
+
+            {/* route categories */}
             <Route path="/categories" element={<Categories />} />
-            <Route path="/marketings" element={<Posts />} />
-            <Route path="/marketings/new" element={<NewPost />} />
-            <Route path="/marketings/:marketingId" element={<NewPost />} />
+
+            {/* route marketings */}
+            <Route path="/marketings" element={<Marketings />} />
+            <Route path="/marketings/new" element={<NewMarketing />} />
+            <Route path="/marketings/:marketingId" element={<NewMarketing />} />
+
+            {/* route posts */}
             <Route path="/posts" element={<Posts />} />
             <Route path="/posts/new" element={<NewPost />} />
             <Route path="/posts/:postId" element={<NewPost />} />
-            <Route path="/settings" element={<Settings />}>
-              <Route path="logo" element={<LogoLayout />} />
-              <Route path="footer" element={<InfoFooter />} />
-              <Route path="policy" element={<Policy />} />
-            </Route>
+
+            {/* route settings */}
+            <Route path="/settings/footers" element={<Footer />} />
+            <Route path="/settings/policies" element={<Policy />} />
           </Route>
         </Routes>
       </main>

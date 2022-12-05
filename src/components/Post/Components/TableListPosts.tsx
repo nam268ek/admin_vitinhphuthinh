@@ -9,8 +9,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { NAME_ACTION, ORDER_STATUS } from '../../../constants/const';
 import { DataTypePost } from '../../../types/types';
 import { history } from '../../../utils/history';
-import { SelectOptionV2 } from '../../common/SelectOptionV2';
-import { FormSelectStatusPost } from '../../NewPost/Components/FormSelectStatusPost';
 import {
   getDeleteListPostService,
   getListPostsService,
@@ -42,12 +40,9 @@ export const TableListPosts: React.FC = () => {
     onChange: onSelectChange,
   };
 
-  const handleActionDropdown = async (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    key: number,
-  ) => {
-    switch (key) {
-      case 1:
+  const handleActionDropdown = async (event: any) => {
+    switch (event.key) {
+      case '1':
         try {
           await dispatch(getDeleteListPostService({ ids: selectedIds })).unwrap();
           openMessage();
@@ -55,50 +50,34 @@ export const TableListPosts: React.FC = () => {
           openMessage(error);
         }
         break;
-      case 2:
+      case '2':
         if (selectedIds.length === 1) {
-          e.preventDefault();
+          event.preventDefault();
           history.push(`${location.pathname}/${selectedIds[0]}`);
         } else {
           message.error('Vui lòng chỉ chọn 1 sản phẩm');
         }
         break;
-      case 3:
+      case '3':
         openModalStatusPosts();
         break;
     }
   };
 
-  const menu = (
-    <Menu
-      items={[
-        {
-          label: (
-            <Link to="" onClick={(e) => handleActionDropdown(e, 1)}>
-              Xoá đơn hàng
-            </Link>
-          ),
-          key: '0',
-        },
-        {
-          label: (
-            <Link to="" onClick={(e) => handleActionDropdown(e, 2)}>
-              Chỉnh sửa sản phẩm
-            </Link>
-          ),
-          key: '1',
-        },
-        {
-          label: (
-            <Link to="" onClick={(e) => handleActionDropdown(e, 3)}>
-              Update trạng thái
-            </Link>
-          ),
-          key: '3',
-        },
-      ]}
-    />
-  );
+  const items = [
+    {
+      label: ' Xoá đơn hàng',
+      key: '1',
+    },
+    {
+      label: 'Chỉnh sửa sản phẩm',
+      key: '2',
+    },
+    {
+      label: 'Update trạng thái',
+      key: '3',
+    },
+  ];
 
   const columns: ColumnsType<DataTypePost> = [
     {
@@ -155,7 +134,7 @@ export const TableListPosts: React.FC = () => {
 
   const handleUpdatePost = async (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, item: any) => {
     e.preventDefault();
-    dispatch(setPostAction(NAME_ACTION.UPDATE_ORDER));
+    dispatch(setPostAction(NAME_ACTION.UPDATE_POST));
     history.push(`${location.pathname}/${item.id}`);
   };
 
@@ -187,6 +166,11 @@ export const TableListPosts: React.FC = () => {
     }
   };
 
+  const menu = {
+    items,
+    onClick: (e: any) => handleActionDropdown(e),
+  };
+
   return (
     <>
       {/* <ModelStatus
@@ -200,7 +184,7 @@ export const TableListPosts: React.FC = () => {
           loading={loading}
           disabled={!hasSelected}
           className="d-flex justify-content-center align-items-center"
-          overlay={menu}
+          menu={menu}
           trigger={['click']}
           icon={<DownOutlined className="d-flex justify-content-center align-items-center" />}
         >
