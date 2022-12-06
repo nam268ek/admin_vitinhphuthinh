@@ -177,15 +177,19 @@ export const requestService = {
 
   //footer services
   updateFooterService: (params: any) => {
-    const url = '/info/update';
+    const url = '/info/footer/update';
     return instance.put(url, params);
-  },
-  createFooterService: (params: any) => {
-    const url = '/info/create';
-    return instance.post(url, params);
   },
   getListFooterService: () => {
     const url = '/info/footer';
+    return instance.get(url);
+  },
+  updatePolicyService: (params: any) => {
+    const url = '/info/policies/update';
+    return instance.put(url, params);
+  },
+  listPoliciesService: () => {
+    const url = '/info/policies';
     return instance.get(url);
   },
 

@@ -6,8 +6,9 @@ import { getUploadImageEditorService } from '../redux/Slices/ImageSlice';
 
 const EditorText: React.FC<any> = forwardRef(({ defaultValue, name, onChange }, ref) => {
   const editorRef = React.useRef<any>(null);
-  const dispatch = useDispatch();
   const [keyID, setKeyID] = React.useState<number>(1);
+
+  const dispatch = useDispatch();
   const TINYMCE = process.env.REACT_APP_TINYMCE || '';
 
   useImperativeHandle(ref, () => ({
@@ -47,6 +48,7 @@ const EditorText: React.FC<any> = forwardRef(({ defaultValue, name, onChange }, 
 
   const onEditorChange = (e: string, editor: any) => {
     onChange(e, name);
+    console.log(editor);
   };
 
   return (

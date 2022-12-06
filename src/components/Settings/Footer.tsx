@@ -1,23 +1,18 @@
 /* eslint-disable new-cap */
 /* eslint-disable curly */
-import { Button, Form, Input, message, Space } from 'antd';
-import { cloneDeep } from 'lodash';
+import { Button, Form, Input, Space } from 'antd';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { KEY_INFORMATION, NAME_ACTION } from '../../constants/const';
+import { KEY_INFORMATION } from '../../constants/const';
 import { TypeOf } from '../../utils/CheckTypeOfValue';
-import {
-  getCreateFooterService,
-  getListFootersService,
-  getUpdateFooterService,
-} from '../redux/Slices/FooterSlice';
+import { getUpdateFooterService } from '../redux/Slices/FooterSlice';
 import { RootState } from '../redux/store/store';
 import { openMessage } from '../services/general.service';
 
-let bodyUpdateFooter: any = [];
+const bodyUpdateFooter: any = {};
 
 export const Footer: React.FC<any> = () => {
-  const { action, footers, loading } = useSelector((state: RootState) => state.footer);
+  const { footers, loading } = useSelector((state: RootState) => state.footer);
 
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -28,17 +23,8 @@ export const Footer: React.FC<any> = () => {
 
   const handleLoadFooter = async () => {
     form.setFieldsValue({
-      ...unwindFooter(footers),
+      ...footers[0],
     });
-  };
-
-  const unwindFooter = (specs: any) => {
-    const result: any = {};
-    specs.map((item: any) => {
-      result[item.name] = item.content;
-    });
-    console.log(result);
-    return result;
   };
 
   const onFinish = async (data: any) => {
@@ -48,7 +34,7 @@ export const Footer: React.FC<any> = () => {
   const handleUpdateFooter = async () => {
     try {
       await dispatch(
-        getUpdateFooterService({ key: KEY_INFORMATION.FOOTER, footers: bodyUpdateFooter }),
+        getUpdateFooterService({ key: KEY_INFORMATION.FOOTER, ...bodyUpdateFooter }),
       ).unwrap();
       openMessage();
     } catch (error) {
@@ -60,22 +46,8 @@ export const Footer: React.FC<any> = () => {
     let value = e;
     if (TypeOf(e) === 'Object' && !(e instanceof Event)) value = e.target.value;
 
-    const data = handlePushDataToBody(cloneDeep(bodyUpdateFooter), value, key);
-    bodyUpdateFooter = data;
+    bodyUpdateFooter[key] = value;
     console.log(bodyUpdateFooter);
-  };
-
-  const handlePushDataToBody = (body: any, value: any, key: string) => {
-    const index = body.findIndex((item: any) => item.name === key);
-    if (index !== -1) {
-      body[index].content = value;
-    } else {
-      body.push({
-        name: key,
-        content: value,
-      });
-    }
-    return body;
   };
 
   return (

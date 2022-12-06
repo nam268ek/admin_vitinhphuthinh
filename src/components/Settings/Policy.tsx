@@ -1,42 +1,66 @@
+/* eslint-disable curly */
+import { Button, Collapse, Space } from 'antd';
+import { cloneDeep } from 'lodash';
 import React, { useRef } from 'react';
-import { Button, Collapse, Form, Space } from 'antd';
-import { RootState } from '../redux/store/store';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { KEY_INFORMATION } from '../../constants/const';
 import EditorText from '../common/EditorText';
+import { getListPoliciesService, getUpdatePolicyService } from '../redux/Slices/FooterSlice';
+import { RootState } from '../redux/store/store';
+import { openMessage } from '../services/general.service';
 
 const { Panel } = Collapse;
-
-const listDropdownPolicy = [
-  { id: '0', key: 'polship', desc: 'Chính sách vận chuyển' },
-  { id: '1', key: 'polreturn', desc: 'Chính sách đổi trả' },
-  { id: '2', key: 'polwan', desc: 'Chính sách bảo hành' },
-  { id: '3', key: 'polquality', desc: 'Cam kết chất lượng' },
-  { id: '4', key: 'poluse', desc: 'Điều khoản sử dụng' },
-  { id: '5', key: 'polbuy', desc: 'Chính sách mua hàng' },
-  { id: '6', key: 'polprot', desc: 'Chính sách bảo mật' },
-  { id: '7', key: 'polinsta', desc: 'Chính sách trả góp' },
-];
+let bodyUpdatePolicies: any = [];
 
 export const Policy: React.FC = () => {
-  const { action, policies, loading } = useSelector((state: RootState) => state.footer);
-  const [form] = Form.useForm();
-  const childRef = useRef(null);
+  const { policies, loading } = useSelector((state: RootState) => state.footer);
+  const childRef = useRef<any>(null);
 
-  const onFinish = async (data: any) => {
-    // switch (action) {
-    //   case NAME_ACTION.CREATE_PRODUCT:
-    //     handleCreateFooter(data);
-    //     break;
-    //   case NAME_ACTION.UPDATE_PRODUCT:
-    //     handleUpdateFooter();
-    //     break;
-    //   default:
-    //     break;
-    // }
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e: any, key: string) => {
+    e.preventDefault();
+    const body = bodyUpdatePolicies?.filter((item: any) => item.name === key);
+
+    if (body?.length === 0) return;
+
+    try {
+      await dispatch(getUpdatePolicyService({ key: KEY_INFORMATION.POLICY, ...body[0] })).unwrap();
+      await dispatch(getListPoliciesService()).unwrap();
+      openMessage();
+    } catch (error) {
+      openMessage(error);
+    }
   };
 
-  const onChange = () => {
-    //
+  const onChange = (e: any, key: string) => {
+    const data = handlePushDataToBody(cloneDeep(bodyUpdatePolicies), e, key);
+    bodyUpdatePolicies = data;
+  };
+
+  const handlePushDataToBody = (body: any, value: any, key: string) => {
+    const index = body.findIndex((item: any) => item.name === key);
+    if (index !== -1) {
+      body[index].content = value;
+    } else {
+      body.push({
+        name: key,
+        content: value,
+      });
+    }
+    return body;
+  };
+
+  const handleReset = (e: any) => {
+    e.preventDefault();
+    childRef.current.resetContentEditor();
+  };
+
+  const handleActiveCollapse = (key: string | string[]) => {
+    if (key instanceof Array && key.length === 0) return;
+
+    const policy = policies?.filter((item: any) => item.name === key[0]);
+    console.log(policy);
   };
 
   return (
@@ -46,31 +70,38 @@ export const Policy: React.FC = () => {
       </h3>
       <div className="content">
         <section>
-          <Form onFinish={onFinish} form={form}>
-            <figure>
-              <Space direction="vertical" className="w-full">
-                {listDropdownPolicy?.map((item) => (
-                  <Collapse key={item.key} collapsible="header">
-                    <Panel id="c-collapse-panel" header={item.desc} key={item.key}>
-                      <EditorText
-                        defaultValue={''}
-                        name={item.key}
-                        onChange={onChange}
-                        ref={childRef}
-                      />
-                    </Panel>
-                  </Collapse>
-                ))}
-              </Space>
-            </figure>
-            <Space className="flex justify-end w-full">
-              <Form.Item noStyle>
-                <Button type="primary" htmlType="submit" loading={loading}>
-                  Submit
-                </Button>
-              </Form.Item>
+          <figure>
+            <Space direction="vertical" className="w-full">
+              {policies?.map((item) => (
+                <Collapse key={item.id} collapsible="header" onChange={handleActiveCollapse}>
+                  <Panel id="c-collapse-panel" header={item.desc} key={item.id}>
+                    <div className="flex flex-col w-full">
+                      <div>
+                        <EditorText
+                          defaultValue={item.content}
+                          name={item.name}
+                          onChange={onChange}
+                          ref={childRef}
+                        />
+                      </div>
+                      <Space className="flex justify-end mt-2 mb-2 px-2">
+                        <Button type="primary" danger onClick={handleReset}>
+                          Reset
+                        </Button>
+                        <Button
+                          type="primary"
+                          onClick={(e) => handleSubmit(e, item.name)}
+                          loading={loading}
+                        >
+                          Submit
+                        </Button>
+                      </Space>
+                    </div>
+                  </Panel>
+                </Collapse>
+              ))}
             </Space>
-          </Form>
+          </figure>
         </section>
       </div>
     </div>

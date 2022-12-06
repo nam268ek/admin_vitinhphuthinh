@@ -5,7 +5,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { LIST_NAME_DROPDOWN_SERVICE } from '../../constants/const';
 import { getListBrandsService } from '../redux/Slices/BrandSlice';
 import { getListCategoryService } from '../redux/Slices/CategorySlice';
-import { getListFootersService } from '../redux/Slices/FooterSlice';
+import { getListFootersService, getListPoliciesService } from '../redux/Slices/FooterSlice';
 import { getListImageService } from '../redux/Slices/ImageSlice';
 import { getListMarketingsService } from '../redux/Slices/MarketingSlice';
 import { getListOrderService } from '../redux/Slices/OrderSlice';
@@ -33,6 +33,7 @@ export const PrivateRoute: React.FC = () => {
         dispatch(getListMarketingsService()).unwrap();
         dispatch(getListPostsService()).unwrap();
         dispatch(getListFootersService()).unwrap();
+        dispatch(getListPoliciesService()).unwrap();
         dispatch(getListDropdownsService({ ids: LIST_NAME_DROPDOWN_SERVICE })).unwrap();
       } catch (error) {
         openMessage(error);
