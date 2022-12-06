@@ -1,15 +1,20 @@
 /* eslint-disable new-cap */
 /* eslint-disable curly */
 import { Button, Form, Input, message, Space } from 'antd';
+import { cloneDeep } from 'lodash';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { KEY_INFORMATION, NAME_ACTION } from '../../constants/const';
 import { TypeOf } from '../../utils/CheckTypeOfValue';
-import { getCreateFooterService, getListFootersService } from '../redux/Slices/FooterSlice';
+import {
+  getCreateFooterService,
+  getListFootersService,
+  getUpdateFooterService,
+} from '../redux/Slices/FooterSlice';
 import { RootState } from '../redux/store/store';
 import { openMessage } from '../services/general.service';
 
-const bodyUpdateFooter: any = {};
+let bodyUpdateFooter: any = [];
 
 export const Footer: React.FC<any> = () => {
   const { action, footers, loading } = useSelector((state: RootState) => state.footer);
@@ -40,18 +45,10 @@ export const Footer: React.FC<any> = () => {
     handleUpdateFooter();
   };
 
-  const handleCreateFooter = async (data: any) => {
-    try {
-      await dispatch(getCreateFooterService(data)).unwrap();
-    } catch (error) {
-      openMessage(error);
-    }
-  };
-
   const handleUpdateFooter = async () => {
     try {
       await dispatch(
-        getCreateFooterService({ key: KEY_INFORMATION.FOOTER, ...bodyUpdateFooter }),
+        getUpdateFooterService({ key: KEY_INFORMATION.FOOTER, footers: bodyUpdateFooter }),
       ).unwrap();
       openMessage();
     } catch (error) {
@@ -63,8 +60,22 @@ export const Footer: React.FC<any> = () => {
     let value = e;
     if (TypeOf(e) === 'Object' && !(e instanceof Event)) value = e.target.value;
 
-    bodyUpdateFooter.name = key;
-    bodyUpdateFooter.content = value;
+    const data = handlePushDataToBody(cloneDeep(bodyUpdateFooter), value, key);
+    bodyUpdateFooter = data;
+    console.log(bodyUpdateFooter);
+  };
+
+  const handlePushDataToBody = (body: any, value: any, key: string) => {
+    const index = body.findIndex((item: any) => item.name === key);
+    if (index !== -1) {
+      body[index].content = value;
+    } else {
+      body.push({
+        name: key,
+        content: value,
+      });
+    }
+    return body;
   };
 
   return (
