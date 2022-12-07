@@ -22,11 +22,13 @@ export const FormPostDetails: React.FC<any> = ({ childRef, postId, onChange }) =
     }
   };
   return (
-    <figure>
+    <figure id="post-detail">
       <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
         Post Details
       </figcaption>
-      <EditorText name="content" ref={childRef} defaultValue={defaultValue} onChange={onChange} />
+      <div className="rounded-b-md border border-solid border-gray-200 border-t-0">
+        <EditorText name="content" ref={childRef} defaultValue={defaultValue} onChange={onChange} />
+      </div>
     </figure>
   );
 };

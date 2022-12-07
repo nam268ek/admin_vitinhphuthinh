@@ -1,21 +1,44 @@
-.ps-main__wrapper {
-  padding: 30px;
-  background-color: #f8fcff;
-  height: 100vh;
-
-  .header--dashboard {
-    margin-bottom: 10px;
-  }
-
-  .ant-table-thead > tr > th {
-    background: #cbe6ff !important;
-  }
-}
 .btn-green {
   background-color: #7cb305;
   color: #fff;
   &:hover {
-    border-color: #d9d9d9 !important;
+    // border-color: #d9d9d9;
     color: #fff !important;
+  }
+}
+.ant-table-thead > tr > th {
+  background: #cbe6ff !important;
+}
+
+#post-detail {
+  .tox-tinymce {
+    border: none;
+  }
+}
+
+//category
+#category {
+  .ps-box-edit {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    transition: transform 250ms;
+  }
+  .focus-edit {
+    // transition: all 0.3s ease-in-out;
+    opacity: 0.6;
+    transition: transform 250ms;
+  }
+}
+
+//setting style
+#c-collapse-panel {
+  .ant-collapse-content-box {
+    padding: 0;
+  }
+  .tox-tinymce {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 2px solid #eee;
+    border-radius: 0;
   }
 }

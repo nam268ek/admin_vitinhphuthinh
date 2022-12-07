@@ -7,7 +7,7 @@ import { DURATION_TIMEOUT_SECONDS } from '../../constants/const';
 import { getLoginService } from '../redux/Slices/AuthSlice';
 import { RootState } from '../redux/store/store';
 
-const Login: React.FC = () => {
+export const Login: React.FC = () => {
   const { isLogin, loading } = useSelector((state: RootState) => state.auth);
 
   const dispatch = useDispatch();
@@ -79,5 +79,3 @@ const Login: React.FC = () => {
     </>
   );
 };
-
-export default Login;

@@ -139,15 +139,10 @@ export const ModuleProducts: React.FC = () => {
 
   return (
     <>
-      <div className="header-search">
-        <Search listItems={products} />
+      <div className="flex gap-2 mb-2">
+        <Search listItems={products} className="w-full" />
         <Tooltip placement="top" title="Refresh & Sync data">
-          <Button
-            type="default"
-            className="d-flex align-items-center"
-            style={{ height: '40px' }}
-            onClick={handleSyncData}
-          >
+          <Button type="default" style={{ height: '40px' }} onClick={handleSyncData}>
             <SyncOutlined spin={loading} />
           </Button>
         </Tooltip>

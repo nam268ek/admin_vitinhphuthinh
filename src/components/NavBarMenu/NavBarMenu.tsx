@@ -1,24 +1,60 @@
 /* eslint-disable curly */
-import { LogoutOutlined } from '@ant-design/icons';
-import { Button, Tooltip } from 'antd';
+import { ContainerOutlined, HomeOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { Avatar, Button, Layout, Menu, MenuProps, Tooltip } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { AiOutlineChrome, AiOutlineLayout } from 'react-icons/ai';
+import { AiOutlineLayout } from 'react-icons/ai';
 import { BiCategoryAlt } from 'react-icons/bi';
 import { BsBagCheck } from 'react-icons/bs';
 import { FiDatabase } from 'react-icons/fi';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { logout } from '../redux/Slices/AuthSlice';
 import { RootState } from '../redux/store/store';
 import { formatMoney } from '../services/general.service';
 
-export const NavBarMenu: React.FC = () => {
-  const { products } = useSelector((state: RootState) => state.product);
+type MenuItem = Required<MenuProps>['items'][number];
 
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: 'group',
+  disabled?: boolean,
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+    disabled,
+  } as MenuItem;
+}
+
+const items: MenuItem[] = [
+  getItem('Dashboard', '1', <HomeOutlined />, undefined, undefined, true),
+  getItem('Sản phẩm', '2', <FiDatabase />),
+  getItem('Đơn hàng', '3', <BsBagCheck />),
+  getItem('Danh mục', '4', <BiCategoryAlt />),
+  getItem('Marketing', '5', <ContainerOutlined />),
+  getItem('Bài đăng', '6', <AiOutlineLayout />),
+  getItem('Settings', 'sub1', <IoSettingsOutline />, [
+    getItem('Footer', '7'),
+    getItem('Chính sách', '8'),
+  ]),
+];
+
+const { Sider } = Layout;
+
+export const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
+  const { products } = useSelector((state: RootState) => state.product);
   const [totalValueStore, setTotalValueStore] = useState<number>(0);
+  const [collapsed, setCollapsed] = useState<boolean>(false);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     handleTotalValueStore();
@@ -39,124 +75,98 @@ export const NavBarMenu: React.FC = () => {
     dispatch(logout());
   };
 
+  const handleSelectMenu = (data: any) => {
+    const { key } = data;
+    switch (key) {
+      case '1':
+        navigate('home');
+        break;
+      case '2':
+        navigate('products');
+        break;
+      case '3':
+        navigate('orders');
+        break;
+      case '4':
+        navigate('categories');
+        break;
+      case '5':
+        navigate('marketings');
+        break;
+      case '6':
+        navigate('posts');
+        break;
+      case '7':
+        navigate('settings/footers');
+        break;
+      case '8':
+        navigate('settings/policies');
+        break;
+      default:
+        break;
+    }
+    console.log(data);
+  };
+
+  const handleCollapsed = (value: boolean) => {
+    setCollapsed(value);
+    console.log(value);
+    if (!value) setWidth(250);
+    else setWidth(80);
+  };
+
   return (
-    <div className="ps-main__sidebar">
-      <div className="ps-sidebar relative h-full">
-        <div className="ps-sidebar__top pr-5 mb-[30px]">
-          <div className="ps-block--user-wellcome mb-[40px] relative flex flex-nowrap items-center w-full">
-            <div className="ps-block__left">
-              <img src="/img/user/admin.jpg" alt="" />
-            </div>
-            <div className="ps-block__right pl-3">
-              <div>
+    <Sider
+      style={{
+        overflow: 'auto',
+        height: '100vh',
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        bottom: 0,
+      }}
+      width={width}
+      collapsible
+      collapsed={collapsed}
+      onCollapse={(value) => handleCollapsed(value)}
+    >
+      {!collapsed && (
+        <>
+          <div style={{ height: 32, margin: 16 }} className="flex items-center justify-between">
+            <div className="flex">
+              <Avatar icon={<UserOutlined />} />
+              <div className="ml-2 text-[#dadadad3]">
                 Xin chào,
-                <p id="nameshop" className="mb-0 color-[#666] text-sm">
+                <p id="nameshop" className="mb-0 color-[#fff] text-sm">
                   Vi Tính Phú Thịnh
                 </p>
               </div>
             </div>
-            <div className="ps-block__action absolute top-1/2 translate-y-[-50%] right-3">
-              <Tooltip title="Đăng xuất">
-                <Button
-                  type="primary"
-                  danger
-                  icon={
-                    <LogoutOutlined className="d-flex justify-content-center align-items-center" />
-                  }
-                  onClick={handleLogout}
-                ></Button>
-              </Tooltip>
-            </div>
+            <Tooltip title="Đăng xuất">
+              <Button
+                type="primary"
+                danger
+                icon={<LogoutOutlined />}
+                onClick={handleLogout}
+              ></Button>
+            </Tooltip>
           </div>
-          <div className="ps-block--earning-count">
-            <small>Tổng giá trị kho hàng</small>
-            <h3>{formatMoney.format(Number(totalValueStore))}</h3>
+          <div className="my-9 flex flex-col justify-center items-center">
+            <p className="mb-1 text-[#dadadad3]">Tổng giá trị kho hàng</p>
+            <h3 className="text-3xl mb-1 font-medium text-[#e7e7e7]">
+              {formatMoney.format(Number(totalValueStore))}
+            </h3>
           </div>
-        </div>
-        <div className="ps-sidebar__content">
-          <div className="ps-sidebar__center">
-            <ul className="menu">
-              <li className="">
-                <NavLink
-                  to="/home"
-                  className={({ isActive }) =>
-                    isActive ? 'active-link no-underline' : 'navlink disabled-link no-underline'
-                  }
-                >
-                  <AiOutlineChrome />
-                  <span>Dashboard</span>
-                </NavLink>
-              </li>
-              <li className="">
-                <NavLink
-                  to="/products"
-                  className={({ isActive }) =>
-                    isActive ? 'active-link no-underline' : 'navlink no-underline'
-                  }
-                >
-                  <FiDatabase />
-                  <span>Sản phẩm</span>
-                </NavLink>
-              </li>
-              <li className="">
-                <NavLink
-                  to="/orders"
-                  className={({ isActive }) =>
-                    isActive ? 'active-link no-underline' : 'navlink no-underline'
-                  }
-                >
-                  <BsBagCheck />
-                  <span>Đơn hàng</span>
-                </NavLink>
-              </li>
-              <li className="">
-                <NavLink
-                  to="/categories"
-                  className={({ isActive }) =>
-                    isActive ? 'active-link no-underline' : 'navlink no-underline'
-                  }
-                >
-                  <BiCategoryAlt />
-                  <span>Danh mục</span>
-                </NavLink>
-              </li>
-              <li className="">
-                <NavLink
-                  to="/marketings"
-                  className={({ isActive }) =>
-                    isActive ? 'active-link no-underline' : 'navlink no-underline'
-                  }
-                >
-                  <AiOutlineLayout />
-                  <span>Marketing</span>
-                </NavLink>
-              </li>
-              <li className="">
-                <NavLink
-                  to="/posts"
-                  className={({ isActive }) =>
-                    isActive ? 'active-link no-underline' : 'navlink no-underline'
-                  }
-                >
-                  <AiOutlineLayout />
-                  <span>Bài đăng</span>
-                </NavLink>
-              </li>
-              <li className="">
-                <NavLink
-                  to="/settings"
-                  className={({ isActive }) =>
-                    isActive ? 'active-link no-underline' : 'navlink no-underline'
-                  }
-                >
-                  <IoSettingsOutline />
-                  <span>Settings</span>
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+        </>
+      )}
+      <Menu
+        theme="dark"
+        defaultSelectedKeys={['2']}
+        mode="inline"
+        subMenuCloseDelay={0.01}
+        onSelect={handleSelectMenu}
+        items={items}
+      />
+    </Sider>
   );
 };

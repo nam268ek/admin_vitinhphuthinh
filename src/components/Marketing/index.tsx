@@ -1,6 +1,6 @@
-import { Button, FloatButton } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, FloatButton, Layout, theme } from 'antd';
 import React from 'react';
-import { FaPlusCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
@@ -8,10 +8,14 @@ import { setMarketingAction } from '../redux/Slices/MarketingSlice';
 import { RootState } from '../redux/store/store';
 import { Search } from '../Search/Search';
 import { TableListCampaigns } from './Components/TableListCampaigns';
-import { PlusOutlined } from '@ant-design/icons';
+
+const { Header, Content } = Layout;
 
 export const Marketings: React.FC = () => {
   const { products } = useSelector((state: RootState) => state.product);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,40 +26,37 @@ export const Marketings: React.FC = () => {
   };
 
   return (
-    <div id="marketing">
-      <div className="ps-main__wrapper">
-        <div className="header--dashboard">
-          <div className="header__left">
-            <h3 className="text-4xl">Marketings</h3>
-            <p>Danh sách chương trình</p>
+    <>
+      <Header
+        className="sticky top-0 z-1 w-full flex"
+        style={{ background: colorBgContainer, paddingInline: '35px' }}
+      >
+        <p className="text-2xl m-0 flex items-center">Marketings</p>
+      </Header>
+      <Content className="my-0 mx-4">
+        <Breadcrumb className="mx-0 my-2 px-5">
+          <Breadcrumb.Item>Marketings</Breadcrumb.Item>
+          <Breadcrumb.Item>List</Breadcrumb.Item>
+        </Breadcrumb>
+        <div style={{ background: colorBgContainer }} className="px-5 py-6 min-h-full">
+          <div className="flex mb-2">
+            <Search
+              listItems={products}
+              className="w-full"
+              placeholder="Tìm kiếm chương trình..."
+            />
+            <Button
+              className="flex items-center btn-green h-[40px] border-0 ml-2"
+              icon={<PlusOutlined />}
+              onClick={handleCreateMarketing}
+            >
+              <span className="uppercase">Tạo mới</span>
+            </Button>
           </div>
+          <TableListCampaigns />
         </div>
-        <section>
-          <div className="grid grid-flow-col grid-cols-2 gap-2 mb-2">
-            <div className="col-span-2">
-              <Search listItems={products} className="w-full" />
-            </div>
-            <div className="col-span-1">
-              <Button
-                className="flex items-center btn-green h-full border-0"
-                icon={<PlusOutlined />}
-                onClick={handleCreateMarketing}
-              >
-                <span className="uppercase">Tạo mới</span>
-              </Button>
-            </div>
-          </div>
-          <div className="ps-section__header pb-1">
-            <div className="ps-section__filter"></div>
-          </div>
-          <div className="ps-section__content">
-            <div className="table-responsive">
-              <TableListCampaigns />
-            </div>
-          </div>
-        </section>
         <FloatButton type="primary" className="float-button-doc" tooltip={<div>Documents</div>} />
-      </div>
-    </div>
+      </Content>
+    </>
   );
 };

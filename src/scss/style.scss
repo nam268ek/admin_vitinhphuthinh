@@ -3,25 +3,6 @@
 //antd css
 @import '~antd/dist/reset.css';
 
-// partials
-@import './partials/variables';
-@import './partials/mixins';
-@import './partials/extends';
-@import './partials/global';
-
-//components
-@import './components/navbar-menu';
-
-
 //pages
 @import './pages/commons';
-@import './pages/products';
-@import './pages/new-product';
-@import './pages/layout';
 @import './pages/login';
-@import './pages/category';
-@import './pages/new-order';
-@import './pages/order';
-@import './pages/settings';
-@import './pages/marketings';
-@import './pages/new-post';

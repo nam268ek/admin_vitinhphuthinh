@@ -86,13 +86,9 @@ export const CreateCategory: React.FC = () => {
   };
 
   return (
-    <div className="ps-form__content">
+    <div id="category">
       <Form onFinish={onFinish} form={form}>
-        <figure
-          className={
-            itemSelected.length > 0 ? 'ps-block--form-box ps-box-edit' : 'ps-block--form-box'
-          }
-        >
+        <figure className={itemSelected.length > 0 ? 'ps-box-edit' : ''}>
           <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
             {itemSelected.length > 0 ? 'Update' : 'Thêm'} Danh mục
           </figcaption>
@@ -122,7 +118,7 @@ export const CreateCategory: React.FC = () => {
                   <SelectOptionV2 name="parent" options={options} placeholder="Dell" />
                 </div>
               </div>
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+              <div>
                 <div className="mb-5">
                   <label className="mb-3 text-sm font-normal">
                     Index<sup className="text-red-600 ml-1">*</sup>
@@ -141,7 +137,12 @@ export const CreateCategory: React.FC = () => {
                     ]}
                     validateTrigger={['onChange', 'onBlur']}
                   >
-                    <InputNumber maxLength={2} width={100} placeholder="Vị trí hiện thị" />
+                    <InputNumber
+                      className="w-full"
+                      maxLength={2}
+                      min={0}
+                      placeholder="Vị trí hiện thị"
+                    />
                   </Form.Item>
                 </div>
                 <div className="mb-5">
@@ -175,13 +176,7 @@ export const CreateCategory: React.FC = () => {
                     <Button type="link" className="ps-btn-secondary" htmlType="reset">
                       <span>Reset</span>
                     </Button>
-                    <Button
-                      type="primary"
-                      danger
-                      // className="ps-btn-secondary"
-                      htmlType="button"
-                      onClick={handleCancel}
-                    >
+                    <Button type="primary" danger htmlType="button" onClick={handleCancel}>
                       <span>Cancel</span>
                     </Button>
                     <Button type="primary" className="ps-btn-secondary" htmlType="submit">

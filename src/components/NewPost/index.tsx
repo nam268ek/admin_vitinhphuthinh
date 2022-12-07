@@ -1,6 +1,6 @@
 /* eslint-disable new-cap */
 /* eslint-disable curly */
-import { Button, Form, message, Space } from 'antd';
+import { Breadcrumb, Button, Form, Layout, message, Space, theme } from 'antd';
 import { cloneDeep } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +19,7 @@ import { FormBlogBasic } from './Components/FormBlogBasic';
 import { FormPostDetails } from './Components/FormPostDetails';
 
 const bodyUpdatePost: any = {};
+const { Header, Content } = Layout;
 
 export const NewPost: React.FC = () => {
   const { action, posts, loading } = useSelector((state: RootState) => state.post);
@@ -26,6 +27,9 @@ export const NewPost: React.FC = () => {
 
   const [isReset, setIsReset] = useState<boolean>(false);
   const childRef = useRef<any>(null);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -125,63 +129,47 @@ export const NewPost: React.FC = () => {
   };
 
   return (
-    <div id="new-post">
-      <div className="ps-main__wrapper">
-        <h3 className="header-button">
-          <span className="w-1/2 text-3xl font-normal">
-            {`${action === NAME_ACTION.CREATE_ORDER ? 'Tạo' : 'Cập nhật'}`} bài đăng
-          </span>
-          <Form onFinish={onFinish} form={form}>
-            <Form.Item className="header-button-form">
-              <Space>
-                <Button type="primary" danger onClick={goBack}>
-                  Back
-                </Button>
-                <Button type="primary" hidden={!!postId} htmlType="reset" onClick={resetForm}>
-                  Reset
-                </Button>
-                <Button type="primary" htmlType="submit" loading={loading}>
-                  Submit
-                </Button>
-              </Space>
-            </Form.Item>
-          </Form>
-        </h3>
-        <div className="content">
-          <div className="header--dashboard">
-            <div className="header__left">
-              <p>
-                (<span style={{ color: 'red' }}>*</span>) Các trường buộc phải nhập
-              </p>
-            </div>
-          </div>
+    <>
+      <Header
+        className="sticky top-0 z-10 w-full flex items-center justify-between border-t-0 border-x-0 border-b border-solid border-[#eee]"
+        style={{ background: colorBgContainer, paddingInline: '35px' }}
+      >
+        <p className="text-2xl m-0 flex items-center">
+          {`${action === NAME_ACTION.CREATE_ORDER ? 'Tạo' : 'Cập nhật'}`} bài đăng
+        </p>
+        <Form onFinish={onFinish} form={form}>
+          <Form.Item noStyle>
+            <Space>
+              <Button type="primary" danger onClick={goBack}>
+                Back
+              </Button>
+              <Button type="primary" htmlType="reset" onClick={resetForm}>
+                Reset
+              </Button>
+              <Button type="primary" htmlType="submit" loading={loading}>
+                Submit
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Header>
+      <Content className="my-0 mx-4">
+        <Breadcrumb className="mx-0 my-2 px-5">
+          <Breadcrumb.Item>Posts</Breadcrumb.Item>
+          <Breadcrumb.Item>Create</Breadcrumb.Item>
+        </Breadcrumb>
+        <div style={{ background: colorBgContainer }} className="px-5 py-6 min-h-full">
+          <p>
+            (<span style={{ color: 'red' }}>*</span>) Các trường buộc phải nhập
+          </p>
           <section>
             <Form form={form} onFinish={onFinish}>
-              <div className="ps-form__content">
-                <div className="row">
-                  <FormBlogBasic onChange={onChange} form={form} />
-                  <FormPostDetails childRef={childRef} postId={postId} onChange={onChange} />
-                </div>
-              </div>
-              <div className="ps-form__bottom">
-                <Form.Item noStyle>
-                  <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
-                    <Button type="primary" danger onClick={goBack}>
-                      Back
-                    </Button>
-                    <Button type="primary" hidden={!!postId} htmlType="reset" onClick={resetForm}>
-                      Reset
-                    </Button>
-                    <Button type="primary" htmlType="submit" loading={loading}>
-                      Submit
-                    </Button>
-                  </Space>
-                </Form.Item>
-              </div>
+              <FormBlogBasic onChange={onChange} form={form} />
+              <FormPostDetails childRef={childRef} postId={postId} onChange={onChange} />
             </Form>
           </section>
         </div>
-      </div>
-    </div>
+      </Content>
+    </>
   );
 };
