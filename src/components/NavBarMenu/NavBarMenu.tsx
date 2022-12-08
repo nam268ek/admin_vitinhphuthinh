@@ -180,7 +180,7 @@ export const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
       )}
       <Menu
         theme="dark"
-        // selectedKeys={defaultKey}
+        selectedKeys={defaultKey}
         mode="inline"
         subMenuCloseDelay={0.01}
         onSelect={handleSelectMenu}
