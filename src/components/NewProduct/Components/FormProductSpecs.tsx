@@ -1,6 +1,7 @@
 /* eslint-disable curly */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { CATEGORY_KEY } from '../../../constants/const';
 import ConfigInfo from '../../ConfigInfo/ConfigInfo';
 import InfoPrintComponent from '../../InfoPrintComponent/InfoPrintComponent';
 import { RootState } from '../../redux/store/store';
@@ -14,8 +15,8 @@ export const FormProductSpecs: React.FC<any> = ({ onChange }) => {
   }, [keyProduct]);
 
   const handleShowSpecs = () => {
-    if (keyProduct === 'Computer - Laptop') return <ConfigInfo onChange={onChange} />;
-    else if (keyProduct === 'Printer') return <InfoPrintComponent onChange={onChange} />;
+    if (keyProduct === CATEGORY_KEY.COMPUTER_LAPTOP) return <ConfigInfo onChange={onChange} />;
+    else if (keyProduct === CATEGORY_KEY.PRINTER) return <InfoPrintComponent onChange={onChange} />;
     else return <></>;
   };
 

@@ -12,6 +12,7 @@ export const FormSelectStatusPost: React.FC<any> = ({
 }) => {
   const { dropdowns } = useSelector((state: RootState) => state.primary);
   const [options, setOptions] = useState<any[]>([]);
+
   useEffect(() => {
     handleListDropdown();
   }, [dropdowns]);
@@ -24,6 +25,7 @@ export const FormSelectStatusPost: React.FC<any> = ({
       setOptions(list[0].dropdowns);
     }
   };
+
   return (
     <SelectOptionV2
       name="status"

@@ -5,8 +5,8 @@ import { cloneDeep } from 'lodash';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { NAME_ACTION } from '../../constants/const';
-import { SPECS } from '../../types/types';
+import { NAME_ACTION, NAME_DROPDOWNS } from '../../constants/const';
+import { IDropdown, SPECS } from '../../types/types';
 import { TypeOf } from '../../utils/CheckTypeOfValue';
 import { setImageAction } from '../redux/Slices/ImageSlice';
 import {
@@ -36,8 +36,10 @@ export const NewProduct = () => {
   const { action, itemSelected, loading, products, keyProduct } = useSelector(
     (state: RootState) => state.product,
   );
+  const { dropdowns } = useSelector((state: RootState) => state.primary);
+
   const { imageUploaded } = useSelector((state: RootState) => state.image);
-  const { productId } = useParams();
+  const { productId, categoryId } = useParams();
 
   const childRef = useRef<any>(null);
   const [form] = Form.useForm();
@@ -45,28 +47,51 @@ export const NewProduct = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    handleLoadProductUpdate(productId);
-  }, [productId]);
+    if (action === NAME_ACTION.CREATE_PRODUCT) {
+      handleLoadCreateProduct(categoryId);
+    }
+    if (action === NAME_ACTION.UPDATE_PRODUCT) {
+      handleLoadProductUpdate(productId);
+    }
+  }, [productId, categoryId]);
+
+  const handleLoadCreateProduct = (id: string | undefined) => {
+    if (!id) {
+      navigate('/products');
+      return;
+    }
+    const list = dropdowns?.filter(
+      (item: IDropdown) => item.name === NAME_DROPDOWNS.CATEGORY_PRODUCT,
+    );
+    const isValid = list[0]?.dropdowns?.filter((o) => o.value === id).length > 0;
+    if (!isValid) navigate('/products');
+  };
 
   const handleLoadProductUpdate = (id: string | undefined) => {
-    if (id) {
-      const product = products.filter((p) => p.id === id);
-      if (product.length > 0) {
-        const { images, category, brand, tags, categoryKey, specs, ...prod } = product[0];
-
-        dispatch(setImageAction(images));
-        dispatch(updateStateKeyProductAction(categoryKey));
-        const unwindSpecs = unwindSpecsProduct(specs);
-
-        form.setFieldsValue({
-          ...prod,
-          ...unwindSpecs,
-          category: category.id,
-          brand: brand.id,
-          tags: tags.map((t: any) => t.id),
-        });
-      }
+    if (!id) {
+      navigate('/products');
+      return;
     }
+
+    const product = products.filter((p) => p.id === id);
+
+    if (product.length === 0) {
+      navigate('/products');
+      return;
+    }
+
+    const { images, category, brand, tags, categoryKey, specs, ...prod } = product[0];
+    dispatch(setImageAction(images));
+    dispatch(updateStateKeyProductAction(categoryKey));
+    const unwindSpecs = unwindSpecsProduct(specs);
+
+    form.setFieldsValue({
+      ...prod,
+      ...unwindSpecs,
+      category: category.id,
+      brand: brand.id,
+      tags: tags.map((t: any) => t.id),
+    });
   };
 
   const unwindSpecsProduct = (specs: any) => {

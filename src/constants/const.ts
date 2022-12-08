@@ -90,12 +90,14 @@ export enum NAME_DROPDOWNS {
   ORDER_STATUS_S = 'order-status',
   NUMBER_PRODUCT_MARKETINGS = 'number-product-marketings',
   POST_STATUS_OPTIONS = 'post-status-options',
+  CATEGORY_PRODUCT = 'category-product',
 }
 export const LIST_NAME_DROPDOWN_SERVICE = [
   'payment-method',
   'order-status',
   'number-product-marketings',
   'post-status-options',
+  'category-product',
 ];
 export enum UPLOAD_KEY {
   SLIDESHOW = 'slideshow',
@@ -109,4 +111,8 @@ export enum UPLOAD_KEY {
 export enum KEY_INFORMATION {
   FOOTER = 'footer',
   POLICY = 'policy',
+}
+export enum CATEGORY_KEY {
+  COMPUTER_LAPTOP = 'computer_laptop',
+  PRINTER = 'printer',
 }

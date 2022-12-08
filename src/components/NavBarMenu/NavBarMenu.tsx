@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from '../redux/Slices/AuthSlice';
 import { RootState } from '../redux/store/store';
 import { formatMoney } from '../services/general.service';
+import { useLocation } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -52,7 +53,9 @@ export const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
   const { products } = useSelector((state: RootState) => state.product);
   const [totalValueStore, setTotalValueStore] = useState<number>(0);
   const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [defaultKey, setDefaultKey] = useState<string[]>([]);
 
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -108,13 +111,29 @@ export const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
     console.log(data);
   };
 
+  useEffect(() => {
+    console.log(pathname);
+    defaultSelectedKeys(pathname);
+  }, [pathname]);
+
+  const defaultSelectedKeys = (path: string) => {
+    if (path === '/') setDefaultKey(['2']);
+    if (path === '/products') setDefaultKey(['2']);
+    if (path === '/orders') setDefaultKey(['3']);
+    if (path === '/categories') setDefaultKey(['4']);
+    if (path === '/marketings') setDefaultKey(['5']);
+    if (path === '/posts') setDefaultKey(['6']);
+    if (path === '/settings/footers') setDefaultKey(['7']);
+    if (path === '/settings/policies') setDefaultKey(['8']);
+  };
+
   const handleCollapsed = (value: boolean) => {
     setCollapsed(value);
     console.log(value);
     if (!value) setWidth(250);
     else setWidth(80);
   };
-
+  console.log('re-render');
   return (
     <Sider
       style={{
@@ -161,7 +180,7 @@ export const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
       )}
       <Menu
         theme="dark"
-        defaultSelectedKeys={['2']}
+        selectedKeys={defaultKey}
         mode="inline"
         subMenuCloseDelay={0.01}
         onSelect={handleSelectMenu}

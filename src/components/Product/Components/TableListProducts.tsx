@@ -15,6 +15,7 @@ import {
   getUpdateProductService,
   setAction,
   setItemSelectedAction,
+  updateStateKeyProductAction,
 } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
 import { formatMoney, openMessage } from '../../services/general.service';
@@ -75,7 +76,10 @@ export const TableListProduct: React.FC = () => {
       dataIndex: 'name',
       key: 'name',
       render: (text: string, record: any) => (
-        <span className="name-product" onClick={(e) => handleUpdateProduct(e, record)}>
+        <span
+          className="cursor-pointer hover:text-blue-500 transition-colors"
+          onClick={(e) => handleUpdateProduct(e, record)}
+        >
           {text}
         </span>
       ),
@@ -129,7 +133,7 @@ export const TableListProduct: React.FC = () => {
 
     const product = products.filter((o) => o.id === item.id);
     dispatch(setItemSelectedAction(product));
-    // history.push(`${location.pathname}/update?id=${item.id}`);
+    dispatch(updateStateKeyProductAction(product[0]?.categoryKey));
     history.push(`${location.pathname}/${item.id}`);
   };
 
