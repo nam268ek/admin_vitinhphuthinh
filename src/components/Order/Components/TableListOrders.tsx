@@ -1,5 +1,5 @@
 import { DownOutlined, SyncOutlined } from '@ant-design/icons';
-import { Badge, Button, Dropdown, Menu, message, Space, Table, Tag, Tooltip } from 'antd';
+import { Badge, Button, Dropdown, Menu, message, Popover, Space, Table, Tag, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { TableRowSelection } from 'antd/es/table/interface';
 import moment from 'moment';
@@ -12,7 +12,7 @@ import { history } from '../../../utils/history';
 import { getListOrderService, setOrderAction } from '../../redux/Slices/OrderSlice';
 import { getDeleteListProductService } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
-import { openMessage } from '../../services/general.service';
+import { formatMoney, openMessage } from '../../services/general.service';
 import { ModelStatus } from './ModelStatus';
 
 export const TableListOrders: React.FC = () => {
@@ -111,19 +111,25 @@ export const TableListOrders: React.FC = () => {
       title: 'Giá trị',
       dataIndex: 'totalOrderValue',
       key: 'totalOrderValue',
-      render: (totalOrderValue: string) => <span>{totalOrderValue}</span>,
+      render: (totalOrderValue: string) => (
+        <span>{formatMoney.format(Number(totalOrderValue))}</span>
+      ),
     },
     {
       title: 'Số lượng',
       dataIndex: 'orderQty',
       key: 'orderQty',
-      render: (orderQty: string) => <span>{orderQty}</span>,
+      render: (orderQty: string, record: any) => (
+        <Popover content={contentItems(record)}>
+          <span>{orderQty} items</span>
+        </Popover>
+      ),
     },
     {
       title: 'Ngày đặt hàng',
       dataIndex: 'orderDate',
       key: 'orderDate',
-      render: (orderDate: any) => <span>{moment(orderDate).format('L, h:mm:ss A')}</span>,
+      render: (orderDate: any) => <span>{moment(orderDate).format('DD/MM/YYYY, h:mm:ss A')}</span>,
     },
     {
       title: 'Trạng thái',
@@ -132,6 +138,11 @@ export const TableListOrders: React.FC = () => {
       render: (orderStatus: string) => handleStatusOrder(orderStatus),
     },
   ];
+
+  const contentItems = (record: any): JSX.Element => {
+    console.log(record);
+    return <div></div>;
+  };
 
   const handleStatusOrder = (orderStatus: string): JSX.Element => {
     switch (orderStatus) {
@@ -168,13 +179,15 @@ export const TableListOrders: React.FC = () => {
   const convertListOrders = (list: IOrder[]) => {
     return (
       list?.map((item: IOrder, index: number) => {
-        const { id, orderQty, orderDate, orderStatus, totalOrderValue, customer } = item;
+        const { id, orderQty, orderDate, orderStatus, totalOrderValue, customer, orderedItem } =
+          item;
         return {
           key: index + 1,
           id,
           orderQty,
           orderDate,
           orderStatus,
+          orderedItem,
           totalOrderValue,
           customer,
         };

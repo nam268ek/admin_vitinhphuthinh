@@ -57,22 +57,37 @@ export const Search = (props: SearchProps) => {
   };
 
   return (
-    <Form form={form} style={{ width: '100%' }}>
-      <Form.Item name="search" noStyle>
-        <AutoComplete
-          value={selectedValues}
-          className={className}
-          options={options}
-          filterOption={filterList}
-          onSelect={handleSelectItem}
-          onSearch={onSearch}
-          onChange={(value: any) => setSelectedValues(value)}
-        >
-          <Input.Search size="large" placeholder={placeholder} enterButton />
-        </AutoComplete>
-      </Form.Item>
-    </Form>
+    <AutoComplete
+      value={selectedValues}
+      className={className}
+      style={{ width: '100%' }}
+      options={options}
+      filterOption={filterList}
+      onSelect={handleSelectItem}
+      onSearch={onSearch}
+      onChange={(value: any) => setSelectedValues(value)}
+    >
+      <Input.Search allowClear size="large" placeholder={placeholder} enterButton />
+    </AutoComplete>
   );
+
+  // return (
+  //   <Form form={form} className={className} style={{ width: '100%' }}>
+  //     <Form.Item name="search" className={className}>
+  //       <AutoComplete
+  //         value={selectedValues}
+  //         className={className}
+  //         options={options}
+  //         filterOption={filterList}
+  //         onSelect={handleSelectItem}
+  //         onSearch={onSearch}
+  //         onChange={(value: any) => setSelectedValues(value)}
+  //       >
+  //         <Input.Search size="large" placeholder={placeholder} enterButton />
+  //       </AutoComplete>
+  //     </Form.Item>
+  //   </Form>
+  // );
 };
 
 Search.defaultProps = defaultProps;

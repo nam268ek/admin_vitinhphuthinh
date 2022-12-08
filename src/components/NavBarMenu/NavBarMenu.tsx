@@ -1,6 +1,6 @@
 /* eslint-disable curly */
 import { ContainerOutlined, HomeOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Layout, Menu, MenuProps, Tooltip } from 'antd';
+import { Avatar, Layout, Menu, MenuProps } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineLayout } from 'react-icons/ai';
 import { BiCategoryAlt } from 'react-icons/bi';
@@ -8,11 +8,10 @@ import { BsBagCheck } from 'react-icons/bs';
 import { FiDatabase } from 'react-icons/fi';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { logout } from '../redux/Slices/AuthSlice';
 import { RootState } from '../redux/store/store';
 import { formatMoney } from '../services/general.service';
-import { useLocation } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -45,6 +44,7 @@ const items: MenuItem[] = [
     getItem('Footer', '7'),
     getItem('Chính sách', '8'),
   ]),
+  getItem('Đăng xuất', '9', <LogoutOutlined />),
 ];
 
 const { Sider } = Layout;
@@ -79,6 +79,7 @@ export const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
   };
 
   const handleSelectMenu = (data: any) => {
+    console.log(data);
     const { key } = data;
     switch (key) {
       case '1':
@@ -105,6 +106,10 @@ export const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
       case '8':
         navigate('settings/policies');
         break;
+      case '9':
+        handleLogout();
+        navigate('login');
+        break;
       default:
         break;
     }
@@ -125,6 +130,7 @@ export const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
     if (path === '/posts') setDefaultKey(['6']);
     if (path === '/settings/footers') setDefaultKey(['7']);
     if (path === '/settings/policies') setDefaultKey(['8']);
+    if (path === '/login') setDefaultKey(['9']);
   };
 
   const handleCollapsed = (value: boolean) => {
@@ -161,14 +167,6 @@ export const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
                 </p>
               </div>
             </div>
-            <Tooltip title="Đăng xuất">
-              <Button
-                type="primary"
-                danger
-                icon={<LogoutOutlined />}
-                onClick={handleLogout}
-              ></Button>
-            </Tooltip>
           </div>
           <div className="my-9 flex flex-col justify-center items-center">
             <p className="mb-1 text-[#dadadad3]">Tổng giá trị kho hàng</p>
@@ -183,7 +181,7 @@ export const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
         selectedKeys={defaultKey}
         mode="inline"
         subMenuCloseDelay={0.01}
-        onSelect={handleSelectMenu}
+        onClick={handleSelectMenu}
         items={items}
       />
     </Sider>

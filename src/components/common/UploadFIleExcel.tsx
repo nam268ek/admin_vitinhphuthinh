@@ -104,7 +104,7 @@ export const UploadFileExcel: React.FC = () => {
       <Button
         disabled={true}
         icon={<UploadOutlined />}
-        className="bg-slate-100 h-10 mr-2 flex items-center"
+        className="bg-slate-100 mr-2 flex items-center"
       >
         <span className="ml-2 uppercase">Import Excel</span>
       </Button>

@@ -14,7 +14,7 @@ export const ExportFileExcel: React.FC<any> = ({ data }) => {
   return (
     <Button
       disabled={true}
-      className="h-full bg-slate-100"
+      className="bg-slate-100"
       icon={<DownloadOutlined />}
       onClick={(e) => exportToCSV(data)}
     >

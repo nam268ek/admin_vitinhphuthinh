@@ -1,5 +1,4 @@
-import { DownOutlined, SyncOutlined } from '@ant-design/icons';
-import { Button, Dropdown, message, Space, Switch, Table, Tooltip } from 'antd';
+import { Switch, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { TableRowSelection } from 'antd/es/table/interface';
 import moment from 'moment';
@@ -10,24 +9,20 @@ import { NAME_ACTION } from '../../../constants/const';
 import { DataTypeProduct } from '../../../types/types';
 import { history } from '../../../utils/history';
 import {
-  getDeleteListProductService,
-  getListProductService,
   getUpdateProductService,
   setAction,
   setItemSelectedAction,
   updateStateKeyProductAction,
 } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
-import { formatMoney, openMessage } from '../../services/general.service';
+import { formatMoney } from '../../services/general.service';
 
-export const TableListProduct: React.FC = () => {
+export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
   const { loading, products } = useSelector((state: RootState) => state.product);
-  const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
 
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const hasSelected = selectedIds.length > 0 && products.length > 0;
   const onSelectChange = (newSelectedRowKeys: React.Key[], selectedRows: DataTypeProduct[]) => {
     const ids = selectedRows.map((row) => row.id);
     setSelectedIds(ids);
@@ -36,33 +31,6 @@ export const TableListProduct: React.FC = () => {
   const rowSelection: TableRowSelection<DataTypeProduct> = {
     onChange: onSelectChange,
   };
-
-  const handleActionDropdown = async (event: any) => {
-    const { key } = event;
-    switch (key) {
-      case '1':
-        await dispatch(getDeleteListProductService({ ids: selectedIds }));
-        break;
-      case '2':
-        if (selectedIds.length === 1) {
-          history.push(`${location.pathname}/${selectedIds[0]}`);
-        } else {
-          message.error('Vui lòng chỉ chọn 1 sản phẩm');
-        }
-        break;
-    }
-  };
-
-  const items = [
-    {
-      label: 'Xoá sản phẩm',
-      key: 1,
-    },
-    {
-      label: ' Chỉnh sửa sản phẩm',
-      key: 2,
-    },
-  ];
 
   const columns: ColumnsType<DataTypeProduct> = [
     {
@@ -153,50 +121,13 @@ export const TableListProduct: React.FC = () => {
   };
   const data: DataTypeProduct[] = convertListProducts(products);
 
-  const handleSyncData = async () => {
-    const key = 'sync_data';
-    try {
-      message.loading({ content: 'Syncing...', key });
-      await dispatch(getListProductService()).unwrap();
-      openMessage(undefined, key);
-    } catch (error) {
-      openMessage(error, key);
-    }
-  };
-
-  const menu = {
-    items,
-    onClick: (e: any) => handleActionDropdown(e),
-  };
-
   return (
-    <>
-      <Space align="center" className="mb-2">
-        <Dropdown.Button
-          loading={loading}
-          disabled={!hasSelected}
-          menu={menu}
-          trigger={['click']}
-          icon={<DownOutlined className="d-flex justify-content-center align-items-center" />}
-        >
-          <Space>{loading ? 'Processing...' : 'Action'}</Space>
-        </Dropdown.Button>
-        <Tooltip placement="right" title="Refresh & Sync data">
-          <Button
-            type="default"
-            className="d-flex justify-content-center align-items-center"
-            icon={<SyncOutlined spin={loading} />}
-            onClick={handleSyncData}
-          ></Button>
-        </Tooltip>
-      </Space>
-      <Table
-        rowKey={(record) => record.id}
-        rowSelection={rowSelection}
-        columns={columns}
-        dataSource={data}
-        loading={loading}
-      />
-    </>
+    <Table
+      rowKey={(record) => record.id}
+      rowSelection={rowSelection}
+      columns={columns}
+      dataSource={data}
+      loading={loading}
+    />
   );
 };
