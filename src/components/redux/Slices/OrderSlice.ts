@@ -74,6 +74,7 @@ const initialState: OrderState = {
   action: NAME_ACTION.DEFAULT_ORDER,
   loading: false,
   orders: [],
+  cartItem: [],
 };
 export const orderSlice = createSlice({
   name: 'order',
@@ -84,6 +85,9 @@ export const orderSlice = createSlice({
     },
     setOrderAction: (state, action) => {
       state.action = action.payload;
+    },
+    setCartItemAction: (state, action) => {
+      state.cartItem = action.payload;
     },
   },
   extraReducers: {
@@ -108,5 +112,5 @@ export const orderSlice = createSlice({
     },
   },
 });
-export const { setUpdateListOrdersAction, setOrderAction } = orderSlice.actions;
+export const { setUpdateListOrdersAction, setOrderAction, setCartItemAction } = orderSlice.actions;
 export const orderReducer = orderSlice.reducer;

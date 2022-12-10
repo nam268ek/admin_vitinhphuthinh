@@ -119,7 +119,12 @@ export const originalContentFooterEditor: any = {
 //end body api
 export const openMessage = (data?: any, key?: string) => {
   if (data && data.statusCode !== 200) {
-    return messageAntd.error({ content: data.message, key, duration: DURATION_TIMEOUT_SECONDS });
+    return messageAntd.error({
+      content: data.message,
+      key,
+      className: 'error-message',
+      duration: DURATION_TIMEOUT_SECONDS,
+    });
   }
   return messageAntd.success({ content: 'Successfully', key, duration: DURATION_TIMEOUT_SECONDS });
 };

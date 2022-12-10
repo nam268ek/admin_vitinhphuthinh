@@ -1,10 +1,22 @@
 /* eslint-disable new-cap */
 /* eslint-disable curly */
-import { Breadcrumb, Button, Divider, Form, Layout, Space, theme } from 'antd';
+import {
+  Alert,
+  Breadcrumb,
+  Button,
+  Divider,
+  Form,
+  Layout,
+  message,
+  Modal,
+  notification,
+  Space,
+  theme,
+} from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { NAME_ACTION } from '../../constants/const';
+import { DURATION_TIMEOUT_SECONDS, NAME_ACTION } from '../../constants/const';
 import { TypeOf } from '../../utils/CheckTypeOfValue';
 import { RootState } from '../redux/store/store';
 import { FormCustomerOrder } from './Components/FormCustomerOrder';
@@ -17,7 +29,7 @@ import { OrderSummary } from './Components/OrderSummary';
 const { Header, Content } = Layout;
 
 export const NewOrder: React.FC = () => {
-  const { action, orders, loading } = useSelector((state: RootState) => state.order);
+  const { action, orders, loading, cartItem } = useSelector((state: RootState) => state.order);
 
   const [isReset, setIsReset] = useState<boolean>(false);
   const [current, setCurrent] = useState<number>(0);
@@ -86,8 +98,15 @@ export const NewOrder: React.FC = () => {
   };
 
   const handleChangeSteps = (index: number) => {
+    if (current === 0 && cartItem?.length === 0 && index !== 0) {
+      return message.error({
+        content: 'Không tìm thấy sản phẩm trong giỏ hàng.Vui lòng thêm sản phẩm vào giỏ hàng.',
+        duration: 5,
+        className: 'error-message',
+      });
+    }
     setCurrent(index);
-    console.log(index);
+    console.log(index, 'current::', current);
   };
 
   return (

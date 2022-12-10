@@ -494,6 +494,7 @@ export interface OrderState {
   loading: boolean;
   action: string;
   orders: IOrder[];
+  cartItem: any[];
 }
 export interface IOrder {
   id: string;

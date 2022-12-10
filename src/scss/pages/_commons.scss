@@ -42,3 +42,8 @@
     border-radius: 0;
   }
 }
+.error-message {
+  .ant-message-notice-content {
+    background-color: #fff0ee;
+  }
+}
