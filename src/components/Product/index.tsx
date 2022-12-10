@@ -24,7 +24,6 @@ export const Products: React.FC = () => {
       >
         <div className="w-full flex items-center">
           <Search listItems={products} />
-          <div></div>
         </div>
       </Header>
       <Content className="my-0 mx-4">

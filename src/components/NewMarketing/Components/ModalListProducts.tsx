@@ -123,8 +123,10 @@ export const ModalListProducts: React.FC<any> = ({ open, setOpen, listProductSel
         </Button>,
       ]}
     >
-      <div className="w-100 d-flex justify-content-between mb-3 gap-3">
-        <Search listItems={products} selectItem={handleSelectItemSearch} className="w-100" />
+      <div className="w-full flex items-center mb-4">
+        <div className="flex items-center mr-2">
+          <Search listItems={products} selectItem={handleSelectItemSearch} />
+        </div>
         <Tooltip placement="right" title="Refresh & Sync data">
           <Button
             type="default"

@@ -1,26 +1,23 @@
 /* eslint-disable new-cap */
 /* eslint-disable curly */
-import { Breadcrumb, Button, Divider, Form, Layout, Space, theme } from 'antd';
+import { Breadcrumb, Button, Form, Layout, Space, theme } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { NAME_ACTION } from '../../constants/const';
-import { TypeOf } from '../../utils/CheckTypeOfValue';
-import { RootState } from '../redux/store/store';
-import { FormCustomerOrder } from './Components/FormCustomerOrder';
-import { FormOrderStepsData } from './Components/FormOrderStepsData';
-import { ModuleProducts } from './Components/ModuleProducts';
-import { OrderDetails } from './Components/OrderDetails';
-import { OrderSteps } from './Components/OrderSteps';
-import { OrderSummary } from './Components/OrderSummary';
+import { NAME_ACTION } from '../../../constants/const';
+import { TypeOf } from '../../../utils/CheckTypeOfValue';
+import { RootState } from '../../redux/store/store';
+import { FormCustomerOrder } from './FormCustomerOrder';
+import { ModuleProducts } from './ModuleProducts';
+import { OrderDetails } from './OrderDetails';
+import { OrderSummary } from './OrderSummary';
 
 const { Header, Content } = Layout;
 
-export const NewOrder: React.FC = () => {
+export const NewOrderss: React.FC = () => {
   const { action, orders, loading } = useSelector((state: RootState) => state.order);
 
   const [isReset, setIsReset] = useState<boolean>(false);
-  const [current, setCurrent] = useState<number>(0);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -85,11 +82,6 @@ export const NewOrder: React.FC = () => {
     if (TypeOf(e) === 'Object' && !(e instanceof Event)) value = e.target.value;
   };
 
-  const handleChangeSteps = (index: number) => {
-    setCurrent(index);
-    console.log(index);
-  };
-
   return (
     <>
       <Header
@@ -121,9 +113,29 @@ export const NewOrder: React.FC = () => {
           <Breadcrumb.Item>Create</Breadcrumb.Item>
         </Breadcrumb>
         <div style={{ background: colorBgContainer }} className="px-5 py-6 min-h-full">
-          <OrderSteps current={current} onChange={handleChangeSteps} />
-          <Divider />
-          <FormOrderStepsData step={current} />
+          <p>
+            (<span style={{ color: 'red' }}>*</span>) Các trường buộc phải nhập
+          </p>
+          <section>
+            <Form className="ps-form ps-form--new-product" form={form} onFinish={onFinish}>
+              <div className="ps-form__content">
+                <div className="grid grid-cols-2 grid-flow-col gap-4">
+                  <div>
+                    <ModuleProducts />
+                  </div>
+                  <div>
+                    <figure>
+                      <OrderDetails onChange={onChange} orderId={orderId} isReset={isReset} />
+                    </figure>
+                    <figure>
+                      <OrderSummary onChange={onChange} form={form} />
+                    </figure>
+                  </div>
+                </div>
+              </div>
+              <FormCustomerOrder onChange={onChange} />
+            </Form>
+          </section>
         </div>
       </Content>
     </>

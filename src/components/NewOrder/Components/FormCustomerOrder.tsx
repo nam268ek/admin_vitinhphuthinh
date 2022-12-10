@@ -13,9 +13,12 @@ export const FormCustomerOrder: React.FC<any> = ({ onChange }) => {
         <div className="grid grid-cols-2 grid-flow-col gap-4">
           <div className="grid grid-cols-2 grid-flow-col gap-4">
             <div className="mb-5">
-              <label className="mb-3 text-sm font-normal">First Name</label>
+              <label className="mb-3 text-sm font-normal">
+                First Name<sup className="text-red-600 ml-1">*</sup>
+              </label>
               <Form.Item
-                noStyle
+                hasFeedback
+                className="mb-0"
                 name="firstName"
                 rules={[
                   {
@@ -32,9 +35,12 @@ export const FormCustomerOrder: React.FC<any> = ({ onChange }) => {
               </Form.Item>
             </div>
             <div className="mb-5">
-              <label className="mb-3 text-sm font-normal">Last Name</label>
+              <label className="mb-3 text-sm font-normal">
+                Last Name<sup className="text-red-600 ml-1">*</sup>
+              </label>
               <Form.Item
-                noStyle
+                hasFeedback
+                className="mb-0"
                 name="lastName"
                 rules={[
                   {
@@ -54,7 +60,7 @@ export const FormCustomerOrder: React.FC<any> = ({ onChange }) => {
           <div>
             <div className="mb-5">
               <label className="mb-3 text-sm font-normal">Địa chỉ</label>
-              <Form.Item noStyle name="address">
+              <Form.Item hasFeedback className="mb-0" name="address">
                 <Input
                   maxLength={MAX_LENGTH_TEXT}
                   placeholder="Địa chỉ..."
@@ -66,9 +72,12 @@ export const FormCustomerOrder: React.FC<any> = ({ onChange }) => {
         </div>
         <div className="grid grid-cols-2 grid-flow-col gap-4">
           <div className="mb-5">
-            <label className="mb-3 text-sm font-normal">Số điện thoại</label>
+            <label className="mb-3 text-sm font-normal">
+              Số điện thoại<sup className="text-red-600 ml-1">*</sup>
+            </label>
             <Form.Item
-              noStyle
+              hasFeedback
+              className="mb-0"
               name="phoneNumber"
               rules={[
                 {
@@ -86,7 +95,7 @@ export const FormCustomerOrder: React.FC<any> = ({ onChange }) => {
           </div>
           <div className="mb-5">
             <label className="mb-3 text-sm font-normal">Email</label>
-            <Form.Item noStyle name="email">
+            <Form.Item hasFeedback className="mb-0" name="email">
               <Input
                 maxLength={MAX_LENGTH_TEXT}
                 placeholder="Email..."
@@ -98,7 +107,7 @@ export const FormCustomerOrder: React.FC<any> = ({ onChange }) => {
         <div className="row">
           <div className="mb-5">
             <label className="mb-3 text-sm font-normal">Ghi chú</label>
-            <Form.Item noStyle name="orderNotes">
+            <Form.Item hasFeedback className="mb-0" name="orderNotes">
               <TextArea
                 maxLength={MAX_LENGTH_TEXT_AREA}
                 placeholder="Note..."

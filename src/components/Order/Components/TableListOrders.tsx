@@ -1,100 +1,32 @@
-import { DownOutlined, SyncOutlined } from '@ant-design/icons';
-import { Badge, Button, Dropdown, Menu, message, Popover, Space, Table, Tag, Tooltip } from 'antd';
+import { Badge, Popover, Table, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { TableRowSelection } from 'antd/es/table/interface';
 import moment from 'moment';
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { NAME_ACTION, ORDER_STATUS } from '../../../constants/const';
 import { DataTypeOrder, IOrder } from '../../../types/types';
 import { history } from '../../../utils/history';
-import { getListOrderService, setOrderAction } from '../../redux/Slices/OrderSlice';
-import { getDeleteListProductService } from '../../redux/Slices/ProductSlice';
+import { setOrderAction } from '../../redux/Slices/OrderSlice';
 import { RootState } from '../../redux/store/store';
-import { formatMoney, openMessage } from '../../services/general.service';
-import { ModelStatus } from './ModelStatus';
+import { formatMoney } from '../../services/general.service';
 
-export const TableListOrders: React.FC = () => {
+export const TableListOrders: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
   const { loading, orders } = useSelector((state: RootState) => state.order);
-  const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const hasSelected = selectedIds.length > 0 && orders.length > 0;
   const onSelectChange = (newSelectedRowKeys: React.Key[], selectedRows: DataTypeOrder[]) => {
     const ids = selectedRows.map((row) => row.id);
     setSelectedIds(ids);
-  };
-
-  const openModalStatusOrders = () => {
-    setIsModalOpen(!isModalOpen);
   };
 
   const rowSelection: TableRowSelection<DataTypeOrder> = {
     selectedRowKeys: selectedIds,
     onChange: onSelectChange,
   };
-
-  const handleActionDropdown = async (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    key: number,
-  ) => {
-    switch (key) {
-      case 1:
-        try {
-          await dispatch(getDeleteListProductService({ ids: selectedIds })).unwrap();
-          openMessage();
-        } catch (error) {
-          openMessage(error);
-        }
-        break;
-      case 2:
-        if (selectedIds.length === 1) {
-          e.preventDefault();
-          history.push(`${location.pathname}/${selectedIds[0]}`);
-        } else {
-          message.error('Vui lòng chỉ chọn 1 sản phẩm');
-        }
-        break;
-      case 3:
-        openModalStatusOrders();
-        break;
-    }
-  };
-
-  const menu = (
-    <Menu
-      items={[
-        {
-          label: (
-            <Link to="" onClick={(e) => handleActionDropdown(e, 1)}>
-              Xoá đơn hàng
-            </Link>
-          ),
-          key: '0',
-        },
-        {
-          label: (
-            <Link to="" onClick={(e) => handleActionDropdown(e, 2)}>
-              Chỉnh sửa sản phẩm
-            </Link>
-          ),
-          key: '1',
-        },
-        {
-          label: (
-            <Link to="" onClick={(e) => handleActionDropdown(e, 3)}>
-              Update trạng thái
-            </Link>
-          ),
-          key: '3',
-        },
-      ]}
-    />
-  );
 
   const columns: ColumnsType<DataTypeOrder> = [
     {
@@ -196,52 +128,13 @@ export const TableListOrders: React.FC = () => {
   };
   const data: DataTypeOrder[] = convertListOrders(orders);
 
-  const handleSyncData = async () => {
-    const key = 'sync_data';
-    try {
-      message.loading({ content: 'Syncing...', key });
-      await dispatch(getListOrderService()).unwrap();
-      openMessage(undefined, key);
-    } catch (error) {
-      openMessage(error, key);
-    }
-  };
-
   return (
-    <>
-      <ModelStatus
-        setSelectedIds={setSelectedIds}
-        listItemSelect={selectedIds}
-        open={isModalOpen}
-        setOpen={setIsModalOpen}
-      />
-      <Space align="center" className="mb-2">
-        <Dropdown.Button
-          loading={loading}
-          disabled={!hasSelected}
-          className="d-flex justify-content-center align-items-center"
-          overlay={menu}
-          trigger={['click']}
-          icon={<DownOutlined className="d-flex justify-content-center align-items-center" />}
-        >
-          <Space>{loading ? 'Processing...' : 'Action'}</Space>
-        </Dropdown.Button>
-        <Tooltip placement="right" title="Refresh & Sync data">
-          <Button
-            className="d-flex justify-content-center align-items-center"
-            type="default"
-            icon={<SyncOutlined spin={loading} />}
-            onClick={handleSyncData}
-          ></Button>
-        </Tooltip>
-      </Space>
-      <Table
-        rowKey={(record) => record.id}
-        rowSelection={rowSelection}
-        columns={columns}
-        dataSource={data}
-        loading={loading}
-      />
-    </>
+    <Table
+      rowKey={(record) => record.id}
+      rowSelection={rowSelection}
+      columns={columns}
+      dataSource={data}
+      loading={loading}
+    />
   );
 };

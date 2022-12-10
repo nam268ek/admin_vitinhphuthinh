@@ -27,10 +27,10 @@ export const OrderSummary: React.FC<any> = ({ onChange, form }) => {
 
   return (
     <>
-      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
-        Order Summary
-      </figcaption>
-      <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
+      <div className="flex items-baseline justify-between px-3 py-4 bg-gray-100 mb-3 rounded-md border-x border-y border-solid border-gray-200">
+        <p className="m-0 text-sm">Tổng quan đơn hàng</p>
+      </div>
+      <div className="flex items-baseline justify-between px-3 py-4 bg-gray-100 mb-3 rounded-md border-x border-y border-solid border-gray-200">
         <div className="grid grid-rows-2 grid-flow-row grid-cols-2 gap-3">
           <div className="mb-3">
             <label className="mb-3 text-sm font-normal">
@@ -42,6 +42,7 @@ export const OrderSummary: React.FC<any> = ({ onChange, form }) => {
               className="w-full m-0"
               options={options}
               onChange={onChange}
+              rules={[{ require: true, message: 'Field required' }]}
             />
           </div>
           <div className="mb-3">
