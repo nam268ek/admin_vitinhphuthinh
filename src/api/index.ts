@@ -193,6 +193,12 @@ export const requestService = {
     return instance.get(url);
   },
 
+  //cart services
+  addToCartService: (params: any) => {
+    const url = '/cart/add';
+    return instance.post(url, params);
+  },
+
   asyncCartFromDatabase: () => {
     const url = '/cart';
     return instance.get(url);

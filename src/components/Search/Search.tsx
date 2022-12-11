@@ -3,6 +3,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setUpdateListOrdersAction } from '../redux/Slices/OrderSlice';
 import { setUpdateListProductAction } from '../redux/Slices/ProductSlice';
+import { SearchOutlined } from '@ant-design/icons';
 
 type SearchProps = {
   flowName: string;
@@ -10,6 +11,7 @@ type SearchProps = {
   className: string;
   placeholder: string;
   selectItem?: any;
+  size: 'small' | 'middle' | 'large';
 } & typeof defaultProps;
 
 const defaultProps = {
@@ -17,10 +19,11 @@ const defaultProps = {
   listItems: [],
   className: 'search-category',
   placeholder: 'Tìm kiếm sản phẩm...',
+  size: 'large',
 };
 
 export const Search = (props: SearchProps) => {
-  const { listItems, flowName, className, placeholder, selectItem } = props;
+  const { listItems, flowName, className, placeholder, selectItem, size } = props;
   const [options, setOptions] = React.useState<any>([]);
   const [selectedValues, setSelectedValues] = React.useState<any>([]);
   const dispatch = useDispatch();
@@ -67,7 +70,7 @@ export const Search = (props: SearchProps) => {
       onSearch={onSearch}
       onChange={(value: any) => setSelectedValues(value)}
     >
-      <Input.Search allowClear size="large" placeholder={placeholder} enterButton />
+      <Input allowClear size={size} placeholder={placeholder} prefix={<SearchOutlined />} />
     </AutoComplete>
   );
 };

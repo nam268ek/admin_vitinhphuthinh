@@ -3,6 +3,7 @@ import { Avatar, Button, Checkbox, Empty, Form, InputNumber } from 'antd';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalListProducts } from '../../NewMarketing/Components/ModalListProducts';
+import { ModalListProductsV2 } from '../../NewMarketing/Components/ModalListProductsV2';
 import { setCartItemAction } from '../../redux/Slices/OrderSlice';
 import { RootState } from '../../redux/store/store';
 import { formatMoney } from '../../services/general.service';
@@ -39,7 +40,7 @@ export const OrderListProductAddToCart: React.FC = () => {
 
   return (
     <>
-      <ModalListProducts
+      <ModalListProductsV2
         listProductSelect={listProductSelect}
         open={isModalOpen}
         setOpen={setIsModalOpen}

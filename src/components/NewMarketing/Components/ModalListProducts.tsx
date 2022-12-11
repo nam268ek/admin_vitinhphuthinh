@@ -1,4 +1,4 @@
-import { Button, Form, message, Modal, Space, Switch, Table, Tooltip } from 'antd';
+import { Button, Form, message, Modal, Space, Switch, Table, Tooltip, Select } from 'antd';
 import { ColumnsType, TableRowSelection } from 'antd/es/table/interface';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,12 +8,14 @@ import { formatMoney, openMessage } from '../../services/general.service';
 import { Search } from '../../Search/Search';
 import { SyncOutlined } from '@ant-design/icons';
 import { getListProductService } from '../../redux/Slices/ProductSlice';
+import { TreeCategory } from '../../NewProduct/Components/TreeCategory';
 
-export const ModalListProducts: React.FC<any> = ({ open, setOpen, listProductSelect }) => {
+export const ModalListProducts: React.FC<any> = ({ open, setOpen }) => {
   const { products, loading } = useSelector((state: RootState) => state.product);
+  const { cartItem } = useSelector((state: RootState) => state.order);
 
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [filterData, setFilterData] = useState<DataTypeCustom[]>([]);
+  const [selectedIds, setSelectedIds] = useState<any[]>([]);
 
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -26,8 +28,21 @@ export const ModalListProducts: React.FC<any> = ({ open, setOpen, listProductSel
     setOpen(false);
   };
 
-  const handleSelectProducts = () => {
-    listProductSelect(selectedIds);
+  const handleSelectProducts = async () => {
+    // try {
+    //   for (const item of selectedIds) {
+    //     await dispatch(
+    //       getCartAddToCartAction({
+    //         customerId: process.env.REACT_APP_USER_ANONYMOUS_ID,
+    //         productId: item.id,
+    //         quantity: 1,
+    //       }),
+    //     );
+    //   }
+    // } catch (error) {
+    //   openMessage(error);
+    // }
+    // listProductSelect(selectedIds);
     setOpen(false);
   };
 
@@ -58,6 +73,7 @@ export const ModalListProducts: React.FC<any> = ({ open, setOpen, listProductSel
       title: 'Tên sản phẩm',
       dataIndex: 'name',
       key: 'name',
+      width: '60%',
       render: (text: string, record: any) => <span className="price-product">{text}</span>,
     },
     {
@@ -83,28 +99,20 @@ export const ModalListProducts: React.FC<any> = ({ open, setOpen, listProductSel
           key={item.id}
           checked={value}
           disabled
-          checkedChildren="Yes"
-          unCheckedChildren="No"
+          checkedChildren="ON"
+          unCheckedChildren="OFF"
         />
       ),
     },
   ];
 
-  const handleSyncData = async () => {
-    // const key = 'sync_data';
-    // try {
-    //   message.loading({ content: 'Syncing...', key });
-    //   await dispatch(getListProductService()).unwrap();
-    //   openMessage(undefined, key);
-    // } catch (error) {
-    //   openMessage(error, key);
-    // }
-    convertListProducts(products);
-  };
-
   const handleSelectItemSearch = (data: any) => {
     convertListProducts(data);
     console.log(data);
+  };
+
+  const handleChange = (e: any, key: any) => {
+    //
   };
 
   return (
@@ -123,19 +131,13 @@ export const ModalListProducts: React.FC<any> = ({ open, setOpen, listProductSel
         </Button>,
       ]}
     >
-      <div className="w-full flex items-center mb-4">
+      <div className="w-full flex items-center mb-4 justify-end">
         <div className="flex items-center mr-2">
-          <Search listItems={products} selectItem={handleSelectItemSearch} />
+          <Search listItems={products} size="middle" selectItem={handleSelectItemSearch} />
         </div>
-        <Tooltip placement="right" title="Refresh & Sync data">
-          <Button
-            type="default"
-            style={{ width: '40px', height: '40px' }}
-            className="d-flex justify-content-center align-items-center"
-            icon={<SyncOutlined spin={loading} />}
-            onClick={handleSyncData}
-          ></Button>
-        </Tooltip>
+        <div>
+          <TreeCategory handleChange={handleChange} className="w-40 m-0" isFeedback={false} />
+        </div>
       </div>
       <Table
         rowKey={(record) => record.id}

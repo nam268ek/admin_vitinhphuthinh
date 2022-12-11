@@ -69,12 +69,26 @@ export const getUpdateOrderStatusService: any = createAsyncThunk(
     }
   },
 );
+export const getAddToCartService: any = createAsyncThunk(
+  NAME_ACTION.ADD_TO_CART,
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await requestService.addToCartService(params);
+      return response;
+    } catch (error: any) {
+      if (error) {
+        return rejectWithValue(error.response.data);
+      }
+    }
+  },
+);
 
 const initialState: OrderState = {
   action: NAME_ACTION.DEFAULT_ORDER,
   loading: false,
   orders: [],
   cartItem: [],
+  carts: [],
 };
 export const orderSlice = createSlice({
   name: 'order',
@@ -91,6 +105,16 @@ export const orderSlice = createSlice({
     },
   },
   extraReducers: {
+    [getAddToCartService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getAddToCartService.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.cartItem = action.payload;
+    },
+    [getAddToCartService.rejected]: (state) => {
+      state.loading = false;
+    },
     [getListOrderService.pending]: (state) => {
       state.loading = true;
     },

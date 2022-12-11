@@ -74,8 +74,8 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
         <Switch
           key={item.id}
           checked={value}
-          checkedChildren="Yes"
-          unCheckedChildren="No"
+          checkedChildren="ON"
+          unCheckedChildren="OFF"
           onChange={(e) => changeStatusProduct(e, item)}
         />
       ),

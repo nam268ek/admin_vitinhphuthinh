@@ -495,6 +495,7 @@ export interface OrderState {
   action: string;
   orders: IOrder[];
   cartItem: any[];
+  carts: any[];
 }
 export interface IOrder {
   id: string;
