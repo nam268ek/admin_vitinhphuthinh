@@ -88,9 +88,9 @@ export const NewProduct = () => {
     form.setFieldsValue({
       ...prod,
       ...unwindSpecs,
-      category: category.id,
-      brand: brand.id,
-      tags: tags.map((t: any) => t.id),
+      category: category?.id,
+      brand: brand?.id,
+      tags: tags?.map((t: any) => t.id),
     });
   };
 

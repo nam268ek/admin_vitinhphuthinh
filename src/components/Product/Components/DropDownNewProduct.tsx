@@ -49,9 +49,8 @@ export const DropDownNewProduct: React.FC = () => {
 
   return (
     <Dropdown menu={{ items: options, onClick }} trigger={['click']}>
-      <Button className="btn-green flex items-center border-0 uppercase">
-        <DownOutlined size={12} />
-        <span style={{ paddingLeft: '5px' }}>Thêm sản phẩm</span>
+      <Button className="btn-green flex items-center border-0" icon={<DownOutlined />}>
+        Thêm sản phẩm
       </Button>
     </Dropdown>
   );

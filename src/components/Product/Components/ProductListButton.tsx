@@ -46,17 +46,6 @@ export const ProductListButton: React.FC<any> = ({ selectedIds }) => {
     },
   ];
 
-  const handleSyncData = async () => {
-    const key = 'sync_data';
-    try {
-      message.loading({ content: 'Syncing...', key });
-      await dispatch(getListProductService()).unwrap();
-      openMessage(undefined, key);
-    } catch (error) {
-      openMessage(error, key);
-    }
-  };
-
   const menu = {
     items,
     onClick: (e: any) => handleActionDropdown(e),
@@ -65,20 +54,17 @@ export const ProductListButton: React.FC<any> = ({ selectedIds }) => {
   return (
     <div className="flex mb-4 justify-between">
       <p className="text-2xl m-0 flex items-center">Sản phẩm</p>
-      <Space align="end">
-        <Dropdown.Button
-          disabled={!hasSelected}
-          menu={menu}
-          trigger={['click']}
-          icon={<DownOutlined />}
-        >
-          Action
-        </Dropdown.Button>
-        <Tooltip placement="right" title="Refresh & Sync data">
-          <Button type="default" icon={<SyncOutlined />} onClick={handleSyncData}></Button>
-        </Tooltip>
+      <Space align="center">
+        {selectedIds?.length > 0 && (
+          <p className="flex items-center m-0 text-gray-600">
+            Đã chọn {selectedIds?.length}/{products?.length} sản phẩm
+          </p>
+        )}
+        <Dropdown disabled={!hasSelected} menu={menu} trigger={['click']}>
+          <Button icon={<DownOutlined />}>Action</Button>
+        </Dropdown>
         <div className="flex">
-          <ExcelBotton products={products} />
+          {/* <ExcelBotton products={products} /> */}
           <DropDownNewProduct />
         </div>
       </Space>

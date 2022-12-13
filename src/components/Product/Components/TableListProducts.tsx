@@ -1,4 +1,4 @@
-import { Switch, Table } from 'antd';
+import { Button, Dropdown, Switch, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { TableRowSelection } from 'antd/es/table/interface';
 import moment from 'moment';
@@ -9,13 +9,16 @@ import { NAME_ACTION } from '../../../constants/const';
 import { DataTypeProduct } from '../../../types/types';
 import { history } from '../../../utils/history';
 import {
+  getDeleteListProductService,
+  getListProductService,
   getUpdateProductService,
   setAction,
   setItemSelectedAction,
   updateStateKeyProductAction,
 } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
-import { formatMoney } from '../../services/general.service';
+import { formatMoney, openMessage } from '../../services/general.service';
+import { MoreOutlined, DeleteOutlined } from '@ant-design/icons';
 
 export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
   const { loading, products } = useSelector((state: RootState) => state.product);
@@ -34,18 +37,13 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
 
   const columns: ColumnsType<DataTypeProduct> = [
     {
-      title: 'ID',
-      dataIndex: 'key',
-      key: 'key',
-      render: (text: string) => <span>{text}</span>,
-    },
-    {
       title: 'Tên sản phẩm',
       dataIndex: 'name',
       key: 'name',
+      ellipsis: true,
       render: (text: string, record: any) => (
         <span
-          className="cursor-pointer hover:text-blue-500 transition-colors"
+          className="cursor-pointer text-blue-500"
           onClick={(e) => handleUpdateProduct(e, record)}
         >
           {text}
@@ -53,23 +51,30 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
       ),
     },
     {
-      title: 'Giá bán',
-      dataIndex: 'priceSale',
-      key: 'priceSale',
-      render: (priceSale: any) => (
-        <span className="price-product">{formatMoney.format(Number(priceSale))}</span>
-      ),
+      title: 'Danh mục',
+      dataIndex: 'category',
+      key: 'category',
+      render: (category: any, record: any) => <span>{category?.name}</span>,
+    },
+    {
+      title: 'Thương hiệu',
+      dataIndex: 'brand',
+      key: 'brand',
+      render: (brand: any, record: any) => <span>{brand?.name}</span>,
     },
     {
       title: 'Số lượng',
       dataIndex: 'quantity',
       key: 'quantity',
+      width: 150,
+      sorter: (a, b) => a.quantity - b.quantity,
       render: (quantity: any) => <span className="price-product">{quantity}</span>,
     },
     {
       title: 'Trạng thái',
       key: 'status',
       dataIndex: 'status',
+      width: 120,
       render: (value: any, item: DataTypeProduct) => (
         <Switch
           key={item.id}
@@ -84,9 +89,48 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
       title: 'Ngày cập nhật',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
+      width: 250,
       render: (text: string) => <span>{moment(text).format('DD/MM/YYYY, h:mm:ss A')}</span>,
     },
+    {
+      title: '',
+      key: 'action',
+      fixed: 'right',
+      width: 100,
+      render: (data: any, record: any) => (
+        <Dropdown
+          placement="bottomLeft"
+          menu={{ items, onClick: (e: any) => handleMoreAction(e, record) }}
+          trigger={['click']}
+        >
+          <MoreOutlined />
+        </Dropdown>
+      ),
+    },
   ];
+
+  const items = [
+    {
+      label: 'Remove',
+      key: '1',
+      icon: <DeleteOutlined />,
+    },
+  ];
+
+  const handleMoreAction = async (event: any, record: any) => {
+    const { key } = event;
+    const { id } = record;
+    switch (key) {
+      case '1':
+        try {
+          await dispatch(getDeleteListProductService({ ids: [id] })).unwrap();
+          await dispatch(getListProductService()).unwrap();
+        } catch (error) {
+          openMessage(error);
+        }
+        break;
+    }
+  };
 
   const changeStatusProduct = async (checked: boolean, item: any) => {
     await dispatch(getUpdateProductService({ productId: item.id, status: checked }));
@@ -107,14 +151,16 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
 
   const convertListProducts = (list: any[]) => {
     return list.map((item: any, index: number) => {
-      const { id, name, status, priceSale, updatedAt, quantity } = item;
+      const { id, name, status, brand, priceSale, updatedAt, quantity, category } = item;
       return {
         key: index + 1,
         id,
         name,
         priceSale,
         status,
+        brand,
         quantity,
+        category,
         updatedAt,
       };
     });
@@ -128,6 +174,8 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
       columns={columns}
       dataSource={data}
       loading={loading}
+      scroll={{ x: 1200 }}
+      sticky
     />
   );
 };

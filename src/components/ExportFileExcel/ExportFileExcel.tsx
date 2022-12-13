@@ -18,7 +18,7 @@ export const ExportFileExcel: React.FC<any> = ({ data }) => {
       icon={<DownloadOutlined />}
       onClick={(e) => exportToCSV(data)}
     >
-      <span className="ml-2 uppercase">Export Excel</span>
+      <span className="ml-2">Export</span>
     </Button>
   );
 };

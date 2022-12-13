@@ -337,6 +337,8 @@ export interface DataTypeProduct {
   status: boolean;
   updatedAt: any;
   quantity: number;
+  category: any;
+  brand: any;
 }
 export interface DataTypeCustom extends DataTypeProduct {
   quantity: number;

@@ -38,8 +38,8 @@ export const bodyCreateProduct: IBodyCreateProduct = {
 };
 
 //end body api
-export const openMessage = (data?: any, key?: string) => {
-  if (data && data.statusCode !== 200) {
+export const openMessage = (data?: any, key?: string, type?: string) => {
+  if ((data && data.statusCode !== 200) || type === 'error') {
     return messageAntd.error({
       content: data.message,
       key,
