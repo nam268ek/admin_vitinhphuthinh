@@ -1,3 +1,4 @@
+import queryString from 'query-string';
 import { instance } from '../api/AxiosClient';
 import { PayloadLogin } from './interfaces';
 
@@ -68,9 +69,12 @@ export const requestService = {
     const url = '/images/upload';
     return instance.post(url, data, config);
   },
-  listImageService: () => {
-    const url = '/images';
-    return instance.get(url);
+  listImageService: (params: any) => {
+    let url = '/images';
+    if (params) {
+      url = `${url}?${queryString.stringify(params)}`;
+    }
+    return instance.get(url, params);
   },
   removeImageUploadService: (params: any) => {
     const url = '/images/remove';

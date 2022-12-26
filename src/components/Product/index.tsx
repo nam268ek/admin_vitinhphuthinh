@@ -1,6 +1,7 @@
 import { Breadcrumb, Layout, theme } from 'antd';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getListProductService } from '../redux/Slices/ProductSlice';
 import { RootState } from '../redux/store/store';
 import { Search } from '../Search/Search';
 import { ProductListButton } from './Components/ProductListButton';
@@ -11,6 +12,11 @@ const { Header, Content } = Layout;
 export const Products: React.FC = () => {
   const { products } = useSelector((state: RootState) => state.product);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getListProductService()).unwrap();
+  }, []);
 
   const {
     token: { colorBgContainer },

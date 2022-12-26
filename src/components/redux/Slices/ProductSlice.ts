@@ -132,6 +132,9 @@ const productSlice = createSlice({
     },
     [getCreateProductService.fulfilled]: (state) => {
       state.loading = false;
+      state.action = NAME_ACTION.DEFAULT_PRODUCT;
+      state.itemSelected = [];
+      state.keyProduct = '';
     },
     [getCreateProductService.rejected]: (state) => {
       state.loading = false;
@@ -143,6 +146,9 @@ const productSlice = createSlice({
       state.loading = false;
       const index = state.products.findIndex((o) => o.id === action.payload.id);
       state.products[index] = action.payload;
+      state.action = NAME_ACTION.DEFAULT_PRODUCT;
+      state.itemSelected = [];
+      state.keyProduct = '';
     },
     [getUpdateProductService.rejected]: (state) => {
       state.loading = false;

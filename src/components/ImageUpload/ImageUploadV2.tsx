@@ -1,11 +1,12 @@
 /* eslint-disable no-constant-condition */
 import { PlusOutlined } from '@ant-design/icons';
-import { Form, message, Modal, Upload } from 'antd';
+import { message, Modal, Upload } from 'antd';
 import type { RcFile } from 'antd/es/upload';
-import type { UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload/interface';
+import type { UploadFile } from 'antd/es/upload/interface';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { UPLOAD_KEY } from '../../constants/const';
+import { ImageUploadModalProps } from '../../types/types';
 import {
   getRemoveImageUploadService,
   getUploadImageService,
@@ -22,9 +23,10 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-export const ImageUploadV2: React.FC<any> = ({
+export const ImageUploadV2: React.FC<ImageUploadModalProps> = ({
   maxFiles = 3,
   onChange,
+  name,
   keyUpload = UPLOAD_KEY.IMAGE_PRODUCT,
 }) => {
   const { imageUploaded, loading } = useSelector((state: RootState) => state.image);
@@ -66,7 +68,7 @@ export const ImageUploadV2: React.FC<any> = ({
 
       onSuccess('Ok');
       message.destroy(key);
-      onChange(response, 'images');
+      onChange(response, name, 'upload');
     } catch (error) {
       openMessage(error, key);
       const err = new Error('Error upload');
@@ -81,6 +83,7 @@ export const ImageUploadV2: React.FC<any> = ({
       await dispatch(getRemoveImageUploadService({ ids: [file.uid] })).unwrap();
       dispatch(updateImageUploadedAction({ keyId: file.uid }));
       openMessage(undefined, key);
+      onChange({ keyId: file.uid }, name, 'remove');
     } catch (error) {
       openMessage(error, key);
     }

@@ -1,4 +1,5 @@
-import { Button, Dropdown, Switch, Table } from 'antd';
+import { DeleteOutlined, MoreOutlined } from '@ant-design/icons';
+import { Dropdown, Switch, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { TableRowSelection } from 'antd/es/table/interface';
 import moment from 'moment';
@@ -18,7 +19,6 @@ import {
 } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
 import { formatMoney, openMessage } from '../../services/general.service';
-import { MoreOutlined, DeleteOutlined } from '@ant-design/icons';
 
 export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
   const { loading, products } = useSelector((state: RootState) => state.product);
@@ -41,9 +41,10 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
       dataIndex: 'name',
       key: 'name',
       ellipsis: true,
+      width: 300,
       render: (text: string, record: any) => (
         <span
-          className="cursor-pointer text-blue-500"
+          className="cursor-pointer text-blue-500 whitespace-nowrap text-ellipsis overflow-hidden"
           onClick={(e) => handleUpdateProduct(e, record)}
         >
           {text}
@@ -51,15 +52,26 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
       ),
     },
     {
+      title: 'Giá bán',
+      dataIndex: 'priceSale',
+      key: 'priceSale',
+      ellipsis: true,
+      width: 150,
+      sorter: (a, b) => a.priceSale - b.priceSale,
+      render: (priceSale: number, record: any) => <span>{formatMoney.format(priceSale)}</span>,
+    },
+    {
       title: 'Danh mục',
       dataIndex: 'category',
       key: 'category',
+      width: 150,
       render: (category: any, record: any) => <span>{category?.name}</span>,
     },
     {
       title: 'Thương hiệu',
       dataIndex: 'brand',
       key: 'brand',
+      width: 150,
       render: (brand: any, record: any) => <span>{brand?.name}</span>,
     },
     {
@@ -93,7 +105,7 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
       render: (text: string) => <span>{moment(text).format('DD/MM/YYYY, h:mm:ss A')}</span>,
     },
     {
-      title: '',
+      title: 'Action',
       key: 'action',
       fixed: 'right',
       width: 100,

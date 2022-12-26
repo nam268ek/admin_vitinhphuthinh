@@ -1,10 +1,10 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, FloatButton, Layout, theme } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
-import { setMarketingAction } from '../redux/Slices/MarketingSlice';
+import { getListMarketingsService, setMarketingAction } from '../redux/Slices/MarketingSlice';
 import { RootState } from '../redux/store/store';
 import { Search } from '../Search/Search';
 import { TableListCampaigns } from './Components/TableListCampaigns';
@@ -19,6 +19,10 @@ export const Marketings: React.FC = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getListMarketingsService()).unwrap();
+  }, []);
 
   const handleCreateMarketing = () => {
     dispatch(setMarketingAction(NAME_ACTION.CREATE_MARKETINGS));

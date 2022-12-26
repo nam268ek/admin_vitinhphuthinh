@@ -37,7 +37,6 @@ export const FormGeneral: React.FC<any> = ({ handleChange }) => {
           </label>
           <Form.Item
             name="price"
-            noStyle
             rules={[
               {
                 required: true,

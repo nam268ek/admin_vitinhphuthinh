@@ -1,5 +1,5 @@
 import { UploadFileStatus } from 'antd/es/upload/interface';
-import { NAME_ACTION } from '../constants/const';
+import { NAME_ACTION, UPLOAD_KEY } from '../constants/const';
 
 // header
 export interface INavMenuDataTypes {
@@ -426,6 +426,7 @@ export interface IImage {
   thumbUrl: string;
   size: number;
   updatedAt: string;
+  disabled?: boolean;
 }
 export interface IProductState {
   action: NAME_ACTION;
@@ -440,6 +441,7 @@ export interface IImageState {
   images: IImage[];
   imageUploaded: IImage[];
   imageEditor: IImage[];
+  totalPages: number;
 }
 export interface TagState {
   loading: boolean;
@@ -586,4 +588,10 @@ export interface DataTypePost {
   status: string;
   images: any[];
   updatedAt: string;
+}
+export interface ImageUploadModalProps {
+  name: string;
+  maxFiles?: number;
+  onChange: (data: any, key: string, action: 'upload' | 'remove') => void;
+  keyUpload?: UPLOAD_KEY;
 }

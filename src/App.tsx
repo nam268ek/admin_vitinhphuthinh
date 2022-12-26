@@ -9,7 +9,7 @@ import { PrivateRoute } from './components/common/PrivateRoute';
 import { Indicator } from './components/Indicator/Indicator';
 import { Login } from './components/Login/Login';
 import { Marketings } from './components/Marketing';
-import { NavbarMenu } from './components/NavBarMenu/NavBarMenu';
+import NavbarMenu from './components/NavBarMenu/NavBarMenu';
 import { NewMarketing } from './components/NewMarketing';
 import { NewOrder } from './components/NewOrder';
 import { NewPost } from './components/NewPost';

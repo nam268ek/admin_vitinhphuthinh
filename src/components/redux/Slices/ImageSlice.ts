@@ -39,9 +39,9 @@ export const getRemoveImageUploadService: any = createAsyncThunk(
 );
 export const getListImageService: any = createAsyncThunk(
   NAME_ACTION.GET_IMAGE,
-  async (_, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await requestService.listImageService();
+      const response = await requestService.listImageService(params);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -65,6 +65,7 @@ const initialState: IImageState = {
   images: [],
   imageUploaded: [],
   imageEditor: [],
+  totalPages: 0,
 };
 
 export const imageSlice = createSlice({
@@ -88,8 +89,10 @@ export const imageSlice = createSlice({
       state.loading = true;
     },
     [getListImageService.fulfilled]: (state, action) => {
+      const { totalPages, images } = action.payload;
       state.loading = false;
-      state.images = action.payload;
+      state.images = images;
+      state.totalPages = totalPages;
     },
     [getListImageService.rejected]: (state) => {
       state.loading = false;

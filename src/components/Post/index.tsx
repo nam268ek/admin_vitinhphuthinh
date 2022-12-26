@@ -1,11 +1,11 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, FloatButton, Layout, theme } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
 import { setImageAction } from '../redux/Slices/ImageSlice';
-import { setPostAction } from '../redux/Slices/PostSlice';
+import { getListPostsService, setPostAction } from '../redux/Slices/PostSlice';
 import { RootState } from '../redux/store/store';
 import { Search } from '../Search/Search';
 import { TableListPosts } from './Components/TableListPosts';
@@ -20,6 +20,10 @@ export const Posts: React.FC = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getListPostsService()).unwrap();
+  }, []);
 
   const handleCreatePost = () => {
     dispatch(setPostAction(NAME_ACTION.CREATE_POST));

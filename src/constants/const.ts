@@ -2,6 +2,7 @@ export const MAX_LENGTH_TEXT_AREA = 500;
 export const MAX_LENGTH_TEXT = 500;
 export const DURATION_TIMEOUT_SECONDS = 5;
 export const MAX_QTY = 500;
+export const PER_PAGE = 24;
 export enum NAME_ACTION {
   //category
   CREATE_CATEGORY = 'CREATE_CATEGORY',

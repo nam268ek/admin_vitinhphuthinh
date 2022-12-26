@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable new-cap */
 /* eslint-disable curly */
 import { Breadcrumb, Button, Form, Layout, Space, theme } from 'antd';
@@ -8,11 +9,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { NAME_ACTION, NAME_DROPDOWNS } from '../../constants/const';
 import { IDropdown, SPECS } from '../../types/types';
 import { TypeOf } from '../../utils/CheckTypeOfValue';
+import { getListCategoryService } from '../redux/Slices/CategorySlice';
 import { setImageAction } from '../redux/Slices/ImageSlice';
 import {
-  getCreateProductInventoryService,
   getCreateProductService,
-  getUpdateProductInventoryService,
   getUpdateProductService,
   setDefaultProductAction,
   updateStateKeyProductAction,
@@ -29,22 +29,32 @@ import { FormProductSpecs } from './Components/FormProductSpecs';
 import { FormStatus } from './Components/FormStatus';
 
 const { Header, Content } = Layout;
-const bodyDataProduct: any = {};
+let bodyDataProduct: any = {};
 let bodyDataProductSpecs: any = [];
+let listImages: any = [];
 
 export const NewProduct = () => {
-  const { action, itemSelected, loading, products, keyProduct } = useSelector(
+  const { dropdowns } = useSelector((state: RootState) => state.primary);
+  const { action, loading, products, keyProduct } = useSelector(
     (state: RootState) => state.product,
   );
-  const { dropdowns } = useSelector((state: RootState) => state.primary);
 
-  const { imageUploaded } = useSelector((state: RootState) => state.image);
   const { productId, categoryId } = useParams();
 
   const childRef = useRef<any>(null);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getListCategoryService()).unwrap();
+  }, []);
+
+  useEffect(() => {
+    bodyDataProduct = {};
+    bodyDataProductSpecs = [];
+    listImages = [];
+  }, []);
 
   useEffect(() => {
     if (action === NAME_ACTION.CREATE_PRODUCT) {
@@ -108,22 +118,10 @@ export const NewProduct = () => {
       handleChange(data[item], item);
     }
     const body = cloneDeep(bodyDataProduct);
-    body['images'] = imageUploaded.map((o) => o.id);
-    body['productInformation'] = { content: childRef.current.contentEditor() };
-    body['specs'] = bodyDataProductSpecs;
     body['categoryKey'] = keyProduct;
 
     try {
-      const { productId: prodId } = await dispatch(getCreateProductService(body)).unwrap();
-
-      await dispatch(
-        getCreateProductInventoryService({
-          productId: prodId,
-          quantity: body['quantity'] || 0,
-          priceSale: body['priceSale'] || 0,
-        }),
-      ).unwrap();
-
+      await dispatch(getCreateProductService(body)).unwrap();
       openMessage();
       dispatch(setDefaultProductAction());
       navigate('/products', { replace: true });
@@ -134,23 +132,11 @@ export const NewProduct = () => {
 
   const handleUpdateProduct = async (data: any) => {
     const body = cloneDeep(bodyDataProduct);
-    body['images'] = imageUploaded?.map((o) => o.id);
-    body['productInformation'] = { content: childRef.current.contentEditor() };
-    body['specs'] = bodyDataProductSpecs;
     body['categoryKey'] = keyProduct;
     body['productId'] = productId;
 
     try {
       await dispatch(getUpdateProductService(body)).unwrap();
-
-      await dispatch(
-        getUpdateProductInventoryService({
-          productId,
-          quantity: body['quantity'],
-          priceSale: body['priceSale'],
-        }),
-      ).unwrap();
-
       openMessage();
       dispatch(setDefaultProductAction());
       navigate('/products', { replace: true });
@@ -174,14 +160,6 @@ export const NewProduct = () => {
     }
   };
 
-  const resetForm = (e: any) => {
-    e.preventDefault();
-    form.resetFields();
-    childRef.current.resetContentEditor();
-    dispatch(setImageAction([]));
-    dispatch(setDefaultProductAction());
-  };
-
   const goBack = (e: any) => {
     e.preventDefault();
     dispatch(setImageAction([]));
@@ -197,6 +175,9 @@ export const NewProduct = () => {
     if (!Object.values(SPECS)?.includes(key)) {
       bodyDataProduct[key] = value;
     }
+    if (key === 'content') {
+      bodyDataProduct['productInformation'] = { content: childRef.current.contentEditor() };
+    }
     console.log(bodyDataProduct);
   };
 
@@ -206,7 +187,24 @@ export const NewProduct = () => {
 
     const data = handlePushDataToBody(cloneDeep(bodyDataProductSpecs), value, key);
     bodyDataProductSpecs = data;
+    bodyDataProduct['specs'] = bodyDataProductSpecs;
     console.log(bodyDataProductSpecs);
+  };
+
+  const handleChangeImages = (data: any, key: string, actionName: string) => {
+    if (actionName === 'upload') {
+      listImages.push(data);
+    }
+    if (actionName === 'remove') {
+      listImages = cloneDeep(listImages).filter((item: any) => item.keyId !== data.keyId);
+    }
+    if (actionName === 'select') {
+      bodyDataProduct[key] = data?.map((img: any) => img.id);
+      return;
+    }
+    bodyDataProduct[key] = listImages?.map((img: any) => img.id);
+    console.log(bodyDataProduct);
+    console.log(data);
   };
 
   const handlePushDataToBody = (body: any, value: any, key: string) => {
@@ -238,11 +236,8 @@ export const NewProduct = () => {
         <Form onFinish={onFinish} form={form}>
           <Form.Item noStyle>
             <Space>
-              <Button type="primary" danger onClick={goBack}>
+              <Button type="default" onClick={goBack}>
                 Back
-              </Button>
-              <Button type="primary" htmlType="reset" onClick={resetForm}>
-                Reset
               </Button>
               <Button type="primary" htmlType="submit" loading={loading}>
                 Submit
@@ -268,7 +263,7 @@ export const NewProduct = () => {
                   <FormStatus handleChange={handleChange} />
                 </div>
                 <div>
-                  <FormProductImages />
+                  <FormProductImages onChange={handleChangeImages} />
                   <FormInventories handleChange={handleChange} />
                   <FormMeta handleChange={handleChange} />
                 </div>
@@ -276,7 +271,8 @@ export const NewProduct = () => {
               <FormCategories handleChange={handleChange} />
               <FormProductDescription
                 childRef={childRef}
-                defaultValue={itemSelected[0]?.productInformation.content}
+                productId={productId}
+                onChange={handleChange}
               />
               <FormProductSpecs onChange={handleChangeSpecs} />
             </Form>

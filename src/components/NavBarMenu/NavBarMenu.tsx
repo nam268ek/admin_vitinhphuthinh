@@ -12,6 +12,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { logout } from '../redux/Slices/AuthSlice';
 import { RootState } from '../redux/store/store';
 import { formatMoney } from '../services/general.service';
+import { useCallback } from 'react';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -49,7 +50,7 @@ const items: MenuItem[] = [
 
 const { Sider } = Layout;
 
-export const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
+const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
   const { products } = useSelector((state: RootState) => state.product);
   const [totalValueStore, setTotalValueStore] = useState<number>(0);
   const [collapsed, setCollapsed] = useState<boolean>(false);
@@ -63,7 +64,7 @@ export const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
     handleTotalValueStore();
   }, [products]);
 
-  const handleTotalValueStore = () => {
+  const handleTotalValueStore = useCallback(() => {
     const listPrices = products?.map((item) => {
       const { price, priceSale, quantity } = item;
       if (item.priceSale) return { priceSale, quantity };
@@ -72,7 +73,7 @@ export const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
 
     const prices = listPrices.reduce((prev, curr) => prev + curr.priceSale * curr.quantity, 0);
     setTotalValueStore(prices);
-  };
+  }, [products]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -187,3 +188,5 @@ export const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
     </Sider>
   );
 };
+
+export default React.memo(NavbarMenu);

@@ -1,6 +1,7 @@
 import { Breadcrumb, FloatButton, Layout, theme } from 'antd';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getListOrderService } from '../redux/Slices/OrderSlice';
 import { RootState } from '../redux/store/store';
 import { Search } from '../Search/Search';
 import { OrderListButton } from './Components/OrderListButton';
@@ -11,6 +12,12 @@ const { Header, Content } = Layout;
 export const Orders: React.FC = () => {
   const { orders } = useSelector((state: RootState) => state.order);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getListOrderService()).unwrap();
+  }, []);
 
   const {
     token: { colorBgContainer },

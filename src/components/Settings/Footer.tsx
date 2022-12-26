@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { KEY_INFORMATION } from '../../constants/const';
 import { TypeOf } from '../../utils/CheckTypeOfValue';
-import { getUpdateFooterService } from '../redux/Slices/FooterSlice';
+import { getListFootersService, getUpdateFooterService } from '../redux/Slices/FooterSlice';
 import { RootState } from '../redux/store/store';
 import { openMessage } from '../services/general.service';
 
@@ -21,6 +21,10 @@ export const InfoFooter: React.FC<any> = () => {
   useEffect(() => {
     handleLoadFooter();
   }, [footers]);
+
+  useEffect(() => {
+    dispatch(getListFootersService()).unwrap();
+  }, []);
 
   const handleLoadFooter = async () => {
     form.setFieldsValue({

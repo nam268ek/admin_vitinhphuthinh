@@ -1,8 +1,7 @@
 /* eslint-disable new-cap */
 /* eslint-disable curly */
 import { Breadcrumb, Button, Form, Layout, message, Space, theme } from 'antd';
-import { cloneDeep } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
@@ -25,7 +24,6 @@ export const NewPost: React.FC = () => {
   const { action, posts, loading } = useSelector((state: RootState) => state.post);
   const { imageUploaded } = useSelector((state: RootState) => state.image);
 
-  const [isReset, setIsReset] = useState<boolean>(false);
   const childRef = useRef<any>(null);
   const {
     token: { colorBgContainer },
@@ -111,7 +109,6 @@ export const NewPost: React.FC = () => {
   const resetForm = (e: any) => {
     e.preventDefault();
     form.resetFields();
-    setIsReset(true);
   };
 
   const goBack = (e: any) => {
@@ -119,10 +116,12 @@ export const NewPost: React.FC = () => {
     navigate('/posts', { replace: true });
   };
 
-  const onChange = (e: any, key: string) => {
+  const onChange = (e: any, key: string, actionName: string) => {
     let value = e;
-    if (key === 'images') {
+    if (key === 'images' && actionName === 'upload') {
       value = e.id;
+    } else if (key === 'images' && actionName === 'remove') {
+      value = undefined;
     } else if (TypeOf(e) === 'Object' && !(e instanceof Event)) value = e.target.value;
 
     bodyUpdatePost[key] = value;

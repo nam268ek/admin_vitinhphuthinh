@@ -1,7 +1,7 @@
 /* eslint-disable curly */
 import { Breadcrumb, Button, Collapse, Layout, Space, theme } from 'antd';
 import { cloneDeep } from 'lodash';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { KEY_INFORMATION } from '../../constants/const';
 import EditorText from '../common/EditorText';
@@ -21,6 +21,10 @@ export const InfoPolicy: React.FC = () => {
   } = theme.useToken();
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getListPoliciesService()).unwrap();
+  }, []);
 
   const handleSubmit = async (e: any, key: string) => {
     e.preventDefault();

@@ -92,7 +92,12 @@ export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance<any> }>
               <label className="mb-3 text-sm font-normal">
                 Hình ảnh<sup className="text-red-600 ml-1">*</sup>
               </label>
-              <ImageUploadV2 maxFiles={1} keyUpload={UPLOAD_KEY.IMAGE_BLOG} onChange={onChange} />
+              <ImageUploadV2
+                name="images"
+                maxFiles={1}
+                keyUpload={UPLOAD_KEY.IMAGE_BLOG}
+                onChange={onChange}
+              />
             </div>
             <div className="mb-5">
               <label className="mb-3 text-sm font-normal">Tags</label>
