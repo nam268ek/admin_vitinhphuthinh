@@ -21,6 +21,7 @@
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.2",
+    "node-sass": "^8.0.0",
     "postcss": "^8.4.19",
     "query-string": "^7.1.1",
     "react": "^18.0.0",
@@ -69,7 +70,6 @@
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-unicorn": "^44.0.2",
-    "node-sass": "^7.0.1",
     "prettier": "^2.7.1",
     "typescript": "^4.8.4"
   }

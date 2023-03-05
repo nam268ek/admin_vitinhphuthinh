@@ -171,7 +171,7 @@ export const requestService = {
     return instance.post(url, params);
   },
   deleteListPostsService: (params: any) => {
-    const url = '/newspapers/delete';
+    const url = '/newspapers/remove';
     return instance.delete(url, { data: params });
   },
   updatePostService: (params: any) => {

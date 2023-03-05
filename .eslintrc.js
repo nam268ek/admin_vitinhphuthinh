@@ -38,8 +38,14 @@ module.exports = {
     'plugin:jsx-a11y/recommended',
   ],
   rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        'endOfLine': 'auto',
+      }
+    ],
     'comma-dangle': [2, 'always-multiline'],
-    'linebreak-style': [2, 'unix'],
+    'linebreak-style': 'off',
     'import/prefer-default-export': 'off',
     'import/no-default-export': 'off', // default
     'unicorn/filename-case': ['error', { cases: { pascalCase: true, camelCase: true } }],

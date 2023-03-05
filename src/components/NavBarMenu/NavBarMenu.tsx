@@ -35,11 +35,11 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Dashboard', '1', <HomeOutlined />, undefined, undefined, true),
+  // getItem('Dashboard', '1', <HomeOutlined />, undefined, undefined, true),
   getItem('Sản phẩm', '2', <FiDatabase />),
-  getItem('Đơn hàng', '3', <BsBagCheck />),
-  getItem('Danh mục', '4', <BiCategoryAlt />),
-  getItem('Marketing', '5', <ContainerOutlined />),
+  // getItem('Đơn hàng', '3', <BsBagCheck />),
+  // getItem('Danh mục', '4', <BiCategoryAlt />),
+  // getItem('Marketing', '5', <ContainerOutlined />),
   getItem('Bài đăng', '6', <AiOutlineLayout />),
   getItem('Settings', 'sub1', <IoSettingsOutline />, [
     getItem('Footer', '7'),
