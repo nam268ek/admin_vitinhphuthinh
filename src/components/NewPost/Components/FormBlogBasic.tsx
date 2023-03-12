@@ -1,4 +1,5 @@
 import { Form, Input } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
 import { FormInstance } from 'rc-field-form/lib/interface';
 import React from 'react';
 import { MAX_LENGTH_TEXT, UPLOAD_KEY } from '../../../constants/const';
@@ -17,8 +18,10 @@ export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance<any> }>
     const slug = convertViToEn(value);
     form.setFieldsValue({ urlSlug: slug });
 
-    onChange(event, key);
-    onChange('urlSlug', key);
+    if (key === 'namePost') {
+      onChange(event, key);
+    }
+    onChange(slug, 'urlSlug');
   };
 
   return (
@@ -69,6 +72,28 @@ export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance<any> }>
                   maxLength={MAX_LENGTH_TEXT}
                   placeholder="Post url"
                   onChange={(e) => onChange(e, 'urlSlug')}
+                />
+              </Form.Item>
+            </div>
+            <div className="mb-5">
+              <label className="mb-3 text-sm font-normal">
+                Tóm tắt<sup className="text-red-600 ml-1">*</sup>
+              </label>
+              <Form.Item
+                name="summary"
+                hasFeedback
+                rules={[
+                  {
+                    required: true,
+                    message: 'Field not empty',
+                  },
+                ]}
+                validateTrigger={['onChange', 'onBlur']}
+              >
+                <TextArea
+                  maxLength={MAX_LENGTH_TEXT}
+                  placeholder="Tóm tắt bài viết"
+                  onChange={(e) => onChange(e, 'summary')}
                 />
               </Form.Item>
             </div>

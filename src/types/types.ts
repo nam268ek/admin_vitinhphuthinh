@@ -584,7 +584,7 @@ export interface PostState {
 export interface DataTypePost {
   key: React.Key;
   id: string;
-  name: string;
+  namePost: string;
   status: string;
   images: any[];
   updatedAt: string;

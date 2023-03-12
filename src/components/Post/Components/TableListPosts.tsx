@@ -43,8 +43,8 @@ export const TableListPosts: React.FC = () => {
   const columns: ColumnsType<DataTypePost> = [
     {
       title: 'Tên bài đăng',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'namePost',
+      key: 'namePost',
       className: 'w-2/4',
       render: (customer: any, record: any) => (
         <div
@@ -52,7 +52,7 @@ export const TableListPosts: React.FC = () => {
           onClick={(e) => handleUpdatePost(e, record)}
         >
           <Avatar shape="square" src={record?.images?.thumbUrl} size={40} />
-          <span className="text-ellipsis text-sm text-[#5c5c5c] ml-2">{record?.name}</span>
+          <span className="text-ellipsis text-sm text-[#5c5c5c] ml-2">{record?.namePost}</span>
         </div>
       ),
     },
@@ -79,11 +79,11 @@ export const TableListPosts: React.FC = () => {
   const convertListPosts = (list: any[]) => {
     return (
       list?.map((item: any, index: number) => {
-        const { id, images, name, status, updatedAt } = item;
+        const { id, images, namePost, status, updatedAt } = item;
         return {
           key: index + 1,
           id,
-          name,
+          namePost,
           status,
           images,
           updatedAt,

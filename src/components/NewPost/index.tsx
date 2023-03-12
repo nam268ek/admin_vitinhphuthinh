@@ -17,7 +17,7 @@ import { openMessage } from '../services/general.service';
 import { FormBlogBasic } from './Components/FormBlogBasic';
 import { FormPostDetails } from './Components/FormPostDetails';
 
-const bodyUpdatePost: any = {};
+let bodyUpdatePost: any = {};
 const { Header, Content } = Layout;
 
 export const NewPost: React.FC = () => {
@@ -28,6 +28,10 @@ export const NewPost: React.FC = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  useEffect(() => {
+    bodyUpdatePost = {};
+  }, []);
 
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -43,16 +47,16 @@ export const NewPost: React.FC = () => {
 
     const post = posts?.filter((p) => p.id === id);
     if (post.length > 0) {
-      const { url, category, tags, images, name, ...postRest } = post[0];
+      const { urlSlug, category, tags, images, namePost, ...postRest } = post[0];
 
       if (images) dispatch(setImageAction(images));
 
       form.setFieldsValue({
         ...postRest,
-        namePost: name,
+        namePost,
         images: images || [],
-        urlSlug: url,
-        category: category.id,
+        urlSlug,
+        category,
         tags: tags?.map((tag: any) => tag.id),
       });
     }
@@ -76,9 +80,9 @@ export const NewPost: React.FC = () => {
     const imageId = imageUploaded?.map((item) => item.id)[0] || undefined;
     const bodyCreatePost = {
       ...data,
-      name: data.namePost,
+      namePost: data.namePost,
       images: imageId,
-      url: data.urlSlug,
+      urlSlug: data.urlSlug,
       content: childRef.current.contentEditor(),
     };
 
@@ -86,6 +90,7 @@ export const NewPost: React.FC = () => {
       await dispatch(getCreatePostService(bodyCreatePost)).unwrap();
       await dispatch(getListPostsService()).unwrap();
       openMessage();
+      navigate('/posts');
     } catch (error) {
       openMessage(error);
     }

@@ -4,6 +4,8 @@
 import { Form, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { NAME_DROPDOWNS } from '../../../constants/const';
+import { IDropdown } from '../../../types/types';
 import { RootState } from '../../redux/store/store';
 
 type TreeCategoryProps = {
@@ -19,18 +21,26 @@ export const TreeCategory: React.FC<TreeCategoryProps> = ({
   isFeedback = true,
   style,
 }) => {
-  const { categories } = useSelector((state: RootState) => state.category);
+  const { dropdowns } = useSelector((state: RootState) => state.primary);
   const [options, setOptions] = useState<any>([]);
 
   useEffect(() => {
     handleListData();
-  }, [categories]);
+  }, [dropdowns]);
 
   const handleListData = () => {
-    const dataList = categories.map((o) => {
-      return { label: o.name, value: o.id };
+    const list = dropdowns?.filter(
+      (item: IDropdown) => item.name === NAME_DROPDOWNS.CATEGORY_PRODUCT,
+    );
+    const items = list[0]?.dropdowns?.map((o) => {
+      return {
+        label: o.label,
+        value: o.value,
+      };
     });
-    setOptions(dataList);
+    if (list.length > 0) {
+      setOptions(items);
+    }
   };
 
   return (

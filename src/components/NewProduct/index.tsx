@@ -73,7 +73,7 @@ export const NewProduct = () => {
     const list = dropdowns?.filter(
       (item: IDropdown) => item.name === NAME_DROPDOWNS.CATEGORY_PRODUCT,
     );
-    const isValid = list[0]?.dropdowns?.filter((o) => o.value === id).length > 0;
+    const isValid = list[0]?.dropdowns?.filter((o: any) => o.value === id).length > 0;
     if (!isValid) navigate('/products');
   };
 
