@@ -333,6 +333,7 @@ export interface DataTypeProduct {
   key: React.Key;
   id: string;
   name: string;
+  price: number;
   priceSale: number;
   status: boolean;
   updatedAt: any;

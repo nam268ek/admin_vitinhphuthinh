@@ -21,24 +21,21 @@ export const TreeCategory: React.FC<TreeCategoryProps> = ({
   isFeedback = true,
   style,
 }) => {
-  const { dropdowns } = useSelector((state: RootState) => state.primary);
+  const { categories } = useSelector((state: RootState) => state.category);
   const [options, setOptions] = useState<any>([]);
 
   useEffect(() => {
     handleListData();
-  }, [dropdowns]);
+  }, [categories]);
 
   const handleListData = () => {
-    const list = dropdowns?.filter(
-      (item: IDropdown) => item.name === NAME_DROPDOWNS.CATEGORY_PRODUCT,
-    );
-    const items = list[0]?.dropdowns?.map((o) => {
+    const items = categories?.map((o) => {
       return {
-        label: o.label,
-        value: o.value,
+        label: o.name,
+        value: o.id,
       };
     });
-    if (list.length > 0) {
+    if (items.length > 0) {
       setOptions(items);
     }
   };

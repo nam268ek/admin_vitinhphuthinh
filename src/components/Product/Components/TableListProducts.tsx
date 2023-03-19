@@ -52,13 +52,26 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
       ),
     },
     {
+      title: 'Giá gốc',
+      dataIndex: 'price',
+      key: 'price',
+      ellipsis: true,
+      width: 150,
+      sorter: (a, b) => a.price - b.price,
+      render: (price: number, record: any) => (
+        <span className="font-medium opacity-75">{formatMoney.format(price)}</span>
+      ),
+    },
+    {
       title: 'Giá bán',
       dataIndex: 'priceSale',
       key: 'priceSale',
       ellipsis: true,
       width: 150,
       sorter: (a, b) => a.priceSale - b.priceSale,
-      render: (priceSale: number, record: any) => <span>{formatMoney.format(priceSale)}</span>,
+      render: (priceSale: number, record: any) => (
+        <span className="font-medium">{formatMoney.format(priceSale)}</span>
+      ),
     },
     {
       title: 'Danh mục',
@@ -71,14 +84,14 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
       title: 'Thương hiệu',
       dataIndex: 'brand',
       key: 'brand',
-      width: 150,
+      width: 120,
       render: (brand: any, record: any) => <span>{brand?.name}</span>,
     },
     {
       title: 'Số lượng',
       dataIndex: 'quantity',
       key: 'quantity',
-      width: 150,
+      width: 120,
       sorter: (a, b) => a.quantity - b.quantity,
       render: (quantity: any) => <span className="price-product">{quantity}</span>,
     },
@@ -163,11 +176,12 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
 
   const convertListProducts = (list: any[]) => {
     return list.map((item: any, index: number) => {
-      const { id, name, status, brand, priceSale, updatedAt, quantity, category } = item;
+      const { id, name, status, brand, price, priceSale, updatedAt, quantity, category } = item;
       return {
         key: index + 1,
         id,
         name,
+        price,
         priceSale,
         status,
         brand,
