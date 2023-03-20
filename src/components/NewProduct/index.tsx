@@ -3,7 +3,7 @@
 /* eslint-disable curly */
 import { Breadcrumb, Button, Form, Layout, Space, theme } from 'antd';
 import { cloneDeep } from 'lodash';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NAME_ACTION, NAME_DROPDOWNS } from '../../constants/const';
@@ -34,6 +34,7 @@ let bodyDataProductSpecs: any = [];
 let listImages: any = [];
 
 export const NewProduct = () => {
+  const [nameCategory, setNameCategory] = useState<string>('');
   const { dropdowns } = useSelector((state: RootState) => state.primary);
   const { action, loading, products, keyProduct } = useSelector(
     (state: RootState) => state.product,
@@ -73,8 +74,10 @@ export const NewProduct = () => {
     const list = dropdowns?.filter(
       (item: IDropdown) => item.name === NAME_DROPDOWNS.CATEGORY_PRODUCT,
     );
-    const isValid = list[0]?.dropdowns?.filter((o: any) => o.value === id).length > 0;
-    if (!isValid) navigate('/products');
+    const isValid = list[0]?.dropdowns?.filter((o: any) => o.value === id);
+    setNameCategory(isValid ? isValid[0]?.label : '');
+
+    if (!isValid || isValid.length === 0) navigate('/products');
   };
 
   const handleLoadProductUpdate = (id: string | undefined) => {
@@ -227,12 +230,18 @@ export const NewProduct = () => {
   return (
     <>
       <Header
-        className="sticky top-0 z-10 w-full flex items-center justify-between border-t-0 border-x-0 border-b border-solid border-[#eee]"
-        style={{ background: colorBgContainer, paddingInline: '35px' }}
+        className="sticky top-0 z-10 w-full flex items-center justify-between border-t-0 border-x-0 border-b border-solid border-[#eee] bg-[#001529]"
+        style={{ paddingInline: '35px' }}
       >
-        <p className="text-2xl m-0 flex items-center">
-          {`${action === NAME_ACTION.CREATE_PRODUCT ? 'Thêm' : 'Cập nhật'}`} sản phẩm
-        </p>
+        <div className="text-2xl font-medium m-0 flex items-center">
+          <div className="text-2xl text-slate-100 font-medium">
+            {`${action === NAME_ACTION.CREATE_PRODUCT ? 'Thêm' : 'Cập nhật'}`} sản phẩm
+          </div>
+          <div>
+            <span className="text-xl text-slate-100 px-3">&#10148;</span>
+          </div>
+          <div className="text-2xl font-medium text-slate-100">{nameCategory}</div>
+        </div>
         <Form onFinish={onFinish} form={form}>
           <Form.Item noStyle>
             <Space>

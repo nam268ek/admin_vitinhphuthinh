@@ -4,8 +4,9 @@ export interface ICategories {
   id: string;
   name: string;
   category: string;
+  categoryCode: string;
   index: string;
-  parent: string;
+  parent: string | undefined;
 }
 export interface IStateCategories {
   loading: boolean;

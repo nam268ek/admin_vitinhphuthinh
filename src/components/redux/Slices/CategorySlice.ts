@@ -77,6 +77,7 @@ export const categorySlice = createSlice({
     },
     cleanState: (state) => {
       state.itemSelected = [];
+      state.action = NAME_ACTION.DEFAULT_CATEGORY;
     },
     setLoading: (state, action) => {
       state.loading = action.payload;

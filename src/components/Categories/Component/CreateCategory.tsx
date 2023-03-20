@@ -22,13 +22,17 @@ export const CreateCategory: React.FC = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
+    handleCancel();
+  }, []);
+
+  useEffect(() => {
     if (itemSelected.length > 0) {
       const { name, index, category, parent } = itemSelected[0];
       form.setFieldsValue({ name, index, category, parent: handleFilterParent(parent) });
     }
   }, [itemSelected, form]);
 
-  const handleFilterParent = (parent: string) => {
+  const handleFilterParent = (parent: string | undefined) => {
     return categories
       .filter((item) => item.id === parent)
       .map((o) => {
@@ -155,10 +159,6 @@ export const CreateCategory: React.FC = () => {
                       {
                         required: true,
                         message: 'Vui lòng nhập',
-                      },
-                      {
-                        pattern: /^[a-z]*$/,
-                        message: 'Không đúng định dạng',
                       },
                     ]}
                     validateTrigger={['onChange', 'onBlur']}

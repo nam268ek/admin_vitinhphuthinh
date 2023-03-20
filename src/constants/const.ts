@@ -117,4 +117,7 @@ export enum KEY_INFORMATION {
 export enum CATEGORY_KEY {
   COMPUTER_LAPTOP = 'computer_laptop',
   PRINTER = 'printer',
+  ACCESSORY = 'accessory',
+  CAMERA = 'camera',
+  NETWORK_DEVICE = 'network_device',
 }
