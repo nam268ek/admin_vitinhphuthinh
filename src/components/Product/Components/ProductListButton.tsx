@@ -1,16 +1,11 @@
-import { DownOutlined, SyncOutlined } from '@ant-design/icons';
-import { Button, Dropdown, message, Space, Tooltip } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import { Button, Dropdown, message, Space } from 'antd';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { history } from '../../../utils/history';
-import {
-  getDeleteListProductService,
-  getListProductService,
-} from '../../redux/Slices/ProductSlice';
+import { getDeleteListProductService } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
-import { openMessage } from '../../services/general.service';
 import { DropDownNewProduct } from './DropDownNewProduct';
-import { ExcelBotton } from './ExcelBotton';
 
 export const ProductListButton: React.FC<any> = ({ selectedIds }) => {
   const { products } = useSelector((state: RootState) => state.product);

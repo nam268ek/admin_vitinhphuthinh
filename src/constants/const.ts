@@ -120,4 +120,7 @@ export enum CATEGORY_KEY {
   ACCESSORY = 'accessory',
   CAMERA = 'camera',
   NETWORK_DEVICE = 'network_device',
+  PC_LAPTOP_ACCESSORIES = 'pc_laptop_accessories',
+  PRINTER_ACCESSORIES = 'printer_accessories',
+  STORAGE_DEVICE = 'storage_device',
 }

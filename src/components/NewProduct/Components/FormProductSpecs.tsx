@@ -5,6 +5,7 @@ import { CATEGORY_KEY } from '../../../constants/const';
 import ConfigInfo from '../../ConfigInfo/ConfigInfo';
 import InfoPrintComponent from '../../InfoPrintComponent/InfoPrintComponent';
 import { RootState } from '../../redux/store/store';
+import SpecsCameraComponent from '../../SpecsCameraComponent';
 
 export const FormProductSpecs: React.FC<any> = ({ onChange }) => {
   const { keyProduct } = useSelector((state: RootState) => state.product);
@@ -15,9 +16,16 @@ export const FormProductSpecs: React.FC<any> = ({ onChange }) => {
   }, [keyProduct]);
 
   const handleShowSpecs = () => {
-    if (keyProduct === CATEGORY_KEY.COMPUTER_LAPTOP) return <ConfigInfo onChange={onChange} />;
-    else if (keyProduct === CATEGORY_KEY.PRINTER) return <InfoPrintComponent onChange={onChange} />;
-    else return <></>;
+    switch (keyProduct) {
+      case CATEGORY_KEY.COMPUTER_LAPTOP:
+        return <ConfigInfo onChange={onChange} />;
+      case CATEGORY_KEY.PRINTER:
+        return <InfoPrintComponent onChange={onChange} />;
+      case CATEGORY_KEY.CAMERA:
+        return <SpecsCameraComponent onChange={onChange} />;
+      default:
+        break;
+    }
   };
 
   return (

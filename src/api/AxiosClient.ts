@@ -14,7 +14,9 @@ export const instance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  paramsSerializer: (params: any) => queryString.stringify(params),
+  paramsSerializer: {
+    serialize: (params) => queryString.stringify(params, { arrayFormat: 'comma' }),
+  },
 });
 
 instance.interceptors.request.use(

@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { NAME_ACTION, NAME_DROPDOWNS } from '../../constants/const';
+import { CATEGORY_KEY, NAME_ACTION, NAME_DROPDOWNS } from '../../constants/const';
 import { IDropdown, SPECS } from '../../types/types';
 import { TypeOf } from '../../utils/CheckTypeOfValue';
 import { getListCategoryService } from '../redux/Slices/CategorySlice';
@@ -66,18 +66,18 @@ export const NewProduct = () => {
     }
   }, [productId, categoryId]);
 
-  const handleLoadCreateProduct = (id: string | undefined) => {
-    if (!id) {
+  const handleLoadCreateProduct = (key: string | undefined) => {
+    if (!key || !Object.values(CATEGORY_KEY).includes(key as CATEGORY_KEY)) {
       navigate('/products');
       return;
     }
     const list = dropdowns?.filter(
       (item: IDropdown) => item.name === NAME_DROPDOWNS.CATEGORY_PRODUCT,
     );
-    const isValid = list[0]?.dropdowns?.filter((o: any) => o.value === id);
+    const isValid = list[0]?.dropdowns?.filter((o: any) => o.value === key);
     setNameCategory(isValid ? isValid[0]?.label : '');
 
-    if (!isValid || isValid.length === 0) navigate('/products');
+    form.setFieldsValue({ status: true });
   };
 
   const handleLoadProductUpdate = (id: string | undefined) => {

@@ -4,17 +4,15 @@ import { App } from './App';
 import { store } from './components/redux/store/store';
 import './scss/style.scss';
 import './styles/index.css';
-import { history, HistoryRouter } from './utils/history';
+import { BrowserRouter } from 'react-router-dom';
 
 const rootElement: any = document.getElementById('root');
 const root = createRoot(rootElement);
 
 root.render(
-  // <React.StrictMode>
   <Provider store={store}>
-    <HistoryRouter history={history}>
+    <BrowserRouter>
       <App />
-    </HistoryRouter>
+    </BrowserRouter>
   </Provider>,
-  // </React.StrictMode>
 );

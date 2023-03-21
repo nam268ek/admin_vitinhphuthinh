@@ -1,5 +1,5 @@
 import { Form, Switch } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export const FormStatus: React.FC<any> = ({ handleChange }) => {
   return (
@@ -15,8 +15,8 @@ export const FormStatus: React.FC<any> = ({ handleChange }) => {
           <Form.Item name="status" valuePropName="checked">
             <Switch
               key="status"
-              checkedChildren="Yes"
-              unCheckedChildren="No"
+              checkedChildren="OFF"
+              unCheckedChildren="ON"
               onChange={(e) => handleChange(e, 'status')}
             />
           </Form.Item>
@@ -28,8 +28,8 @@ export const FormStatus: React.FC<any> = ({ handleChange }) => {
           <Form.Item name="isNewProduct" valuePropName="checked">
             <Switch
               key="isNewProduct"
-              checkedChildren="Yes"
-              unCheckedChildren="No"
+              checkedChildren="OFF"
+              unCheckedChildren="ON"
               onChange={(e) => handleChange(e, 'isNewProduct')}
             />
           </Form.Item>
