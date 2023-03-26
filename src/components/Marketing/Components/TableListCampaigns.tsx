@@ -5,20 +5,18 @@ import { TableRowSelection } from 'antd/es/table/interface';
 import moment from 'moment';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../../constants/const';
-import { DataTypeMarketing, DataTypeProduct } from '../../../types/types';
-import { history } from '../../../utils/history';
+import { DataTypeMarketing } from '../../../types/types';
 import { getListMarketingsService } from '../../redux/Slices/MarketingSlice';
 import {
   getDeleteListProductService,
-  getListProductService,
   getUpdateProductService,
   setAction,
   setItemSelectedAction,
 } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
-import { formatMoney, openMessage } from '../../services/general.service';
+import { openMessage } from '../../services/general.service';
 
 export const TableListCampaigns: React.FC = () => {
   const { loading, marketings } = useSelector((state: RootState) => state.marketing);
@@ -26,6 +24,7 @@ export const TableListCampaigns: React.FC = () => {
 
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const hasSelected = selectedIds.length > 0 && marketings.length > 0;
   const onSelectChange = (newSelectedRowKeys: React.Key[], selectedRows: DataTypeMarketing[]) => {
@@ -48,7 +47,7 @@ export const TableListCampaigns: React.FC = () => {
       case 2:
         if (selectedIds.length === 1) {
           e.preventDefault();
-          history.push(`${location.pathname}/${selectedIds[0]}`);
+          navigate(`${location.pathname}/${selectedIds[0]}`);
         } else {
           message.error('Vui lòng chỉ chọn 1 sản phẩm');
         }
@@ -137,7 +136,7 @@ export const TableListCampaigns: React.FC = () => {
 
     const product = marketings?.filter((o) => o.id === item.id);
     dispatch(setItemSelectedAction(product));
-    history.push(`${location.pathname}/${item.id}`);
+    navigate(`${location.pathname}/${item.id}`);
   };
 
   const convertListMarketings = (list: any[]) => {

@@ -27,8 +27,8 @@ export const FormProductDescription: React.FC<FormProductDescProps> = ({
 
     const product = products?.filter((p) => p.id === id);
     if (product.length > 0 && Object.hasOwn(product[0], 'productInformation')) {
-      const content = product[0].productInformation;
-      content.length > 0 && setDefaultValue(content);
+      const { content } = product[0].productInformation;
+      content && content.length > 0 && setDefaultValue(content);
     }
   };
   return (

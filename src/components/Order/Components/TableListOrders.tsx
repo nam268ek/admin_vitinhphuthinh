@@ -4,10 +4,9 @@ import { TableRowSelection } from 'antd/es/table/interface';
 import moment from 'moment';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { NAME_ACTION, ORDER_STATUS } from '../../../constants/const';
 import { DataTypeOrder, IOrder } from '../../../types/types';
-import { history } from '../../../utils/history';
 import { setOrderAction } from '../../redux/Slices/OrderSlice';
 import { RootState } from '../../redux/store/store';
 import { formatMoney } from '../../services/general.service';
@@ -17,6 +16,7 @@ export const TableListOrders: React.FC<any> = ({ setSelectedIds, selectedIds }) 
 
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const onSelectChange = (newSelectedRowKeys: React.Key[], selectedRows: DataTypeOrder[]) => {
     const ids = selectedRows.map((row) => row.id);
@@ -105,7 +105,7 @@ export const TableListOrders: React.FC<any> = ({ setSelectedIds, selectedIds }) 
   ) => {
     e.preventDefault();
     dispatch(setOrderAction(NAME_ACTION.UPDATE_ORDER));
-    history.push(`${location.pathname}/${item.id}`);
+    navigate(`${location.pathname}/${item.id}`);
   };
 
   const convertListOrders = (list: IOrder[]) => {

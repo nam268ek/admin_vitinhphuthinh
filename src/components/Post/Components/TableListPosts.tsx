@@ -1,14 +1,13 @@
 import { DeleteOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Button, Space, Table, Tooltip } from 'antd';
+import { Avatar, Button, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { TableRowSelection } from 'antd/es/table/interface';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { NAME_ACTION, ORDER_STATUS } from '../../../constants/const';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { NAME_ACTION } from '../../../constants/const';
 import { DataTypePost } from '../../../types/types';
-import { history } from '../../../utils/history';
 import {
   getDeleteListPostService,
   getListPostsService,
@@ -24,6 +23,7 @@ export const TableListPosts: React.FC = () => {
 
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const hasSelected = selectedIds.length > 0 && posts.length > 0;
   const onSelectChange = (newSelectedRowKeys: React.Key[], selectedRows: DataTypePost[]) => {
@@ -73,7 +73,7 @@ export const TableListPosts: React.FC = () => {
   const handleUpdatePost = async (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, item: any) => {
     e.preventDefault();
     dispatch(setPostAction(NAME_ACTION.UPDATE_POST));
-    history.push(`${location.pathname}/${item.id}`);
+    navigate(`${location.pathname}/${item.id}`);
   };
 
   const convertListPosts = (list: any[]) => {

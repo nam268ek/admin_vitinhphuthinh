@@ -2,7 +2,7 @@ import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, message, Space } from 'antd';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { history } from '../../../utils/history';
+import { useNavigate } from 'react-router-dom';
 import { getDeleteListProductService } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
 import { DropDownNewProduct } from './DropDownNewProduct';
@@ -11,6 +11,7 @@ export const ProductListButton: React.FC<any> = ({ selectedIds }) => {
   const { products } = useSelector((state: RootState) => state.product);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const hasSelected = selectedIds.length > 0 && products.length > 0;
 
@@ -22,7 +23,7 @@ export const ProductListButton: React.FC<any> = ({ selectedIds }) => {
         break;
       case '2':
         if (selectedIds.length === 1) {
-          history.push(`${location.pathname}/${selectedIds[0]}`);
+          navigate(`${location.pathname}/${selectedIds[0]}`);
         } else {
           message.error('Vui lòng chỉ chọn 1 sản phẩm');
         }

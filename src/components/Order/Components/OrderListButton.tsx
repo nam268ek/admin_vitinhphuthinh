@@ -29,7 +29,7 @@ export const OrderListButton: React.FC<any> = ({ selectedIds, setSelectedIds }) 
         break;
       case '2':
         if (selectedIds.length === 1) {
-          history.push(`${location.pathname}/${selectedIds[0]}`);
+          navigate(`${location.pathname}/${selectedIds[0]}`);
         } else {
           message.error('Vui lòng chỉ chọn 1 sản phẩm');
         }

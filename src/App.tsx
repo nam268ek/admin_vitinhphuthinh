@@ -2,7 +2,7 @@
 import { Layout } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { Categories } from './components/Categories';
 import { AuthVerify } from './components/common/AuthVerify';
 import { PrivateRoute } from './components/common/PrivateRoute';
@@ -22,7 +22,6 @@ import { RootState } from './components/redux/store/store';
 import { InfoFooter } from './components/Settings/Footer';
 import { InfoPolicy } from './components/Settings/Policy';
 import { eventBus } from './utils/EventBus';
-import { history } from './utils/history';
 import { getUserToken, handleAuth } from './utils/verifyToken';
 
 const { Footer } = Layout;
@@ -32,10 +31,11 @@ export const App: React.FC = () => {
   const [widthNavbar, setWidthNavbar] = useState<number>(250);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const logoutAction = useCallback(() => {
     dispatch(logout());
-    history.push('/login');
+    navigate('/login');
   }, [dispatch]);
 
   const handleAsyncUserLogin = async () => {

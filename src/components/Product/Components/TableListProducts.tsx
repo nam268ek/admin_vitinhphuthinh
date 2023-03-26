@@ -5,10 +5,9 @@ import { TableRowSelection } from 'antd/es/table/interface';
 import moment from 'moment';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../../constants/const';
 import { DataTypeProduct } from '../../../types/types';
-import { history } from '../../../utils/history';
 import {
   getDeleteListProductService,
   getListProductService,
@@ -25,6 +24,7 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
 
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const onSelectChange = (newSelectedRowKeys: React.Key[], selectedRows: DataTypeProduct[]) => {
     const ids = selectedRows.map((row) => row.id);
@@ -171,7 +171,7 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
     const product = products.filter((o) => o.id === item.id);
     dispatch(setItemSelectedAction(product));
     dispatch(updateStateKeyProductAction(product[0]?.categoryKey));
-    history.push(`${location.pathname}/${item.id}`);
+    navigate(`${location.pathname}/${item.id}`);
   };
 
   const convertListProducts = (list: any[]) => {
