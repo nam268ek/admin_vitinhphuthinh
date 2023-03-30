@@ -3,9 +3,9 @@
 /* eslint-disable prefer-const */
 import { Form, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NAME_DROPDOWNS } from '../../../constants/const';
-import { IDropdown } from '../../../types/types';
+import { getListDropdownsService } from '../../redux/Slices/PrimarySlice';
 import { RootState } from '../../redux/store/store';
 
 type TreeCategoryProps = {
@@ -23,12 +23,18 @@ export const TreeCategory: React.FC<TreeCategoryProps> = ({
 }) => {
   const { categories } = useSelector((state: RootState) => state.category);
   const [options, setOptions] = useState<any>([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     handleListData();
   }, [categories]);
 
   const handleListData = () => {
+    if (categories.length === 0) {
+      // dispatch(getListCategoryService()).unwrap();
+      dispatch(getListDropdownsService({ ids: [NAME_DROPDOWNS.CATEGORY_PRODUCT] })).unwrap();
+      return;
+    }
     const items = categories?.map((o) => {
       return {
         label: o.name,

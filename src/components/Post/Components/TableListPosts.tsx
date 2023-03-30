@@ -51,7 +51,12 @@ export const TableListPosts: React.FC = () => {
           className="flex items-center w-full hover:cursor-pointer"
           onClick={(e) => handleUpdatePost(e, record)}
         >
-          <Avatar shape="square" src={record?.images?.thumbUrl} size={40} />
+          <img
+            src={record?.images?.thumbUrl}
+            alt={record?.images?.name}
+            className="w-10 h-10 object-cover object-top rounded-md"
+            loading="lazy"
+          />
           <span className="text-ellipsis text-sm text-[#5c5c5c] ml-2">{record?.namePost}</span>
         </div>
       ),

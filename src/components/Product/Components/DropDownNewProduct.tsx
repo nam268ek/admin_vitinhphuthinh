@@ -1,5 +1,6 @@
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, MenuProps } from 'antd';
+import { Laptop2, Printer, Webcam, HardDrive, Network, Mouse } from 'lucide-react';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -25,18 +26,26 @@ export const DropDownNewProduct: React.FC = () => {
     {
       key: 'computer_laptop',
       label: 'PC - Laptop',
+      icon: <Laptop2 size={15} />,
     },
     {
       key: 'printer',
       label: 'Máy in',
+      icon: <Printer size={15} />,
     },
     {
       key: 'camera',
       label: 'Camera',
+      icon: <Webcam size={15} />,
     },
     {
       key: 'accessory',
       label: 'Phụ kiện',
+      icon: (
+        <div className="w-[15px] inline-flex">
+          <Mouse size={15} className="" />
+        </div>
+      ),
       children: [
         {
           key: 'pc_laptop_accessories',
@@ -51,10 +60,12 @@ export const DropDownNewProduct: React.FC = () => {
     {
       key: 'storage_device',
       label: 'Thiết bị lưu trữ',
+      icon: <HardDrive size={15} />,
     },
     {
       key: 'network_device',
       label: 'Thiết bị mạng',
+      icon: <Network size={15} />,
     },
   ];
 
