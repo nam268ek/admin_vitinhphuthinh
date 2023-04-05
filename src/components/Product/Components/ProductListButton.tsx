@@ -49,8 +49,8 @@ export const ProductListButton: React.FC<any> = ({ selectedIds }) => {
 
   return (
     <div className="flex mb-4 justify-between">
-      <p className="text-2xl m-0 flex items-center">Sản phẩm</p>
-      <Space align="center">
+      <p className="text-2xl m-0 flex items-center w-full">Sản phẩm</p>
+      <div className="flex justify-end w-full">
         {selectedIds?.length > 0 && (
           <p className="flex items-center m-0 text-gray-600">
             Đã chọn {selectedIds?.length}/{products?.length} sản phẩm
@@ -59,11 +59,11 @@ export const ProductListButton: React.FC<any> = ({ selectedIds }) => {
         <Dropdown disabled={!hasSelected} menu={menu} trigger={['click']}>
           <Button icon={<DownOutlined />}>Action</Button>
         </Dropdown>
-        <div className="flex">
+        <div className="flex w-full">
           {/* <ExcelBotton products={products} /> */}
           <DropDownNewProduct />
         </div>
-      </Space>
+      </div>
     </div>
   );
 };

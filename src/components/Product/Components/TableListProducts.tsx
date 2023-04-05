@@ -166,12 +166,14 @@ export const TableListProduct: React.FC<any> = ({ setSelectedIds }) => {
     item: any,
   ) => {
     e.preventDefault();
+    const { id } = item;
     dispatch(setAction(NAME_ACTION.UPDATE_PRODUCT));
-
-    const product = products.filter((o) => o.id === item.id);
-    dispatch(setItemSelectedAction(product));
-    dispatch(updateStateKeyProductAction(product[0]?.categoryKey));
-    navigate(`${location.pathname}/${item.id}`);
+    const params = new URLSearchParams({ productId: id }).toString();
+    navigate(`${location.pathname}/update?${params}`);
+    // const product = products.filter((o) => o.id === item.id);
+    // dispatch(setItemSelectedAction(product));
+    // dispatch(updateStateKeyProductAction(product[0]?.categoryKey));
+    // navigate(`${location.pathname}/${item.id}`);
   };
 
   const convertListProducts = (list: any[]) => {

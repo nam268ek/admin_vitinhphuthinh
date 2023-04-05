@@ -12,7 +12,7 @@ import {
   getUpdateCategoryService,
 } from '../../redux/Slices/CategorySlice';
 import { RootState } from '../../redux/store/store';
-import { convertListDropdown, openMessage } from '../../services/general.service';
+import { convertListDropdown, convertViToEn, openMessage } from '../../services/general.service';
 
 export const CreateCategory: React.FC = () => {
   const { itemSelected, categories, action } = useSelector((state: RootState) => state.category);
@@ -27,22 +27,15 @@ export const CreateCategory: React.FC = () => {
 
   useEffect(() => {
     if (itemSelected.length > 0) {
-      const { name, index, category, parent } = itemSelected[0];
-      form.setFieldsValue({ name, index, category, parent: handleFilterParent(parent) });
+      const { name, category, path, slug } = itemSelected[0];
+      form.setFieldsValue({ name, category, slug, path: path?.map((item: any) => item.id) });
     }
   }, [itemSelected, form]);
 
-  const handleFilterParent = (parent: string | undefined) => {
-    return categories
-      .filter((item) => item.id === parent)
-      .map((o) => {
-        return { label: o.name, value: o.id };
-      });
-  };
-
   const handleCreateCategory = async (body: any) => {
     try {
-      await dispatch(getCreateCategoryService(body)).unwrap();
+      const payload = handlePayloadCreateCategory(body);
+      await dispatch(getCreateCategoryService(payload)).unwrap();
       await dispatch(getListCategoryService());
 
       form.resetFields();
@@ -50,6 +43,17 @@ export const CreateCategory: React.FC = () => {
     } catch (error) {
       openMessage(error);
     }
+  };
+
+  const handlePayloadCreateCategory = (body: any) => {
+    const { path, name, category } = body;
+    if (!path || path.length === 0) return { name, category, path: [] };
+    return {
+      name,
+      category,
+      path,
+      parent: path[path.length - 1],
+    };
   };
 
   const handleUpdateCategory = async (body: any) => {
@@ -89,6 +93,22 @@ export const CreateCategory: React.FC = () => {
     form.resetFields();
   };
 
+  const handleOnChange = (value: any, name: string) => {
+    //
+    console.log(value);
+  };
+
+  const onChangeSlug = (event: any, key: string) => {
+    const value = event.target.value;
+    const slug = convertViToEn(value);
+    form.setFieldsValue({ category: slug });
+
+    // if (key === 'namePost') {
+    //   onChange(event, key);
+    // }
+    // onChange(slug, 'urlSlug');
+  };
+
   return (
     <div id="category">
       <Form onFinish={onFinish} form={form}>
@@ -97,75 +117,63 @@ export const CreateCategory: React.FC = () => {
             {itemSelected.length > 0 ? 'Update' : 'Thêm'} Danh mục
           </figcaption>
           <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
-            <div className="grid grid-cols-2 grid-flow-col gap-4">
-              <div>
-                <div className="mb-5">
-                  <label className="mb-3 text-sm font-normal">
-                    Tên danh mục<sup className="text-red-600 ml-1">*</sup>
-                  </label>
-                  <Form.Item
-                    name="name"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Vui lòng nhập tên danh mục',
-                      },
-                    ]}
-                    validateTrigger={['onChange', 'onBlur']}
-                  >
-                    <Input maxLength={MAX_LENGTH_TEXT} showCount placeholder="Dell" />
-                  </Form.Item>
-                </div>
-
-                <div className="mb-5">
-                  <label className="mb-3 text-sm font-normal">Parent</label>
-                  <SelectOptionV2 name="parent" options={options} placeholder="Dell" />
+            <div className="">
+              <div className="">
+                <div className="flex flex-wrap ">
+                  <div className="flex w-full">
+                    <div className="mx-2 w-1/2">
+                      <label className="mb-3 text-sm font-normal">
+                        Tên danh mục<sup className="text-red-600 ml-1">*</sup>
+                      </label>
+                      <Form.Item
+                        name="name"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Vui lòng nhập tên danh mục',
+                          },
+                        ]}
+                        validateTrigger={['onChange', 'onBlur']}
+                      >
+                        <Input
+                          maxLength={MAX_LENGTH_TEXT}
+                          showCount
+                          placeholder="Dell"
+                          onChange={(e) => onChangeSlug(e, 'name')}
+                        />
+                      </Form.Item>
+                    </div>
+                    <div className="mx-2 w-1/2">
+                      <label className="mb-3 text-sm font-normal">
+                        Category<sup className="text-red-600 ml-1">*</sup>
+                      </label>
+                      <Form.Item
+                        name="category"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Vui lòng nhập',
+                          },
+                        ]}
+                        validateTrigger={['onChange', 'onBlur']}
+                      >
+                        <Input maxLength={MAX_LENGTH_TEXT} showCount placeholder="dell" />
+                      </Form.Item>
+                    </div>
+                  </div>
+                  <div className="mx-2 w-full">
+                    <label className="mb-3 text-sm font-normal">Parent</label>
+                    <SelectOptionV2
+                      name="path"
+                      className="w-full mb-4"
+                      options={options}
+                      placeholder="Dell"
+                      handleOnChange={handleOnChange}
+                    />
+                  </div>
                 </div>
               </div>
-              <div>
-                <div className="mb-5">
-                  <label className="mb-3 text-sm font-normal">
-                    Index<sup className="text-red-600 ml-1">*</sup>
-                  </label>
-                  <Form.Item
-                    name="index"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Vui lòng nhập vị trí',
-                      },
-                      {
-                        pattern: /^[0-9]*$/,
-                        message: 'Chỉ được nhập số',
-                      },
-                    ]}
-                    validateTrigger={['onChange', 'onBlur']}
-                  >
-                    <InputNumber
-                      className="w-full"
-                      maxLength={2}
-                      min={0}
-                      placeholder="Vị trí hiện thị"
-                    />
-                  </Form.Item>
-                </div>
-                <div className="mb-5">
-                  <label className="mb-3 text-sm font-normal">
-                    Link<sup className="text-red-600 ml-1">*</sup>
-                  </label>
-                  <Form.Item
-                    name="category"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Vui lòng nhập',
-                      },
-                    ]}
-                    validateTrigger={['onChange', 'onBlur']}
-                  >
-                    <Input maxLength={MAX_LENGTH_TEXT} showCount placeholder="dell" />
-                  </Form.Item>
-                </div>
+              <div className="mx-2">
                 <Form.Item>
                   <Space
                     style={{

@@ -6,6 +6,7 @@ import { RootState } from '../redux/store/store';
 import { Search } from '../Search/Search';
 import { ProductListButton } from './Components/ProductListButton';
 import { TableListProduct } from './Components/TableListProducts';
+import { getListCategoryService } from '../redux/Slices/CategorySlice';
 
 const { Header, Content } = Layout;
 
@@ -16,6 +17,7 @@ export const Products: React.FC = () => {
 
   useEffect(() => {
     dispatch(getListProductService()).unwrap();
+    dispatch(getListCategoryService()).unwrap();
   }, []);
 
   const {

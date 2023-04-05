@@ -21,7 +21,7 @@ export const Categories: React.FC = () => {
   return (
     <>
       <Header
-        className="sticky top-0 z-1 w-full flex"
+        className="sticky top-0 z-10 w-full flex"
         style={{ background: colorBgContainer, paddingInline: '35px' }}
       >
         <p className="text-2xl m-0 flex items-center">Danh mục</p>

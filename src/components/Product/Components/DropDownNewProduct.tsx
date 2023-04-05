@@ -1,79 +1,85 @@
-import { DownOutlined } from '@ant-design/icons';
-import { Button, Dropdown, MenuProps } from 'antd';
-import { Laptop2, Printer, Webcam, HardDrive, Network, Mouse } from 'lucide-react';
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import { Button, Form } from 'antd';
+import { ChevronsRight } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { setImageAction } from '../../redux/Slices/ImageSlice';
-import {
-  setDefaultProductAction,
-  updateStateKeyProductAction,
-} from '../../redux/Slices/ProductSlice';
+import { setDefaultProductAction } from '../../redux/Slices/ProductSlice';
+import { RootState } from '../../redux/store/store';
+import { SelectOptionV2 } from './../../common/SelectOptionV2';
 
 export const DropDownNewProduct: React.FC = () => {
+  const { categories } = useSelector((state: RootState) => state.category);
+  const [options, setOptions] = React.useState<any>([]);
+
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [form] = Form.useForm();
 
-  const onClick: MenuProps['onClick'] = ({ key }) => {
-    dispatch(updateStateKeyProductAction(key));
-    dispatch(setImageAction([]));
-    dispatch(setDefaultProductAction());
-    navigate(`${location.pathname}/new/${key}`);
+  useEffect(() => {
+    handleOptions();
+  }, [categories]);
+
+  const buildTree = (arr: any[], parentId: string): any => {
+    const tree: any[] = [];
+    arr?.forEach((node: any) => {
+      if (node.parent === parentId) {
+        const children = buildTree(arr, node.id);
+        const newNode: any = { key: node.id, label: node.name };
+        if (children.length) {
+          newNode.children = children;
+        }
+        tree.push(newNode);
+      }
+    });
+    return tree;
   };
 
-  const items: MenuProps['items'] = [
-    {
-      key: 'computer_laptop',
-      label: 'PC - Laptop',
-      icon: <Laptop2 size={15} />,
-    },
-    {
-      key: 'printer',
-      label: 'Máy in',
-      icon: <Printer size={15} />,
-    },
-    {
-      key: 'camera',
-      label: 'Camera',
-      icon: <Webcam size={15} />,
-    },
-    {
-      key: 'accessory',
-      label: 'Phụ kiện',
-      icon: (
-        <div className="w-[15px] inline-flex">
-          <Mouse size={15} className="" />
-        </div>
-      ),
-      children: [
-        {
-          key: 'pc_laptop_accessories',
-          label: 'Phụ kiện PC - Laptop',
-        },
-        {
-          key: 'printer_accessories',
-          label: 'Phụ kiện máy in',
-        },
-      ],
-    },
-    {
-      key: 'storage_device',
-      label: 'Thiết bị lưu trữ',
-      icon: <HardDrive size={15} />,
-    },
-    {
-      key: 'network_device',
-      label: 'Thiết bị mạng',
-      icon: <Network size={15} />,
-    },
-  ];
+  const handleOptions = () => {
+    const roots = categories?.filter((node: any) => !node.parent);
+    const treeData = roots?.map((root: any) => {
+      const children = buildTree(categories, root.id);
+      const newNode: any = { key: root.id, label: root.name };
+      if (children.length) {
+        newNode.children = children;
+      }
+      return newNode;
+    });
+    console.log('treeData', treeData);
+    setOptions(treeData);
+  };
+
+  const handleCreate = () => {
+    dispatch(setImageAction([]));
+    dispatch(setDefaultProductAction());
+    const data = form.getFieldValue('category');
+    if (data && data.length > 0) {
+      const params = new URLSearchParams({ categoryId: data[data.length - 1] }).toString();
+      navigate(`${location.pathname}/new?${params}`);
+    }
+  };
 
   return (
-    <Dropdown menu={{ items, onClick }} trigger={['click']}>
-      <Button className="btn-green flex items-center border-0" icon={<DownOutlined />}>
-        Thêm sản phẩm
-      </Button>
-    </Dropdown>
+    <>
+      <Form form={form} className="flex w-full">
+        <SelectOptionV2
+          name="category"
+          options={options}
+          className="w-full mx-3"
+          placeholder="Select category"
+          rules={[{ required: true, message: 'Please select category!' }]}
+          validateTrigger={['onsubmit']}
+          placement="bottomRight"
+        />
+        <Button
+          htmlType="submit"
+          onClick={handleCreate}
+          className="btn-green flex items-center jus border-0"
+        >
+          <span className="pb-[2px] mr-2">Thêm sản phẩm</span> <ChevronsRight size={20} />
+        </Button>
+      </Form>
+    </>
   );
 };

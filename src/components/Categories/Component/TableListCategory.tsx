@@ -1,9 +1,11 @@
 import { DeleteFilled, EditFilled } from '@ant-design/icons';
 import { Button, Space, Table } from 'antd';
+import { ColumnsType } from 'antd/es/table';
 import moment from 'moment';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NAME_ACTION } from '../../../constants/const';
+import { DataTypeCategory } from '../../../types/types';
 import {
   addAction,
   getListCategoryService,
@@ -19,31 +21,41 @@ export const TableListCategory: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const columns = [
-    {
-      title: 'Vị trí',
-      dataIndex: 'index',
-      key: 'index',
-    },
+  const columns: ColumnsType<DataTypeCategory> = [
     {
       title: 'Tên danh mục',
       dataIndex: 'name',
       key: 'name',
+      ellipsis: true,
+      width: 200,
     },
     {
-      title: 'Link',
+      title: 'Category',
       dataIndex: 'category',
       key: 'category',
+      ellipsis: true,
+      width: 150,
+    },
+    {
+      title: 'Slug',
+      dataIndex: 'slug',
+      key: 'slug',
+      ellipsis: true,
+      width: 200,
     },
     {
       title: 'Ngày tạo',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
+      ellipsis: true,
+      width: 200,
       render: (text: string) => <span>{moment(text).format('DD/MM/YYYY, h:mm:ss A')}</span>,
     },
     {
       title: 'Action',
       key: 'action',
+      fixed: 'right',
+      width: 100,
       render: (text: string, record: any) => (
         <Space size="middle">
           <Button
@@ -79,16 +91,17 @@ export const TableListCategory: React.FC = () => {
   };
 
   const convertDataSource = (list: ICategories[]) => {
-    return list.map((category: ICategories) => {
-      return { key: category.id, ...category };
+    return list.map((item: ICategories, index: number) => {
+      const { id, name, category, slug, path, parent, updatedAt } = item;
+      return { key: index + 1, id, name, category, slug, path, parent, updatedAt };
     });
   };
-  const data = convertDataSource(categories);
+  const data: DataTypeCategory[] = convertDataSource(categories);
 
   return (
     <div className={itemSelected.length > 0 ? 'focus-edit' : 'ps-section__content'}>
       <div className="table-responsive">
-        <Table columns={columns} loading={loading} dataSource={data} />
+        <Table columns={columns} loading={loading} dataSource={data} scroll={{ x: 1200 }} sticky />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { UploadFileStatus } from 'antd/es/upload/interface';
 import { NAME_ACTION, UPLOAD_KEY } from '../constants/const';
+import { Path } from '../components/Categories/interfaces/categories.interface';
 
 // header
 export interface INavMenuDataTypes {
@@ -341,6 +342,16 @@ export interface DataTypeProduct {
   category: any;
   brand: any;
 }
+
+export interface DataTypeCategory {
+  key: React.Key;
+  id: string;
+  name: string;
+  slug: string;
+  path: Path[];
+  category: string;
+  updatedAt: string;
+}
 export interface DataTypeCustom extends DataTypeProduct {
   quantity: number;
 }
@@ -392,13 +403,14 @@ export interface IProductInformation {
 export interface ISelectOption {
   options: ISelectOptionProps[];
   name: string;
+  handleOnChange?: (value: any, name: string) => void;
   disabled?: boolean;
   className?: string;
   initialValue?: any;
   placeholder?: string;
   rules?: any[];
   validateTrigger?: any;
-  onChange?: any;
+  placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight' | 'topLeft';
 }
 export interface ISelectOptionProps {
   label: string;

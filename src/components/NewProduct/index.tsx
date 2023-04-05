@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable prefer-const */
 /* eslint-disable new-cap */
 /* eslint-disable curly */
@@ -5,9 +6,9 @@ import { Breadcrumb, Button, Form, Layout, Space, theme } from 'antd';
 import { cloneDeep } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { CATEGORY_KEY, NAME_ACTION, NAME_DROPDOWNS } from '../../constants/const';
-import { IDropdown, SPECS } from '../../types/types';
+import { useNavigate } from 'react-router-dom';
+import { NAME_ACTION } from '../../constants/const';
+import { SPECS } from '../../types/types';
 import { TypeOf } from '../../utils/CheckTypeOfValue';
 import { getListCategoryService } from '../redux/Slices/CategorySlice';
 import { setImageAction } from '../redux/Slices/ImageSlice';
@@ -19,7 +20,6 @@ import {
 } from '../redux/Slices/ProductSlice';
 import { RootState } from '../redux/store/store';
 import { openMessage } from '../services/general.service';
-import { FormCategories } from './Components/FormCategories';
 import { FormGeneral } from './Components/FormGeneral';
 import { FormProductImages } from './Components/FormImages';
 import { FormInventories } from './Components/FormInventories';
@@ -35,12 +35,9 @@ let listImages: any = [];
 
 export const NewProduct = () => {
   const [nameCategory, setNameCategory] = useState<string>('');
-  const { dropdowns } = useSelector((state: RootState) => state.primary);
-  const { action, loading, products, keyProduct } = useSelector(
-    (state: RootState) => state.product,
-  );
-
-  const { productId, categoryId } = useParams();
+  const { categories } = useSelector((state: RootState) => state.category);
+  const { action, loading, products, keyProduct } = useSelector((state: RootState) => state.product);
+  const { categoryId, productId } = Object.fromEntries(new URLSearchParams(window.location.search));
 
   const childRef = useRef<any>(null);
   const [form] = Form.useForm();
@@ -67,16 +64,12 @@ export const NewProduct = () => {
   }, [productId, categoryId]);
 
   const handleLoadCreateProduct = (key: string | undefined) => {
-    if (!key || !Object.values(CATEGORY_KEY).includes(key as CATEGORY_KEY)) {
+    const category = categories.find((c) => c.id === key);
+    if (!category) {
       navigate('/products');
       return;
     }
-    const list = dropdowns?.filter(
-      (item: IDropdown) => item.name === NAME_DROPDOWNS.CATEGORY_PRODUCT,
-    );
-    const isValid = list[0]?.dropdowns?.filter((o: any) => o.value === key);
-    setNameCategory(isValid ? isValid[0]?.label : '');
-
+    setNameCategory(category.name);
     form.setFieldsValue({ status: true });
   };
 
@@ -277,7 +270,6 @@ export const NewProduct = () => {
                   <FormMeta handleChange={handleChange} />
                 </div>
               </div>
-              <FormCategories handleChange={handleChange} />
               <FormProductDescription
                 childRef={childRef}
                 productId={productId}

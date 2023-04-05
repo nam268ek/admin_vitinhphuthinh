@@ -1,12 +1,17 @@
 import { NAME_ACTION } from '../../../constants/const';
 
+export interface Path {
+  id: string;
+  name: string;
+}
 export interface ICategories {
   id: string;
   name: string;
   category: string;
-  categoryCode: string;
-  index: string;
-  parent: string | undefined;
+  slug: string;
+  parent: string;
+  path: Path[];
+  updatedAt: string;
 }
 export interface IStateCategories {
   loading: boolean;
