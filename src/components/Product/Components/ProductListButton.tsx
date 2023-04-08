@@ -1,14 +1,16 @@
 import { DownOutlined } from '@ant-design/icons';
-import { Button, Dropdown, message, Space } from 'antd';
-import React from 'react';
+import { Button, Dropdown } from 'antd';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getDeleteListProductService } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
 import { DropDownNewProduct } from './DropDownNewProduct';
+import { ModalProductAction } from '../../ModalProductAction';
 
-export const ProductListButton: React.FC<any> = ({ selectedIds }) => {
+export const ProductListButton: React.FC<any> = ({ selectedIds, resetSelection }) => {
   const { products } = useSelector((state: RootState) => state.product);
+  const [open, setOpen] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,10 +24,8 @@ export const ProductListButton: React.FC<any> = ({ selectedIds }) => {
         await dispatch(getDeleteListProductService({ ids: selectedIds }));
         break;
       case '2':
-        if (selectedIds.length === 1) {
-          navigate(`${location.pathname}/${selectedIds[0]}`);
-        } else {
-          message.error('Vui lòng chỉ chọn 1 sản phẩm');
+        if (selectedIds.length > 0) {
+          setOpen(true);
         }
         break;
     }
@@ -47,23 +47,29 @@ export const ProductListButton: React.FC<any> = ({ selectedIds }) => {
     onClick: (e: any) => handleActionDropdown(e),
   };
 
+  const handleCancelModal = () => {
+    setOpen(false);
+  };
+
   return (
-    <div className="flex mb-4 justify-between">
-      <p className="text-2xl m-0 flex items-center w-full">Sản phẩm</p>
-      <div className="flex justify-end w-full">
-        {selectedIds?.length > 0 && (
-          <p className="flex items-center m-0 text-gray-600">
-            Đã chọn {selectedIds?.length}/{products?.length} sản phẩm
-          </p>
-        )}
-        <Dropdown disabled={!hasSelected} menu={menu} trigger={['click']}>
-          <Button icon={<DownOutlined />}>Action</Button>
-        </Dropdown>
-        <div className="flex w-full">
-          {/* <ExcelBotton products={products} /> */}
-          <DropDownNewProduct />
+    <>
+      <ModalProductAction resetSelection={resetSelection} ids={selectedIds} handleCancel={handleCancelModal} isOpen={open} />
+      <div className="flex mb-4 justify-between">
+        <p className="text-2xl m-0 flex items-center w-full">Sản phẩm</p>
+        <div className="flex justify-end w-full">
+          {selectedIds?.length > 0 && (
+            <p className="flex items-center m-0 text-gray-600">
+              Đã chọn {selectedIds?.length}/{products?.length} sản phẩm
+            </p>
+          )}
+          <Dropdown disabled={!hasSelected} menu={menu} trigger={['click']}>
+            <Button icon={<DownOutlined />}>Action</Button>
+          </Dropdown>
+          <div className="flex w-full">
+            <DropDownNewProduct />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

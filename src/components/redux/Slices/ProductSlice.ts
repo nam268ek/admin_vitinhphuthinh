@@ -3,22 +3,27 @@ import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { IProductState } from '../../../types/types';
 
-export const getCreateProductService: any = createAsyncThunk(
-  NAME_ACTION.CREATE_PRODUCT,
-  async (params, { rejectWithValue }) => {
-    try {
-      const response = await requestService.createProductService(params);
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
-export const getUpdateProductService: any = createAsyncThunk(
+export const getCreateProductService: any = createAsyncThunk(NAME_ACTION.CREATE_PRODUCT, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.createProductService(params);
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
+export const getUpdateProductService: any = createAsyncThunk(NAME_ACTION.UPDATE_PRODUCT, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.updateProductService(params);
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
+export const getUpdateManyProductService: any = createAsyncThunk(
   NAME_ACTION.UPDATE_PRODUCT,
   async (params, { rejectWithValue }) => {
     try {
-      const response = await requestService.updateProductService(params);
+      const response = await requestService.updateManyProductService(params);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -47,17 +52,14 @@ export const getDeleteListProductService: any = createAsyncThunk(
     }
   },
 );
-export const getListProductService: any = createAsyncThunk(
-  NAME_ACTION.GET_PRODUCT,
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await requestService.listProductService();
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const getListProductService: any = createAsyncThunk(NAME_ACTION.GET_PRODUCT, async (_, { rejectWithValue }) => {
+  try {
+    const response = await requestService.listProductService();
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
 export const getCreateProductInventoryService: any = createAsyncThunk(
   NAME_ACTION.CREATE_PRODUCT_INVENTORY,
@@ -117,6 +119,15 @@ const productSlice = createSlice({
     },
   },
   extraReducers: {
+    [getUpdateManyProductService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUpdateManyProductService.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [getUpdateManyProductService.rejected]: (state) => {
+      state.loading = false;
+    },
     [getListProductService.pending]: (state) => {
       state.loading = true;
     },

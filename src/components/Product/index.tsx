@@ -1,12 +1,12 @@
 import { Breadcrumb, Layout, theme } from 'antd';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Search } from '../Search/Search';
+import { getListCategoryService } from '../redux/Slices/CategorySlice';
 import { getListProductService } from '../redux/Slices/ProductSlice';
 import { RootState } from '../redux/store/store';
-import { Search } from '../Search/Search';
 import { ProductListButton } from './Components/ProductListButton';
-import { TableListProduct } from './Components/TableListProducts';
-import { getListCategoryService } from '../redux/Slices/CategorySlice';
+import TableListProduct from './Components/TableListProducts';
 
 const { Header, Content } = Layout;
 
@@ -24,12 +24,13 @@ export const Products: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  const resetSelection = () => {
+    setSelectedIds([]);
+  };
+
   return (
     <>
-      <Header
-        className="sticky top-0 z-1 w-full flex"
-        style={{ background: colorBgContainer, paddingInline: '35px' }}
-      >
+      <Header className="sticky top-0 z-1 w-full flex" style={{ background: colorBgContainer, paddingInline: '35px' }}>
         <div className="w-full flex items-center">
           <Search listItems={products} />
         </div>
@@ -40,8 +41,8 @@ export const Products: React.FC = () => {
           <Breadcrumb.Item>List</Breadcrumb.Item>
         </Breadcrumb>
         <div style={{ background: colorBgContainer }} className="px-5 py-6 min-h-full">
-          <ProductListButton selectedIds={selectedIds} />
-          <TableListProduct setSelectedIds={setSelectedIds} />
+          <ProductListButton selectedIds={selectedIds} resetSelection={resetSelection} />
+          <TableListProduct setSelectedIds={setSelectedIds} selectedIds={selectedIds} />
         </div>
       </Content>
     </>

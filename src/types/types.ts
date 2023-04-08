@@ -340,7 +340,8 @@ export interface DataTypeProduct {
   updatedAt: any;
   quantity: number;
   category: any;
-  brand: any;
+  brand: IBrand;
+  isFeatured?: string;
 }
 
 export interface DataTypeCategory {
@@ -369,10 +370,11 @@ export interface IProducts {
   isNewProduct: boolean;
   description: string;
   productInformation: IProductInformation;
-  priceSale?: number;
-  quantity?: number;
   createdAt: string;
   updatedAt: string;
+  priceSale?: number;
+  quantity?: number;
+  isFeatured?: string;
 }
 export interface IProductSpesc {
   k: string;
@@ -401,8 +403,8 @@ export interface IProductInformation {
   content: string;
 }
 export interface ISelectOption {
-  options: ISelectOptionProps[];
   name: string;
+  options?: ISelectOptionProps[];
   handleOnChange?: (value: any, name: string) => void;
   disabled?: boolean;
   className?: string;
@@ -470,8 +472,10 @@ export interface BrandState {
 }
 export interface IBrand {
   id: string;
-  brandName: string;
+  name: string;
   logo?: IImage;
+  createdAt?: string;
+  updatedAt?: string;
 }
 export enum SPECS {
   model = 'model',

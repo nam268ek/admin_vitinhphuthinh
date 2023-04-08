@@ -72,11 +72,7 @@ export const DropDownNewProduct: React.FC = () => {
           validateTrigger={['onsubmit']}
           placement="bottomRight"
         />
-        <Button
-          htmlType="submit"
-          onClick={handleCreate}
-          className="btn-green flex items-center jus border-0"
-        >
+        <Button htmlType="submit" onClick={handleCreate} className="btn-green flex items-center jus border-0">
           <span className="pb-[2px] mr-2">Thêm sản phẩm</span> <ChevronsRight size={20} />
         </Button>
       </Form>

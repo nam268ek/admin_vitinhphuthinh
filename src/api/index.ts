@@ -12,6 +12,10 @@ export const requestService = {
     const url = '/products/update';
     return instance.put(url, params);
   },
+  updateManyProductService: (params: any) => {
+    const url = '/products/update-many';
+    return instance.put(url, params);
+  },
   deleteListProductService: (params: any) => {
     const url = '/products/remove';
     return instance.delete(url, { data: params });
