@@ -43,9 +43,7 @@ export const TableListOrders: React.FC<any> = ({ setSelectedIds, selectedIds }) 
       title: 'Giá trị',
       dataIndex: 'totalOrderValue',
       key: 'totalOrderValue',
-      render: (totalOrderValue: string) => (
-        <span>{formatMoney.format(Number(totalOrderValue))}</span>
-      ),
+      render: (totalOrderValue: string) => <span>{formatMoney.format(Number(totalOrderValue))}</span>,
     },
     {
       title: 'Số lượng',
@@ -89,20 +87,11 @@ export const TableListOrders: React.FC<any> = ({ setSelectedIds, selectedIds }) 
       case ORDER_STATUS.CANCEL:
         return <Badge key={Math.random()} count={orderStatus} />;
       default:
-        return (
-          <Badge
-            className="site-badge-count-109"
-            count={orderStatus}
-            style={{ backgroundColor: '#52c41a' }}
-          />
-        );
+        return <Badge className="site-badge-count-109" count={orderStatus} style={{ backgroundColor: '#52c41a' }} />;
     }
   };
 
-  const handleUpdateProduct = async (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    item: any,
-  ) => {
+  const handleUpdateProduct = async (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, item: any) => {
     e.preventDefault();
     dispatch(setOrderAction(NAME_ACTION.UPDATE_ORDER));
     navigate(`${location.pathname}/${item.id}`);
@@ -111,8 +100,7 @@ export const TableListOrders: React.FC<any> = ({ setSelectedIds, selectedIds }) 
   const convertListOrders = (list: IOrder[]) => {
     return (
       list?.map((item: IOrder, index: number) => {
-        const { id, orderQty, orderDate, orderStatus, totalOrderValue, customer, orderedItem } =
-          item;
+        const { id, orderQty, orderDate, orderStatus, totalOrderValue, customer, orderedItem } = item;
         return {
           key: index + 1,
           id,
@@ -129,12 +117,6 @@ export const TableListOrders: React.FC<any> = ({ setSelectedIds, selectedIds }) 
   const data: DataTypeOrder[] = convertListOrders(orders);
 
   return (
-    <Table
-      rowKey={(record) => record.id}
-      rowSelection={rowSelection}
-      columns={columns}
-      dataSource={data}
-      loading={loading}
-    />
+    <Table rowKey={(record) => record.id} rowSelection={rowSelection} columns={columns} dataSource={data} loading={loading} />
   );
 };

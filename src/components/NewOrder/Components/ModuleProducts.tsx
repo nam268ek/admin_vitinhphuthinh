@@ -49,15 +49,12 @@ export const ModuleProducts: React.FC = () => {
       dataIndex: 'priceSale',
       key: 'priceSale',
       width: 120,
-      render: (price: any) => (
-        <span className="price-product">{formatMoney.format(Number(price))}</span>
-      ),
+      render: (price: any) => <span className="price-product">{formatMoney.format(Number(price))}</span>,
     },
   ];
 
   const processAction = (item: any) => {
-    const isInOrder =
-      orders?.filter((itemOrder: any) => itemOrder.id === item.id).length > 0 ? true : false;
+    const isInOrder = orders?.filter((itemOrder: any) => itemOrder.id === item.id).length > 0 ? true : false;
     if (!isInOrder) {
       return (
         <Link to="" className="add-item" onClick={(e) => handleUpdateProduct(e, item)}>

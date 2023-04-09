@@ -7,11 +7,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { UPLOAD_KEY } from '../../constants/const';
 import { ImageUploadModalProps } from '../../types/types';
-import {
-  getRemoveImageUploadService,
-  getUploadImageService,
-  updateImageUploadedAction,
-} from '../redux/Slices/ImageSlice';
+import { getRemoveImageUploadService, getUploadImageService, updateImageUploadedAction } from '../redux/Slices/ImageSlice';
 import { RootState } from '../redux/store/store';
 import { convertTypeUploadImageList, openMessage } from '../services/general.service';
 

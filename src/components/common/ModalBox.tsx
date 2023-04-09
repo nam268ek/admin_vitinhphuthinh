@@ -52,11 +52,7 @@ const ModalBox: React.FC<any> = forwardRef(({ status, cancel }, ref) => {
                     <div className="content-left">
                       <div className="item">
                         <div className="i-img">
-                          {item.img?.length > 0 ? (
-                            <img src={item.img[0].secure_url} alt="product" />
-                          ) : (
-                            <ImageDefault />
-                          )}
+                          {item.img?.length > 0 ? <img src={item.img[0].secure_url} alt="product" /> : <ImageDefault />}
                         </div>
                       </div>
                       <div className="item">
@@ -141,11 +137,7 @@ const ModalBox: React.FC<any> = forwardRef(({ status, cancel }, ref) => {
                 <div className="form-group">
                   <div className="i-sub">
                     <p className="title-price">Phương thức thanh toán</p>
-                    <Input
-                      className="select-category"
-                      value={viewItemOrder[0]?.priord?.payment}
-                      disabled
-                    ></Input>
+                    <Input className="select-category" value={viewItemOrder[0]?.priord?.payment} disabled></Input>
                   </div>
                 </div>
                 <div className="form-group">
@@ -165,20 +157,12 @@ const ModalBox: React.FC<any> = forwardRef(({ status, cancel }, ref) => {
                 </div>
                 <div className="row">
                   <div className="i-sub">
-                    <Input
-                      disabled
-                      addonBefore="Giảm giá"
-                      value={formatMoney.format(viewItemOrder[0]?.priord?.discount)}
-                    />
+                    <Input disabled addonBefore="Giảm giá" value={formatMoney.format(viewItemOrder[0]?.priord?.discount)} />
                   </div>
                 </div>
                 <div className="row">
                   <div className="i-sub">
-                    <Input
-                      disabled
-                      addonBefore="Phí Ship."
-                      value={formatMoney.format(viewItemOrder[0]?.priord?.feeship)}
-                    />
+                    <Input disabled addonBefore="Phí Ship." value={formatMoney.format(viewItemOrder[0]?.priord?.feeship)} />
                   </div>
                 </div>
               </div>

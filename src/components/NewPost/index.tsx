@@ -7,11 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
 import { TypeOf } from '../../utils/CheckTypeOfValue';
 import { setImageAction } from '../redux/Slices/ImageSlice';
-import {
-  getCreatePostService,
-  getListPostsService,
-  getUpdatePostService,
-} from '../redux/Slices/PostSlice';
+import { getCreatePostService, getListPostsService, getUpdatePostService } from '../redux/Slices/PostSlice';
 import { RootState } from '../redux/store/store';
 import { openMessage } from '../services/general.service';
 import { FormBlogBasic } from './Components/FormBlogBasic';
@@ -138,9 +134,7 @@ export const NewPost: React.FC = () => {
         className="sticky top-0 z-10 w-full flex items-center justify-between border-t-0 border-x-0 border-b border-solid border-[#eee]"
         style={{ background: colorBgContainer, paddingInline: '35px' }}
       >
-        <p className="text-2xl m-0 flex items-center">
-          {`${action === NAME_ACTION.CREATE_ORDER ? 'Tạo' : 'Cập nhật'}`} bài đăng
-        </p>
+        <p className="text-2xl m-0 flex items-center">{`${action === NAME_ACTION.CREATE_ORDER ? 'Tạo' : 'Cập nhật'}`} bài đăng</p>
         <Form onFinish={onFinish} form={form}>
           <Form.Item noStyle>
             <Space>

@@ -25,18 +25,9 @@ export const SelectOption: React.FC<ISelectService> = ({
 
   const { Option } = Select;
   const dataCategory = listAllCategory.map((item: any) => item.title);
-  const dataBrand =
-    listDropDown.length > 0
-      ? listDropDown[0]['dropdown']['list-brand'].map((brand: any) => brand.label)
-      : [];
-  const dataStatus =
-    listDropDown.length > 0
-      ? listDropDown[0]['dropdown']['list-status'].map((brand: any) => brand.label)
-      : [];
-  const dataPayment =
-    listDropDown.length > 0
-      ? listDropDown[0]['dropdown']['list-payment'].map((brand: any) => brand.label)
-      : [];
+  const dataBrand = listDropDown.length > 0 ? listDropDown[0]['dropdown']['list-brand'].map((brand: any) => brand.label) : [];
+  const dataStatus = listDropDown.length > 0 ? listDropDown[0]['dropdown']['list-status'].map((brand: any) => brand.label) : [];
+  const dataPayment = listDropDown.length > 0 ? listDropDown[0]['dropdown']['list-payment'].map((brand: any) => brand.label) : [];
 
   const handleChange = (e: any, select: any) => {
     setSelectedValues(e);
@@ -80,12 +71,7 @@ export const SelectOption: React.FC<ISelectService> = ({
     );
   } else if (isBrand) {
     return (
-      <Select
-        className={className}
-        placeholder={placeholder}
-        onChange={(e) => handleChange(e, 'brand')}
-        value={selectedValues}
-      >
+      <Select className={className} placeholder={placeholder} onChange={(e) => handleChange(e, 'brand')} value={selectedValues}>
         {dataBrand?.map((item: any, index: any) => (
           <Option key={index} value={item}>
             {item}
@@ -95,12 +81,7 @@ export const SelectOption: React.FC<ISelectService> = ({
     );
   } else if (isStatus) {
     return (
-      <Select
-        className={className}
-        placeholder={placeholder}
-        onChange={(e) => handleChange(e, 'status')}
-        value={selectedValues}
-      >
+      <Select className={className} placeholder={placeholder} onChange={(e) => handleChange(e, 'status')} value={selectedValues}>
         {dataStatus?.map((item: any, index: any) => (
           <Option key={index} value={item}>
             {item}
@@ -110,11 +91,7 @@ export const SelectOption: React.FC<ISelectService> = ({
     );
   } else if (isPayment) {
     return (
-      <Form.Item
-        name="payment"
-        className={className}
-        initialValue={dataUpdate[0] ? dataUpdate[0].priord.payment : ''}
-      >
+      <Form.Item name="payment" className={className} initialValue={dataUpdate[0] ? dataUpdate[0].priord.payment : ''}>
         <Select placeholder={placeholder} value={selectedValues} disabled={disabled}>
           {dataPayment?.map((item: any, index: any) => (
             <Option key={index} value={item}>

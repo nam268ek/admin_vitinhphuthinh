@@ -40,11 +40,7 @@ export const OrderListProductAddToCart: React.FC = () => {
 
   return (
     <>
-      <ModalListProductsV2
-        listProductSelect={listProductSelect}
-        open={isModalOpen}
-        setOpen={setIsModalOpen}
-      />
+      <ModalListProductsV2 listProductSelect={listProductSelect} open={isModalOpen} setOpen={setIsModalOpen} />
       {cartItem?.length === 0 ? (
         <Empty
           image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
@@ -95,9 +91,7 @@ export const OrderListProductAddToCart: React.FC = () => {
                       <div className="bg-white flex flex-row border-0 items-center justify-between py-4">
                         <div className="w-8 pr-4"></div>
                         <div className="text-sm pr-4 w-28">-</div>
-                        <div className="text-sm pr-4 w-28">
-                          {formatMoney.format(products[0].priceSale)}
-                        </div>
+                        <div className="text-sm pr-4 w-28">{formatMoney.format(products[0].priceSale)}</div>
                         <div className="text-sm pr-4 w-52">
                           <InputNumber min={1} defaultValue={1} />
                         </div>

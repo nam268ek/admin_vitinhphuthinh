@@ -5,11 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../../constants/const';
 import { history } from '../../../utils/history';
-import {
-  getListOrderService,
-  setOrderAction,
-  getRemoveOrderService,
-} from '../../redux/Slices/OrderSlice';
+import { getListOrderService, setOrderAction, getRemoveOrderService } from '../../redux/Slices/OrderSlice';
 import { RootState } from '../../redux/store/store';
 import { openMessage } from '../../services/general.service';
 import { ModelStatus } from './ModelStatus';
@@ -82,30 +78,16 @@ export const OrderListButton: React.FC<any> = ({ selectedIds, setSelectedIds }) 
 
   return (
     <div className="flex mb-4 justify-between">
-      <ModelStatus
-        setSelectedIds={setSelectedIds}
-        listItemSelect={selectedIds}
-        open={isModalOpen}
-        setOpen={setIsModalOpen}
-      />
+      <ModelStatus setSelectedIds={setSelectedIds} listItemSelect={selectedIds} open={isModalOpen} setOpen={setIsModalOpen} />
       <p className="text-2xl m-0 flex items-center">Đơn hàng</p>
       <Space align="end">
-        <Dropdown.Button
-          disabled={!hasSelected}
-          menu={menu}
-          trigger={['click']}
-          icon={<DownOutlined />}
-        >
+        <Dropdown.Button disabled={!hasSelected} menu={menu} trigger={['click']} icon={<DownOutlined />}>
           Action
         </Dropdown.Button>
         <Tooltip placement="right" title="Refresh & Sync data">
           <Button type="default" icon={<SyncOutlined />} onClick={handleSyncData}></Button>
         </Tooltip>
-        <Button
-          className="flex items-center btn-green border-0"
-          icon={<PlusOutlined />}
-          onClick={handleCreateOrder}
-        >
+        <Button className="flex items-center btn-green border-0" icon={<PlusOutlined />} onClick={handleCreateOrder}>
           <span className="uppercase">Tạo đơn hàng</span>
         </Button>
       </Space>

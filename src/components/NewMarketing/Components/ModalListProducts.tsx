@@ -80,9 +80,7 @@ export const ModalListProducts: React.FC<any> = ({ open, setOpen }) => {
       title: 'Giá bán',
       dataIndex: 'priceSale',
       key: 'priceSale',
-      render: (priceSale: any) => (
-        <span className="price-product">{formatMoney.format(Number(priceSale))}</span>
-      ),
+      render: (priceSale: any) => <span className="price-product">{formatMoney.format(Number(priceSale))}</span>,
     },
     {
       title: 'Số lượng',
@@ -95,13 +93,7 @@ export const ModalListProducts: React.FC<any> = ({ open, setOpen }) => {
       key: 'status',
       dataIndex: 'status',
       render: (value: any, item: DataTypeProduct) => (
-        <Switch
-          key={item.id}
-          checked={value}
-          disabled
-          checkedChildren="ON"
-          unCheckedChildren="OFF"
-        />
+        <Switch key={item.id} checked={value} disabled checkedChildren="ON" unCheckedChildren="OFF" />
       ),
     },
   ];

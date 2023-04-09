@@ -4,17 +4,14 @@ import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { MarketingState } from '../../../types/types';
 
-export const getListMarketingsService: any = createAsyncThunk(
-  NAME_ACTION.GET_MARKETINGS,
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await requestService.listMarketingsService();
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const getListMarketingsService: any = createAsyncThunk(NAME_ACTION.GET_MARKETINGS, async (_, { rejectWithValue }) => {
+  try {
+    const response = await requestService.listMarketingsService();
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
 export const getCreateMarketingService: any = createAsyncThunk(
   NAME_ACTION.CREATE_MARKETINGS,

@@ -17,9 +17,7 @@ export const OrderSummary: React.FC<any> = ({ onChange, form }) => {
   }, [dropdowns]);
 
   const handleListDropdown = () => {
-    const list = dropdowns?.filter(
-      (item: IDropdown) => item.name === NAME_DROPDOWNS.PAYMENT_METHOD,
-    );
+    const list = dropdowns?.filter((item: IDropdown) => item.name === NAME_DROPDOWNS.PAYMENT_METHOD);
     if (list.length > 0) {
       setOptions(list[0].dropdowns);
     }

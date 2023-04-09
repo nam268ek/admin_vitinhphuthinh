@@ -32,19 +32,16 @@ export const getUpdateCategoryService: any = createAsyncThunk(
   },
 );
 
-export const getListCategoryService: any = createAsyncThunk(
-  NAME_ACTION.GET_CATEGORY,
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await requestService.listCategoryService();
-      return response;
-    } catch (error: any) {
-      if (error) {
-        return rejectWithValue(error.response.data);
-      }
+export const getListCategoryService: any = createAsyncThunk(NAME_ACTION.GET_CATEGORY, async (_, { rejectWithValue }) => {
+  try {
+    const response = await requestService.listCategoryService();
+    return response;
+  } catch (error: any) {
+    if (error) {
+      return rejectWithValue(error.response.data);
     }
-  },
-);
+  }
+});
 
 export const getRemoveCategoryService: any = createAsyncThunk(
   NAME_ACTION.REMOVE_CATEGORY,

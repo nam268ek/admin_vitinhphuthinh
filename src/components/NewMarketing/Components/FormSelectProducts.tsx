@@ -88,11 +88,7 @@ export const FormSelectProducts = () => {
             Thêm sản phẩm
           </Button>
         </div>
-        <ModalListProducts
-          listProductSelect={listProductSelect}
-          open={isModalOpen}
-          setOpen={setIsModalOpen}
-        />
+        <ModalListProducts listProductSelect={listProductSelect} open={isModalOpen} setOpen={setIsModalOpen} />
       </div>
 
       <div className="shadow-content">
@@ -121,13 +117,10 @@ export const FormSelectProducts = () => {
                       size={40}
                       shape="square"
                       src="https://avatars.githubusercontent.com/u/8084606?v=4"
-                      icon={
-                        <UserOutlined className="d-flex justify-content-between align-items-center" />
-                      }
+                      icon={<UserOutlined className="d-flex justify-content-between align-items-center" />}
                     />
                     <span className="font-normal text-ellipsis text-base">
-                      Avatars can be used to represent people or objects. It supports images, Icons,
-                      or letters.
+                      Avatars can be used to represent people or objects. It supports images, Icons, or letters.
                     </span>
                   </div>
                   <div className="text-sm pr-4 w-20">
@@ -137,9 +130,7 @@ export const FormSelectProducts = () => {
                 <div className="bg-white flex flex-row border-0 items-center justify-between py-4">
                   <div className="w-8 pr-4"></div>
                   <div className="text-sm pr-4 w-28">-</div>
-                  <div className="text-sm pr-4 w-28">
-                    {formatMoney.format(products[0].priceSale)}
-                  </div>
+                  <div className="text-sm pr-4 w-28">{formatMoney.format(products[0].priceSale)}</div>
                   <div className="text-sm pr-4 w-52">
                     <InputNumber min={1} addonAfter="VNĐ" />
                   </div>
@@ -149,9 +140,7 @@ export const FormSelectProducts = () => {
                   </div>
                   <div className="text-sm pr-4 w-20"></div>
                 </div>
-                {products?.length - 1 !== index && (
-                  <div className="mt-5 border-0 border-b border-solid border-[#e3e3e3]"></div>
-                )}
+                {products?.length - 1 !== index && <div className="mt-5 border-0 border-b border-solid border-[#e3e3e3]"></div>}
               </div>
             ))}
           </div>

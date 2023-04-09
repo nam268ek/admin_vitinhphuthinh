@@ -40,9 +40,7 @@ export const ModelStatus: React.FC<any> = ({ open, setOpen, listItemSelect, setS
   };
 
   const handleListDropdown = () => {
-    const list = dropdowns?.filter(
-      (item: IDropdown) => item.name === NAME_DROPDOWNS.ORDER_STATUS_S,
-    );
+    const list = dropdowns?.filter((item: IDropdown) => item.name === NAME_DROPDOWNS.ORDER_STATUS_S);
     if (list.length > 0) {
       setOptions(list[0].dropdowns);
     }

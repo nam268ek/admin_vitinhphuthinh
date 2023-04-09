@@ -4,52 +4,40 @@ import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { PostState } from '../../../types/types';
 
-export const getListPostsService: any = createAsyncThunk(
-  NAME_ACTION.GET_LIST_POSTS,
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await requestService.listPostsService();
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const getListPostsService: any = createAsyncThunk(NAME_ACTION.GET_LIST_POSTS, async (_, { rejectWithValue }) => {
+  try {
+    const response = await requestService.listPostsService();
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
-export const getCreatePostService: any = createAsyncThunk(
-  NAME_ACTION.CREATE_POST,
-  async (params, { rejectWithValue }) => {
-    try {
-      const response = await requestService.createPostService(params);
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const getCreatePostService: any = createAsyncThunk(NAME_ACTION.CREATE_POST, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.createPostService(params);
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
-export const getUpdatePostService: any = createAsyncThunk(
-  NAME_ACTION.UPDATE_POST,
-  async (params, { rejectWithValue }) => {
-    try {
-      const response = await requestService.updatePostService(params);
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
-export const getDeleteListPostService: any = createAsyncThunk(
-  NAME_ACTION.REMOVE_POST,
-  async (params, { rejectWithValue }) => {
-    try {
-      const response = await requestService.deleteListPostsService(params);
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const getUpdatePostService: any = createAsyncThunk(NAME_ACTION.UPDATE_POST, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.updatePostService(params);
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
+export const getDeleteListPostService: any = createAsyncThunk(NAME_ACTION.REMOVE_POST, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.deleteListPostsService(params);
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
 const initialState: PostState = {
   action: NAME_ACTION.CREATE_POST,
   loading: false,

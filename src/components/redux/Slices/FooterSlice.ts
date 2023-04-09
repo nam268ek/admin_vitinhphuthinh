@@ -3,50 +3,38 @@ import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { FooterState } from '../../../types/types';
 
-export const getListFootersService: any = createAsyncThunk(
-  NAME_ACTION.GET_LIST_FOOTERS,
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await requestService.getListFooterService();
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
-export const getListPoliciesService: any = createAsyncThunk(
-  NAME_ACTION.GET_LIST_POLICY,
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await requestService.listPoliciesService();
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
-export const getUpdateFooterService: any = createAsyncThunk(
-  NAME_ACTION.UPDATE_FOOTER,
-  async (params, { rejectWithValue }) => {
-    try {
-      const response = await requestService.updateFooterService(params);
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
-export const getUpdatePolicyService: any = createAsyncThunk(
-  NAME_ACTION.UPDATE_POLICY,
-  async (params, { rejectWithValue }) => {
-    try {
-      const response = await requestService.updatePolicyService(params);
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const getListFootersService: any = createAsyncThunk(NAME_ACTION.GET_LIST_FOOTERS, async (_, { rejectWithValue }) => {
+  try {
+    const response = await requestService.getListFooterService();
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
+export const getListPoliciesService: any = createAsyncThunk(NAME_ACTION.GET_LIST_POLICY, async (_, { rejectWithValue }) => {
+  try {
+    const response = await requestService.listPoliciesService();
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
+export const getUpdateFooterService: any = createAsyncThunk(NAME_ACTION.UPDATE_FOOTER, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.updateFooterService(params);
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
+export const getUpdatePolicyService: any = createAsyncThunk(NAME_ACTION.UPDATE_POLICY, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.updatePolicyService(params);
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
 const initialState: FooterState = {
   action: NAME_ACTION.CREATE_FOOTER,

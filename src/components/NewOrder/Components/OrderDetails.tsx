@@ -93,9 +93,7 @@ export const OrderDetails: React.FC<any> = ({ onChange, orderId, isReset }) => {
 
   return (
     <>
-      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
-        Order Detail
-      </figcaption>
+      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">Order Detail</figcaption>
       <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
         {listItems?.map((item: any, index: number) => (
           <div key={index}>
@@ -104,10 +102,7 @@ export const OrderDetails: React.FC<any> = ({ onChange, orderId, isReset }) => {
                 <div className="content-left">
                   <div className="item">
                     <div className="i-img">
-                      <Image
-                        style={{ display: 'block', width: '5em' }}
-                        src={item?.listImages[0]?.thumbUrl}
-                      />
+                      <Image style={{ display: 'block', width: '5em' }} src={item?.listImages[0]?.thumbUrl} />
                     </div>
                   </div>
                   <div className="item w-100">

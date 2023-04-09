@@ -15,12 +15,7 @@ type TreeCategoryProps = {
   handleChange: any;
 };
 
-export const TreeCategory: React.FC<TreeCategoryProps> = ({
-  handleChange,
-  className,
-  isFeedback = true,
-  style,
-}) => {
+export const TreeCategory: React.FC<TreeCategoryProps> = ({ handleChange, className, isFeedback = true, style }) => {
   const { categories } = useSelector((state: RootState) => state.category);
   const [options, setOptions] = useState<any>([]);
   const dispatch = useDispatch();
@@ -54,11 +49,7 @@ export const TreeCategory: React.FC<TreeCategoryProps> = ({
       className={className}
       rules={[{ required: true, message: 'Vui lòng chọn danh mục' }]}
     >
-      <Select
-        options={options}
-        onChange={(e) => handleChange(e, 'category')}
-        placeholder="Chọn danh mục"
-      />
+      <Select options={options} onChange={(e) => handleChange(e, 'category')} placeholder="Chọn danh mục" />
     </Form.Item>
   );
 };

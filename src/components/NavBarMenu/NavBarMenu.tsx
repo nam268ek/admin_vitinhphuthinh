@@ -41,10 +41,7 @@ const items: MenuItem[] = [
   getItem('Danh mục', '4', <BiCategoryAlt />),
   // getItem('Marketing', '5', <ContainerOutlined />),
   getItem('Bài đăng', '6', <AiOutlineLayout />),
-  getItem('Settings', 'sub1', <IoSettingsOutline />, [
-    getItem('Footer', '7'),
-    getItem('Chính sách', '8'),
-  ]),
+  getItem('Settings', 'sub1', <IoSettingsOutline />, [getItem('Footer', '7'), getItem('Chính sách', '8')]),
   getItem('Đăng xuất', '9', <LogoutOutlined />),
 ];
 
@@ -171,9 +168,7 @@ const NavbarMenu: React.FC<any> = ({ width, setWidth }) => {
           </div>
           <div className="my-9 flex flex-col justify-center items-center">
             <p className="mb-1 text-[#dadadad3]">Tổng giá trị kho hàng</p>
-            <h3 className="text-3xl mb-1 font-medium text-[#e7e7e7]">
-              {formatMoney.format(Number(totalValueStore))}
-            </h3>
+            <h3 className="text-3xl mb-1 font-medium text-[#e7e7e7]">{formatMoney.format(Number(totalValueStore))}</h3>
           </div>
         </>
       )}

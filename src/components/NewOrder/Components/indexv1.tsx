@@ -88,9 +88,7 @@ export const NewOrderss: React.FC = () => {
         className="sticky top-0 z-10 w-full flex items-center justify-between border-t-0 border-x-0 border-b border-solid border-[#eee]"
         style={{ background: colorBgContainer, paddingInline: '35px' }}
       >
-        <p className="text-2xl m-0 flex items-center">
-          {`${action === NAME_ACTION.CREATE_ORDER ? 'Tạo' : 'Cập nhật'}`} đơn hàng
-        </p>
+        <p className="text-2xl m-0 flex items-center">{`${action === NAME_ACTION.CREATE_ORDER ? 'Tạo' : 'Cập nhật'}`} đơn hàng</p>
         <Form onFinish={onFinish} form={form}>
           <Form.Item noStyle>
             <Space>

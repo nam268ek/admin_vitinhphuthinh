@@ -15,9 +15,7 @@ export const FormSelectNumberMarketings: React.FC<any> = ({ onChange, productId 
   }, [dropdowns]);
 
   const handleListDropdown = () => {
-    const list = dropdowns?.filter(
-      (item: IDropdown) => item.name === NAME_DROPDOWNS.NUMBER_PRODUCT_MARKETINGS,
-    );
+    const list = dropdowns?.filter((item: IDropdown) => item.name === NAME_DROPDOWNS.NUMBER_PRODUCT_MARKETINGS);
     if (list.length > 0) {
       setOptions(list[0].dropdowns);
       setSelectItem(list[0].dropdowns[0].value);
@@ -31,12 +29,7 @@ export const FormSelectNumberMarketings: React.FC<any> = ({ onChange, productId 
 
   return (
     <Input.Group compact>
-      <Select
-        value={selectItem}
-        className={selectItem === 'limit' ? 'w-50' : 'w-100'}
-        options={options}
-        onSelect={onSelect}
-      />
+      <Select value={selectItem} className={selectItem === 'limit' ? 'w-50' : 'w-100'} options={options} onSelect={onSelect} />
       {selectItem === 'limit' && <InputNumber min={1} className="w-50" />}
     </Input.Group>
   );

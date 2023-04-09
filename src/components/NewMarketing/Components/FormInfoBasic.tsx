@@ -45,9 +45,7 @@ export const FormInfoBasic: React.FC<any> = ({ onChange }) => {
 
   return (
     <figure>
-      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
-        Thông tin cơ bản
-      </figcaption>
+      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">Thông tin cơ bản</figcaption>
       <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
         <div className="grid grid-cols-2 grid-flow-col gap-4">
           <div className=" m-0">
@@ -63,11 +61,7 @@ export const FormInfoBasic: React.FC<any> = ({ onChange }) => {
                 },
               ]}
             >
-              <Input
-                maxLength={MAX_LENGTH_TEXT}
-                showCount
-                onChange={(e) => onChange(e, 'firstName')}
-              />
+              <Input maxLength={MAX_LENGTH_TEXT} showCount onChange={(e) => onChange(e, 'firstName')} />
             </Form.Item>
           </div>
           <div className="m-0">

@@ -4,17 +4,14 @@ import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { IImage, IImageState } from '../../../types/types';
 
-export const getUploadImageService: any = createAsyncThunk(
-  NAME_ACTION.CREATE_IMAGE,
-  async (params, { rejectWithValue }) => {
-    try {
-      const response = await requestService.uploadImageService(params);
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const getUploadImageService: any = createAsyncThunk(NAME_ACTION.CREATE_IMAGE, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.uploadImageService(params);
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
 export const getUploadImageCustomService: any = createAsyncThunk(
   NAME_ACTION.CREATE_IMAGE_CUSTOM,
   async (params, { rejectWithValue }) => {
@@ -37,17 +34,14 @@ export const getRemoveImageUploadService: any = createAsyncThunk(
     }
   },
 );
-export const getListImageService: any = createAsyncThunk(
-  NAME_ACTION.GET_IMAGE,
-  async (params, { rejectWithValue }) => {
-    try {
-      const response = await requestService.listImageService(params);
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const getListImageService: any = createAsyncThunk(NAME_ACTION.GET_IMAGE, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.listImageService(params);
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
 export const getUploadImageEditorService: any = createAsyncThunk(
   NAME_ACTION.UPLOAD_IMAGE_EDITOR,
   async (params, { rejectWithValue }) => {

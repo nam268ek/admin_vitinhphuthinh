@@ -11,11 +11,7 @@ import { IImageUpload } from '../../types/types';
 // } from '../redux/Slices/ProductSlice';
 import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
-import {
-  removeFileLayout,
-  setImageTempLayout,
-  uploadFileLayout,
-} from '../redux/Slices/LayoutSlice';
+import { removeFileLayout, setImageTempLayout, uploadFileLayout } from '../redux/Slices/LayoutSlice';
 
 const getSrcFromFile = (file: any) => {
   return new Promise((resolve) => {

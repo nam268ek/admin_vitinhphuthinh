@@ -2,15 +2,12 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../../api';
 // import { openDialogError } from "../../services/general.service";
 
-export const updateListImgLayout: any = createAsyncThunk(
-  'UPDATE_LIST_IMG_LAYOUT',
-  async (params: any) => {
-    const data: any = await requestService.reqListImgLayout(params).catch((err: any) => {
-      return err.response.data;
-    });
-    return data;
-  },
-);
+export const updateListImgLayout: any = createAsyncThunk('UPDATE_LIST_IMG_LAYOUT', async (params: any) => {
+  const data: any = await requestService.reqListImgLayout(params).catch((err: any) => {
+    return err.response.data;
+  });
+  return data;
+});
 
 export const uploadFileLayout: any = createAsyncThunk('UPLOAD_FILE_LAYOUT', async (params: any) => {
   const data: any = await requestService.uploadFileSingle(params).catch((err: any) => {
@@ -18,15 +15,12 @@ export const uploadFileLayout: any = createAsyncThunk('UPLOAD_FILE_LAYOUT', asyn
   });
   return data;
 });
-export const uploadFileLayoutSingle: any = createAsyncThunk(
-  'UPLOAD_FILE_LAYOUT_SINGLE',
-  async (params: any) => {
-    const data: any = await requestService.uploadFileSingle(params).catch((err: any) => {
-      return err.response.data;
-    });
-    return data;
-  },
-);
+export const uploadFileLayoutSingle: any = createAsyncThunk('UPLOAD_FILE_LAYOUT_SINGLE', async (params: any) => {
+  const data: any = await requestService.uploadFileSingle(params).catch((err: any) => {
+    return err.response.data;
+  });
+  return data;
+});
 
 export const removeFileLayout: any = createAsyncThunk('REMOVE_FILE_LAYOUT', async (params: any) => {
   const data: any = await requestService.removeFile(params).catch((err: any) => {
@@ -106,10 +100,7 @@ export const layoutSlice = createSlice({
       })
       .addCase(uploadFileLayout.fulfilled, (state: any, action: any) => {
         if (action.payload.code === 200 && action.payload.data) {
-          state.layout[state.currentLayout] = [
-            ...state.layout[state.currentLayout],
-            action.payload.data,
-          ];
+          state.layout[state.currentLayout] = [...state.layout[state.currentLayout], action.payload.data];
         }
         state.statusResponse = [...state.statusResponse, action.payload];
       })
@@ -137,5 +128,4 @@ export const layoutSlice = createSlice({
   },
 });
 export const layoutReducer = layoutSlice.reducer;
-export const { SetCurrentLayoutState, updateListImagesLayout, updateListImageRemoveLayout } =
-  layoutSlice.actions;
+export const { SetCurrentLayoutState, updateListImagesLayout, updateListImageRemoveLayout } = layoutSlice.actions;

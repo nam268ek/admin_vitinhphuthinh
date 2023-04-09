@@ -10,11 +10,7 @@ interface FormProductDescProps {
   onChange: (data: any, key: string) => void;
 }
 
-export const FormProductDescription: React.FC<FormProductDescProps> = ({
-  childRef,
-  productId,
-  onChange,
-}) => {
+export const FormProductDescription: React.FC<FormProductDescProps> = ({ childRef, productId, onChange }) => {
   const { products } = useSelector((state: RootState) => state.product);
   const [defaultValue, setDefaultValue] = useState<string>('');
 
@@ -33,13 +29,8 @@ export const FormProductDescription: React.FC<FormProductDescProps> = ({
   };
   return (
     <figure>
-      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
-        Mô tả sản phẩm
-      </figcaption>
-      <div
-        id="c-product-info"
-        className="rounded-b-md border border-solid border-gray-200 border-t-0"
-      >
+      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">Mô tả sản phẩm</figcaption>
+      <div id="c-product-info" className="rounded-b-md border border-solid border-gray-200 border-t-0">
         <EditorText name="content" ref={childRef} defaultValue={defaultValue} onChange={onChange} />
       </div>
     </figure>

@@ -20,10 +20,7 @@ export const Categories: React.FC = () => {
 
   return (
     <>
-      <Header
-        className="sticky top-0 z-10 w-full flex"
-        style={{ background: colorBgContainer, paddingInline: '35px' }}
-      >
+      <Header className="sticky top-0 z-10 w-full flex" style={{ background: colorBgContainer, paddingInline: '35px' }}>
         <p className="text-2xl m-0 flex items-center">Danh mục</p>
       </Header>
       <Content className="my-0 mx-4">

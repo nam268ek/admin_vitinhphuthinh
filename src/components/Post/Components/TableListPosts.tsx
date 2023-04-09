@@ -8,11 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../../constants/const';
 import { DataTypePost } from '../../../types/types';
-import {
-  getDeleteListPostService,
-  getListPostsService,
-  setPostAction,
-} from '../../redux/Slices/PostSlice';
+import { getDeleteListPostService, getListPostsService, setPostAction } from '../../redux/Slices/PostSlice';
 import { RootState } from '../../redux/store/store';
 import { openMessage } from '../../services/general.service';
 
@@ -47,10 +43,7 @@ export const TableListPosts: React.FC = () => {
       key: 'namePost',
       className: 'w-2/4',
       render: (customer: any, record: any) => (
-        <div
-          className="flex items-center w-full hover:cursor-pointer"
-          onClick={(e) => handleUpdatePost(e, record)}
-        >
+        <div className="flex items-center w-full hover:cursor-pointer" onClick={(e) => handleUpdatePost(e, record)}>
           <img
             src={record?.images?.thumbUrl}
             alt={record?.images?.name}
@@ -120,13 +113,7 @@ export const TableListPosts: React.FC = () => {
           onClick={handleSyncData}
         ></Button>
       </Space>
-      <Table
-        rowKey={(record) => record.id}
-        rowSelection={rowSelection}
-        columns={columns}
-        dataSource={data}
-        loading={loading}
-      />
+      <Table rowKey={(record) => record.id} rowSelection={rowSelection} columns={columns} dataSource={data} loading={loading} />
     </>
   );
 };

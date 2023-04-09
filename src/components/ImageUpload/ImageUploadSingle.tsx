@@ -5,11 +5,7 @@ import type { UploadFile } from 'antd/es/upload/interface';
 import React, { useState } from 'react';
 // import APIClientService from '../../api';
 import { useDispatch } from 'react-redux';
-import {
-  removeFileLayout,
-  SetCurrentLayoutState,
-  uploadFileLayoutSingle,
-} from '../redux/Slices/LayoutSlice';
+import { removeFileLayout, SetCurrentLayoutState, uploadFileLayoutSingle } from '../redux/Slices/LayoutSlice';
 // import { removeFileImgToCloud } from '../redux/Slices/ProductSlice';
 // import { openDialogError } from "../services/general.service";
 
@@ -37,8 +33,7 @@ const ImageUploadSingle: React.FC<any> = ({ maxNumberOfFiles, multiple, feature,
     }
   }, [listImages]);
 
-  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>
-    setFileList(newFileList);
+  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => setFileList(newFileList);
 
   const uploadButton = (
     <div>

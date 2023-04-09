@@ -58,9 +58,7 @@ export const CreateCategory: React.FC = () => {
 
   const handleUpdateCategory = async (body: any) => {
     try {
-      await dispatch(
-        getUpdateCategoryService({ ...body, categoryId: itemSelected[0].id }),
-      ).unwrap();
+      await dispatch(getUpdateCategoryService({ ...body, categoryId: itemSelected[0].id })).unwrap();
       await dispatch(getListCategoryService());
 
       form.resetFields();

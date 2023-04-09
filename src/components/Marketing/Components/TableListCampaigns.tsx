@@ -36,10 +36,7 @@ export const TableListCampaigns: React.FC = () => {
     onChange: onSelectChange,
   };
 
-  const handleActionDropdown = async (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    key: number,
-  ) => {
+  const handleActionDropdown = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, key: number) => {
     switch (key) {
       case 1:
         await dispatch(getDeleteListProductService({ ids: selectedIds }));
@@ -93,9 +90,7 @@ export const TableListCampaigns: React.FC = () => {
       title: 'Sản phẩm',
       dataIndex: 'quantitySelected',
       key: 'quantitySelected',
-      render: (quantitySelected: number) => (
-        <span className="price-product">{quantitySelected}</span>
-      ),
+      render: (quantitySelected: number) => <span className="price-product">{quantitySelected}</span>,
     },
     {
       title: 'Trạng thái',
@@ -116,9 +111,9 @@ export const TableListCampaigns: React.FC = () => {
       dataIndex: 'updatedAt',
       key: 'updatedAt',
       render: (text: string, item: DataTypeMarketing) => (
-        <span>{`${moment(item.startDate).format('DD/MM/YYYY, h:mm:ss A')} - ${moment(
-          item.endDate,
-        ).format('DD/MM/YYYY, h:mm:ss A')}`}</span>
+        <span>{`${moment(item.startDate).format('DD/MM/YYYY, h:mm:ss A')} - ${moment(item.endDate).format(
+          'DD/MM/YYYY, h:mm:ss A',
+        )}`}</span>
       ),
     },
   ];
@@ -127,10 +122,7 @@ export const TableListCampaigns: React.FC = () => {
     await dispatch(getUpdateProductService({ productId: item.id, status: checked }));
   };
 
-  const handleUpdateProduct = async (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    item: any,
-  ) => {
+  const handleUpdateProduct = async (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, item: any) => {
     e.preventDefault();
     dispatch(setAction(NAME_ACTION.UPDATE_PRODUCT));
 
@@ -187,13 +179,7 @@ export const TableListCampaigns: React.FC = () => {
           ></Button>
         </Tooltip>
       </Space>
-      <Table
-        rowKey={(record) => record.id}
-        rowSelection={rowSelection}
-        columns={columns}
-        dataSource={data}
-        loading={loading}
-      />
+      <Table rowKey={(record) => record.id} rowSelection={rowSelection} columns={columns} dataSource={data} loading={loading} />
     </>
   );
 };

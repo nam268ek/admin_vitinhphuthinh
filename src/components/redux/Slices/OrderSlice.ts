@@ -3,59 +3,47 @@ import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { OrderState } from '../../../types/types';
 
-export const getCreateOrderService: any = createAsyncThunk(
-  NAME_ACTION.CREATE_ORDER,
-  async (params, { rejectWithValue }) => {
-    try {
-      const response = await requestService.createOrderService(params);
-      return response;
-    } catch (error: any) {
-      if (error) {
-        return rejectWithValue(error.response.data);
-      }
+export const getCreateOrderService: any = createAsyncThunk(NAME_ACTION.CREATE_ORDER, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.createOrderService(params);
+    return response;
+  } catch (error: any) {
+    if (error) {
+      return rejectWithValue(error.response.data);
     }
-  },
-);
-export const getUpdateOrderService: any = createAsyncThunk(
-  NAME_ACTION.UPDATE_ORDER,
-  async (params, { rejectWithValue }) => {
-    try {
-      const response = await requestService.updateOrderService(params);
-      return response;
-    } catch (error: any) {
-      if (error) {
-        return rejectWithValue(error.response.data);
-      }
+  }
+});
+export const getUpdateOrderService: any = createAsyncThunk(NAME_ACTION.UPDATE_ORDER, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.updateOrderService(params);
+    return response;
+  } catch (error: any) {
+    if (error) {
+      return rejectWithValue(error.response.data);
     }
-  },
-);
-export const getListOrderService: any = createAsyncThunk(
-  NAME_ACTION.GET_ORDER,
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await requestService.listOrderService();
-      return response;
-    } catch (error: any) {
-      if (error) {
-        return rejectWithValue(error.response.data);
-      }
+  }
+});
+export const getListOrderService: any = createAsyncThunk(NAME_ACTION.GET_ORDER, async (_, { rejectWithValue }) => {
+  try {
+    const response = await requestService.listOrderService();
+    return response;
+  } catch (error: any) {
+    if (error) {
+      return rejectWithValue(error.response.data);
     }
-  },
-);
+  }
+});
 
-export const getRemoveOrderService: any = createAsyncThunk(
-  NAME_ACTION.REMOVE_ORDER,
-  async (params, { rejectWithValue }) => {
-    try {
-      const response = await requestService.removeOrderService(params);
-      return response;
-    } catch (error: any) {
-      if (error) {
-        return rejectWithValue(error.response.data);
-      }
+export const getRemoveOrderService: any = createAsyncThunk(NAME_ACTION.REMOVE_ORDER, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.removeOrderService(params);
+    return response;
+  } catch (error: any) {
+    if (error) {
+      return rejectWithValue(error.response.data);
     }
-  },
-);
+  }
+});
 export const getUpdateOrderStatusService: any = createAsyncThunk(
   NAME_ACTION.UPDATE_ORDER_STATUS,
   async (params, { rejectWithValue }) => {
@@ -69,19 +57,16 @@ export const getUpdateOrderStatusService: any = createAsyncThunk(
     }
   },
 );
-export const getAddToCartService: any = createAsyncThunk(
-  NAME_ACTION.ADD_TO_CART,
-  async (params, { rejectWithValue }) => {
-    try {
-      const response = await requestService.addToCartService(params);
-      return response;
-    } catch (error: any) {
-      if (error) {
-        return rejectWithValue(error.response.data);
-      }
+export const getAddToCartService: any = createAsyncThunk(NAME_ACTION.ADD_TO_CART, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.addToCartService(params);
+    return response;
+  } catch (error: any) {
+    if (error) {
+      return rejectWithValue(error.response.data);
     }
-  },
-);
+  }
+});
 
 const initialState: OrderState = {
   action: NAME_ACTION.DEFAULT_ORDER,

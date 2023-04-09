@@ -6,11 +6,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NAME_ACTION } from '../../../constants/const';
 import { DataTypeCategory } from '../../../types/types';
-import {
-  addAction,
-  getListCategoryService,
-  getRemoveCategoryService,
-} from '../../redux/Slices/CategorySlice';
+import { addAction, getListCategoryService, getRemoveCategoryService } from '../../redux/Slices/CategorySlice';
 import { RootState } from '../../redux/store/store';
 import { openMessage } from '../../services/general.service';
 import { ICategories } from '../interfaces/categories.interface';

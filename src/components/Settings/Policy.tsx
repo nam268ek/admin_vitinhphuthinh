@@ -73,10 +73,7 @@ export const InfoPolicy: React.FC = () => {
 
   return (
     <>
-      <Header
-        className="sticky top-0 z-1 w-full flex"
-        style={{ background: colorBgContainer, paddingInline: '35px' }}
-      >
+      <Header className="sticky top-0 z-1 w-full flex" style={{ background: colorBgContainer, paddingInline: '35px' }}>
         <p className="text-2xl m-0 flex items-center">Policy Information</p>
       </Header>
       <Content className="my-0 mx-4">
@@ -93,22 +90,13 @@ export const InfoPolicy: React.FC = () => {
                     <Panel id="c-collapse-panel" header={item.desc} key={item.id}>
                       <div className="flex flex-col w-full">
                         <div>
-                          <EditorText
-                            defaultValue={item.content}
-                            name={item.name}
-                            onChange={onChange}
-                            ref={childRef}
-                          />
+                          <EditorText defaultValue={item.content} name={item.name} onChange={onChange} ref={childRef} />
                         </div>
                         <Space className="flex justify-end mt-2 mb-2 px-2">
                           <Button type="primary" danger onClick={handleReset}>
                             Reset
                           </Button>
-                          <Button
-                            type="primary"
-                            onClick={(e) => handleSubmit(e, item.name)}
-                            loading={loading}
-                          >
+                          <Button type="primary" onClick={(e) => handleSubmit(e, item.name)} loading={loading}>
                             Submit
                           </Button>
                         </Space>

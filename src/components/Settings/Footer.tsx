@@ -38,9 +38,7 @@ export const InfoFooter: React.FC<any> = () => {
 
   const handleUpdateFooter = async () => {
     try {
-      await dispatch(
-        getUpdateFooterService({ key: KEY_INFORMATION.FOOTER, ...bodyUpdateFooter }),
-      ).unwrap();
+      await dispatch(getUpdateFooterService({ key: KEY_INFORMATION.FOOTER, ...bodyUpdateFooter })).unwrap();
       openMessage();
     } catch (error) {
       openMessage(error);
@@ -61,10 +59,7 @@ export const InfoFooter: React.FC<any> = () => {
 
   return (
     <>
-      <Header
-        className="sticky top-0 z-1 w-full flex"
-        style={{ background: colorBgContainer, paddingInline: '35px' }}
-      >
+      <Header className="sticky top-0 z-1 w-full flex" style={{ background: colorBgContainer, paddingInline: '35px' }}>
         <p className="text-2xl m-0 flex items-center">Footer Information</p>
       </Header>
       <Content className="my-0 mx-4">
@@ -76,9 +71,7 @@ export const InfoFooter: React.FC<any> = () => {
           <section>
             <Form onFinish={onFinish} form={form}>
               <figure>
-                <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
-                  Footer
-                </figcaption>
+                <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">Footer</figcaption>
                 <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
                   <div className="grid grid-flow-row grid-rows-2 grid-cols-2 gap-4">
                     <div className="mb-0">
@@ -141,9 +134,7 @@ export const InfoFooter: React.FC<any> = () => {
         <section>
           <Form onFinish={onFinish} form={form}>
             <figure>
-              <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
-                Footer
-              </figcaption>
+              <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">Footer</figcaption>
               <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
                 <div className="grid grid-flow-row grid-rows-2 grid-cols-2 gap-4">
                   <div className="mb-0">

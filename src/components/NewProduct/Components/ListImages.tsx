@@ -1,27 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable curly */
-import {
-  Button,
-  Checkbox,
-  Divider,
-  Form,
-  Image,
-  message,
-  Modal,
-  Pagination,
-  PaginationProps,
-  Space,
-  Spin,
-} from 'antd';
+import { Button, Checkbox, Divider, Form, Image, message, Modal, Pagination, PaginationProps, Space, Spin } from 'antd';
 import { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PER_PAGE } from '../../../constants/const';
-import {
-  getListImageService,
-  getRemoveImageUploadService,
-  setImageAction,
-} from '../../redux/Slices/ImageSlice';
+import { getListImageService, getRemoveImageUploadService, setImageAction } from '../../redux/Slices/ImageSlice';
 import { RootState } from '../../redux/store/store';
 import { openMessage } from '../../services/general.service';
 
@@ -131,12 +115,7 @@ export const ListImages: React.FC<ImageModalProps> = ({ open, setOpen, onChange,
       ]}
     >
       <div id="list-image-model">
-        <Pagination
-          className="flex justify-center"
-          onChange={onChangePage}
-          pageSize={PER_PAGE}
-          total={totalPages}
-        />
+        <Pagination className="flex justify-center" onChange={onChangePage} pageSize={PER_PAGE} total={totalPages} />
         <Divider />
         <div>
           <Spin size="large" spinning={loading}>

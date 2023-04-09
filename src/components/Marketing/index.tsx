@@ -31,10 +31,7 @@ export const Marketings: React.FC = () => {
 
   return (
     <>
-      <Header
-        className="sticky top-0 z-1 w-full flex"
-        style={{ background: colorBgContainer, paddingInline: '35px' }}
-      >
+      <Header className="sticky top-0 z-1 w-full flex" style={{ background: colorBgContainer, paddingInline: '35px' }}>
         <p className="text-2xl m-0 flex items-center">Marketings</p>
       </Header>
       <Content className="my-0 mx-4">
@@ -44,11 +41,7 @@ export const Marketings: React.FC = () => {
         </Breadcrumb>
         <div style={{ background: colorBgContainer }} className="px-5 py-6 min-h-full">
           <div className="flex mb-2">
-            <Search
-              listItems={products}
-              className="w-full"
-              placeholder="Tìm kiếm chương trình..."
-            />
+            <Search listItems={products} className="w-full" placeholder="Tìm kiếm chương trình..." />
             <Button
               className="flex items-center btn-green h-[40px] border-0 ml-2"
               icon={<PlusOutlined />}

@@ -4,9 +4,7 @@ import React from 'react';
 export const FormInventories: React.FC<any> = ({ handleChange }) => {
   return (
     <figure>
-      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">
-        Inventory
-      </figcaption>
+      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">Inventory</figcaption>
       <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
         <div className="mb-5">
           <label className="mb-3 text-sm font-normal">Giá khuyến mãi</label>

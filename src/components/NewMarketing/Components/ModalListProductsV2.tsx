@@ -1,18 +1,5 @@
 /* eslint-disable curly */
-import {
-  Button,
-  Form,
-  message,
-  Modal,
-  Space,
-  Switch,
-  Table,
-  Tooltip,
-  Select,
-  Divider,
-  Card,
-  Image,
-} from 'antd';
+import { Button, Form, message, Modal, Space, Switch, Table, Tooltip, Select, Divider, Card, Image } from 'antd';
 import { ColumnsType, TableRowSelection } from 'antd/es/table/interface';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

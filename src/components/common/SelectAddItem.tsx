@@ -43,10 +43,7 @@ const SelectAddItem: React.FC<ISelectProps> = ({ defaultValue, listItem: listDro
             <Divider style={{ margin: '8px 0' }} />
             <Space align="center" style={{ padding: '0 8px 4px' }}>
               <Input placeholder="Thêm thương hiệu" value={name} onChange={onNameChange} />
-              <Typography.Link
-                onClick={addItem}
-                style={{ whiteSpace: 'nowrap', display: 'flex', alignItems: 'center' }}
-              >
+              <Typography.Link onClick={addItem} style={{ whiteSpace: 'nowrap', display: 'flex', alignItems: 'center' }}>
                 <PlusOutlined /> Add
               </Typography.Link>
             </Space>

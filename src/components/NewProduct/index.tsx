@@ -270,11 +270,7 @@ export const NewProduct = () => {
                   <FormMeta handleChange={handleChange} />
                 </div>
               </div>
-              <FormProductDescription
-                childRef={childRef}
-                productId={productId}
-                onChange={handleChange}
-              />
+              <FormProductDescription childRef={childRef} productId={productId} onChange={handleChange} />
               <FormProductSpecs onChange={handleChangeSpecs} />
             </Form>
           </section>

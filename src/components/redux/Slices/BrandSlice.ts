@@ -4,29 +4,23 @@ import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { BrandState, TagState } from '../../../types/types';
 
-export const getListBrandsService: any = createAsyncThunk(
-  NAME_ACTION.GET_BRAND,
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await requestService.listBrandsService();
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const getListBrandsService: any = createAsyncThunk(NAME_ACTION.GET_BRAND, async (_, { rejectWithValue }) => {
+  try {
+    const response = await requestService.listBrandsService();
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
-export const getCreateBrandService: any = createAsyncThunk(
-  NAME_ACTION.CREATE_BRAND,
-  async (params, { rejectWithValue }) => {
-    try {
-      const response = await requestService.createBrandService(params);
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const getCreateBrandService: any = createAsyncThunk(NAME_ACTION.CREATE_BRAND, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.createBrandService(params);
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
 const initialState: BrandState = {
   loading: false,

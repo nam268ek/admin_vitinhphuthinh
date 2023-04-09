@@ -4,29 +4,23 @@ import { requestService } from '../../../api';
 import { AuthState, IAuth } from '../../../types/types';
 import { removeTokenLocalStorage } from '../../../utils/verifyToken';
 
-export const getLoginService: any = createAsyncThunk(
-  'REQUEST_LOGIN',
-  async (params: IAuth, { rejectWithValue }) => {
-    try {
-      const response = await requestService.loginService(params);
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const getLoginService: any = createAsyncThunk('REQUEST_LOGIN', async (params: IAuth, { rejectWithValue }) => {
+  try {
+    const response = await requestService.loginService(params);
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
-export const getLogoutService: any = createAsyncThunk(
-  'REQUEST_LOGOUT',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await requestService.logoutService();
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const getLogoutService: any = createAsyncThunk('REQUEST_LOGOUT', async (_, { rejectWithValue }) => {
+  try {
+    const response = await requestService.logoutService();
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
 const initialState: AuthState = {
   isLogin: false,

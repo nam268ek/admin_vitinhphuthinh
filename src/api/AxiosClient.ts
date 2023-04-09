@@ -3,10 +3,7 @@ import queryString from 'query-string';
 import { getToken, removeTokenLocalStorage, getRefreshToken } from '../utils/verifyToken';
 
 //config .env for production
-const ROOT =
-  process.env.NODE_ENV === 'production'
-    ? process.env.REACT_APP_PROD_API_URL
-    : process.env.REACT_APP_DEV_API_URL;
+const ROOT = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_PROD_API_URL : process.env.REACT_APP_DEV_API_URL;
 
 //config axios client
 export const instance = axios.create({
