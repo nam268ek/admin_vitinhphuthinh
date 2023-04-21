@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { Form, Modal, Select } from 'antd';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SelectOptionV2 } from '../common/SelectOptionV2';
 import { getListProductService, getUpdateManyProductService } from '../redux/Slices/ProductSlice';
@@ -7,17 +8,34 @@ import { RootState } from '../redux/store/store';
 import { openMessage } from '../services/general.service';
 
 export const ModalProductAction: React.FC<any> = ({ ids, handleCancel, isOpen, resetSelection }) => {
-  const { products, loading } = useSelector((state: RootState) => state.product);
+  const { loading } = useSelector((state: RootState) => state.product);
   const { brands } = useSelector((state: RootState) => state.brand);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (isOpen) {
+      form.resetFields();
+    }
+  }, [isOpen]);
+
   const handleOk = async () => {
     //
     const { isFeatured, status, nameBrand, category } = form.getFieldsValue();
-    console.log('isFeatured', isFeatured, status, nameBrand, category);
+    if (!isFeatured && !status && !nameBrand && !category) {
+      handleCancel();
+      return;
+    }
+
     try {
-      await dispatch(getUpdateManyProductService({ ids, isFeatured: isFeatured ? 'Y' : '' }));
+      const payload = {
+        ids,
+        isFeatured: isFeatured || undefined,
+        status: status || undefined,
+        brand: (nameBrand && nameBrand[0]) || undefined,
+        category: (category && category.at(-1)) || undefined,
+      };
+      await dispatch(getUpdateManyProductService(payload)).unwrap();
       await dispatch(getListProductService()).unwrap();
       handleCancel();
       resetSelection();
@@ -41,8 +59,8 @@ export const ModalProductAction: React.FC<any> = ({ ids, handleCancel, isOpen, r
           <Form.Item className="w-full" name="status" label="Trạng thái hiện thị">
             <Select
               options={[
-                { value: true, label: 'Yes' },
-                { value: false, label: 'No' },
+                { value: 'Y', label: 'Yes' },
+                { value: 'N', label: 'No' },
               ]}
             />
           </Form.Item>

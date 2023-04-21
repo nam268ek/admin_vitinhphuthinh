@@ -1,41 +1,7 @@
 /* eslint-disable prefer-const */
 import { message as messageAntd, UploadFile } from 'antd';
 import { DURATION_TIMEOUT_SECONDS } from '../../constants/const';
-import { IAuth, IBodyCreateProduct, IImage } from '../../types/types';
-
-// variables
-export let previousData: any = {};
-// --
-
-//body api
-export const originalRegister: IAuth = {
-  email: '',
-  password: '',
-  image: '',
-};
-
-export const originalLogin: IAuth = {
-  email: '',
-  password: '',
-};
-
-export const bodyCreateProduct: IBodyCreateProduct = {
-  category: '',
-  brand: '',
-  name: '',
-  price: 0,
-  images: [],
-  tags: [],
-  description: '',
-  status: false,
-  isNewProduct: false,
-  sku: '',
-  specs: [],
-  productInformation: {
-    images: [],
-    content: '',
-  },
-};
+import { IImage } from '../../types/types';
 
 //end body api
 export const openMessage = (data?: any, key?: string, type?: string) => {

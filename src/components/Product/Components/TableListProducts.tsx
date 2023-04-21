@@ -3,7 +3,7 @@ import { DeleteOutlined, MoreOutlined } from '@ant-design/icons';
 import { Dropdown, Switch, Table } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/es/table';
 import { FilterValue, TableRowSelection } from 'antd/es/table/interface';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, XCircle } from 'lucide-react';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -116,7 +116,9 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
         value === 'Y' ? record?.isFeatured === value : record?.isFeatured !== 'Y',
       render: (value: any, item: DataTypeProduct) => (
         <span className="flex">
-          {item?.isFeatured === 'Y' ? <CheckCircle2 strokeWidth={2} className="text-green-500 text-center" size={20} /> : 'N/A'}
+          {item?.isFeatured === 'Y' && <CheckCircle2 className="text-green-500 text-center" size={20} />}
+          {item?.isFeatured === 'N' && <XCircle size={20} className="opacity-50" />}
+          {item?.isFeatured === '' && 'N/A'}
         </span>
       ),
     },
@@ -126,15 +128,15 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
       dataIndex: 'status',
       width: 120,
       filters: [
-        { text: 'ON', value: true },
-        { text: 'OFF', value: false },
+        { text: 'ON', value: 'Y' },
+        { text: 'OFF', value: 'N' },
       ],
       filteredValue: filteredInfo.status || null,
       onFilter: (value: string | number | boolean, record) => record?.status === value,
       render: (value: any, item: DataTypeProduct) => (
         <Switch
           key={item.id}
-          checked={value}
+          checked={value === 'Y'}
           checkedChildren="ON"
           unCheckedChildren="OFF"
           onChange={(e) => changeStatusProduct(e, item)}
@@ -190,7 +192,7 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
   };
 
   const changeStatusProduct = async (checked: boolean, item: any) => {
-    await dispatch(getUpdateProductService({ productId: item.id, status: checked }));
+    await dispatch(getUpdateProductService({ productId: item.id, status: checked ? 'Y' : 'N' })).unwrap();
   };
 
   const handleUpdateProduct = async (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, item: any) => {
