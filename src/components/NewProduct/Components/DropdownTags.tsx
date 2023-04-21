@@ -16,15 +16,7 @@ export const DropDownTags: React.FC<any> = ({ handleChange }) => {
   }, [tags]);
 
   return (
-    <Form.Item
-      name="tags"
-      rules={[
-        {
-          required: true,
-          message: 'Vui lòng nhập thẻ tag',
-        },
-      ]}
-    >
+    <Form.Item name="tags">
       <Select
         mode="multiple"
         allowClear

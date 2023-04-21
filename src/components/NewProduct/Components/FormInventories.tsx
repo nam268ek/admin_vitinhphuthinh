@@ -28,12 +28,12 @@ export const FormInventories: React.FC<any> = ({ handleChange }) => {
           <Form.Item noStyle>
             <Form.Item
               name="quantity"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input the amount',
-                },
-              ]}
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: 'Please input the amount',
+              //   },
+              // ]}
             >
               <InputNumber
                 min={0}

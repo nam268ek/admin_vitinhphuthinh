@@ -2,6 +2,7 @@ import { Form, Input, InputNumber } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import React from 'react';
 import { MAX_LENGTH_TEXT, MAX_LENGTH_TEXT_AREA } from '../../../constants/const';
+import { TreeCategory } from './TreeCategory';
 
 export const FormGeneral: React.FC<any> = ({ handleChange }) => {
   return (
@@ -12,15 +13,7 @@ export const FormGeneral: React.FC<any> = ({ handleChange }) => {
           <label className="mb-3 text-sm font-normal">
             Tên sản phẩm<sup className="text-red-600 ml-1">*</sup>
           </label>
-          <Form.Item
-            name="name"
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng nhập tên sản phẩm',
-              },
-            ]}
-          >
+          <Form.Item name="name">
             <Input
               maxLength={MAX_LENGTH_TEXT}
               showCount
@@ -31,17 +24,15 @@ export const FormGeneral: React.FC<any> = ({ handleChange }) => {
         </div>
         <div className="mb-5">
           <label className="mb-3 text-sm font-normal">
+            Danh mục<sup className="text-red-600 ml-1">*</sup>
+          </label>
+          <TreeCategory isFeedback={false} disabled={true} handleChange={handleChange} />
+        </div>
+        <div className="mb-5">
+          <label className="mb-3 text-sm font-normal">
             Giá gốc<sup className="text-red-600 ml-1">*</sup>
           </label>
-          <Form.Item
-            name="price"
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng nhập giá gốc',
-              },
-            ]}
-          >
+          <Form.Item name="price">
             <InputNumber
               min={0}
               max={1000000000}
@@ -58,15 +49,7 @@ export const FormGeneral: React.FC<any> = ({ handleChange }) => {
           <label className="mb-3 text-sm font-normal">
             SKU<sup className="text-red-600 ml-1">*</sup>
           </label>
-          <Form.Item
-            name="sku"
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng nhập SKU',
-              },
-            ]}
-          >
+          <Form.Item name="sku">
             <Input
               maxLength={MAX_LENGTH_TEXT}
               showCount
@@ -79,15 +62,7 @@ export const FormGeneral: React.FC<any> = ({ handleChange }) => {
           <label className="mb-3 text-sm font-normal">
             Tóm tắt sản phẩm<sup className="text-red-600 ml-1">*</sup>
           </label>
-          <Form.Item
-            name="description"
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng nhập tóm tắt sản phẩm',
-              },
-            ]}
-          >
+          <Form.Item name="description">
             <TextArea
               style={{ height: '195px' }}
               maxLength={MAX_LENGTH_TEXT_AREA}

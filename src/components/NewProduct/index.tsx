@@ -70,7 +70,7 @@ export const NewProduct = () => {
       return;
     }
     setNameCategory(category.name);
-    form.setFieldsValue({ status: true });
+    form.setFieldsValue({ status: true, category: category.id });
   };
 
   const handleLoadProductUpdate = (id: string | undefined) => {
@@ -118,12 +118,24 @@ export const NewProduct = () => {
 
     try {
       await dispatch(getCreateProductService(body)).unwrap();
-      openMessage();
+      // openMessage();
       dispatch(setDefaultProductAction());
       navigate('/products', { replace: true });
-    } catch (error) {
-      openMessage(error);
+    } catch (error: any) {
+      // openMessage(error);
+      Object.entries(error.errors).forEach(([key, value]) => {
+        form.setFields([{ name: [`${key}`], errors: [`${value}`] }]);
+      });
+      resetFieldsErrors(Object.keys(error.errors));
     }
+  };
+
+  const resetFieldsErrors = (keys: string[]) => {
+    Object.keys(form.getFieldsValue()).forEach((keyName: string) => {
+      if (!keys.includes(keyName)) {
+        form.setFields([{ name: [`${keyName}`], errors: [], validated: true }]);
+      }
+    });
   };
 
   const handleUpdateProduct = async (data: any) => {
@@ -166,7 +178,7 @@ export const NewProduct = () => {
   const handleChange = (e: any, key: any) => {
     let value = e;
     if (TypeOf(e) === 'Object' && !(e instanceof Event)) value = e.target.value;
-    if (key === 'isNewProduct' || key === 'status') value = e ? true : false;
+    if (key === 'isNewProduct' || key === 'status') value = e ? 'Y' : 'N';
 
     if (!Object.values(SPECS)?.includes(key)) {
       bodyDataProduct[key] = value;

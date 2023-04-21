@@ -15,15 +15,7 @@ export const DropDownBrands: React.FC<any> = ({ handleChange }) => {
   }, [brands]);
 
   return (
-    <Form.Item
-      name="brand"
-      rules={[
-        {
-          required: true,
-          message: 'Please select your brands',
-        },
-      ]}
-    >
+    <Form.Item name="brand">
       <Select
         allowClear
         showArrow

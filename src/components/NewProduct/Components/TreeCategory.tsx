@@ -9,13 +9,14 @@ import { getListDropdownsService } from '../../redux/Slices/PrimarySlice';
 import { RootState } from '../../redux/store/store';
 
 type TreeCategoryProps = {
+  handleChange: any;
   className?: string;
   isFeedback?: boolean;
   style?: React.CSSProperties;
-  handleChange: any;
+  disabled?: boolean;
 };
 
-export const TreeCategory: React.FC<TreeCategoryProps> = ({ handleChange, className, isFeedback = true, style }) => {
+export const TreeCategory: React.FC<TreeCategoryProps> = ({ handleChange, className, isFeedback = true, style, disabled }) => {
   const { categories } = useSelector((state: RootState) => state.category);
   const [options, setOptions] = useState<any>([]);
   const dispatch = useDispatch();
@@ -42,14 +43,13 @@ export const TreeCategory: React.FC<TreeCategoryProps> = ({ handleChange, classN
   };
 
   return (
-    <Form.Item
-      name="category"
-      hasFeedback={isFeedback}
-      style={style}
-      className={className}
-      rules={[{ required: true, message: 'Vui lòng chọn danh mục' }]}
-    >
-      <Select options={options} onChange={(e) => handleChange(e, 'category')} placeholder="Chọn danh mục" />
+    <Form.Item name="category" hasFeedback={isFeedback} style={style} className={className}>
+      <Select
+        disabled={disabled || false}
+        options={options}
+        onChange={(e) => handleChange(e, 'category')}
+        placeholder="Chọn danh mục"
+      />
     </Form.Item>
   );
 };
