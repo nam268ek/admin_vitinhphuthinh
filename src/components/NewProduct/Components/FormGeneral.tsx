@@ -1,10 +1,14 @@
 import { Form, Input, InputNumber } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { MAX_LENGTH_TEXT, MAX_LENGTH_TEXT_AREA } from '../../../constants/const';
 import { TreeCategory } from './TreeCategory';
 
 export const FormGeneral: React.FC<any> = ({ handleChange }) => {
+  const location = useLocation();
+  const disabled = location.pathname === '/products/update' ? false : true;
+
   return (
     <figure>
       <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">General</figcaption>
@@ -26,7 +30,7 @@ export const FormGeneral: React.FC<any> = ({ handleChange }) => {
           <label className="mb-3 text-sm font-normal">
             Danh mục<sup className="text-red-600 ml-1">*</sup>
           </label>
-          <TreeCategory isFeedback={false} disabled={true} handleChange={handleChange} />
+          <TreeCategory isFeedback={false} disabled={disabled} handleChange={handleChange} />
         </div>
         <div className="mb-5">
           <label className="mb-3 text-sm font-normal">
@@ -64,7 +68,7 @@ export const FormGeneral: React.FC<any> = ({ handleChange }) => {
           </label>
           <Form.Item name="description">
             <TextArea
-              style={{ height: '195px' }}
+              rows={12}
               maxLength={MAX_LENGTH_TEXT_AREA}
               showCount
               onChange={(e: any) => handleChange(e, 'description')}

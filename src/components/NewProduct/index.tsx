@@ -19,14 +19,13 @@ import {
   updateStateKeyProductAction,
 } from '../redux/Slices/ProductSlice';
 import { RootState } from '../redux/store/store';
-import { openMessage } from '../services/general.service';
+import { openMessage, resetFieldsErrors } from '../services/general.service';
 import { FormGeneral } from './Components/FormGeneral';
 import { FormProductImages } from './Components/FormImages';
 import { FormInventories } from './Components/FormInventories';
 import { FormMeta } from './Components/FormMeta';
 import { FormProductDescription } from './Components/FormProductDescription';
 import { FormProductSpecs } from './Components/FormProductSpecs';
-import { FormStatus } from './Components/FormStatus';
 
 const { Header, Content } = Layout;
 let bodyDataProduct: any = {};
@@ -88,7 +87,7 @@ export const NewProduct = () => {
 
     const { images, category, brand, tags, categoryKey, specs, ...prod } = product[0];
     dispatch(setImageAction(images));
-    dispatch(updateStateKeyProductAction(categoryKey));
+    // dispatch(updateStateKeyProductAction(categoryKey));
     const unwindSpecs = unwindSpecsProduct(specs);
 
     form.setFieldsValue({
@@ -114,7 +113,6 @@ export const NewProduct = () => {
       handleChange(data[item], item);
     }
     const body = cloneDeep(bodyDataProduct);
-    body['categoryKey'] = keyProduct;
 
     try {
       await dispatch(getCreateProductService(body)).unwrap();
@@ -126,21 +124,12 @@ export const NewProduct = () => {
       Object.entries(error.errors).forEach(([key, value]) => {
         form.setFields([{ name: [`${key}`], errors: [`${value}`] }]);
       });
-      resetFieldsErrors(Object.keys(error.errors));
+      resetFieldsErrors(form, Object.keys(error.errors));
     }
-  };
-
-  const resetFieldsErrors = (keys: string[]) => {
-    Object.keys(form.getFieldsValue()).forEach((keyName: string) => {
-      if (!keys.includes(keyName)) {
-        form.setFields([{ name: [`${keyName}`], errors: [], validated: true }]);
-      }
-    });
   };
 
   const handleUpdateProduct = async (data: any) => {
     const body = cloneDeep(bodyDataProduct);
-    body['categoryKey'] = keyProduct;
     body['productId'] = productId;
 
     try {
@@ -178,7 +167,6 @@ export const NewProduct = () => {
   const handleChange = (e: any, key: any) => {
     let value = e;
     if (TypeOf(e) === 'Object' && !(e instanceof Event)) value = e.target.value;
-    if (key === 'isNewProduct' || key === 'status') value = e ? 'Y' : 'N';
 
     if (!Object.values(SPECS)?.includes(key)) {
       bodyDataProduct[key] = value;
@@ -247,18 +235,14 @@ export const NewProduct = () => {
           </div>
           <div className="text-2xl font-medium text-slate-100">{nameCategory}</div>
         </div>
-        <Form onFinish={onFinish} form={form}>
-          <Form.Item noStyle>
-            <Space>
-              <Button type="default" onClick={goBack}>
-                Back
-              </Button>
-              <Button type="primary" htmlType="submit" loading={loading}>
-                Submit
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
+        <Space>
+          <Button type="default" onClick={goBack}>
+            Back
+          </Button>
+          <Button type="primary" onClick={form.submit} loading={loading}>
+            Submit
+          </Button>
+        </Space>
       </Header>
       <Content className="my-0 mx-4">
         <Breadcrumb className="mx-0 my-2 px-5">
@@ -274,7 +258,6 @@ export const NewProduct = () => {
               <div className="grid grid-cols-2 grid-flow-col gap-4">
                 <div>
                   <FormGeneral handleChange={handleChange} />
-                  <FormStatus handleChange={handleChange} />
                 </div>
                 <div>
                   <FormProductImages onChange={handleChangeImages} />

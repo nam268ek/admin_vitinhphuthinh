@@ -45,9 +45,9 @@ export const ModalProductAction: React.FC<any> = ({ ids, handleCancel, isOpen, r
   };
 
   return (
-    <Modal title="Cập nhật" width={800} open={isOpen} onOk={handleOk} confirmLoading={loading} onCancel={handleCancel}>
+    <Modal title="Cập nhật" width={300} open={isOpen} onOk={handleOk} confirmLoading={loading} onCancel={handleCancel}>
       <div>
-        <Form form={form} layout="vertical" className="flex gap-4 mt-4">
+        <Form form={form} layout="vertical" className="mt-4">
           <Form.Item className="w-full" name="isFeatured" label="Sản phẩm nỗi bật">
             <Select
               options={[

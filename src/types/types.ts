@@ -133,6 +133,7 @@ export interface IProductState {
   loading: boolean;
   itemSelected: any[];
   keyProduct: string;
+  errors: Record<string, string>;
 }
 export interface IImageState {
   loading: boolean;

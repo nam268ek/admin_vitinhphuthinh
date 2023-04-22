@@ -30,7 +30,7 @@ export const Products: React.FC = () => {
 
   return (
     <>
-      <Header className="sticky top-0 z-1 w-full flex" style={{ background: colorBgContainer, paddingInline: '35px' }}>
+      <Header className="sticky top-0 z-10 w-full flex" style={{ background: colorBgContainer, paddingInline: '35px' }}>
         <div className="w-full flex items-center">
           <Search listItems={products} />
         </div>

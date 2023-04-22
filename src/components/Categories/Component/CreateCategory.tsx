@@ -12,7 +12,7 @@ import {
   getUpdateCategoryService,
 } from '../../redux/Slices/CategorySlice';
 import { RootState } from '../../redux/store/store';
-import { convertListDropdown, convertViToEn, openMessage } from '../../services/general.service';
+import { convertListDropdown, convertViToEn, openMessage, resetFieldsErrors } from '../../services/general.service';
 
 export const CreateCategory: React.FC = () => {
   const { itemSelected, categories, action } = useSelector((state: RootState) => state.category);
@@ -40,8 +40,12 @@ export const CreateCategory: React.FC = () => {
 
       form.resetFields();
       openMessage();
-    } catch (error) {
-      openMessage(error);
+    } catch (error: any) {
+      Object.entries(error.errors).forEach(([key, value]) => {
+        form.setFields([{ name: [`${key}`], errors: [`${value}`] }]);
+      });
+      resetFieldsErrors(form, Object.keys(error.errors));
+      // openMessage(error);
     }
   };
 
@@ -100,11 +104,6 @@ export const CreateCategory: React.FC = () => {
     const value = event.target.value;
     const slug = convertViToEn(value);
     form.setFieldsValue({ category: slug });
-
-    // if (key === 'namePost') {
-    //   onChange(event, key);
-    // }
-    // onChange(slug, 'urlSlug');
   };
 
   return (
@@ -123,16 +122,7 @@ export const CreateCategory: React.FC = () => {
                       <label className="mb-3 text-sm font-normal">
                         Tên danh mục<sup className="text-red-600 ml-1">*</sup>
                       </label>
-                      <Form.Item
-                        name="name"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Vui lòng nhập tên danh mục',
-                          },
-                        ]}
-                        validateTrigger={['onChange', 'onBlur']}
-                      >
+                      <Form.Item name="name">
                         <Input
                           maxLength={MAX_LENGTH_TEXT}
                           showCount
@@ -145,16 +135,7 @@ export const CreateCategory: React.FC = () => {
                       <label className="mb-3 text-sm font-normal">
                         Category<sup className="text-red-600 ml-1">*</sup>
                       </label>
-                      <Form.Item
-                        name="category"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Vui lòng nhập',
-                          },
-                        ]}
-                        validateTrigger={['onChange', 'onBlur']}
-                      >
+                      <Form.Item name="category">
                         <Input maxLength={MAX_LENGTH_TEXT} showCount placeholder="dell" />
                       </Form.Item>
                     </div>
@@ -179,10 +160,7 @@ export const CreateCategory: React.FC = () => {
                       justifyContent: 'flex-end',
                     }}
                   >
-                    <Button type="link" className="ps-btn-secondary" htmlType="reset">
-                      <span>Reset</span>
-                    </Button>
-                    <Button type="primary" danger htmlType="button" onClick={handleCancel}>
+                    <Button type="default" htmlType="button" onClick={handleCancel}>
                       <span>Cancel</span>
                     </Button>
                     <Button type="primary" className="ps-btn-secondary" htmlType="submit">

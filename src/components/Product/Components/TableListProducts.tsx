@@ -3,7 +3,7 @@ import { DeleteOutlined, MoreOutlined } from '@ant-design/icons';
 import { Dropdown, Switch, Table } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/es/table';
 import { FilterValue, TableRowSelection } from 'antd/es/table/interface';
-import { CheckCircle2, XCircle } from 'lucide-react';
+import { CheckCircle2, Edit, Trash, XCircle } from 'lucide-react';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ import { DataTypeProduct } from '../../../types/types';
 import {
   getDeleteListProductService,
   getListProductService,
+  getUpdateManyProductService,
   getUpdateProductService,
   setAction,
 } from '../../redux/Slices/ProductSlice';
@@ -45,6 +46,7 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
       dataIndex: 'name',
       key: 'name',
       ellipsis: true,
+      fixed: 'left',
       width: 500,
       render: (text: string, record: any) => (
         <span
@@ -154,11 +156,24 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
       title: 'Action',
       key: 'action',
       fixed: 'right',
-      width: 100,
-      render: (data: any, record: any) => (
-        <Dropdown placement="bottomLeft" menu={{ items, onClick: (e: any) => handleMoreAction(e, record) }} trigger={['click']}>
-          <MoreOutlined />
-        </Dropdown>
+      width: 130,
+      render: (data, record) => (
+        <div className="flex gap-2">
+          <span
+            title="Sửa sản phẩm"
+            onClick={() => handleMoreAction(record, 'edit')}
+            className="flex p-2 rounded-lg hover:bg-gray-200 hover:cursor-pointer transition duration-300 ease-in-out"
+          >
+            <Edit size={20} />
+          </span>
+          <span
+            title="Xóa sản phẩm"
+            onClick={() => handleMoreAction(record, 'delete')}
+            className="flex p-2 rounded-lg hover:bg-gray-200 hover:cursor-pointer transition duration-300 ease-in-out"
+          >
+            <Trash size={20} />
+          </span>
+        </div>
       ),
     },
   ];
@@ -168,19 +183,10 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
     setFilteredInfo(filters);
   };
 
-  const items = [
-    {
-      label: 'Remove',
-      key: '1',
-      icon: <DeleteOutlined />,
-    },
-  ];
-
-  const handleMoreAction = async (event: any, record: any) => {
-    const { key } = event;
+  const handleMoreAction = async (record: DataTypeProduct, type: 'edit' | 'delete') => {
     const { id } = record;
-    switch (key) {
-      case '1':
+    switch (type) {
+      case 'delete':
         try {
           await dispatch(getDeleteListProductService({ ids: [id] })).unwrap();
           await dispatch(getListProductService()).unwrap();
@@ -188,11 +194,17 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
           openMessage(error);
         }
         break;
+      case 'edit':
+        dispatch(setAction(NAME_ACTION.UPDATE_PRODUCT));
+        const params = new URLSearchParams({ productId: id }).toString();
+        navigate(`${location.pathname}/update?${params}`);
+        break;
     }
   };
 
   const changeStatusProduct = async (checked: boolean, item: any) => {
-    await dispatch(getUpdateProductService({ productId: item.id, status: checked ? 'Y' : 'N' })).unwrap();
+    await dispatch(getUpdateManyProductService({ ids: [item.id], status: checked ? 'Y' : 'N' })).unwrap();
+    await dispatch(getListProductService()).unwrap();
   };
 
   const handleUpdateProduct = async (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, item: any) => {

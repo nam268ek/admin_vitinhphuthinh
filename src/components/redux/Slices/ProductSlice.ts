@@ -92,6 +92,7 @@ const initialState: IProductState = {
   products: [],
   itemSelected: [],
   keyProduct: '',
+  errors: {},
 };
 
 const productSlice = createSlice({
@@ -138,17 +139,19 @@ const productSlice = createSlice({
     [getListProductService.rejected]: (state) => {
       state.loading = false;
     },
-    [getCreateProductService.pending]: (state) => {
+    [getCreateProductService.pending]: (state: IProductState) => {
       state.loading = true;
     },
-    [getCreateProductService.fulfilled]: (state) => {
+    [getCreateProductService.fulfilled]: (state: IProductState) => {
       state.loading = false;
       state.action = NAME_ACTION.DEFAULT_PRODUCT;
       state.itemSelected = [];
       state.keyProduct = '';
+      state.errors = {};
     },
-    [getCreateProductService.rejected]: (state) => {
+    [getCreateProductService.rejected]: (state: IProductState, action) => {
       state.loading = false;
+      state.errors = action.payload.errors;
     },
     [getUpdateProductService.pending]: (state) => {
       state.loading = true;

@@ -13,6 +13,7 @@ interface FormProductImagesProps {
 
 export const FormProductImages: React.FC<FormProductImagesProps> = ({ onChange }) => {
   const { loading } = useSelector((state: RootState) => state.image);
+  const { errors } = useSelector((state: RootState) => state.product);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ export const FormProductImages: React.FC<FormProductImagesProps> = ({ onChange }
         <label className="mb-3 text-sm font-normal">Thumbnail Sản phẩm</label>
         <div className="pt-2">
           <ImageUploadV2 name="images" onChange={onChange} />
+          {errors['images'] && <span className="text-red-500">{errors['images']}</span>}
         </div>
       </div>
     </figure>

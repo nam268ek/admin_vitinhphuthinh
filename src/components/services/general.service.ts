@@ -1,9 +1,10 @@
+/* eslint-disable curly */
 /* eslint-disable prefer-const */
-import { message as messageAntd, UploadFile } from 'antd';
+import { FormInstance, message, message as messageAntd, UploadFile } from 'antd';
 import { DURATION_TIMEOUT_SECONDS } from '../../constants/const';
 import { IImage } from '../../types/types';
+import { TreeCategory } from './../NewProduct/Components/TreeCategory';
 
-//end body api
 export const openMessage = (data?: any, key?: string, type?: string) => {
   if ((data && data.statusCode !== 200) || type === 'error') {
     return messageAntd.error({
@@ -74,4 +75,12 @@ export const convertViToEn = (str: string) => {
   str = str.replace(/^-+|-+$/g, '');
 
   return str;
+};
+
+export const resetFieldsErrors = (form: FormInstance, keys: string[]) => {
+  Object.keys(form.getFieldsValue()).forEach((keyName: string) => {
+    if (!keys.includes(keyName)) {
+      form.setFields([{ name: [`${keyName}`], errors: [], validated: true }]);
+    }
+  });
 };

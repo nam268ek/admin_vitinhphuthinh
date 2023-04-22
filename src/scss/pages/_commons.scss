@@ -30,7 +30,8 @@
 }
 
 //setting style
-#c-collapse-panel, #c-product-info {
+#c-collapse-panel,
+#c-product-info {
   .ant-collapse-content-box {
     padding: 0;
   }
@@ -53,3 +54,13 @@
     border-bottom-right-radius: 6px;
   }
 }
+// .c-checkbox {
+//   .ant-checkbox-checked .ant-checkbox-inner,
+//   .ant-checkbox-input:checked + .ant-checkbox-inner {
+//     background-color: #fff0ee;
+//     border-color: #fff0ee;
+//   }
+//   .ant-checkbox-checked .ant-checkbox-inner:after {
+//     border: 1px solid #1677ff;
+//   }
+// }
