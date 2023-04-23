@@ -77,6 +77,15 @@ export const convertViToEn = (str: string) => {
   return str;
 };
 
+export const handleErrorFields = (form: FormInstance, error: any) => {
+  if (!error?.errors) return messageAntd.error(error.message);
+
+  Object.entries(error.errors).forEach(([key, value]) => {
+    form.setFields([{ name: [`${key}`], errors: [`${value}`] }]);
+  });
+  resetFieldsErrors(form, Object.keys(error.errors));
+};
+
 export const resetFieldsErrors = (form: FormInstance, keys: string[]) => {
   Object.keys(form.getFieldsValue()).forEach((keyName: string) => {
     if (!keys.includes(keyName)) {

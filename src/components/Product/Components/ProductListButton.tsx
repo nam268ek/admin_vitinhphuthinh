@@ -21,6 +21,7 @@ export const ProductListButton: React.FC<any> = ({ selectedIds, resetSelection }
     switch (type) {
       case 'delete':
         await dispatch(getDeleteListProductService({ ids: selectedIds }));
+        resetSelection();
         break;
       case 'edit':
         if (selectedIds.length > 0) {

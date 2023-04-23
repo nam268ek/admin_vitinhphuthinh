@@ -114,6 +114,7 @@ const productSlice = createSlice({
     setDefaultProductAction: (state) => {
       state.action = NAME_ACTION.DEFAULT_PRODUCT;
       state.itemSelected = [];
+      state.errors = {};
     },
     setUpdateListProductAction: (state, action) => {
       state.products = action.payload;

@@ -11,16 +11,28 @@ import SpecsStorageDeviceComponent from '../../SpecsStorageDeviceComponent';
 import SpecsRamComponent from '../../SpecsStorageDeviceComponent/SpecsRamComponent';
 
 export const FormProductSpecs: React.FC<any> = ({ onChange }) => {
-  const { keyProduct } = useSelector((state: RootState) => state.product);
   const [content, setContent] = useState<any | undefined>(<></>);
+  const { categories } = useSelector((state: RootState) => state.category);
+  const { products } = useSelector((state: RootState) => state.product);
+  const { categoryId, productId } = Object.fromEntries(new URLSearchParams(window.location.search));
 
   useEffect(() => {
-    setContent(handleShowSpecs());
-  }, [keyProduct]);
+    let categoryName;
+    if (categoryId) {
+      categoryName = categories.find((item: any) => item.id === categoryId)?.category;
+      const JsxContent = handleShowSpecs(categoryName as CATEGORY_KEY);
+      setContent(JsxContent);
+    }
+    if (productId) {
+      categoryName = products.find((item: any) => item.id === productId)?.category?.category;
+    }
+    const JsxContent = handleShowSpecs(categoryName as CATEGORY_KEY);
+    setContent(JsxContent);
+  }, [categoryId]);
 
-  const handleShowSpecs = () => {
-    switch (keyProduct) {
-      case CATEGORY_KEY.COMPUTER_LAPTOP:
+  const handleShowSpecs = (name: CATEGORY_KEY) => {
+    switch (name) {
+      case CATEGORY_KEY.LAPTOP:
         return <ConfigInfo onChange={onChange} />;
       case CATEGORY_KEY.PRINTER:
         return <InfoPrintComponent onChange={onChange} />;

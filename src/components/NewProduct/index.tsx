@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../constants/const';
-import { SPECS } from '../../types/types';
+import { IProducts, ITag, SPECS } from '../../types/types';
 import { TypeOf } from '../../utils/CheckTypeOfValue';
 import { getListCategoryService } from '../redux/Slices/CategorySlice';
 import { setImageAction } from '../redux/Slices/ImageSlice';
@@ -35,7 +35,7 @@ let listImages: any = [];
 export const NewProduct = () => {
   const [nameCategory, setNameCategory] = useState<string>('');
   const { categories } = useSelector((state: RootState) => state.category);
-  const { action, loading, products, keyProduct } = useSelector((state: RootState) => state.product);
+  const { action, loading, products } = useSelector((state: RootState) => state.product);
   const { categoryId, productId } = Object.fromEntries(new URLSearchParams(window.location.search));
 
   const childRef = useRef<any>(null);
@@ -69,7 +69,8 @@ export const NewProduct = () => {
       return;
     }
     setNameCategory(category.name);
-    form.setFieldsValue({ status: true, category: category.id });
+    form.setFieldsValue({ category: category.id });
+    handleChange(category.id, 'category');
   };
 
   const handleLoadProductUpdate = (id: string | undefined) => {
@@ -85,7 +86,7 @@ export const NewProduct = () => {
       return;
     }
 
-    const { images, category, brand, tags, categoryKey, specs, ...prod } = product[0];
+    const { images, category, brand, tags, specs, productInformation, ...prod } = product[0];
     dispatch(setImageAction(images));
     // dispatch(updateStateKeyProductAction(categoryKey));
     const unwindSpecs = unwindSpecsProduct(specs);
@@ -95,8 +96,12 @@ export const NewProduct = () => {
       ...unwindSpecs,
       category: category?.id,
       brand: brand?.id,
-      tags: tags?.map((t: any) => t.id),
     });
+    if (productInformation) handleChange(productInformation, 'content');
+    if (tags) {
+      const tagsArr = tags.map((tag: ITag) => tag.id) as ITag[];
+      handleChange(tagsArr, 'tags');
+    }
   };
 
   const unwindSpecsProduct = (specs: any) => {
@@ -109,9 +114,9 @@ export const NewProduct = () => {
   };
 
   const handleCreateProduct = async (data: any) => {
-    for (const item in data) {
-      handleChange(data[item], item);
-    }
+    // for (const item in data) {
+    //   handleChange(data[item], item);
+    // }
     const body = cloneDeep(bodyDataProduct);
 
     try {
@@ -167,13 +172,9 @@ export const NewProduct = () => {
   const handleChange = (e: any, key: any) => {
     let value = e;
     if (TypeOf(e) === 'Object' && !(e instanceof Event)) value = e.target.value;
+    if (key === 'content') bodyDataProduct['productInformation'] = value;
+    else bodyDataProduct[key] = value;
 
-    if (!Object.values(SPECS)?.includes(key)) {
-      bodyDataProduct[key] = value;
-    }
-    if (key === 'content') {
-      bodyDataProduct['productInformation'] = { content: childRef.current.contentEditor() };
-    }
     console.log(bodyDataProduct);
   };
 

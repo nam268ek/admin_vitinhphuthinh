@@ -115,12 +115,12 @@ export enum KEY_INFORMATION {
   POLICY = 'policy',
 }
 export enum CATEGORY_KEY {
-  COMPUTER_LAPTOP = 'computer_laptop',
-  PRINTER = 'printer',
-  ACCESSORY = 'accessory',
+  LAPTOP = 'laptop',
+  PRINTER = 'may-in',
+  ACCESSORY = 'phu-kien',
   CAMERA = 'camera',
-  NETWORK_DEVICE = 'network_device',
-  PC_LAPTOP_ACCESSORIES = 'pc_laptop_accessories',
-  PRINTER_ACCESSORIES = 'printer_accessories',
-  STORAGE_DEVICE = 'storage_device',
+  NETWORK_DEVICE = 'thiet-bi-mang',
+  PC_LAPTOP_ACCESSORIES = 'phu-kien-may-tinh',
+  PRINTER_ACCESSORIES = 'phu-kien-may-in',
+  STORAGE_DEVICE = 'thiet-bi-luu-tru',
 }

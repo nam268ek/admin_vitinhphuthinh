@@ -41,7 +41,7 @@ export const FormGeneral: React.FC<any> = ({ handleChange }) => {
               min={0}
               max={1000000000}
               formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
+              parser={(value: any) => parseFloat(value.replace(/[,.]/g, ''))}
               style={{ width: '100%' }}
               addonAfter="VNĐ"
               placeholder="Nhập giá gốc..."

@@ -52,13 +52,12 @@ export interface IProducts {
   images: string[];
   brand: string;
   category: string;
-  specs: IProductSpesc[];
   sku: string;
-  isNewProduct: boolean;
   description: string;
-  productInformation: string;
   createdAt: string;
   updatedAt: string;
+  specs?: IProductSpesc[];
+  productInformation?: string;
   priceSale?: number;
   quantity?: number;
   isFeatured?: string;
