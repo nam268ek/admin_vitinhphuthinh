@@ -107,6 +107,7 @@ const productSlice = createSlice({
     },
     setAction: (state, action) => {
       state.action = action.payload;
+      state.errors = {};
     },
     setItemSelectedAction: (state, action) => {
       state.itemSelected = action.payload;

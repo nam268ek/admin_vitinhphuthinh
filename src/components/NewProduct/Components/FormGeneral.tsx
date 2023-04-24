@@ -50,6 +50,37 @@ export const FormGeneral: React.FC<any> = ({ handleChange }) => {
           </Form.Item>
         </div>
         <div className="mb-5">
+          <label className="mb-3 text-sm font-normal">Giá khuyến mãi</label>
+          <Form.Item name="priceSale" noStyle>
+            <InputNumber
+              min={0}
+              max={1000000000}
+              formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              parser={(value: any) => parseFloat(value.replace(/[,.]/g, ''))}
+              style={{ width: '100%' }}
+              addonAfter="VNĐ"
+              placeholder="Nhập giá sale..."
+              onChange={(e) => handleChange(e, 'priceSale')}
+            />
+          </Form.Item>
+        </div>
+        <div className="mb-5">
+          <label className="mb-3 text-sm font-normal">
+            Số lượng<sup className="text-red-600 ml-1">*</sup>
+          </label>
+          <Form.Item name="quantity">
+            <InputNumber
+              min={0}
+              max={500}
+              formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              parser={(value: any) => Math.ceil(Number(value.replace(/\$\s?|(,*)/g, ''))).toString()}
+              style={{ width: '100%' }}
+              placeholder="Nhập số lượng..."
+              onChange={(e) => handleChange(e, 'quantity')}
+            />
+          </Form.Item>
+        </div>
+        <div className="mb-5">
           <label className="mb-3 text-sm font-normal">
             SKU<sup className="text-red-600 ml-1">*</sup>
           </label>
@@ -67,12 +98,7 @@ export const FormGeneral: React.FC<any> = ({ handleChange }) => {
             Tóm tắt sản phẩm<sup className="text-red-600 ml-1">*</sup>
           </label>
           <Form.Item name="description">
-            <TextArea
-              rows={12}
-              maxLength={MAX_LENGTH_TEXT_AREA}
-              showCount
-              onChange={(e: any) => handleChange(e, 'description')}
-            />
+            <TextArea rows={3} maxLength={MAX_LENGTH_TEXT_AREA} showCount onChange={(e: any) => handleChange(e, 'description')} />
           </Form.Item>
         </div>
       </div>

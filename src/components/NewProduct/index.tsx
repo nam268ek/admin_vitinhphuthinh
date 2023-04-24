@@ -96,8 +96,9 @@ export const NewProduct = () => {
       ...unwindSpecs,
       category: category?.id,
       brand: brand?.id,
+      // content: productInformation,
     });
-    if (productInformation) handleChange(productInformation, 'content');
+    // if (productInformation) handleChange(productInformation, 'content');
     if (tags) {
       const tagsArr = tags.map((tag: ITag) => tag.id) as ITag[];
       handleChange(tagsArr, 'tags');
@@ -262,7 +263,7 @@ export const NewProduct = () => {
                 </div>
                 <div>
                   <FormProductImages onChange={handleChangeImages} />
-                  <FormInventories handleChange={handleChange} />
+                  {/* <FormInventories handleChange={handleChange} /> */}
                   <FormMeta handleChange={handleChange} />
                 </div>
               </div>

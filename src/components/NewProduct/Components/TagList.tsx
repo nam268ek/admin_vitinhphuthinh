@@ -1,3 +1,4 @@
+/* eslint-disable curly */
 import { Button, Divider, Form, Input, Space, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,14 +15,30 @@ const { CheckableTag } = Tag;
 
 const TagList: React.FC<ITagListProps> = ({ handleChange }) => {
   const { tags } = useSelector((state: RootState) => state.tag);
+  const { products, errors } = useSelector((state: RootState) => state.product);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [tagsData, setTagsData] = useState<ITag[]>(tags);
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
+  const { productId } = Object.fromEntries(new URLSearchParams(window.location.search));
+
   useEffect(() => {
     setTagsData(tags);
   }, [tags]);
+
+  useEffect(() => {
+    handleLoadTagUpdate(productId);
+  }, [productId]);
+
+  const handleLoadTagUpdate = (id: string | undefined) => {
+    if (!id) return;
+
+    const product = products.find((p) => p.id === id);
+    if (product) {
+      setSelectedTags(product.tags.map((t: ITag) => t.id));
+    }
+  };
 
   const handleSelectTag = (tag: ITag, checked: boolean) => {
     const nextSelectedTags = checked ? [...selectedTags, tag.id] : selectedTags.filter((t) => t !== tag.id);
@@ -54,23 +71,18 @@ const TagList: React.FC<ITagListProps> = ({ handleChange }) => {
 
   return (
     <div className="flex flex-col items-end space-y-2 w-full">
-      <Form.Item noStyle name="tags">
-        <Space size={[0, 8]} wrap>
-          {tagsData?.map((tag, index) => (
-            <CheckableTag
-              key={index}
-              checked={selectedTags.includes(tag.id)}
-              onChange={(checked) => handleSelectTag(tag, checked)}
-            >
-              {tag.name}
-            </CheckableTag>
-          ))}
-        </Space>
-      </Form.Item>
+      <div className="flex flex-wrap gap-y-2 max-h-52 overflow-auto">
+        {tagsData?.map((tag, index) => (
+          <CheckableTag key={index} checked={selectedTags.includes(tag.id)} onChange={(checked) => handleSelectTag(tag, checked)}>
+            {tag.name}
+          </CheckableTag>
+        ))}
+      </div>
       <Divider />
-      <Form form={form}>
-        <Space.Compact>
-          <Form.Item name="name">
+      <Form form={form} className="w-full flex justify-between">
+        {errors['tags'] && <span className="text-red-500 ml-2 w-1/2">{errors['tags']}</span>}
+        <Space.Compact className="w-full">
+          <Form.Item noStyle name="name">
             <Input style={{ width: '100%' }} onChange={handleSearch} placeholder="Tìm kiếm hoặc thêm tag" />
           </Form.Item>
           <Button type="primary" onClick={handleAddTag}>

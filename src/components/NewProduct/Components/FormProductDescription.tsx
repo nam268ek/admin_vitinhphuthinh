@@ -21,10 +21,9 @@ export const FormProductDescription: React.FC<FormProductDescProps> = ({ childRe
   const handleLoadDescUpdate = (id: string | undefined) => {
     if (!id) return;
 
-    const product = products?.filter((p) => p.id === id);
-    if (product.length > 0 && Object.hasOwn(product[0], 'productInformation')) {
-      const { content } = product[0].productInformation;
-      content && content.length > 0 && setDefaultValue(content);
+    const product = products?.find((p) => p.id === id);
+    if (Object.hasOwn(product, 'productInformation')) {
+      setDefaultValue(product.productInformation);
     }
   };
   return (

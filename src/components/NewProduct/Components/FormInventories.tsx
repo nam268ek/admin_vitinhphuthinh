@@ -25,26 +25,16 @@ export const FormInventories: React.FC<any> = ({ handleChange }) => {
           <label className="mb-3 text-sm font-normal">
             Số lượng<sup className="text-red-600 ml-1">*</sup>
           </label>
-          <Form.Item noStyle>
-            <Form.Item
-              name="quantity"
-              // rules={[
-              //   {
-              //     required: true,
-              //     message: 'Please input the amount',
-              //   },
-              // ]}
-            >
-              <InputNumber
-                min={0}
-                max={500}
-                formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value: any) => value.replace(/\$\s?|(,*)/g, '')}
-                style={{ width: '100%' }}
-                placeholder="Nhập số lượng..."
-                onChange={(e) => handleChange(e, 'quantity')}
-              />
-            </Form.Item>
+          <Form.Item name="quantity">
+            <InputNumber
+              min={0}
+              max={500}
+              formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              parser={(value: any) => Math.floor(Number(value.replace(/\$\s?|(,*)/g, ''))).toString()}
+              style={{ width: '100%' }}
+              placeholder="Nhập số lượng..."
+              onChange={(e) => handleChange(e, 'quantity')}
+            />
           </Form.Item>
         </div>
       </div>
