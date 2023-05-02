@@ -1,14 +1,7 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  plugins: [
-    '@typescript-eslint/eslint-plugin',
-    'react',
-    'prettier',
-    'unicorn',
-    'import',
-    'jsx-a11y',
-  ],
+  plugins: ['@typescript-eslint/eslint-plugin', 'react', 'prettier', 'unicorn', 'import', 'jsx-a11y'],
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
@@ -41,8 +34,8 @@ module.exports = {
     'prettier/prettier': [
       'error',
       {
-        'endOfLine': 'auto',
-      }
+        endOfLine: 'auto',
+      },
     ],
     'comma-dangle': [2, 'always-multiline'],
     'linebreak-style': 'off',

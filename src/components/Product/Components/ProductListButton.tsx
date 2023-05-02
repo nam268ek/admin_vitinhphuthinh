@@ -7,8 +7,10 @@ import { ModalProductAction } from '../../ModalProductAction';
 import { getDeleteListProductService } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
 import { DropDownNewProduct } from './DropDownNewProduct';
+import { useTranslation } from 'react-i18next';
 
 export const ProductListButton: React.FC<any> = ({ selectedIds, resetSelection }) => {
+  const { t } = useTranslation();
   const { products } = useSelector((state: RootState) => state.product);
   const [open, setOpen] = useState<boolean>(false);
 
@@ -44,7 +46,7 @@ export const ProductListButton: React.FC<any> = ({ selectedIds, resetSelection }
       <ModalProductAction resetSelection={resetSelection} ids={selectedIds} handleCancel={handleCancelModal} isOpen={open} />
       {!hasSelected ? (
         <div className="flex mb-4 justify-between">
-          <p className="text-2xl m-0 flex items-center w-full">Sản phẩm</p>
+          <p className="text-2xl m-0 flex items-center w-full font-medium">{t('products')}</p>
           <div className="flex justify-end w-full">
             <div className="flex w-full">
               <DropDownNewProduct />

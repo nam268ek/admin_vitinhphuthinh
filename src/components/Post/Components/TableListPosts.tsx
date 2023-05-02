@@ -1,9 +1,10 @@
-import { DeleteOutlined } from '@ant-design/icons';
-import { Avatar, Button, Space, Table } from 'antd';
+import { Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { TableRowSelection } from 'antd/es/table/interface';
+import { Plus } from 'lucide-react';
 import moment from 'moment';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { NAME_ACTION } from '../../../constants/const';
@@ -11,8 +12,11 @@ import { DataTypePost } from '../../../types/types';
 import { getDeleteListPostService, getListPostsService, setPostAction } from '../../redux/Slices/PostSlice';
 import { RootState } from '../../redux/store/store';
 import { openMessage } from '../../services/general.service';
+import { Button } from '../../ui/Button';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../../ui/Select';
 
 export const TableListPosts: React.FC = () => {
+  const { t } = useTranslation();
   const { loading, posts } = useSelector((state: RootState) => state.post);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -41,8 +45,8 @@ export const TableListPosts: React.FC = () => {
       title: 'Tên bài đăng',
       dataIndex: 'namePost',
       key: 'namePost',
-      className: 'w-2/4',
-      render: (customer: any, record: any) => (
+      className: 'w-2/4 text-base font-medium',
+      render: (customer, record: any) => (
         <div className="flex items-center w-full hover:cursor-pointer" onClick={(e) => handleUpdatePost(e, record)}>
           <img
             src={record?.images?.thumbUrl}
@@ -55,15 +59,18 @@ export const TableListPosts: React.FC = () => {
       ),
     },
     {
-      title: 'Trạng thái',
+      title: 'Status',
       dataIndex: 'status',
       key: 'status',
+      className: 'text-base font-medium',
+      width: 120,
       render: (status: string) => <span>{status}</span>,
     },
     {
       title: 'Ngày đăng',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
+      className: 'text-base font-medium',
       render: (updatedAt: any) => <span>{moment(updatedAt).format('L, h:mm:ss A')}</span>,
     },
   ];
@@ -103,15 +110,44 @@ export const TableListPosts: React.FC = () => {
 
   return (
     <>
-      <Space align="center" className="mb-2">
-        <Button
-          className="d-flex justify-content-center align-items-center"
-          type="default"
-          disabled={!hasSelected}
-          danger
-          icon={<DeleteOutlined spin={loading} />}
-          onClick={handleSyncData}
-        ></Button>
+      <Space align="center" className="mb-4 mt-2 w-full flex justify-between">
+        {/* <Button  label="new" icon={<Plus size={18} />} /> */}
+        <Button className="border-0 text-base flex gap-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:cursor-pointer duration-700 transition-colors hover:from-blue-400 hover:via-blue-500 hover:to-blue-600">
+          <Plus size={18} />
+          {t('new')}
+        </Button>
+        <Space>
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Theme" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="light">Light</SelectItem>
+              <SelectItem value="dark">Dark</SelectItem>
+              <SelectItem value="system">System</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Theme" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="light">Light</SelectItem>
+              <SelectItem value="dark">Dark</SelectItem>
+              <SelectItem value="system">System</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Theme" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="light">Light</SelectItem>
+              <SelectItem value="dark">Dark</SelectItem>
+              <SelectItem value="system">System</SelectItem>
+            </SelectContent>
+          </Select>
+        </Space>
       </Space>
       <Table rowKey={(record) => record.id} rowSelection={rowSelection} columns={columns} dataSource={data} loading={loading} />
     </>

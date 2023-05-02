@@ -286,7 +286,7 @@ export interface DataTypePost {
   id: string;
   namePost: string;
   status: string;
-  images: any[];
+  images: IImage[] | IImage;
   updatedAt: string;
 }
 export interface ImageUploadModalProps {

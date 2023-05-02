@@ -1,6 +1,5 @@
 /* eslint-disable react/display-name */
-import { DeleteOutlined, MoreOutlined } from '@ant-design/icons';
-import { Dropdown, Switch, Table } from 'antd';
+import { Switch, Table } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/es/table';
 import { FilterValue, TableRowSelection } from 'antd/es/table/interface';
 import { CheckCircle2, Edit, Trash, XCircle } from 'lucide-react';
@@ -14,11 +13,11 @@ import {
   getDeleteListProductService,
   getListProductService,
   getUpdateManyProductService,
-  getUpdateProductService,
   setAction,
 } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
 import { formatMoney, openMessage } from '../../services/general.service';
+import { Edit3 } from 'lucide-react';
 
 const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
   const { loading, products } = useSelector((state: RootState) => state.product);
@@ -48,7 +47,8 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
       ellipsis: true,
       fixed: 'left',
       width: 500,
-      render: (text: string, record: any) => (
+      className: 'text-base font-medium',
+      render: (text: string, record) => (
         <span
           className="cursor-pointer text-blue-500 whitespace-nowrap text-ellipsis overflow-hidden"
           onClick={(e) => handleUpdateProduct(e, record)}
@@ -58,50 +58,55 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
       ),
     },
     {
-      title: 'Giá gốc',
-      dataIndex: 'price',
-      key: 'price',
-      ellipsis: true,
-      width: 150,
-      sorter: (a, b) => a.price - b.price,
-      render: (price: number, record: any) => <span className="font-medium opacity-75">{formatMoney.format(price)}</span>,
-    },
-    {
       title: 'Giá bán',
       dataIndex: 'priceSale',
       key: 'priceSale',
       ellipsis: true,
       width: 150,
+      className: 'text-base font-medium',
       sorter: (a, b) => a.priceSale - b.priceSale,
-      render: (priceSale: number, record: any) => <span className="font-medium">{formatMoney.format(priceSale)}</span>,
+      render: (priceSale: number) => <span className="font-medium">{formatMoney.format(priceSale)}</span>,
     },
     {
-      title: 'Danh mục',
+      title: 'Giá gốc',
+      dataIndex: 'price',
+      key: 'price',
+      ellipsis: true,
+      width: 150,
+      className: 'text-base font-medium',
+      sorter: (a, b) => a.price - b.price,
+      render: (price: number) => <span className="font-medium opacity-75">{formatMoney.format(price)}</span>,
+    },
+    {
+      title: 'Category',
       dataIndex: 'category',
       key: 'category',
       width: 150,
+      className: 'text-base font-medium',
       filters: categories?.map((category) => ({ text: category?.name, value: category?.id })),
       filteredValue: filteredInfo.category || null,
       onFilter: (value: string | number | boolean, record) => record?.category?.id === value,
-      render: (category: any, record: any) => <span>{category?.name || 'N/A'}</span>,
+      render: (category) => <span>{category?.name || 'N/A'}</span>,
     },
     {
-      title: 'Thương hiệu',
+      title: 'Brand',
       dataIndex: 'brand',
       key: 'brand',
       width: 140,
+      className: 'text-base font-medium',
       filters: brands?.map((brand) => ({ text: brand?.name, value: brand?.id })),
       filteredValue: filteredInfo.brand || null,
       onFilter: (value: string | number | boolean, record) => record?.brand?.id === value,
-      render: (brand: any) => <span>{brand?.name}</span>,
+      render: (brand) => <span>{brand?.name}</span>,
     },
     {
       title: 'Số lượng',
       dataIndex: 'quantity',
       key: 'quantity',
       width: 120,
+      className: 'text-base font-medium',
       sorter: (a, b) => a.quantity - b.quantity,
-      render: (quantity: any) => <span className="price-product">{quantity}</span>,
+      render: (quantity) => <span className="price-product">{quantity}</span>,
     },
     {
       title: 'Nỗi bật',
@@ -113,10 +118,11 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
         { text: 'Yes', value: 'Y' },
         { text: 'No', value: 'N' },
       ],
+      className: 'text-base font-medium',
       filteredValue: filteredInfo.isFeatured || null,
       onFilter: (value: string | number | boolean, record) =>
         value === 'Y' ? record?.isFeatured === value : record?.isFeatured !== 'Y',
-      render: (value: any, item: DataTypeProduct) => (
+      render: (value, item: DataTypeProduct) => (
         <span className="flex">
           {item?.isFeatured === 'Y' && <CheckCircle2 className="text-green-500 text-center" size={20} />}
           {item?.isFeatured === 'N' && <XCircle size={20} className="opacity-50" />}
@@ -125,7 +131,7 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
       ),
     },
     {
-      title: 'Trạng thái',
+      title: 'Status',
       key: 'status',
       dataIndex: 'status',
       width: 120,
@@ -133,9 +139,10 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
         { text: 'ON', value: 'Y' },
         { text: 'OFF', value: 'N' },
       ],
+      className: 'text-base font-medium',
       filteredValue: filteredInfo.status || null,
       onFilter: (value: string | number | boolean, record) => record?.status === value,
-      render: (value: any, item: DataTypeProduct) => (
+      render: (value, item: DataTypeProduct) => (
         <Switch
           key={item.id}
           checked={value === 'Y'}
@@ -150,26 +157,28 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
       dataIndex: 'updatedAt',
       key: 'updatedAt',
       width: 250,
-      render: (text: string) => <span>{moment(text).format('DD/MM/YYYY, h:mm:ss A')}</span>,
+      className: 'text-base font-medium',
+      render: (text: string) => <span className="opacity-85">{moment(text).format('DD/MM/YYYY, h:mm:ss A')}</span>,
     },
     {
       title: 'Action',
       key: 'action',
       fixed: 'right',
       width: 130,
+      className: 'text-base font-medium',
       render: (data, record) => (
         <div className="flex gap-2">
           <span
             title="Sửa sản phẩm"
             onClick={() => handleMoreAction(record, 'edit')}
-            className="flex p-2 rounded-lg hover:bg-gray-200 hover:cursor-pointer transition duration-300 ease-in-out"
+            className="flex p-2 opacity-50 rounded-lg hover:bg-gray-200 hover:cursor-pointer hover:opacity-90 transition duration-300 ease-in-out"
           >
-            <Edit size={20} />
+            <Edit3 size={20} />
           </span>
           <span
             title="Xóa sản phẩm"
             onClick={() => handleMoreAction(record, 'delete')}
-            className="flex p-2 rounded-lg hover:bg-gray-200 hover:cursor-pointer transition duration-300 ease-in-out"
+            className="flex p-2 opacity-50 rounded-lg hover:bg-gray-200 hover:cursor-pointer hover:opacity-90 transition duration-300 ease-in-out"
           >
             <Trash size={20} />
           </span>
@@ -220,7 +229,7 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
   };
 
   const convertListProducts = (list: any[]) => {
-    return list.map((item: any, index: number) => {
+    return list.map((item, index: number) => {
       const { id, name, status, brand, price, priceSale, updatedAt, quantity, isFeatured, category } = item;
       return {
         key: index + 1,
