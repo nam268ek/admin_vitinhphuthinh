@@ -87,7 +87,7 @@ export interface IBodyCreateProduct {
 export interface ISelectOption {
   name: string;
   options?: ISelectOptionProps[];
-  handleOnChange?: (value: any, name: string) => void;
+  handleChange?: (value: any, name: string) => void;
   disabled?: boolean;
   className?: string;
   initialValue?: any;

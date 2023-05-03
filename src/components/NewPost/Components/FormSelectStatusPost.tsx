@@ -21,19 +21,19 @@ export const FormSelectStatusPost: React.FC<any> = ({ onChange, disabled, classN
   };
 
   return (
-    <SelectOptionV2
-      name="status"
-      className={className}
-      placeholder="Trạng thái"
-      handleOnChange={onChange}
-      options={options}
-      disabled={disabled}
-      rules={[
-        {
-          required: true,
-          message: 'Field not empty',
-        },
-      ]}
-    />
+    <></>
+    // <SelectOptionV2
+    //   name="status"
+    //   className={className}
+    //   placeholder="Trạng thái"
+    //   options={options}
+    //   disabled={disabled}
+    //   rules={[
+    //     {
+    //       required: true,
+    //       message: 'Field not empty',
+    //     },
+    //   ]}
+    // />
   );
 };

@@ -39,7 +39,7 @@ export const OrderSummary: React.FC<any> = ({ onChange, form }) => {
               placeholder="Phương thức thanh toán"
               className="w-full m-0"
               options={options}
-              handleOnChange={onChange}
+              // handleOnChange={onChange}
               rules={[{ require: true, message: 'Field required' }]}
             />
           </div>

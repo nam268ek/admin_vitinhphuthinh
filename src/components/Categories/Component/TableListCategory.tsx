@@ -24,7 +24,7 @@ export const TableListCategory: React.FC = () => {
       dataIndex: 'name',
       key: 'name',
       ellipsis: true,
-      width: 200,
+      width: 120,
       className: 'text-base font-medium',
     },
     {
@@ -32,7 +32,7 @@ export const TableListCategory: React.FC = () => {
       dataIndex: 'category',
       key: 'category',
       ellipsis: true,
-      width: 150,
+      width: 120,
       className: 'text-base font-medium',
       render: (text: string) => <span className="text-zinc-500">{text}</span>,
     },
@@ -50,15 +50,15 @@ export const TableListCategory: React.FC = () => {
       dataIndex: 'updatedAt',
       key: 'updatedAt',
       ellipsis: true,
-      width: 200,
+      width: 150,
       className: 'text-base font-medium',
       render: (text: string) => <span className="text-zinc-500">{moment(text).format('DD/MM/YYYY, h:mm:ss A')}</span>,
     },
     {
-      title: 'Action',
+      title: '',
       key: 'action',
       fixed: 'right',
-      width: 100,
+      width: 90,
       className: 'text-base font-medium',
       render: (data, record) => (
         <div className={!disabledFieldCategory ? 'hidden' : 'flex gap-2'}>
@@ -67,34 +67,17 @@ export const TableListCategory: React.FC = () => {
             onClick={() => handleEditCategory(record)}
             className="flex p-2 opacity-50 rounded-lg hover:bg-gray-200 hover:cursor-pointer hover:opacity-90 transition duration-300 ease-in-out"
           >
-            <Edit3 size={20} />
+            <Edit3 size={18} />
           </span>
           <span
             title="Xóa danh mục"
             onClick={() => handleRemoveCategory(record)}
             className="flex p-2 opacity-50 rounded-lg hover:bg-gray-200 hover:cursor-pointer hover:opacity-90 transition duration-300 ease-in-out"
           >
-            <Trash size={20} />
+            <Trash size={18} />
           </span>
         </div>
       ),
-      // render: (text: string, record: any) => (
-      //   <Space size="middle">
-      //     <Button
-      //       icon={<EditFilled />}
-      //       disabled={!disabledFieldCategory}
-      //       onClick={(e) => handleEditCategory(record)}
-      //       className="bg-blue-100 border-0 text-blue-500"
-      //     ></Button>
-      //     <Button
-      //       icon={<DeleteFilled />}
-      //       danger
-      //       disabled={!disabledFieldCategory}
-      //       onClick={(e) => handleRemoveCategory(record)}
-      //       className="bg-red-100 border-0 text-red-500 hover:bg-red-200 hover-text"
-      //     ></Button>
-      //   </Space>
-      // ),
     },
   ];
 

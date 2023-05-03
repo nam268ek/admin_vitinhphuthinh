@@ -1,9 +1,8 @@
 /* eslint-disable curly */
 /* eslint-disable prefer-const */
-import { FormInstance, message, message as messageAntd, UploadFile } from 'antd';
+import { FormInstance, message as messageAntd, UploadFile } from 'antd';
 import { DURATION_TIMEOUT_SECONDS } from '../../constants/const';
 import { IImage } from '../../types/types';
-import { TreeCategory } from './../NewProduct/Components/TreeCategory';
 
 export const openMessage = (data?: any, key?: string, type?: string) => {
   if ((data && data.statusCode !== 200) || type === 'error') {

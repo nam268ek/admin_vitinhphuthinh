@@ -38,6 +38,16 @@ export const getDeleteListPostService: any = createAsyncThunk(NAME_ACTION.REMOVE
     return rejectWithValue(error.response.data);
   }
 });
+
+export const getUpdateManyPostService: any = createAsyncThunk(NAME_ACTION.UPDATE_POST, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.updatePostManyService(params);
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
+
 const initialState: PostState = {
   action: NAME_ACTION.CREATE_POST,
   loading: false,
@@ -53,6 +63,15 @@ export const postSlice = createSlice({
     },
   },
   extraReducers: {
+    [getUpdateManyPostService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUpdateManyPostService.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [getUpdateManyPostService.rejected]: (state) => {
+      state.loading = false;
+    },
     [getListPostsService.pending]: (state) => {
       state.loading = true;
     },

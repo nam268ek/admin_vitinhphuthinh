@@ -161,10 +161,10 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
       render: (text: string) => <span className="opacity-85">{moment(text).format('DD/MM/YYYY, h:mm:ss A')}</span>,
     },
     {
-      title: 'Action',
+      title: '',
       key: 'action',
       fixed: 'right',
-      width: 130,
+      width: 120,
       className: 'text-base font-medium',
       render: (data, record) => (
         <div className="flex gap-2">
@@ -173,14 +173,14 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
             onClick={() => handleMoreAction(record, 'edit')}
             className="flex p-2 opacity-50 rounded-lg hover:bg-gray-200 hover:cursor-pointer hover:opacity-90 transition duration-300 ease-in-out"
           >
-            <Edit3 size={20} />
+            <Edit3 size={18} />
           </span>
           <span
             title="Xóa sản phẩm"
             onClick={() => handleMoreAction(record, 'delete')}
             className="flex p-2 opacity-50 rounded-lg hover:bg-gray-200 hover:cursor-pointer hover:opacity-90 transition duration-300 ease-in-out"
           >
-            <Trash size={20} />
+            <Trash size={18} />
           </span>
         </div>
       ),
@@ -222,10 +222,6 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
     dispatch(setAction(NAME_ACTION.UPDATE_PRODUCT));
     const params = new URLSearchParams({ productId: id }).toString();
     navigate(`${location.pathname}/update?${params}`);
-    // const product = products.filter((o) => o.id === item.id);
-    // dispatch(setItemSelectedAction(product));
-    // dispatch(updateStateKeyProductAction(product[0]?.categoryKey));
-    // navigate(`${location.pathname}/${item.id}`);
   };
 
   const convertListProducts = (list: any[]) => {

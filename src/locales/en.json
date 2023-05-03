@@ -2,5 +2,8 @@
     "products": "Products",
     "posts": "Posts",
     "add": "Add",
-    "new": "New"
+    "new": "New",
+    "searchName": "Search name...",
+    "date": "Date",
+    "status": "Status"
 }

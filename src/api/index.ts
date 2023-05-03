@@ -182,6 +182,10 @@ export const requestService = {
     const url = '/newspapers/update';
     return instance.put(url, params);
   },
+  updatePostManyService: (params: any) => {
+    const url = '/newspapers/update-many';
+    return instance.put(url, params);
+  },
 
   //footer services
   updateFooterService: (params: any) => {

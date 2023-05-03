@@ -142,13 +142,7 @@ export const CreateCategory: React.FC = () => {
                   </div>
                   <div className="mx-2 w-full">
                     <label className="mb-3 text-sm font-normal">Parent</label>
-                    <SelectOptionV2
-                      name="path"
-                      className="w-full mb-4"
-                      options={options}
-                      placeholder="Dell"
-                      handleOnChange={handleOnChange}
-                    />
+                    <SelectOptionV2 name="path" className="w-full mb-4" options={options} placeholder="Dell" />
                   </div>
                 </div>
               </div>

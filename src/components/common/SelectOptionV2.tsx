@@ -10,9 +10,6 @@ export const SelectOptionV2: React.FC<ISelectOption> = ({
   disabled,
   className,
   placeholder,
-  rules,
-  validateTrigger,
-  handleOnChange,
   placement,
 }) => {
   const [options, setOptions] = React.useState<any>([]);
@@ -49,15 +46,8 @@ export const SelectOptionV2: React.FC<ISelectOption> = ({
   };
 
   return (
-    <Form.Item name={name} noStyle rules={rules} validateTrigger={validateTrigger}>
-      <Cascader
-        options={options}
-        className={className}
-        placement={placement}
-        // onChange={(e) => handleOnChange(e, name)}
-        placeholder={placeholder}
-        changeOnSelect
-      />
+    <Form.Item name={name} noStyle>
+      <Cascader options={options} className={className} placement={placement} placeholder={placeholder} changeOnSelect />
     </Form.Item>
   );
 };
