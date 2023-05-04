@@ -24,7 +24,7 @@ export const getThumbUrl = (url: string, options?: ThumbProps): string => {
   const { width, height } = options as ThumbProps;
   if (width && height) tranformation = `c_thumb,h_${height},w_${width}`;
 
-  const urlSplit = url.split('/');
-  urlSplit.splice(urlSplit.indexOf('upload') + 1, 0, tranformation);
-  return urlSplit.join('/');
+  const urlSplit = url?.split('/');
+  urlSplit?.splice(urlSplit?.indexOf('upload') + 1, 0, tranformation);
+  return urlSplit?.join('/');
 };

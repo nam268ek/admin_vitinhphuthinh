@@ -1,12 +1,14 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable react/display-name */
-import { Switch, Table } from 'antd';
+import { Image, Switch, Table } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/es/table';
 import { FilterValue, TableRowSelection } from 'antd/es/table/interface';
-import { CheckCircle2, Edit, Trash, XCircle } from 'lucide-react';
+import { CheckCircle2, Edit3, Trash, XCircle } from 'lucide-react';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getThumbUrl } from 'src/utils';
 import { NAME_ACTION } from '../../../constants/const';
 import { DataTypeProduct } from '../../../types/types';
 import {
@@ -17,7 +19,6 @@ import {
 } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
 import { formatMoney, openMessage } from '../../services/general.service';
-import { Edit3 } from 'lucide-react';
 
 const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
   const { loading, products } = useSelector((state: RootState) => state.product);
@@ -44,17 +45,24 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
       title: 'Tên sản phẩm',
       dataIndex: 'name',
       key: 'name',
-      ellipsis: true,
-      fixed: 'left',
       width: 500,
       className: 'text-base font-medium',
       render: (text: string, record) => (
-        <span
-          className="cursor-pointer text-blue-500 whitespace-nowrap text-ellipsis overflow-hidden"
-          onClick={(e) => handleUpdateProduct(e, record)}
-        >
-          {text}
-        </span>
+        <div className="flex gap-4 items-start hover:cursor-pointer" onClick={(e) => handleUpdateProduct(e, record)}>
+          <div className="w-[50px] h-[50px] relative">
+            <Image
+              className="object-cover w-full h-full absolute rounded-md"
+              preview={false}
+              style={{ width: '100%', height: '100%' }}
+              rootClassName="w-[50px] h-[50px] rounded-md border border-solid"
+              placeholder={<div className="w-[50px] h-[50px] animate-pulse bg-zinc-700"></div>}
+              src={record?.images?.[0]?.thumbUrl}
+              alt={record?.name}
+              loading="lazy"
+            />
+          </div>
+          <span className="cursor-pointer hover:text-blue-800 text-[#5c5c5c]">{text}</span>
+        </div>
       ),
     },
     {
@@ -226,7 +234,7 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
 
   const convertListProducts = (list: any[]) => {
     return list.map((item, index: number) => {
-      const { id, name, status, brand, price, priceSale, updatedAt, quantity, isFeatured, category } = item;
+      const { id, name, status, images, brand, price, priceSale, updatedAt, quantity, isFeatured, category } = item;
       return {
         key: index + 1,
         id,
@@ -238,6 +246,7 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
         quantity,
         category,
         updatedAt,
+        images,
         isFeatured: isFeatured || '',
       };
     });

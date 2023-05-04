@@ -134,22 +134,15 @@ export const NewPost: React.FC = () => {
         className="sticky top-0 z-10 w-full flex items-center justify-between border-t-0 border-x-0 border-b border-solid border-[#eee]"
         style={{ background: colorBgContainer, paddingInline: '35px' }}
       >
-        <p className="text-2xl m-0 flex items-center">{`${action === NAME_ACTION.CREATE_ORDER ? 'Tạo' : 'Cập nhật'}`} bài đăng</p>
-        <Form onFinish={onFinish} form={form}>
-          <Form.Item noStyle>
-            <Space>
-              <Button type="primary" danger onClick={goBack}>
-                Back
-              </Button>
-              <Button type="primary" htmlType="reset" onClick={resetForm}>
-                Reset
-              </Button>
-              <Button type="primary" htmlType="submit" loading={loading}>
-                Submit
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
+        <p className="text-2xl m-0 flex items-center">{`${action === NAME_ACTION.CREATE_POST ? 'Tạo' : 'Cập nhật'}`} bài đăng</p>
+        <Space>
+          <Button className="font-medium" onClick={goBack}>
+            Back
+          </Button>
+          <Button type="primary" className="font-medium" onClick={form.submit} loading={loading}>
+            Submit
+          </Button>
+        </Space>
       </Header>
       <Content className="my-0 mx-4">
         <Breadcrumb className="mx-0 my-2 px-5">

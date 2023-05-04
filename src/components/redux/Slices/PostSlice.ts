@@ -52,6 +52,7 @@ const initialState: PostState = {
   action: NAME_ACTION.CREATE_POST,
   loading: false,
   posts: [],
+  errors: {},
 };
 
 export const postSlice = createSlice({

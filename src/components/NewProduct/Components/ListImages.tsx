@@ -91,13 +91,11 @@ export const ListImages: React.FC<ImageModalProps> = ({ open, setOpen, onChange,
             onClick={handleDelete}
             loading={loading}
           ></Button> */}
-          <div className="bg-gray-50 rounded-md border border-solid border-gray-300 px-2 h-8 flex items-center justify-center">
-            <p className="text-sm text-gray-500 m-0">
-              Hình ảnh đã chọn{' '}
-              <span className="text-base text-blue-600 font-medium">
-                {selectedIds.length}/{maxSelect}
-              </span>{' '}
-              images
+          <div className="rounded-md font-medium bg-blue-600 px-5 h-8 flex items-center justify-center">
+            <p className="text-sm text-zinc-100 m-0 ">
+              <span className="text-base text-white font-medium">
+                {selectedIds.length}/{maxSelect} ảnh đã chọn
+              </span>
             </p>
           </div>
           <Button key="back" type="default" onClick={handleCancel}>

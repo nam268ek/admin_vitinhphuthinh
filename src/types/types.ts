@@ -28,6 +28,7 @@ export interface DataTypeProduct {
   quantity: number;
   category: any;
   brand: IBrand;
+  images: IImage[];
   isFeatured?: string;
 }
 
@@ -280,6 +281,7 @@ export interface PostState {
   action: NAME_ACTION;
   loading: boolean;
   posts: any[];
+  errors: Record<string, string>;
 }
 export interface DataTypePost {
   key: React.Key;

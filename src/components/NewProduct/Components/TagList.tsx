@@ -60,7 +60,7 @@ const TagList: React.FC<ITagListProps> = ({ handleChange }) => {
   const handleAddTag = async () => {
     const value = form.getFieldValue('name') as string;
     try {
-      await dispatch(getCreateTagService({ name: value.trim() })).unwrap();
+      await dispatch(getCreateTagService({ name: value?.trim() })).unwrap();
       form.setFieldsValue({
         name: '',
       });
@@ -71,9 +71,14 @@ const TagList: React.FC<ITagListProps> = ({ handleChange }) => {
 
   return (
     <div className="flex flex-col items-end space-y-2 w-full">
-      <div className="flex flex-wrap gap-y-2 max-h-52 overflow-auto">
+      <div className="flex flex-wrap gap-y-2 max-h-28 overflow-auto">
         {tagsData?.map((tag, index) => (
-          <CheckableTag key={index} checked={selectedTags.includes(tag.id)} onChange={(checked) => handleSelectTag(tag, checked)}>
+          <CheckableTag
+            className="font-medium"
+            key={index}
+            checked={selectedTags.includes(tag.id)}
+            onChange={(checked) => handleSelectTag(tag, checked)}
+          >
             {tag.name}
           </CheckableTag>
         ))}
@@ -81,11 +86,11 @@ const TagList: React.FC<ITagListProps> = ({ handleChange }) => {
       <Divider />
       <Form form={form} className="w-full flex justify-between">
         {errors['tags'] && <span className="text-red-500 ml-2 w-1/2">{errors['tags']}</span>}
-        <Space.Compact className="w-full">
+        <Space.Compact className="w-full mt-2">
           <Form.Item noStyle name="name">
             <Input style={{ width: '100%' }} onChange={handleSearch} placeholder="Tìm kiếm hoặc thêm tag" />
           </Form.Item>
-          <Button type="primary" onClick={handleAddTag}>
+          <Button type="primary" className="font-medium" onClick={handleAddTag}>
             Thêm tag
           </Button>
         </Space.Compact>

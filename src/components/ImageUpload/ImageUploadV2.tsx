@@ -46,7 +46,9 @@ export const ImageUploadV2: React.FC<ImageUploadModalProps> = ({
   const uploadButton = (
     <div>
       <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div className="font-medium" style={{ marginTop: 8 }}>
+        Upload
+      </div>
     </div>
   );
 

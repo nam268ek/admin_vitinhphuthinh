@@ -1,15 +1,34 @@
 /* eslint-disable import/no-unresolved */
-import { Form, Input, Switch } from 'antd';
+import { Button, Form, Input, Switch } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { FormInstance } from 'rc-field-form/lib/interface';
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ListImages } from 'src/components/NewProduct/Components/ListImages';
 import TagList from 'src/components/NewProduct/Components/TagList';
 import { SelectOptionV2 } from 'src/components/common/SelectOptionV2';
+import { getListImageService } from 'src/components/redux/Slices/ImageSlice';
+import { RootState } from 'src/components/redux/store/store';
 import { MAX_LENGTH_TEXT, UPLOAD_KEY } from '../../../constants/const';
 import { ImageUploadV2 } from '../../ImageUpload/ImageUploadV2';
-import { convertViToEn } from '../../services/general.service';
+import { convertViToEn, openMessage } from '../../services/general.service';
 
 export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance<any> }> = ({ onChange, form }) => {
+  const { loading } = useSelector((state: RootState) => state.image);
+  const { errors } = useSelector((state: RootState) => state.post);
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const dispatch = useDispatch();
+
+  const openSelectImages = async () => {
+    try {
+      await dispatch(getListImageService()).unwrap();
+      setIsModalOpen(!isModalOpen);
+    } catch (error) {
+      openMessage(error);
+    }
+  };
+
   const onChangeName = (event: any, key: string) => {
     const value = event.target.value;
     const slug = convertViToEn(value);
@@ -23,7 +42,13 @@ export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance<any> }>
 
   return (
     <figure>
-      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">Thông tin cơ bản</figcaption>
+      <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3 flex items-center justify-between">
+        <span>Thông tin cơ bản</span>
+        <Button type="primary" size="small" onClick={openSelectImages} loading={loading}>
+          Images
+        </Button>
+        <ListImages maxSelect={1} open={isModalOpen} setOpen={setIsModalOpen} onChange={onChange} />
+      </figcaption>
       <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
         <div className="grid grid-cols-2 grid-flow-col gap-4">
           <div>
@@ -82,7 +107,10 @@ export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance<any> }>
               <label className="mb-3 text-sm font-medium">
                 Hình ảnh<sup className="text-red-600 ml-1">*</sup>
               </label>
-              <ImageUploadV2 name="images" maxFiles={1} keyUpload={UPLOAD_KEY.IMAGE_BLOG} onChange={onChange} />
+              <div className="flex">
+                <ImageUploadV2 name="images" maxFiles={1} keyUpload={UPLOAD_KEY.IMAGE_BLOG} onChange={onChange} />
+                {errors['images'] && <span className="text-red-500">{errors['images']}</span>}
+              </div>
             </div>
             <div className="mb-5">
               <label className="inline-block mb-3 text-sm font-medium">Tags</label>

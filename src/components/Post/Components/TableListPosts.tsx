@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import { Space, Switch, Table } from 'antd';
+import { Image, Space, Switch, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { TableRowSelection } from 'antd/es/table/interface';
 import { Edit3, Plus, Trash } from 'lucide-react';
@@ -57,13 +57,19 @@ export const TableListPosts: React.FC = () => {
       width: 300,
       render: (customer, record: any) => (
         <div className="flex items-start w-full hover:cursor-pointer" onClick={(e) => handleUpdatePost(e, record)}>
-          <img
-            src={getThumbUrl(record?.images?.thumbUrl, { width: 50, height: 50 })}
-            alt={record?.images?.name}
-            className="w-10 h-10 object-cover object-top rounded-md"
-            loading="lazy"
-          />
-          <span className="text-ellipsis text-sm text-[#5c5c5c] ml-2 hover:text-blue-800">{record?.namePost}</span>
+          <div className="w-[50px] h-[50px] relative">
+            <Image
+              className="object-cover w-full h-full absolute rounded-md"
+              preview={false}
+              style={{ width: '100%', height: '100%' }}
+              rootClassName="w-[50px] h-[50px] rounded-md border border-solid"
+              placeholder={<div className="w-[50px] h-[50px] animate-pulse bg-zinc-700"></div>}
+              src={getThumbUrl(record?.images?.thumbUrl, { width: 150, height: 150 })}
+              alt={record?.name}
+              loading="lazy"
+            />
+          </div>
+          <span className="text-[#5c5c5c] overflow-auto ml-2 hover:text-blue-800 h-[50px]">{record?.namePost}</span>
         </div>
       ),
     },
@@ -71,7 +77,7 @@ export const TableListPosts: React.FC = () => {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      width: 90,
+      width: 50,
       className: 'text-base font-medium',
       render: (value, item: DataTypePost) => (
         <Switch
@@ -82,6 +88,14 @@ export const TableListPosts: React.FC = () => {
           onChange={(e) => changeStatusProduct(e, item)}
         />
       ),
+    },
+    {
+      title: 'Link bài viết',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+      className: 'text-base font-medium',
+      width: 150,
+      render: (updatedAt) => <span className="text-[#5c5c5c]">{moment(updatedAt).format('DD/MM/YYYY, h:mm:ss A')}</span>,
     },
     {
       title: 'Ngày đăng',
@@ -95,7 +109,7 @@ export const TableListPosts: React.FC = () => {
       title: '',
       key: 'action',
       fixed: 'right',
-      width: 60,
+      width: 80,
       className: 'text-base font-medium',
       render: (data, record) => (
         <div className="flex gap-2">
@@ -178,10 +192,18 @@ export const TableListPosts: React.FC = () => {
     }
   };
 
+  const handleNewPost = () => {
+    dispatch(setPostAction(NAME_ACTION.CREATE_POST));
+    navigate(`${location.pathname}/new`);
+  };
+
   return (
     <>
       <Space align="center" className="mb-4 mt-2 w-full flex justify-between">
-        <Button className="border-0 text-base flex gap-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:cursor-pointer duration-700 transition-colors hover:from-blue-400 hover:via-blue-500 hover:to-blue-600">
+        <Button
+          onClick={handleNewPost}
+          className="border-0 text-base flex gap-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:cursor-pointer duration-700 transition-colors hover:from-blue-400 hover:via-blue-500 hover:to-blue-600"
+        >
           <Plus size={18} />
           {t('new')}
         </Button>
