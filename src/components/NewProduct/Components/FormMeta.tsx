@@ -1,9 +1,8 @@
 import React from 'react';
 import { DropDownBrands } from './DropdownBrands';
-import { DropDownTags } from './DropdownTags';
 import TagList from './TagList';
 
-export const FormMeta: React.FC<any> = ({ handleChange }) => {
+export const FormMeta: React.FC<any> = ({ handleChange, onChangeUpdate }) => {
   return (
     <figure>
       <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3">Meta</figcaption>
@@ -18,8 +17,7 @@ export const FormMeta: React.FC<any> = ({ handleChange }) => {
           <label className="text-sm font-normal">
             Tags<sup className="text-red-600 ml-1">*</sup>
           </label>
-          {/* <DropDownTags handleChange={handleChange} /> */}
-          <TagList handleChange={handleChange} />
+          <TagList onChangeUpdate={onChangeUpdate} />
         </div>
       </div>
     </figure>

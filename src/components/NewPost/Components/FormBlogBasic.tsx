@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import { Button, Form, Input, Switch } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
+import { Plus } from 'lucide-react';
 import { FormInstance } from 'rc-field-form/lib/interface';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,9 +14,14 @@ import { MAX_LENGTH_TEXT, UPLOAD_KEY } from '../../../constants/const';
 import { ImageUploadV2 } from '../../ImageUpload/ImageUploadV2';
 import { convertViToEn, openMessage } from '../../services/general.service';
 
-export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance<any> }> = ({ onChange, form }) => {
+export const FormBlogBasic: React.FC<{ onChange: any; onChangeUpdate: any; form: FormInstance<any> }> = ({
+  form,
+  onChange,
+  onChangeUpdate,
+}) => {
   const { loading } = useSelector((state: RootState) => state.image);
-  const { errors } = useSelector((state: RootState) => state.post);
+  const { dataError } = useSelector((state: RootState) => state.post);
+  const { errors } = dataError;
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -44,8 +50,15 @@ export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance<any> }>
     <figure>
       <figcaption className="rounded-t-md font-semibold text-base bg-blue-200 px-6 py-3 flex items-center justify-between">
         <span>Thông tin cơ bản</span>
-        <Button type="primary" size="small" onClick={openSelectImages} loading={loading}>
-          Images
+        <Button
+          type="primary"
+          size="small"
+          className="font-medium flex items-center"
+          icon={<Plus className="mr-1" size={18} />}
+          onClick={openSelectImages}
+          loading={loading}
+        >
+          Thư viện
         </Button>
         <ListImages maxSelect={1} open={isModalOpen} setOpen={setIsModalOpen} onChange={onChange} />
       </figcaption>
@@ -86,18 +99,21 @@ export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance<any> }>
                 <label className="mb-3 text-sm font-medium">
                   Danh mục<sup className="text-red-600 ml-1">*</sup>
                 </label>
-                <SelectOptionV2 name="category" className="w-full" placeholder="Select category" />
+                <SelectOptionV2
+                  name="category"
+                  error={{ status: errors?.category ? 'error' : undefined, message: errors?.category || undefined }}
+                  className="w-full"
+                  placeholder="Select category"
+                />
               </div>
-              <div className="w-[200px] mb-5 flex gap-8">
+              <div className="mb-5 flex gap-8">
                 <div className="flex flex-col items-center">
                   <label className="mb-3 text-sm font-medium">
                     Status<sup className="text-red-600 ml-1">*</sup>
                   </label>
-                  <Switch checkedChildren="ON" unCheckedChildren="OFF" />
-                </div>
-                <div className="flex flex-col items-center">
-                  <label className="mb-3 text-sm font-medium">Nỗi bật</label>
-                  <Switch checkedChildren="ON" unCheckedChildren="OFF" />
+                  <Form.Item noStyle name="status" valuePropName="checked">
+                    <Switch checkedChildren="ON" unCheckedChildren="OFF" onChange={onChange} />
+                  </Form.Item>
                 </div>
               </div>
             </div>
@@ -107,14 +123,14 @@ export const FormBlogBasic: React.FC<{ onChange: any; form: FormInstance<any> }>
               <label className="mb-3 text-sm font-medium">
                 Hình ảnh<sup className="text-red-600 ml-1">*</sup>
               </label>
-              <div className="flex">
+              <div className="">
                 <ImageUploadV2 name="images" maxFiles={1} keyUpload={UPLOAD_KEY.IMAGE_BLOG} onChange={onChange} />
-                {errors['images'] && <span className="text-red-500">{errors['images']}</span>}
+                {errors?.['images'] && <span className="text-red-500">{errors['images']}</span>}
               </div>
             </div>
             <div className="mb-5">
               <label className="inline-block mb-3 text-sm font-medium">Tags</label>
-              <TagList handleChange={onChange} />
+              <TagList onChangeUpdate={onChangeUpdate} />
             </div>
           </div>
         </div>

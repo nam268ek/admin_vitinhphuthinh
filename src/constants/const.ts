@@ -124,3 +124,4 @@ export enum CATEGORY_KEY {
   PRINTER_ACCESSORIES = 'phu-kien-may-in',
   STORAGE_DEVICE = 'thiet-bi-luu-tru',
 }
+export const BASE_URL = 'https://www.vitinhphuthinh.com';

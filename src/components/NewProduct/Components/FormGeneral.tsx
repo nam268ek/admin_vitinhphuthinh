@@ -53,8 +53,6 @@ export const FormGeneral: React.FC<any> = ({ handleChange }) => {
           <label className="mb-3 text-sm font-normal">Giá khuyến mãi</label>
           <Form.Item name="priceSale" noStyle>
             <InputNumber
-              min={0}
-              max={1000000000}
               formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={(value: any) => parseFloat(value.replace(/[,.]/g, ''))}
               style={{ width: '100%' }}
@@ -70,10 +68,8 @@ export const FormGeneral: React.FC<any> = ({ handleChange }) => {
           </label>
           <Form.Item name="quantity">
             <InputNumber
-              min={0}
-              max={500}
-              formatter={(value: any) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              parser={(value: any) => Math.ceil(Number(value.replace(/\$\s?|(,*)/g, ''))).toString()}
+              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              parser={(value) => Math.ceil(Number(`${value}`.replace(/\$\s?|(,*)/g, '')))}
               style={{ width: '100%' }}
               placeholder="Nhập số lượng..."
               onChange={(e) => handleChange(e, 'quantity')}

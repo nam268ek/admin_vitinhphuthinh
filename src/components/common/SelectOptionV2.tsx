@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Cascader, Form } from 'antd';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -7,7 +8,7 @@ import { RootState } from '../redux/store/store';
 export const SelectOptionV2: React.FC<ISelectOption> = ({
   // options,
   name,
-  disabled,
+  error,
   className,
   placeholder,
   placement,
@@ -46,8 +47,18 @@ export const SelectOptionV2: React.FC<ISelectOption> = ({
   };
 
   return (
-    <Form.Item name={name} noStyle>
-      <Cascader options={options} className={className} placement={placement} placeholder={placeholder} changeOnSelect />
-    </Form.Item>
+    <>
+      <Form.Item name={name} noStyle>
+        <Cascader
+          status={error?.status}
+          options={options}
+          className={className}
+          placement={placement}
+          placeholder={placeholder}
+          changeOnSelect
+        />
+      </Form.Item>
+      {error?.message && <span className="text-red-500">{error?.message}</span>}
+    </>
   );
 };

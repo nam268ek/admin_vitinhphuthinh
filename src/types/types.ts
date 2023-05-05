@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UploadFileStatus } from 'antd/es/upload/interface';
 import { NAME_ACTION, UPLOAD_KEY } from '../constants/const';
 import { Path } from '../components/Categories/interfaces/categories.interface';
@@ -95,6 +96,7 @@ export interface ISelectOption {
   placeholder?: string;
   rules?: any[];
   validateTrigger?: any;
+  error?: { status: 'error' | undefined; message: string | undefined };
   placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight' | 'topLeft';
 }
 export interface ISelectOptionProps {
@@ -281,13 +283,19 @@ export interface PostState {
   action: NAME_ACTION;
   loading: boolean;
   posts: any[];
-  errors: Record<string, string>;
+  dataError: {
+    message?: string;
+    errors?: Record<string, string>;
+    [name: string]: any;
+  };
 }
 export interface DataTypePost {
   key: React.Key;
   id: string;
   namePost: string;
   status: string;
+  urlSlug: string;
+  category: DataTypeCategory;
   images: IImage[] | IImage;
   updatedAt: string;
 }

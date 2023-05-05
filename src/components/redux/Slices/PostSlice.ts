@@ -52,7 +52,7 @@ const initialState: PostState = {
   action: NAME_ACTION.CREATE_POST,
   loading: false,
   posts: [],
-  errors: {},
+  dataError: {},
 };
 
 export const postSlice = createSlice({
@@ -61,6 +61,7 @@ export const postSlice = createSlice({
   reducers: {
     setPostAction: (state, action) => {
       state.action = action.payload;
+      state.dataError = {};
     },
   },
   extraReducers: {
@@ -89,9 +90,11 @@ export const postSlice = createSlice({
     [getCreatePostService.fulfilled]: (state, action) => {
       state.loading = false;
       state.posts.push(action.payload);
+      state.dataError = {};
     },
-    [getCreatePostService.rejected]: (state) => {
+    [getCreatePostService.rejected]: (state, action) => {
       state.loading = false;
+      state.dataError = action.payload;
     },
     [getUpdatePostService.pending]: (state) => {
       state.loading = true;

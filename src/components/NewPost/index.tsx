@@ -1,6 +1,7 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable new-cap */
 /* eslint-disable curly */
-import { Breadcrumb, Button, Form, Layout, message, Space, theme } from 'antd';
+import { Breadcrumb, Button, Form, Layout, Space, theme } from 'antd';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,11 +10,13 @@ import { TypeOf } from '../../utils/CheckTypeOfValue';
 import { setImageAction } from '../redux/Slices/ImageSlice';
 import { getCreatePostService, getListPostsService, getUpdatePostService } from '../redux/Slices/PostSlice';
 import { RootState } from '../redux/store/store';
-import { openMessage } from '../services/general.service';
+import { handleErrorFields, openMessage } from './../services/general.service';
 import { FormBlogBasic } from './Components/FormBlogBasic';
 import { FormPostDetails } from './Components/FormPostDetails';
+import { ITag } from 'src/types/types';
+import { cloneDeep } from 'lodash';
 
-let bodyUpdatePost: any = {};
+let bodyOnChange: any = {};
 const { Header, Content } = Layout;
 
 export const NewPost: React.FC = () => {
@@ -26,7 +29,7 @@ export const NewPost: React.FC = () => {
   } = theme.useToken();
 
   useEffect(() => {
-    bodyUpdatePost = {};
+    bodyOnChange = {};
   }, []);
 
   const dispatch = useDispatch();
@@ -35,8 +38,18 @@ export const NewPost: React.FC = () => {
   const { postId } = useParams();
 
   useEffect(() => {
-    handleLoadPostUpdate(postId);
+    if (action === NAME_ACTION.CREATE_POST) {
+      handleSetDefaultForm();
+    } else {
+      handleLoadPostUpdate(postId);
+    }
   }, [postId]);
+
+  const handleSetDefaultForm = () => {
+    form.setFieldsValue({
+      status: true,
+    });
+  };
 
   const handleLoadPostUpdate = (id: string | undefined) => {
     if (!id) return;
@@ -52,8 +65,8 @@ export const NewPost: React.FC = () => {
         namePost,
         images: images || [],
         urlSlug,
-        category,
-        tags: tags?.map((tag: any) => tag.id),
+        category: category?.path?.concat([category?.id]),
+        tags: tags?.map((tag: ITag) => tag.id),
       });
     }
   };
@@ -74,11 +87,15 @@ export const NewPost: React.FC = () => {
 
   const handleCreatePost = async (data: any) => {
     const imageId = imageUploaded?.map((item) => item.id)[0] || undefined;
+    const { namePost, category, status, urlSlug, summary } = data;
     const bodyCreatePost = {
-      ...data,
-      namePost: data.namePost,
+      namePost,
+      urlSlug,
+      summary,
       images: imageId,
-      urlSlug: data.urlSlug,
+      status: status ? 'Y' : 'N',
+      category: category?.at(-1) || undefined,
+      tags: bodyOnChange['tags'],
       content: childRef.current.contentEditor(),
     };
 
@@ -88,22 +105,17 @@ export const NewPost: React.FC = () => {
       openMessage();
       navigate('/posts');
     } catch (error) {
-      openMessage(error);
+      handleErrorFields(form, error);
     }
-    console.log(data);
   };
 
   const handleUpdatePost = async (data: any) => {
-    const key = 'update';
     try {
-      message.loading({ content: 'Updating...', key });
-      await dispatch(getUpdatePostService({ newspaperId: postId, ...bodyUpdatePost })).unwrap();
+      await dispatch(getUpdatePostService({ newspaperId: postId, ...bodyOnChange })).unwrap();
       await dispatch(getListPostsService()).unwrap();
-
-      openMessage(undefined, key);
       navigate('/posts', { replace: true });
     } catch (error) {
-      openMessage(error, key);
+      handleErrorFields(form, error);
     }
   };
 
@@ -117,7 +129,7 @@ export const NewPost: React.FC = () => {
     navigate('/posts', { replace: true });
   };
 
-  const onChange = (e: any, key: string, actionName: string) => {
+  const onChange = (e: any, key: string, actionName?: string) => {
     let value = e;
     if (key === 'images' && actionName === 'upload') {
       value = e.id;
@@ -125,7 +137,21 @@ export const NewPost: React.FC = () => {
       value = undefined;
     } else if (TypeOf(e) === 'Object' && !(e instanceof Event)) value = e.target.value;
 
-    bodyUpdatePost[key] = value;
+    bodyOnChange[key] = value;
+    if (key === 'tags') form.setFieldValue('tags', value);
+  };
+
+  const onChangeUpdate = (e: any, key: string, st: 'add' | 'remove'): void => {
+    let add = [] as any[];
+    let remove = [] as any[];
+    if (st === 'add') {
+      add.push(e);
+      remove = cloneDeep(remove).filter((item) => item !== e);
+    } else if (st === 'remove') {
+      remove.push(e);
+      add = cloneDeep(add).filter((item) => item !== e);
+    }
+    bodyOnChange[key] = { add, remove };
   };
 
   return (
@@ -155,7 +181,7 @@ export const NewPost: React.FC = () => {
           </p>
           <section>
             <Form form={form} onFinish={onFinish}>
-              <FormBlogBasic onChange={onChange} form={form} />
+              <FormBlogBasic onChange={onChange} onChangeUpdate={onChangeUpdate} form={form} />
               <FormPostDetails childRef={childRef} postId={postId} onChange={onChange} />
             </Form>
           </section>

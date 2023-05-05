@@ -80,10 +80,18 @@ button {
   border-color: #a7a7a7;
   box-shadow: 0 0 0 2px #afafaf1a;
 }
+.url {
+  overflow: auto;
+  scrollbar-width: thin;
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+}
 
 /* width */
 ::-webkit-scrollbar {
   width: 0.5rem;
+  height: 0.5rem;
 }
 
 /* Track */

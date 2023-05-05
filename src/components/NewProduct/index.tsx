@@ -218,6 +218,19 @@ export const NewProduct = () => {
     return body;
   };
 
+  const onChangeUpdate = (e: any, key: string, st: 'add' | 'remove'): void => {
+    let add = [] as any[];
+    let remove = [] as any[];
+    if (st === 'add') {
+      add.push(e);
+      remove = cloneDeep(remove).filter((item) => item !== e);
+    } else if (st === 'remove') {
+      remove.push(e);
+      add = cloneDeep(add).filter((item) => item !== e);
+    }
+    bodyDataProduct[key] = { add, remove };
+  };
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -264,7 +277,7 @@ export const NewProduct = () => {
                 <div>
                   <FormProductImages onChange={handleChangeImages} />
                   {/* <FormInventories handleChange={handleChange} /> */}
-                  <FormMeta handleChange={handleChange} />
+                  <FormMeta handleChange={handleChange} onChangeUpdate={onChangeUpdate} />
                 </div>
               </div>
               <FormProductDescription childRef={childRef} productId={productId} onChange={handleChange} />

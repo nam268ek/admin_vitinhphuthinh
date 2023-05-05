@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getThumbUrl } from 'src/utils';
-import { NAME_ACTION } from '../../../constants/const';
+import { BASE_URL, NAME_ACTION } from '../../../constants/const';
 import { DataTypePost } from '../../../types/types';
 import {
   getDeleteListPostService,
@@ -22,6 +22,7 @@ import { openMessage } from '../../services/general.service';
 import { Button } from '../../ui/Button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/Select';
 import { FilterButton } from './FilterButton';
+import { message } from 'antd';
 
 export const TableListPosts: React.FC = () => {
   const { t } = useTranslation();
@@ -54,7 +55,8 @@ export const TableListPosts: React.FC = () => {
       dataIndex: 'namePost',
       key: 'namePost',
       className: 'text-base font-medium',
-      width: 300,
+      fixed: 'left',
+      width: 400,
       render: (customer, record: any) => (
         <div className="flex items-start w-full hover:cursor-pointer" onClick={(e) => handleUpdatePost(e, record)}>
           <div className="w-[50px] h-[50px] relative">
@@ -77,7 +79,7 @@ export const TableListPosts: React.FC = () => {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      width: 50,
+      width: 100,
       className: 'text-base font-medium',
       render: (value, item: DataTypePost) => (
         <Switch
@@ -90,26 +92,40 @@ export const TableListPosts: React.FC = () => {
       ),
     },
     {
-      title: 'Link bài viết',
-      dataIndex: 'updatedAt',
-      key: 'updatedAt',
+      title: 'Danh mục',
+      key: 'category',
+      dataIndex: 'category',
+      width: 250,
       className: 'text-base font-medium',
-      width: 150,
-      render: (updatedAt) => <span className="text-[#5c5c5c]">{moment(updatedAt).format('DD/MM/YYYY, h:mm:ss A')}</span>,
+      render: (value, record: DataTypePost) => <span className="text-[#5c5c5c]">{record?.category?.slug}</span>,
+    },
+    {
+      title: 'URL bài viết',
+      dataIndex: 'urlSlug',
+      key: 'urlSlug',
+      className: 'text-base font-medium',
+      width: 300,
+      ellipsis: true,
+      render: (slug: string, record) => (
+        <span
+          onClick={() => handleCopy(record)}
+          className="bg-blue-100 transition duration-300 ease-in-out hover:bg-blue-200 hover:cursor-pointer text-blue-700 pb-1 px-2 rounded-md whitespace-nowrap"
+        >{`${BASE_URL}${record?.category.slug}/${slug}`}</span>
+      ),
     },
     {
       title: 'Ngày đăng',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
       className: 'text-base font-medium',
-      width: 150,
+      width: 250,
       render: (updatedAt) => <span className="text-[#5c5c5c]">{moment(updatedAt).format('DD/MM/YYYY, h:mm:ss A')}</span>,
     },
     {
       title: '',
       key: 'action',
       fixed: 'right',
-      width: 80,
+      width: 100,
       className: 'text-base font-medium',
       render: (data, record) => (
         <div className="flex gap-2">
@@ -131,6 +147,13 @@ export const TableListPosts: React.FC = () => {
       ),
     },
   ];
+
+  const handleCopy = (record: DataTypePost) => {
+    //open link in new tab
+    window.open(`${BASE_URL}${record?.category.slug}/${record?.urlSlug}`, '_blank');
+    // navigator.clipboard.writeText(`${BASE_URL}${record?.category.slug}/${record?.urlSlug}`);
+    // message.success('Đã copy link bài viết');
+  };
 
   const changeStatusProduct = async (checked: boolean, item: DataTypePost) => {
     try {
@@ -165,22 +188,7 @@ export const TableListPosts: React.FC = () => {
     navigate(`${location.pathname}/${item.id}`);
   };
 
-  const convertListPosts = (list: any[]) => {
-    return (
-      list?.map((item: any, index: number) => {
-        const { id, images, namePost, status, updatedAt } = item;
-        return {
-          key: index + 1,
-          id,
-          namePost,
-          status,
-          images,
-          updatedAt,
-        };
-      }) || []
-    );
-  };
-  const data: DataTypePost[] = convertListPosts(posts);
+  const data: DataTypePost[] = posts?.map((item: DataTypePost, index: number) => ({ ...item, key: index + 1 })) || [];
 
   const handleSyncData = async () => {
     try {

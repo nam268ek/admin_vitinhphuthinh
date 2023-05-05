@@ -67,7 +67,6 @@ export const App: React.FC = () => {
         <Layout hasSider className="min-h-screen">
           <NavbarMenu width={widthNavbar} setWidth={setWidthNavbar} />
           <Layout
-            className="site-layout"
             style={{
               marginLeft: `${widthNavbar}px`,
               transition: 'all 0.2s',
