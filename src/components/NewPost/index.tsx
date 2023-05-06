@@ -17,6 +17,7 @@ import { ITag } from 'src/types/types';
 import { cloneDeep } from 'lodash';
 
 let bodyOnChange: any = {};
+let bodyOnChangeSpecial: any;
 const { Header, Content } = Layout;
 
 export const NewPost: React.FC = () => {
@@ -30,6 +31,7 @@ export const NewPost: React.FC = () => {
 
   useEffect(() => {
     bodyOnChange = {};
+    bodyOnChangeSpecial = { add: [], remove: [] };
   }, []);
 
   const dispatch = useDispatch();
@@ -46,6 +48,7 @@ export const NewPost: React.FC = () => {
   }, [postId]);
 
   const handleSetDefaultForm = () => {
+    dispatch(setImageAction([]));
     form.setFieldsValue({
       status: true,
     });
@@ -142,16 +145,14 @@ export const NewPost: React.FC = () => {
   };
 
   const onChangeUpdate = (e: any, key: string, st: 'add' | 'remove'): void => {
-    let add = [] as any[];
-    let remove = [] as any[];
     if (st === 'add') {
-      add.push(e);
-      remove = cloneDeep(remove).filter((item) => item !== e);
+      bodyOnChangeSpecial['add'].push(e);
+      bodyOnChangeSpecial['remove'] = cloneDeep(bodyOnChangeSpecial['remove']).filter((item: any) => item !== e);
     } else if (st === 'remove') {
-      remove.push(e);
-      add = cloneDeep(add).filter((item) => item !== e);
+      bodyOnChangeSpecial['remove'].push(e);
+      bodyOnChangeSpecial['add'] = cloneDeep(bodyOnChangeSpecial['add']).filter((item: any) => item !== e);
     }
-    bodyOnChange[key] = { add, remove };
+    bodyOnChange[key] = bodyOnChangeSpecial;
   };
 
   return (

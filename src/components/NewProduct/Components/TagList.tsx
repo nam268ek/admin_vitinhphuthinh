@@ -1,13 +1,13 @@
 /* eslint-disable curly */
-import { Button, Divider, Form, Input, Space, Tag } from 'antd';
+import { Button, Empty, Form, Input, Space, Tag } from 'antd';
+import { Filter, Plus } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { ITag } from '../../../types/types';
 import { getCreateTagService } from '../../redux/Slices/TagSlice';
 import { RootState } from '../../redux/store/store';
 import { handleErrorFields } from '../../services/general.service';
-import { useParams } from 'react-router-dom';
-import { Empty } from 'antd';
 
 interface ITagListProps {
   onChangeUpdate: (value: string, name: string, st: 'add' | 'remove') => void;
@@ -87,14 +87,18 @@ const TagList: React.FC<ITagListProps> = ({ onChangeUpdate }) => {
     }
   };
 
+  const handleFilter = () => {
+    setTagsData(tags.filter((tag) => !!selectedTags.find((id) => id === tag.id)));
+  };
+
   return (
     <div className="flex flex-col items-end space-y-2 w-full">
       {tagsData.length > 0 ? (
-        <div className="w-full max-h-28 min-h-[7rem] border border-solid border-zinc-200 rounded-md overflow-auto">
+        <div className="w-full max-h-28 min-h-[7rem] rounded-md overflow-auto">
           <div className="flex flex-wrap gap-y-2 p-2">
             {tagsData?.map((tag, index) => (
               <CheckableTag
-                className="font-medium"
+                className="font-medium border border-solid border-gray-200 pb-[1px] "
                 key={index}
                 checked={selectedTags.includes(tag.id)}
                 onChange={(checked) => handleSelectTag(tag, checked)}
@@ -105,7 +109,7 @@ const TagList: React.FC<ITagListProps> = ({ onChangeUpdate }) => {
           </div>
         </div>
       ) : (
-        <div className="flex w-full items-center justify-center min-h-[7rem] border border-solid border-zinc-200 rounded-md">
+        <div className="flex w-full items-center justify-center min-h-[7rem] rounded-md">
           <Empty className="m-0" image={Empty.PRESENTED_IMAGE_SIMPLE} />
         </div>
       )}
@@ -113,10 +117,22 @@ const TagList: React.FC<ITagListProps> = ({ onChangeUpdate }) => {
         {errors['tags'] && <span className="text-red-500 ml-2 w-1/2">{errors['tags']}</span>}
         <Space.Compact className="w-full mt-2">
           <Form.Item noStyle name="name">
-            <Input style={{ width: '100%' }} onChange={handleSearch} placeholder="Tìm kiếm hoặc thêm tag" />
+            <Input style={{ width: '100%' }} onChange={handleSearch} placeholder="Tìm kiếm hoặc thêm mới tag" />
           </Form.Item>
-          <Button type="primary" className="font-medium" onClick={handleAddTag}>
-            Thêm tag
+          <Button
+            style={{ width: '2.5rem', padding: '0 0.5rem' }}
+            rootClassName="px-2 flex items-center justify-center"
+            icon={<Filter size={18} />}
+            className="font-medium"
+            onClick={handleFilter}
+          ></Button>
+          <Button
+            icon={<Plus size={18} />}
+            type="primary"
+            rootClassName="font-medium flex items-center justify-center gap-1"
+            onClick={handleAddTag}
+          >
+            Add
           </Button>
         </Space.Compact>
       </Form>
