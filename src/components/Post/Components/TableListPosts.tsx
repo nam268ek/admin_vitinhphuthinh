@@ -97,7 +97,7 @@ export const TableListPosts: React.FC = () => {
       dataIndex: 'category',
       width: 250,
       className: 'text-base font-medium',
-      render: (value, record: DataTypePost) => <span className="text-[#5c5c5c]">{record?.category?.slug}</span>,
+      render: (value, record: DataTypePost) => <span className="text-[#5c5c5c]">{record?.category?.name}</span>,
     },
     {
       title: 'URL bài viết',
@@ -114,7 +114,7 @@ export const TableListPosts: React.FC = () => {
       ),
     },
     {
-      title: 'Ngày đăng',
+      title: 'Ngày cập nhật',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
       className: 'text-base font-medium',

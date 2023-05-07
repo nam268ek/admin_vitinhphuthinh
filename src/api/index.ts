@@ -167,23 +167,23 @@ export const requestService = {
 
   // posts services
   listPostsService: () => {
-    const url = '/newspapers';
+    const url = '/posts';
     return instance.get(url);
   },
   createPostService: (params: any) => {
-    const url = '/newspapers/create';
+    const url = '/posts/create';
     return instance.post(url, params);
   },
   deleteListPostsService: (params: any) => {
-    const url = '/newspapers/remove';
+    const url = '/posts/remove';
     return instance.delete(url, { data: params });
   },
   updatePostService: (params: any) => {
-    const url = '/newspapers/update';
+    const url = '/posts/update';
     return instance.put(url, params);
   },
   updatePostManyService: (params: any) => {
-    const url = '/newspapers/update-many';
+    const url = '/posts/update-many';
     return instance.put(url, params);
   },
 

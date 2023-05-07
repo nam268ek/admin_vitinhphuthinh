@@ -112,7 +112,7 @@ export const FormBlogBasic: React.FC<{ onChange: any; onChangeUpdate: any; form:
                     Status<sup className="text-red-600 ml-1">*</sup>
                   </label>
                   <Form.Item noStyle name="status" valuePropName="checked">
-                    <Switch checkedChildren="ON" unCheckedChildren="OFF" onChange={onChange} />
+                    <Switch checkedChildren="ON" unCheckedChildren="OFF" onChange={(e) => onChange(e ? 'Y' : 'N', 'status')} />
                   </Form.Item>
                 </div>
               </div>

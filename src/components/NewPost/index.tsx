@@ -15,6 +15,7 @@ import { FormBlogBasic } from './Components/FormBlogBasic';
 import { FormPostDetails } from './Components/FormPostDetails';
 import { ITag } from 'src/types/types';
 import { cloneDeep } from 'lodash';
+import { getListCategoryService } from '../redux/Slices/CategorySlice';
 
 let bodyOnChange: any = {};
 let bodyOnChangeSpecial: any;
@@ -22,9 +23,14 @@ const { Header, Content } = Layout;
 
 export const NewPost: React.FC = () => {
   const { action, posts, loading } = useSelector((state: RootState) => state.post);
+  const { categories } = useSelector((state: RootState) => state.category);
   const { imageUploaded } = useSelector((state: RootState) => state.image);
 
   const childRef = useRef<any>(null);
+  const dispatch = useDispatch();
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const { postId } = useParams();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -32,12 +38,16 @@ export const NewPost: React.FC = () => {
   useEffect(() => {
     bodyOnChange = {};
     bodyOnChangeSpecial = { add: [], remove: [] };
+
+    loadFunction();
   }, []);
 
-  const dispatch = useDispatch();
-  const [form] = Form.useForm();
-  const navigate = useNavigate();
-  const { postId } = useParams();
+  const loadFunction = async () => {
+    //check category list
+    if (categories.length === 0) {
+      await dispatch(getListCategoryService()).unwrap();
+    }
+  };
 
   useEffect(() => {
     if (action === NAME_ACTION.CREATE_POST) {
@@ -47,7 +57,7 @@ export const NewPost: React.FC = () => {
     }
   }, [postId]);
 
-  const handleSetDefaultForm = () => {
+  const handleSetDefaultForm = async () => {
     dispatch(setImageAction([]));
     form.setFieldsValue({
       status: true,
@@ -114,7 +124,7 @@ export const NewPost: React.FC = () => {
 
   const handleUpdatePost = async (data: any) => {
     try {
-      await dispatch(getUpdatePostService({ newspaperId: postId, ...bodyOnChange })).unwrap();
+      await dispatch(getUpdatePostService({ postId, ...bodyOnChange })).unwrap();
       await dispatch(getListPostsService()).unwrap();
       navigate('/posts', { replace: true });
     } catch (error) {
