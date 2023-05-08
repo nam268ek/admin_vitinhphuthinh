@@ -62,7 +62,8 @@
 
 button {
   // border: 1px solid #d9d9d9;
-  border: 0;
+  border: 1px solid transparent;
+  background-color: transparent;
 }
 
 .ant-picker:hover,

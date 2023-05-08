@@ -1,22 +1,42 @@
+/* eslint-disable curly */
+/* eslint-disable react/display-name */
 /* eslint-disable import/no-unresolved */
 'use client';
 
-import * as React from 'react';
-import { vi } from 'date-fns/locale';
 import { addDays, format } from 'date-fns';
+import { vi } from 'date-fns/locale';
 import { Calendar as CalendarIcon } from 'lucide-react';
+import * as React from 'react';
 import { DateRange } from 'react-day-picker';
 
+import { useEffect } from 'react';
 import { cn } from 'src/utils';
 import { Button } from './Button';
 import { Calendar } from './Calendar';
 import { Popover, PopoverContent, PopoverTrigger } from './Popover';
+import { useTranslation } from 'react-i18next';
 
-export function CalendarDateRangePicker({ className }: React.HTMLAttributes<HTMLDivElement>) {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2023, 0, 20),
-    to: addDays(new Date(2023, 0, 20), 20),
-  });
+interface CalendarDateRangePickerProps {
+  onChange: (range: DateRange | undefined, type: 'date') => void;
+  className?: string;
+  resetValue?: boolean;
+}
+
+export const CalendarDateRangePicker: React.FC<CalendarDateRangePickerProps> = ({ className, onChange, resetValue }) => {
+  const { t } = useTranslation();
+  const [date, setDate] = React.useState<DateRange | undefined>(undefined);
+
+  const handleSetDate = React.useCallback(
+    (range: DateRange | undefined) => {
+      setDate(range);
+      onChange(range, 'date');
+    },
+    [date],
+  );
+
+  useEffect(() => {
+    if (resetValue) setDate(undefined);
+  }, [resetValue]);
 
   return (
     <div className={cn('grid gap-2', className)}>
@@ -26,7 +46,7 @@ export function CalendarDateRangePicker({ className }: React.HTMLAttributes<HTML
             id="date"
             variant={'outline'}
             size="sm"
-            className={cn('w-[260px] justify-start text-left font-normal', !date && 'text-muted-foreground')}
+            className={cn('w-[260px] font-normal justify-start text-left', !date && 'text-muted-foreground')}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
             {date?.from ? (
@@ -35,10 +55,10 @@ export function CalendarDateRangePicker({ className }: React.HTMLAttributes<HTML
                   {format(date.from, 'LLL dd, y', { locale: vi })} - {format(date.to, 'LLL dd, y', { locale: vi })}
                 </>
               ) : (
-                format(date.from, 'LLL dd, y')
+                format(date.from, 'LLL dd, y', { locale: vi })
               )
             ) : (
-              <span>Pick a date</span>
+              <span>{t('pickADate')}</span>
             )}
           </Button>
         </PopoverTrigger>
@@ -49,11 +69,11 @@ export function CalendarDateRangePicker({ className }: React.HTMLAttributes<HTML
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
+            onSelect={handleSetDate}
             numberOfMonths={2}
           />
         </PopoverContent>
       </Popover>
     </div>
   );
-}
+};

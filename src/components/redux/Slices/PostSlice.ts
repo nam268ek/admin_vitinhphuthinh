@@ -48,6 +48,15 @@ export const getUpdateManyPostService: any = createAsyncThunk(NAME_ACTION.UPDATE
   }
 });
 
+export const getListPostFilterService: any = createAsyncThunk(NAME_ACTION.FILTER_POST, async (params, { rejectWithValue }) => {
+  try {
+    const response = await requestService.filterPostsService(params);
+    return response;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+});
+
 const initialState: PostState = {
   action: NAME_ACTION.CREATE_POST,
   loading: false,
@@ -65,6 +74,16 @@ export const postSlice = createSlice({
     },
   },
   extraReducers: {
+    [getListPostFilterService.pending]: (state) => {
+      state.loading = true;
+    },
+    [getListPostFilterService.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.posts = action.payload;
+    },
+    [getListPostFilterService.rejected]: (state) => {
+      state.loading = false;
+    },
     [getUpdateManyPostService.pending]: (state) => {
       state.loading = true;
     },

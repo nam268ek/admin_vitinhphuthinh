@@ -186,6 +186,10 @@ export const requestService = {
     const url = '/posts/update-many';
     return instance.put(url, params);
   },
+  filterPostsService: (params: any) => {
+    const url = '/posts/filter';
+    return instance.post(url, params);
+  },
 
   //footer services
   updateFooterService: (params: any) => {

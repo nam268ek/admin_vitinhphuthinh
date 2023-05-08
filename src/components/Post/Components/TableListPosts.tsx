@@ -108,18 +108,18 @@ export const TableListPosts: React.FC = () => {
       ellipsis: true,
       render: (slug: string, record) => (
         <span
-          onClick={() => handleCopy(record)}
+          onClick={() => handleOpen(record)}
           className="bg-blue-100 transition duration-300 ease-in-out hover:bg-blue-200 hover:cursor-pointer text-blue-700 pb-1 px-2 rounded-md whitespace-nowrap"
-        >{`${BASE_URL}${record?.category.slug}/${slug}`}</span>
+        >{`${BASE_URL}${record?.category?.slug}/${slug}`}</span>
       ),
     },
     {
-      title: 'Ngày cập nhật',
-      dataIndex: 'updatedAt',
-      key: 'updatedAt',
+      title: 'Ngày tạo',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
       className: 'text-base font-medium',
       width: 250,
-      render: (updatedAt) => <span className="text-[#5c5c5c]">{moment(updatedAt).format('DD/MM/YYYY, h:mm:ss A')}</span>,
+      render: (createdAt) => <span className="text-[#5c5c5c]">{moment(createdAt).format('DD/MM/YYYY, h:mm:ss A')}</span>,
     },
     {
       title: '',
@@ -148,7 +148,7 @@ export const TableListPosts: React.FC = () => {
     },
   ];
 
-  const handleCopy = (record: DataTypePost) => {
+  const handleOpen = (record: DataTypePost) => {
     //open link in new tab
     window.open(`${BASE_URL}${record?.category.slug}/${record?.urlSlug}`, '_blank');
     // navigator.clipboard.writeText(`${BASE_URL}${record?.category.slug}/${record?.urlSlug}`);
@@ -210,7 +210,7 @@ export const TableListPosts: React.FC = () => {
       <Space align="center" className="mb-4 mt-2 w-full flex justify-between">
         <Button
           onClick={handleNewPost}
-          className="border-0 text-base flex gap-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:cursor-pointer duration-700 transition-colors hover:from-blue-400 hover:via-blue-500 hover:to-blue-600"
+          className="border-0 h-9 text-base flex gap-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:cursor-pointer duration-700 transition-colors hover:from-blue-400 hover:via-blue-500 hover:to-blue-600"
         >
           <Plus size={18} />
           {t('new')}
