@@ -45,14 +45,7 @@ export const ProductListButton: React.FC<any> = ({ selectedIds, resetSelection }
     <>
       <ModalProductAction resetSelection={resetSelection} ids={selectedIds} handleCancel={handleCancelModal} isOpen={open} />
       {!hasSelected ? (
-        <div className="flex mb-4 justify-between">
-          <p className="text-2xl m-0 flex items-center w-full font-medium">{t('products')}</p>
-          <div className="flex justify-end w-full">
-            <div className="flex w-full">
-              <DropDownNewProduct />
-            </div>
-          </div>
-        </div>
+        <DropDownNewProduct />
       ) : (
         <div className="flex mb-4 justify-between bg-[#111827] bg-opacity-90 py-1 px-2 rounded-lg">
           <div className="flex items-center space-x-3">

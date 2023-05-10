@@ -3,7 +3,7 @@
 import { Image, Switch, Table } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/es/table';
 import { FilterValue, TableRowSelection } from 'antd/es/table/interface';
-import { CheckCircle2, Edit3, Trash, XCircle } from 'lucide-react';
+import { CheckCircle2, Copy, Edit3, Trash, XCircle } from 'lucide-react';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -51,10 +51,10 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
         <div className="flex gap-4 items-start hover:cursor-pointer" onClick={(e) => handleUpdateProduct(e, record)}>
           <div className="w-[50px] h-[50px] relative">
             <Image
-              className="object-cover w-full h-full absolute rounded-md"
+              className="object-cover w-full h-full absolute rounded-md hover:opacity-80 transition-opacity duration-300"
               preview={false}
               style={{ width: '100%', height: '100%' }}
-              rootClassName="w-[50px] h-[50px] rounded-md border border-solid"
+              rootClassName="w-[50px] h-[50px] rounded-md border border-solid border-gray-300"
               placeholder={<div className="w-[50px] h-[50px] animate-pulse bg-zinc-700"></div>}
               src={record?.images?.[0]?.thumbUrl}
               alt={record?.name}
@@ -172,10 +172,17 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
       title: '',
       key: 'action',
       fixed: 'right',
-      width: 120,
+      width: 170,
       className: 'text-base font-medium',
       render: (data, record) => (
         <div className="flex gap-2">
+          <span
+            title="Sao chép sản phẩm"
+            onClick={() => handleMoreAction(record, 'copy')}
+            className="flex p-2 opacity-50 rounded-lg hover:bg-gray-200 hover:cursor-pointer hover:opacity-90 transition duration-300 ease-in-out"
+          >
+            <Copy size={18} />
+          </span>
           <span
             title="Sửa sản phẩm"
             onClick={() => handleMoreAction(record, 'edit')}
@@ -200,7 +207,7 @@ const TableListProduct: React.FC<any> = ({ setSelectedIds, selectedIds }) => {
     setFilteredInfo(filters);
   };
 
-  const handleMoreAction = async (record: DataTypeProduct, type: 'edit' | 'delete') => {
+  const handleMoreAction = async (record: DataTypeProduct, type: 'edit' | 'delete' | 'copy') => {
     const { id } = record;
     switch (type) {
       case 'delete':

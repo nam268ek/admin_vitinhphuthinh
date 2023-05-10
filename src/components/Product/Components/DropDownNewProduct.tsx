@@ -1,5 +1,6 @@
-import { Button, Form } from 'antd';
-import { ChevronsRight } from 'lucide-react';
+/* eslint-disable import/no-unresolved */
+import { Form, Space } from 'antd';
+import { ChevronsRight, Plus } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -7,11 +8,14 @@ import { setImageAction } from '../../redux/Slices/ImageSlice';
 import { setDefaultProductAction } from '../../redux/Slices/ProductSlice';
 import { RootState } from '../../redux/store/store';
 import { SelectOptionV2 } from './../../common/SelectOptionV2';
+import { FilterButton } from 'src/components/Post/Components/FilterButton';
+import { Button } from 'src/components/ui/Button';
+import { useTranslation } from 'react-i18next';
 
 export const DropDownNewProduct: React.FC = () => {
   const { categories } = useSelector((state: RootState) => state.category);
   const [options, setOptions] = React.useState<any>([]);
-
+  const { t } = useTranslation();
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -62,7 +66,7 @@ export const DropDownNewProduct: React.FC = () => {
 
   return (
     <>
-      <Form form={form} className="flex w-full">
+      {/* <Form form={form} className="flex w-full">
         <SelectOptionV2
           name="category"
           options={options}
@@ -75,7 +79,17 @@ export const DropDownNewProduct: React.FC = () => {
         <Button htmlType="submit" onClick={handleCreate} className="btn-green flex items-center jus border-0">
           <span className="pb-[2px] mr-2">Thêm sản phẩm</span> <ChevronsRight size={20} />
         </Button>
-      </Form>
+      </Form> */}
+      <Space align="center" className="mb-4 mt-2 w-full flex justify-between">
+        <Button
+          onClick={handleCreate}
+          className="border-0 h-9 text-base flex gap-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:cursor-pointer duration-700 transition-colors hover:from-blue-400 hover:via-blue-500 hover:to-blue-600"
+        >
+          <Plus size={18} />
+          {t('new')}
+        </Button>
+        <FilterButton />
+      </Space>
     </>
   );
 };

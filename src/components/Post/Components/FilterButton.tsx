@@ -1,9 +1,9 @@
 /* eslint-disable curly */
 /* eslint-disable import/no-unresolved */
 import { Input, Space } from 'antd';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, debounce, throttle } from 'lodash';
 import { RefreshCw, Search } from 'lucide-react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { DateRange } from 'react-day-picker';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -20,9 +20,10 @@ export const FilterButton = () => {
   const [bodyFilter, setBodyFilter] = useState<any>({});
 
   const handleFilter = async (value: string | DateRange | undefined, key: string) => {
+    const cloneBodyFilter = cloneDeep(bodyFilter);
     if (key === 'date' && typeof value === 'object') {
-      const dateCLone = cloneDeep(value);
       let dateTo;
+      const dateCLone = cloneDeep(value);
       if (!dateCLone?.to || dateCLone?.to?.getTime() === dateCLone?.from?.getTime()) {
         dateTo = cloneDeep(dateCLone.from) as Date;
         dateTo.setHours(dateTo.getHours() + 24);
@@ -31,17 +32,16 @@ export const FilterButton = () => {
         dateTo = cloneDeep(dateCLone.to) as Date;
         dateTo.setHours(dateTo.getHours() + 24);
       }
-
-      bodyFilter['date'] = {
+      cloneBodyFilter['date'] = {
         from: dateCLone?.from,
         to: dateTo,
       };
-    } else bodyFilter[key] = value;
+    } else cloneBodyFilter[key] = value;
 
-    setBodyFilter(bodyFilter);
+    setBodyFilter(cloneBodyFilter);
 
     try {
-      await dispatch(getListPostFilterService(bodyFilter)).unwrap();
+      await dispatch(getListPostFilterService(cloneBodyFilter)).unwrap();
       setReset(false);
     } catch (error) {
       openMessage(error);
@@ -58,6 +58,25 @@ export const FilterButton = () => {
     }
   };
 
+  const handleSearch = useCallback(
+    debounce(async (clone: any) => {
+      try {
+        await dispatch(getListPostFilterService(clone)).unwrap();
+      } catch (error) {
+        openMessage(error);
+      }
+    }, 1000),
+    [],
+  );
+
+  const handleChangeSearch = (value: string, key: string) => {
+    const clone = cloneDeep(bodyFilter);
+    clone[key] = value;
+    setBodyFilter(clone);
+    setReset(false);
+    handleSearch(clone);
+  };
+
   return (
     <Space>
       <Input
@@ -65,7 +84,7 @@ export const FilterButton = () => {
         className="w-[22rem] h-9"
         value={bodyFilter?.namePost || ''}
         placeholder={t('searchName') || ''}
-        onChange={(e) => handleFilter(e.target.value, 'namePost')}
+        onChange={(e) => handleChangeSearch(e.target.value, 'namePost')}
         prefix={<Search size={18} className="text-zinc-400" />}
       />
       <CalendarDateRangePicker resetValue={reset} onChange={handleFilter} />

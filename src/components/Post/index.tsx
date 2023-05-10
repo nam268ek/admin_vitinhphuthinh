@@ -35,18 +35,19 @@ export const Posts: React.FC = () => {
 
   return (
     <>
-      <Header className="sticky top-0 z-10 w-full flex" style={{ background: colorBgContainer, paddingInline: '35px' }}>
-        <div className="w-full flex items-center">
+      {/* <Header className="sticky top-0 z-10 w-full flex" style={{ background: colorBgContainer, paddingInline: '35px' }}> */}
+      {/* <div className="w-full flex items-center">
           <Search listItems={orders} />
-        </div>
-      </Header>
+        </div> */}
+      {/* </Header> */}
       <Content className="my-0 mx-4">
         <Breadcrumb className="mx-0 my-2 px-5">
           <Breadcrumb.Item>Posts</Breadcrumb.Item>
           <Breadcrumb.Item>List</Breadcrumb.Item>
         </Breadcrumb>
         <div style={{ background: colorBgContainer }} className="px-5 py-6 min-h-full">
-          <p className="text-2xl font-medium m-0 flex items-center">{t('posts')}</p>
+          {/* <p className="text-2xl font-medium m-0 flex items-center">{t('posts')}</p> */}
+          {/* <p className="text-2xl font-medium m-0 mb-5 flex items-center">{t('Danh sách bài đăng')}</p> */}
           <TableListPosts />
         </div>
       </Content>

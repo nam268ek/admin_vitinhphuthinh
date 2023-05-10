@@ -61,10 +61,10 @@ export const TableListPosts: React.FC = () => {
         <div className="flex items-start w-full hover:cursor-pointer" onClick={(e) => handleUpdatePost(e, record)}>
           <div className="w-[50px] h-[50px] relative">
             <Image
-              className="object-cover w-full h-full absolute rounded-md"
+              className="object-cover w-full h-full absolute rounded-md hover:opacity-80 transition-opacity duration-300"
               preview={false}
               style={{ width: '100%', height: '100%' }}
-              rootClassName="w-[50px] h-[50px] rounded-md border border-solid"
+              rootClassName="w-[50px] h-[50px] rounded-md border border-solid border-gray-300"
               placeholder={<div className="w-[50px] h-[50px] animate-pulse bg-zinc-700"></div>}
               src={getThumbUrl(record?.images?.thumbUrl, { width: 150, height: 150 })}
               alt={record?.name}

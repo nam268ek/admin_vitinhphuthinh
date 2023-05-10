@@ -119,7 +119,7 @@ export const CreateCategory: React.FC = () => {
                 <div className="flex flex-wrap ">
                   <div className="flex w-full">
                     <div className="mx-2 w-1/2">
-                      <label className="mb-3 text-sm font-normal">
+                      <label className="mb-3 text-sm font-medium">
                         Tên danh mục<sup className="text-red-600 ml-1">*</sup>
                       </label>
                       <Form.Item name="name">
@@ -132,7 +132,7 @@ export const CreateCategory: React.FC = () => {
                       </Form.Item>
                     </div>
                     <div className="mx-2 w-1/2">
-                      <label className="mb-3 text-sm font-normal">
+                      <label className="mb-3 text-sm font-medium">
                         Category<sup className="text-red-600 ml-1">*</sup>
                       </label>
                       <Form.Item name="category">
@@ -141,7 +141,7 @@ export const CreateCategory: React.FC = () => {
                     </div>
                   </div>
                   <div className="mx-2 w-full">
-                    <label className="mb-3 text-sm font-normal">Parent</label>
+                    <label className="mb-3 text-sm font-medium">Danh mục cha:</label>
                     <SelectOptionV2 name="path" className="w-full mb-4" options={options} placeholder="Dell" />
                   </div>
                 </div>

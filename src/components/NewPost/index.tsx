@@ -16,6 +16,7 @@ import { FormPostDetails } from './Components/FormPostDetails';
 import { ITag } from 'src/types/types';
 import { cloneDeep } from 'lodash';
 import { getListCategoryService } from '../redux/Slices/CategorySlice';
+import { FormSEOPost } from './Components/FormSEOPost';
 
 let bodyOnChange: any = {};
 let bodyOnChangeSpecial: any;
@@ -193,6 +194,7 @@ export const NewPost: React.FC = () => {
           <section>
             <Form form={form} onFinish={onFinish}>
               <FormBlogBasic onChange={onChange} onChangeUpdate={onChangeUpdate} form={form} />
+              <FormSEOPost form={form} onChange={onChange} />
               <FormPostDetails childRef={childRef} postId={postId} onChange={onChange} />
             </Form>
           </section>

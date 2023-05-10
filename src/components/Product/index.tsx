@@ -30,11 +30,6 @@ export const Products: React.FC = () => {
 
   return (
     <>
-      <Header className="sticky top-0 z-10 w-full flex" style={{ background: colorBgContainer, paddingInline: '35px' }}>
-        <div className="w-full flex items-center">
-          <Search listItems={products} />
-        </div>
-      </Header>
       <Content className="my-0 mx-4">
         <Breadcrumb className="mx-0 my-2 px-5">
           <Breadcrumb.Item>Products</Breadcrumb.Item>
