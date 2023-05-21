@@ -1,15 +1,13 @@
 /* eslint-disable unicorn/filename-case */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/no-children-prop */
-import { Card, Col, Form, FormInstance, Input, Row } from 'antd';
-import { BASE_URL } from 'src/constants/const';
+import { Card, Col, Form, Input, Row } from 'antd';
 import React from 'react';
 
 interface FormSEOPostProps {
-  form: FormInstance;
   onChange: (e: React.ChangeEvent<HTMLInputElement>, key: string) => void;
 }
-export const FormSEOPost: React.FC<FormSEOPostProps> = ({ form, onChange }) => {
+export const FormSEOPost: React.FC<FormSEOPostProps> = ({ onChange }) => {
   return (
     <Row className="mb-4">
       <Col className="w-full">
@@ -19,12 +17,9 @@ export const FormSEOPost: React.FC<FormSEOPostProps> = ({ form, onChange }) => {
           className="drop-shadow"
           bordered={false}
         >
-          <Form form={form}>
-            <InputItem name="seoDescription" onChange={onChange} label="Mô tả (description)" />
-            <InputItem name="seoKeywords" onChange={onChange} label="Từ khóa (keywords)" />
-            <InputItem name="seoTitle" onChange={onChange} label="Title (og:title)" />
-            <InputItem name="seoLink" onChange={onChange} label="Link (canonical)" addonBefore={`${BASE_URL}/`} />
-          </Form>
+          <InputItem name="nmttHead" onChange={onChange} label="Tiêu đề (og:title)" />
+          <InputItem name="descHead" onChange={onChange} label="Mô tả (description)" />
+          <InputItem name="keywordsHead" onChange={onChange} label="Từ khóa (keywords)" />
         </Card>
       </Col>
     </Row>

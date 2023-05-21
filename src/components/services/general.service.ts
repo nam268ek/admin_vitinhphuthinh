@@ -2,7 +2,7 @@
 /* eslint-disable prefer-const */
 import { FormInstance, message as messageAntd, UploadFile } from 'antd';
 import { DURATION_TIMEOUT_SECONDS } from '../../constants/const';
-import { IImage } from '../../types/types';
+import { ERROR_VALIDATE, IImage } from '../../types/types';
 
 export const openMessage = (data?: any, key?: string, type?: string) => {
   if ((data && data.statusCode !== 200) || type === 'error') {
@@ -76,13 +76,14 @@ export const convertViToEn = (str: string) => {
   return str;
 };
 
-export const handleErrorFields = (form: FormInstance, error: any) => {
-  if (!error?.errors) return messageAntd.error(error.message);
+export const handleErrorFields = (form: FormInstance, data: any) => {
+  const { error, messages } = data;
+  if (error !== ERROR_VALIDATE.VALIDATE_DATA_ERROR) return messageAntd.error(messages);
 
-  Object.entries(error.errors).forEach(([key, value]) => {
+  Object.entries(messages).forEach(([key, value]) => {
     form.setFields([{ name: [`${key}`], errors: [`${value}`] }]);
   });
-  resetFieldsErrors(form, Object.keys(error.errors));
+  resetFieldsErrors(form, Object.keys(messages));
 };
 
 export const resetFieldsErrors = (form: FormInstance, keys: string[]) => {

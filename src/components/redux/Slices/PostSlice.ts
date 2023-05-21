@@ -120,9 +120,11 @@ export const postSlice = createSlice({
     },
     [getUpdatePostService.fulfilled]: (state) => {
       state.loading = false;
+      state.dataError = {};
     },
-    [getUpdatePostService.rejected]: (state) => {
+    [getUpdatePostService.rejected]: (state, action) => {
       state.loading = false;
+      state.dataError = action.payload;
     },
     [getDeleteListPostService.pending]: (state) => {
       state.loading = true;

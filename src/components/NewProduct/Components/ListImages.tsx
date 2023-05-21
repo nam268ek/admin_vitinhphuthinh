@@ -12,11 +12,12 @@ import { openMessage } from '../../services/general.service';
 interface ImageModalProps {
   open: boolean;
   setOpen: any;
+  nameField: string;
   onChange: (data: any, key: string, action: string) => void;
   maxSelect?: number;
 }
 
-export const ListImages: React.FC<ImageModalProps> = ({ open, setOpen, onChange, maxSelect }) => {
+export const ListImages: React.FC<ImageModalProps> = ({ open, setOpen, nameField, onChange, maxSelect }) => {
   const { images, loading, totalPages } = useSelector((state: RootState) => state.image);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const hasSelected = selectedIds.length > 0 && images.length > 0;
@@ -28,7 +29,7 @@ export const ListImages: React.FC<ImageModalProps> = ({ open, setOpen, onChange,
       return selectedIds.indexOf(item.keyId) > -1;
     });
     dispatch(setImageAction(listSelected));
-    onChange(listSelected, 'images', 'select');
+    // onChange(listSelected, 'images', 'select');
     setOpen(false);
   };
 
@@ -36,7 +37,7 @@ export const ListImages: React.FC<ImageModalProps> = ({ open, setOpen, onChange,
     setOpen(false);
   };
 
-  const onChangeCheckbox = (e: CheckboxChangeEvent) => {
+  const onChangeCheckbox = (e: CheckboxChangeEvent, idSelected: string) => {
     if (e.target.checked && e.target.id) {
       const listNewIds = [];
       listNewIds.push(e.target.id);
@@ -46,6 +47,7 @@ export const ListImages: React.FC<ImageModalProps> = ({ open, setOpen, onChange,
       const listNewIds = selectedIds?.filter((id) => id !== e.target.id);
       setSelectedIds(listNewIds);
     }
+    onChange(idSelected, nameField, e.target.checked ? 'add' : 'remove');
   };
 
   const handleDelete = async () => {
@@ -123,7 +125,7 @@ export const ListImages: React.FC<ImageModalProps> = ({ open, setOpen, onChange,
                   <div className="flex flex-col items-center gap-1">
                     <Image width={100} height={100} src={img?.url} />
                     <Form.Item name={img?.keyId} noStyle valuePropName="checked">
-                      <Checkbox key={img?.keyId} onChange={onChangeCheckbox} />
+                      <Checkbox key={img?.id} onChange={(e) => onChangeCheckbox(e, img?.id)} />
                     </Form.Item>
                   </div>
                 </div>

@@ -34,7 +34,7 @@ export const FormProductImages: React.FC<FormProductImagesProps> = ({ onChange }
         <Button type="primary" size="small" onClick={openSelectImages} loading={loading}>
           Images
         </Button>
-        <ListImages maxSelect={3} open={isModalOpen} setOpen={setIsModalOpen} onChange={onChange} />
+        <ListImages nameField="images" maxSelect={3} open={isModalOpen} setOpen={setIsModalOpen} onChange={onChange} />
       </figcaption>
       <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
         <label className="mb-3 text-sm font-normal">Thumbnail Sản phẩm</label>

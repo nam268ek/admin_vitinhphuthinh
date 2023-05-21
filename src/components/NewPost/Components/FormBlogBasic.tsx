@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-unresolved */
 import { Button, Form, Input, Switch } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
@@ -21,7 +22,7 @@ export const FormBlogBasic: React.FC<{ onChange: any; onChangeUpdate: any; form:
 }) => {
   const { loading } = useSelector((state: RootState) => state.image);
   const { dataError } = useSelector((state: RootState) => state.post);
-  const { errors } = dataError;
+  const { messages } = dataError;
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -30,8 +31,8 @@ export const FormBlogBasic: React.FC<{ onChange: any; onChangeUpdate: any; form:
     try {
       await dispatch(getListImageService()).unwrap();
       setIsModalOpen(!isModalOpen);
-    } catch (error) {
-      openMessage(error);
+    } catch (errors) {
+      openMessage(errors);
     }
   };
 
@@ -60,7 +61,7 @@ export const FormBlogBasic: React.FC<{ onChange: any; onChangeUpdate: any; form:
         >
           Thư viện
         </Button>
-        <ListImages maxSelect={1} open={isModalOpen} setOpen={setIsModalOpen} onChange={onChange} />
+        <ListImages nameField="image" maxSelect={1} open={isModalOpen} setOpen={setIsModalOpen} onChange={onChangeUpdate} />
       </figcaption>
       <div className="rounded-b-md px-6 py-4 border border-solid border-gray-200 border-t-0">
         <div className="grid grid-cols-2 grid-flow-col gap-4">
@@ -101,7 +102,7 @@ export const FormBlogBasic: React.FC<{ onChange: any; onChangeUpdate: any; form:
                 </label>
                 <SelectOptionV2
                   name="category"
-                  error={{ status: errors?.category ? 'error' : undefined, message: errors?.category || undefined }}
+                  error={{ status: messages?.category ? 'error' : undefined, message: messages?.category || undefined }}
                   className="w-full"
                   placeholder="Select category"
                 />
@@ -124,8 +125,8 @@ export const FormBlogBasic: React.FC<{ onChange: any; onChangeUpdate: any; form:
                 Hình ảnh<sup className="text-red-600 ml-1">*</sup>
               </label>
               <div className="">
-                <ImageUploadV2 name="images" maxFiles={1} keyUpload={UPLOAD_KEY.IMAGE_BLOG} onChange={onChange} />
-                {errors?.['images'] && <span className="text-red-500">{errors['images']}</span>}
+                <ImageUploadV2 name="image" maxFiles={1} keyUpload={UPLOAD_KEY.IMAGE_BLOG} onChange={onChangeUpdate} />
+                {messages?.image && <span className="text-red-500">{messages?.image}</span>}
               </div>
             </div>
             <div className="mb-5">

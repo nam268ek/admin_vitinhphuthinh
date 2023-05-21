@@ -1,3 +1,4 @@
+/* eslint-disable curly */
 /* eslint-disable no-constant-condition */
 import { PlusOutlined } from '@ant-design/icons';
 import { message, Modal, Upload } from 'antd';
@@ -6,10 +7,11 @@ import type { UploadFile } from 'antd/es/upload/interface';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { UPLOAD_KEY } from '../../constants/const';
-import { ImageUploadModalProps } from '../../types/types';
-import { getRemoveImageUploadService, getUploadImageService, updateImageUploadedAction } from '../redux/Slices/ImageSlice';
+import { IImage, ImageUploadModalProps } from '../../types/types';
+import { getUploadImageService, updateImageUploadedAction } from '../redux/Slices/ImageSlice';
 import { RootState } from '../redux/store/store';
 import { convertTypeUploadImageList, openMessage } from '../services/general.service';
+import { useEffect } from 'react';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -32,6 +34,14 @@ export const ImageUploadV2: React.FC<ImageUploadModalProps> = ({
 
   const dispatch = useDispatch();
   const listImageUpload = convertTypeUploadImageList(imageUploaded);
+
+  // useEffect(() => {
+  //   handleLoadImage(imageUploaded);
+  // }, [imageUploaded]);
+
+  // const handleLoadImage = (list: IImage[]) => {
+  //   list.forEach((item) => onChange(item.id, name, 'add'));
+  // };
 
   const handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
@@ -62,11 +72,10 @@ export const ImageUploadV2: React.FC<ImageUploadModalProps> = ({
 
     try {
       message.loading({ content: 'Uploading...', key });
-      const response = await dispatch(getUploadImageService(formData)).unwrap();
-
+      const { id } = await dispatch(getUploadImageService(formData)).unwrap();
+      onChange(id, name, 'add');
       onSuccess('Ok');
       message.destroy(key);
-      onChange(response, name, 'upload');
     } catch (error) {
       openMessage(error, key);
       const err = new Error('Error upload');
@@ -75,16 +84,10 @@ export const ImageUploadV2: React.FC<ImageUploadModalProps> = ({
   };
 
   const onRemove = async (file: UploadFile) => {
-    const key = 'remove';
-    try {
-      message.loading({ content: 'Removing...', key });
-      await dispatch(getRemoveImageUploadService({ ids: [file.uid] })).unwrap();
-      dispatch(updateImageUploadedAction({ keyId: file.uid }));
-      openMessage(undefined, key);
-      onChange({ keyId: file.uid }, name, 'remove');
-    } catch (error) {
-      openMessage(error, key);
-    }
+    imageUploaded.forEach((item) => {
+      if (item.keyId === file.uid) onChange(item.id, name, 'remove');
+    });
+    dispatch(updateImageUploadedAction({ keyId: file.uid }));
   };
 
   const beforeUpload = (file: RcFile) => {

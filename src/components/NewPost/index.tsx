@@ -14,12 +14,12 @@ import { handleErrorFields, openMessage } from './../services/general.service';
 import { FormBlogBasic } from './Components/FormBlogBasic';
 import { FormPostDetails } from './Components/FormPostDetails';
 import { ITag } from 'src/types/types';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEqual } from 'lodash';
 import { getListCategoryService } from '../redux/Slices/CategorySlice';
 import { FormSEOPost } from './Components/FormSEOPost';
 
 let bodyOnChange: any = {};
-let bodyOnChangeSpecial: any;
+let tasks: any[] = [];
 const { Header, Content } = Layout;
 
 export const NewPost: React.FC = () => {
@@ -38,7 +38,7 @@ export const NewPost: React.FC = () => {
 
   useEffect(() => {
     bodyOnChange = {};
-    bodyOnChangeSpecial = { add: [], remove: [] };
+    tasks = [];
 
     loadFunction();
   }, []);
@@ -70,14 +70,14 @@ export const NewPost: React.FC = () => {
 
     const post = posts?.filter((p) => p.id === id);
     if (post.length > 0) {
-      const { urlSlug, category, tags, images, namePost, ...postRest } = post[0];
+      const { urlSlug, category, tags, image, namePost, ...postRest } = post[0];
 
-      if (images) dispatch(setImageAction(images));
+      if (image) dispatch(setImageAction(image));
 
       form.setFieldsValue({
         ...postRest,
         namePost,
-        images: images || [],
+        image: image || [],
         urlSlug,
         category: category?.path?.concat([category?.id]),
         tags: tags?.map((tag: ITag) => tag.id),
@@ -100,16 +100,15 @@ export const NewPost: React.FC = () => {
   };
 
   const handleCreatePost = async (data: any) => {
-    const imageId = imageUploaded?.map((item) => item.id)[0] || undefined;
+    // const imageId = imageUploaded?.map((item) => item.id)[0] || undefined;
     const { namePost, category, status, urlSlug, summary } = data;
     const bodyCreatePost = {
       namePost,
       urlSlug,
       summary,
-      images: imageId,
       status: status ? 'Y' : 'N',
       category: category?.at(-1) || undefined,
-      tags: bodyOnChange['tags'],
+      altItems: { tasks },
       content: childRef.current.contentEditor(),
     };
 
@@ -156,14 +155,16 @@ export const NewPost: React.FC = () => {
   };
 
   const onChangeUpdate = (e: any, key: string, st: 'add' | 'remove'): void => {
-    if (st === 'add') {
-      bodyOnChangeSpecial['add'].push(e);
-      bodyOnChangeSpecial['remove'] = cloneDeep(bodyOnChangeSpecial['remove']).filter((item: any) => item !== e);
-    } else if (st === 'remove') {
-      bodyOnChangeSpecial['remove'].push(e);
-      bodyOnChangeSpecial['add'] = cloneDeep(bodyOnChangeSpecial['add']).filter((item: any) => item !== e);
-    }
-    bodyOnChange[key] = bodyOnChangeSpecial;
+    const newItem = { key: `${key}.${st}`, value: e };
+    const index = tasks.findIndex((item) => item.value === newItem.value);
+    if (index === -1) tasks.push(newItem);
+    if (index !== -1) tasks.splice(index, 1);
+    bodyOnChange.altItems = { tasks };
+    console.log(bodyOnChange);
+  };
+
+  const handleSubmit = () => {
+    form.submit();
   };
 
   return (
@@ -177,7 +178,7 @@ export const NewPost: React.FC = () => {
           <Button className="font-medium" onClick={goBack}>
             Back
           </Button>
-          <Button type="primary" className="font-medium" onClick={form.submit} loading={loading}>
+          <Button type="primary" className="font-medium" onClick={handleSubmit} loading={loading}>
             Submit
           </Button>
         </Space>
@@ -194,7 +195,7 @@ export const NewPost: React.FC = () => {
           <section>
             <Form form={form} onFinish={onFinish}>
               <FormBlogBasic onChange={onChange} onChangeUpdate={onChangeUpdate} form={form} />
-              <FormSEOPost form={form} onChange={onChange} />
+              <FormSEOPost onChange={onChange} />
               <FormPostDetails childRef={childRef} postId={postId} onChange={onChange} />
             </Form>
           </section>

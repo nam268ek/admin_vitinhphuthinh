@@ -283,11 +283,13 @@ export interface PostState {
   action: NAME_ACTION;
   loading: boolean;
   posts: any[];
-  dataError: {
-    message?: string;
-    errors?: Record<string, string>;
-    [name: string]: any;
-  };
+  dataError:
+    | {
+        messages: Record<string, string> | string;
+        error: string;
+        [name: string]: any;
+      }
+    | Record<string, any>;
 }
 export interface DataTypePost {
   key: React.Key;
@@ -302,6 +304,10 @@ export interface DataTypePost {
 export interface ImageUploadModalProps {
   name: string;
   maxFiles?: number;
-  onChange: (data: any, key: string, action: 'upload' | 'remove') => void;
+  onChange: (data: any, key: string, action: 'add' | 'remove') => void;
   keyUpload?: UPLOAD_KEY;
+}
+
+export enum ERROR_VALIDATE {
+  VALIDATE_DATA_ERROR = 'validate_data_error',
 }

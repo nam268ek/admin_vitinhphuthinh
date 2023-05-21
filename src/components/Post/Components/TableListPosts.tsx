@@ -66,7 +66,7 @@ export const TableListPosts: React.FC = () => {
               style={{ width: '100%', height: '100%' }}
               rootClassName="w-[50px] h-[50px] rounded-md border border-solid border-gray-300"
               placeholder={<div className="w-[50px] h-[50px] animate-pulse bg-zinc-700"></div>}
-              src={getThumbUrl(record?.images?.thumbUrl, { width: 150, height: 150 })}
+              src={getThumbUrl(record?.image?.thumbUrl, { width: 150, height: 150 })}
               alt={record?.name}
               loading="lazy"
             />
