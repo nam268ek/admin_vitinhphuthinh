@@ -1,3 +1,6 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-named-as-default-member */
 import axios from 'axios';
 import queryString from 'query-string';
 import { getToken, removeTokenLocalStorage, getRefreshToken } from '../utils/verifyToken';

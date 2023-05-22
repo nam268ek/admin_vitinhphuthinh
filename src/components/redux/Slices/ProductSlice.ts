@@ -1,14 +1,16 @@
+/* eslint-disable import/no-unresolved */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { IProductState } from '../../../types/types';
+import { overideError } from 'src/utils';
 
 export const getCreateProductService: any = createAsyncThunk(NAME_ACTION.CREATE_PRODUCT, async (params, { rejectWithValue }) => {
   try {
     const response = await requestService.createProductService(params);
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 export const getUpdateProductService: any = createAsyncThunk(NAME_ACTION.UPDATE_PRODUCT, async (params, { rejectWithValue }) => {
@@ -16,7 +18,7 @@ export const getUpdateProductService: any = createAsyncThunk(NAME_ACTION.UPDATE_
     const response = await requestService.updateProductService(params);
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 export const getUpdateManyProductService: any = createAsyncThunk(
@@ -26,7 +28,7 @@ export const getUpdateManyProductService: any = createAsyncThunk(
       const response = await requestService.updateManyProductService(params);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   },
 );
@@ -37,7 +39,7 @@ export const getUpdateProductInventoryService: any = createAsyncThunk(
       const response = await requestService.updateProductInventoryService(params);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   },
 );
@@ -48,7 +50,7 @@ export const getDeleteListProductService: any = createAsyncThunk(
       const response = await requestService.deleteListProductService(params);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   },
 );
@@ -57,7 +59,7 @@ export const getListProductService: any = createAsyncThunk(NAME_ACTION.GET_PRODU
     const response = await requestService.listProductService();
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 
@@ -68,7 +70,7 @@ export const getCreateProductInventoryService: any = createAsyncThunk(
       const response = await requestService.createProductInventoryService(params);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   },
 );
@@ -80,7 +82,7 @@ export const getListProductInventoryService: any = createAsyncThunk(
       const response = await requestService.listProductInventoryService(params);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   },
 );

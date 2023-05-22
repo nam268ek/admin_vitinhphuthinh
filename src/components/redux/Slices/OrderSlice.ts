@@ -1,7 +1,9 @@
+/* eslint-disable import/no-unresolved */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { OrderState } from '../../../types/types';
+import { overideError } from 'src/utils';
 
 export const getCreateOrderService: any = createAsyncThunk(NAME_ACTION.CREATE_ORDER, async (params, { rejectWithValue }) => {
   try {
@@ -9,7 +11,7 @@ export const getCreateOrderService: any = createAsyncThunk(NAME_ACTION.CREATE_OR
     return response;
   } catch (error: any) {
     if (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   }
 });
@@ -19,7 +21,7 @@ export const getUpdateOrderService: any = createAsyncThunk(NAME_ACTION.UPDATE_OR
     return response;
   } catch (error: any) {
     if (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   }
 });
@@ -29,7 +31,7 @@ export const getListOrderService: any = createAsyncThunk(NAME_ACTION.GET_ORDER, 
     return response;
   } catch (error: any) {
     if (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   }
 });
@@ -40,7 +42,7 @@ export const getRemoveOrderService: any = createAsyncThunk(NAME_ACTION.REMOVE_OR
     return response;
   } catch (error: any) {
     if (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   }
 });
@@ -52,7 +54,7 @@ export const getUpdateOrderStatusService: any = createAsyncThunk(
       return response;
     } catch (error: any) {
       if (error) {
-        return rejectWithValue(error.response.data);
+        return rejectWithValue(overideError(error.response.data));
       }
     }
   },
@@ -63,7 +65,7 @@ export const getAddToCartService: any = createAsyncThunk(NAME_ACTION.ADD_TO_CART
     return response;
   } catch (error: any) {
     if (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   }
 });

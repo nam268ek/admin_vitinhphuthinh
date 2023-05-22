@@ -285,7 +285,7 @@ export interface PostState {
   posts: any[];
   dataError:
     | {
-        messages: Record<string, string> | string;
+        message: Record<string, string> | string;
         error: string;
         [name: string]: any;
       }
@@ -310,4 +310,5 @@ export interface ImageUploadModalProps {
 
 export enum ERROR_VALIDATE {
   VALIDATE_DATA_ERROR = 'validate_data_error',
+  BAD_REQUEST = 'Bad Request',
 }

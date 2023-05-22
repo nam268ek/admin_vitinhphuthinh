@@ -73,9 +73,10 @@ const TagList: React.FC<ITagListProps> = ({ onChangeUpdate }) => {
     }
     const filteredTags = tags.filter((tag) => tag.name.toLowerCase().includes(value.toLowerCase()));
     setTagsData(filteredTags);
+    form.setFields([{ name: 'name', errors: [], validated: true }]);
   };
 
-  const handleAddTag = async () => {
+  const handleAddTag = async (data: any) => {
     const value = form.getFieldValue('name') as string;
     try {
       await dispatch(getCreateTagService({ name: value?.trim() })).unwrap();
@@ -83,12 +84,16 @@ const TagList: React.FC<ITagListProps> = ({ onChangeUpdate }) => {
         name: '',
       });
     } catch (error) {
-      handleErrorFields(form, error);
+      handleErrorFields(error, form);
     }
   };
 
   const handleFilter = () => {
     setTagsData(tags.filter((tag) => !!selectedTags.find((id) => id === tag.id)));
+  };
+
+  const handleSubmit = () => {
+    form.submit();
   };
 
   return (
@@ -113,10 +118,15 @@ const TagList: React.FC<ITagListProps> = ({ onChangeUpdate }) => {
           <Empty className="m-0" image={Empty.PRESENTED_IMAGE_SIMPLE} />
         </div>
       )}
-      <Form form={form} className="w-full flex justify-between">
+      <Form form={form} onFinish={handleAddTag} className="w-full flex justify-between">
         {errors['tags'] && <span className="text-red-500 ml-2 w-1/2">{errors['tags']}</span>}
         <Space.Compact className="w-full mt-2">
-          <Form.Item noStyle name="name">
+          <Form.Item
+            name="name"
+            rules={[{ required: true, message: 'Please input value' }]}
+            validateTrigger="onSubmit"
+            rootClassName="w-full"
+          >
             <Input style={{ width: '100%' }} onChange={handleSearch} placeholder="Tìm kiếm hoặc thêm mới tag" />
           </Form.Item>
           <Button
@@ -130,7 +140,7 @@ const TagList: React.FC<ITagListProps> = ({ onChangeUpdate }) => {
             icon={<Plus size={18} />}
             type="primary"
             rootClassName="font-medium flex items-center justify-center gap-1"
-            onClick={handleAddTag}
+            onClick={handleSubmit}
           >
             Add
           </Button>

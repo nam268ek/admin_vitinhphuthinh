@@ -101,7 +101,7 @@ export const NewPost: React.FC = () => {
 
   const handleCreatePost = async (data: any) => {
     // const imageId = imageUploaded?.map((item) => item.id)[0] || undefined;
-    const { namePost, category, status, urlSlug, summary } = data;
+    const { namePost, category, status, urlSlug, summary, ...rest } = data;
     const bodyCreatePost = {
       namePost,
       urlSlug,
@@ -110,6 +110,7 @@ export const NewPost: React.FC = () => {
       category: category?.at(-1) || undefined,
       altItems: { tasks },
       content: childRef.current.contentEditor(),
+      ...rest,
     };
 
     try {
@@ -118,7 +119,7 @@ export const NewPost: React.FC = () => {
       openMessage();
       navigate('/posts');
     } catch (error) {
-      handleErrorFields(form, error);
+      handleErrorFields(error, form);
     }
   };
 
@@ -128,7 +129,7 @@ export const NewPost: React.FC = () => {
       await dispatch(getListPostsService()).unwrap();
       navigate('/posts', { replace: true });
     } catch (error) {
-      handleErrorFields(form, error);
+      handleErrorFields(error, form);
     }
   };
 

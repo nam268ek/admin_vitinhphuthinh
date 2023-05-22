@@ -1,15 +1,17 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable curly */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { PostState } from '../../../types/types';
+import { overideError } from 'src/utils';
 
 export const getListPostsService: any = createAsyncThunk(NAME_ACTION.GET_LIST_POSTS, async (_, { rejectWithValue }) => {
   try {
     const response = await requestService.listPostsService();
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 
@@ -18,7 +20,7 @@ export const getCreatePostService: any = createAsyncThunk(NAME_ACTION.CREATE_POS
     const response = await requestService.createPostService(params);
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 
@@ -27,7 +29,7 @@ export const getUpdatePostService: any = createAsyncThunk(NAME_ACTION.UPDATE_POS
     const response = await requestService.updatePostService(params);
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 export const getDeleteListPostService: any = createAsyncThunk(NAME_ACTION.REMOVE_POST, async (params, { rejectWithValue }) => {
@@ -35,7 +37,7 @@ export const getDeleteListPostService: any = createAsyncThunk(NAME_ACTION.REMOVE
     const response = await requestService.deleteListPostsService(params);
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 
@@ -44,7 +46,7 @@ export const getUpdateManyPostService: any = createAsyncThunk(NAME_ACTION.UPDATE
     const response = await requestService.updatePostManyService(params);
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 
@@ -53,7 +55,7 @@ export const getListPostFilterService: any = createAsyncThunk(NAME_ACTION.FILTER
     const response = await requestService.filterPostsService(params);
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 

@@ -1,15 +1,17 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable curly */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../../api';
 import { AuthState, IAuth } from '../../../types/types';
 import { removeTokenLocalStorage } from '../../../utils/verifyToken';
+import { overideError } from 'src/utils';
 
 export const getLoginService: any = createAsyncThunk('REQUEST_LOGIN', async (params: IAuth, { rejectWithValue }) => {
   try {
     const response = await requestService.loginService(params);
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 
@@ -18,7 +20,7 @@ export const getLogoutService: any = createAsyncThunk('REQUEST_LOGOUT', async (_
     const response = await requestService.logoutService();
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 

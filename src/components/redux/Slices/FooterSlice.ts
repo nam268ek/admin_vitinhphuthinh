@@ -1,14 +1,16 @@
+/* eslint-disable import/no-unresolved */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { FooterState } from '../../../types/types';
+import { overideError } from 'src/utils';
 
 export const getListFootersService: any = createAsyncThunk(NAME_ACTION.GET_LIST_FOOTERS, async (_, { rejectWithValue }) => {
   try {
     const response = await requestService.getListFooterService();
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 export const getListPoliciesService: any = createAsyncThunk(NAME_ACTION.GET_LIST_POLICY, async (_, { rejectWithValue }) => {
@@ -16,7 +18,7 @@ export const getListPoliciesService: any = createAsyncThunk(NAME_ACTION.GET_LIST
     const response = await requestService.listPoliciesService();
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 export const getUpdateFooterService: any = createAsyncThunk(NAME_ACTION.UPDATE_FOOTER, async (params, { rejectWithValue }) => {
@@ -24,7 +26,7 @@ export const getUpdateFooterService: any = createAsyncThunk(NAME_ACTION.UPDATE_F
     const response = await requestService.updateFooterService(params);
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 export const getUpdatePolicyService: any = createAsyncThunk(NAME_ACTION.UPDATE_POLICY, async (params, { rejectWithValue }) => {
@@ -32,7 +34,7 @@ export const getUpdatePolicyService: any = createAsyncThunk(NAME_ACTION.UPDATE_P
     const response = await requestService.updatePolicyService(params);
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 

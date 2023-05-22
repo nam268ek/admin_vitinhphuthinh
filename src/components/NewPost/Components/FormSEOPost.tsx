@@ -28,9 +28,11 @@ export const FormSEOPost: React.FC<FormSEOPostProps> = ({ onChange }) => {
 
 const InputItem = ({ label, name, onChange, ...rest }: any) => {
   return (
-    <Form.Item name={name} className="mb-2">
+    <>
       <span className="font-medium text-sm">{label}</span>
-      {<Input onChange={(e) => onChange(e, name)} {...rest} />}
-    </Form.Item>
+      <Form.Item name={name} className="mb-2" noStyle>
+        {<Input onChange={(e) => onChange(e, name)} {...rest} />}
+      </Form.Item>
+    </>
   );
 };

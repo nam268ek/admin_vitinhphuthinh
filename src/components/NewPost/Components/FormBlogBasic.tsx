@@ -22,7 +22,7 @@ export const FormBlogBasic: React.FC<{ onChange: any; onChangeUpdate: any; form:
 }) => {
   const { loading } = useSelector((state: RootState) => state.image);
   const { dataError } = useSelector((state: RootState) => state.post);
-  const { messages } = dataError;
+  const { message } = dataError;
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -102,7 +102,7 @@ export const FormBlogBasic: React.FC<{ onChange: any; onChangeUpdate: any; form:
                 </label>
                 <SelectOptionV2
                   name="category"
-                  error={{ status: messages?.category ? 'error' : undefined, message: messages?.category || undefined }}
+                  error={{ status: message?.category ? 'error' : undefined, message: message?.category || undefined }}
                   className="w-full"
                   placeholder="Select category"
                 />
@@ -126,7 +126,7 @@ export const FormBlogBasic: React.FC<{ onChange: any; onChangeUpdate: any; form:
               </label>
               <div className="">
                 <ImageUploadV2 name="image" maxFiles={1} keyUpload={UPLOAD_KEY.IMAGE_BLOG} onChange={onChangeUpdate} />
-                {messages?.image && <span className="text-red-500">{messages?.image}</span>}
+                {message?.image && <span className="text-red-500">{message?.image}</span>}
               </div>
             </div>
             <div className="mb-5">

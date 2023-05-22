@@ -1,15 +1,17 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable curly */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { TagState } from '../../../types/types';
+import { overideError } from 'src/utils';
 
 export const getListTagsService: any = createAsyncThunk(NAME_ACTION.GET_TAG, async (_, { rejectWithValue }) => {
   try {
     const response = await requestService.listTagsService();
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 
@@ -18,7 +20,7 @@ export const getCreateTagService: any = createAsyncThunk(NAME_ACTION.CREATE_TAG,
     const response = await requestService.createTagService(params);
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 

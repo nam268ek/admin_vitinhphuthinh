@@ -1,15 +1,17 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable curly */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { MarketingState } from '../../../types/types';
+import { overideError } from 'src/utils';
 
 export const getListMarketingsService: any = createAsyncThunk(NAME_ACTION.GET_MARKETINGS, async (_, { rejectWithValue }) => {
   try {
     const response = await requestService.listMarketingsService();
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 
@@ -20,7 +22,7 @@ export const getCreateMarketingService: any = createAsyncThunk(
       const response = await requestService.createMarketingService(params);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   },
 );

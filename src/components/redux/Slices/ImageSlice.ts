@@ -1,15 +1,17 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable curly */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { IImage, IImageState } from '../../../types/types';
+import { overideError } from 'src/utils';
 
 export const getUploadImageService: any = createAsyncThunk(NAME_ACTION.CREATE_IMAGE, async (params, { rejectWithValue }) => {
   try {
     const response = await requestService.uploadImageService(params);
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 export const getUploadImageCustomService: any = createAsyncThunk(
@@ -19,7 +21,7 @@ export const getUploadImageCustomService: any = createAsyncThunk(
       const response = await requestService.uploadImageCustomService(params);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   },
 );
@@ -30,7 +32,7 @@ export const getRemoveImageUploadService: any = createAsyncThunk(
       const response = await requestService.removeImageUploadService(params);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   },
 );
@@ -39,7 +41,7 @@ export const getListImageService: any = createAsyncThunk(NAME_ACTION.GET_IMAGE, 
     const response = await requestService.listImageService(params);
     return response;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(overideError(error.response.data));
   }
 });
 export const getUploadImageEditorService: any = createAsyncThunk(
@@ -49,7 +51,7 @@ export const getUploadImageEditorService: any = createAsyncThunk(
       const response = await requestService.uploadImageService(params);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   },
 );

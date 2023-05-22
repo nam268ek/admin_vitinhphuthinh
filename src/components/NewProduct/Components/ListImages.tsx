@@ -29,7 +29,6 @@ export const ListImages: React.FC<ImageModalProps> = ({ open, setOpen, nameField
       return selectedIds.indexOf(item.keyId) > -1;
     });
     dispatch(setImageAction(listSelected));
-    // onChange(listSelected, 'images', 'select');
     setOpen(false);
   };
 
@@ -85,14 +84,6 @@ export const ListImages: React.FC<ImageModalProps> = ({ open, setOpen, nameField
       className="model-image"
       footer={[
         <Space key="footer">
-          {/* <Button
-            key="dropdown"
-            disabled={!hasSelected}
-            className={!hasSelected ? 'disabled-item' : 'show-item'}
-            icon={<MdDeleteForever size={20} />}
-            onClick={handleDelete}
-            loading={loading}
-          ></Button> */}
           <div className="rounded-md font-medium bg-blue-600 px-5 h-8 flex items-center justify-center">
             <p className="text-sm text-zinc-100 m-0 ">
               <span className="text-base text-white font-medium">

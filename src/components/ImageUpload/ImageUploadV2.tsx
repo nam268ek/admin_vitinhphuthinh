@@ -10,7 +10,7 @@ import { UPLOAD_KEY } from '../../constants/const';
 import { IImage, ImageUploadModalProps } from '../../types/types';
 import { getUploadImageService, updateImageUploadedAction } from '../redux/Slices/ImageSlice';
 import { RootState } from '../redux/store/store';
-import { convertTypeUploadImageList, openMessage } from '../services/general.service';
+import { convertTypeUploadImageList, handleErrorFields, openMessage } from '../services/general.service';
 import { useEffect } from 'react';
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -64,20 +64,17 @@ export const ImageUploadV2: React.FC<ImageUploadModalProps> = ({
 
   const handleUploadImage = async (options: any) => {
     const { onSuccess, onError, file } = options;
-    const key = 'upload';
 
     const formData = new FormData();
     formData.append('file', file);
     formData.append('keyName', keyUpload);
 
     try {
-      message.loading({ content: 'Uploading...', key });
       const { id } = await dispatch(getUploadImageService(formData)).unwrap();
       onChange(id, name, 'add');
       onSuccess('Ok');
-      message.destroy(key);
     } catch (error) {
-      openMessage(error, key);
+      handleErrorFields(error);
       const err = new Error('Error upload');
       onError({ err });
     }

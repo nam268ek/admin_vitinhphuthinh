@@ -3,6 +3,7 @@
 import { FormInstance, message as messageAntd, UploadFile } from 'antd';
 import { DURATION_TIMEOUT_SECONDS } from '../../constants/const';
 import { ERROR_VALIDATE, IImage } from '../../types/types';
+import { cloneDeep, isArray } from 'lodash';
 
 export const openMessage = (data?: any, key?: string, type?: string) => {
   if ((data && data.statusCode !== 200) || type === 'error') {
@@ -76,14 +77,15 @@ export const convertViToEn = (str: string) => {
   return str;
 };
 
-export const handleErrorFields = (form: FormInstance, data: any) => {
-  const { error, messages } = data;
-  if (error !== ERROR_VALIDATE.VALIDATE_DATA_ERROR) return messageAntd.error(messages);
+export const handleErrorFields = (data: any, form?: FormInstance) => {
+  const { message } = data as { error: string; message: Record<string, string> | string };
+  if (typeof message === 'string') return messageAntd.error(message);
+  if (!form) return;
 
-  Object.entries(messages).forEach(([key, value]) => {
+  for (const [key, value] of Object.entries(message)) {
     form.setFields([{ name: [`${key}`], errors: [`${value}`] }]);
-  });
-  resetFieldsErrors(form, Object.keys(messages));
+  }
+  resetFieldsErrors(form, Object.keys(message));
 };
 
 export const resetFieldsErrors = (form: FormInstance, keys: string[]) => {

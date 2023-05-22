@@ -1,8 +1,10 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable curly */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { PrimaryState } from '../../../types/types';
+import { overideError } from 'src/utils';
 
 export const getListDropdownsService: any = createAsyncThunk(
   NAME_ACTION.GET_DROPDOWN_LIST,
@@ -11,7 +13,7 @@ export const getListDropdownsService: any = createAsyncThunk(
       const response = await requestService.listDropdownsService(params);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   },
 );

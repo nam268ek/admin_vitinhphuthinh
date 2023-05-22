@@ -1,8 +1,10 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable curly */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../../api';
 import { NAME_ACTION } from '../../../constants/const';
 import { IStateCategories } from '../../Categories/interfaces/categories.interface';
+import { overideError } from 'src/utils';
 
 export const getCreateCategoryService: any = createAsyncThunk(
   NAME_ACTION.CREATE_CATEGORY,
@@ -12,7 +14,7 @@ export const getCreateCategoryService: any = createAsyncThunk(
       return response;
     } catch (error: any) {
       if (error) {
-        return rejectWithValue(error.response.data);
+        return rejectWithValue(overideError(error.response.data));
       }
     }
   },
@@ -26,7 +28,7 @@ export const getUpdateCategoryService: any = createAsyncThunk(
       return response;
     } catch (error: any) {
       if (error) {
-        return rejectWithValue(error.response.data);
+        return rejectWithValue(overideError(error.response.data));
       }
     }
   },
@@ -38,7 +40,7 @@ export const getListCategoryService: any = createAsyncThunk(NAME_ACTION.GET_CATE
     return response;
   } catch (error: any) {
     if (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(overideError(error.response.data));
     }
   }
 });
@@ -51,7 +53,7 @@ export const getRemoveCategoryService: any = createAsyncThunk(
       return response;
     } catch (error: any) {
       if (error) {
-        return rejectWithValue(error.response.data);
+        return rejectWithValue(overideError(error.response.data));
       }
     }
   },
